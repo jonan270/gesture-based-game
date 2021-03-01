@@ -21,15 +21,5 @@ public class Bjorn : Character
         }
     }
 
-    public void createCard()
-    {
-
-        //card.Abilities.Add(new Berserk());
-        //card.AddToList(new Berserk());
-
-        //card.Abilities.add(Berserk());
-
-        //Abilities = List<Berserk, DrinkMead>;
-    }
 }
 

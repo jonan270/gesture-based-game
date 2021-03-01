@@ -14,6 +14,8 @@ using UnityEngine;
                 Description = "Björn will go berserk and do ... extra damage";
                 Damage = 40;
             }
+            
+           
 
         }
 
