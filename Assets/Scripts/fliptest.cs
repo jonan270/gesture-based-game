@@ -43,7 +43,7 @@ public class fliptest : MonoBehaviour
         {
             angleCount++;
             transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
-            if(angleCount == 90)
+            if(angleCount == 360)
             {
                 spin = false;
                 angleCount = 0;
