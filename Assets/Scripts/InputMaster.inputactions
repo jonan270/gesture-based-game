@@ -12,17 +12,36 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Rayposition",
+                    "type": "PassThrough",
+                    "id": "8dbee755-6ef0-4280-9afa-c5b6585c499c",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "b48b87f4-cd4e-4932-8426-34b849e0db35",
-                    "path": "<Keyboard>/space",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "Tilespin",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b703c0f5-3ee8-40cf-aeb0-5d19f4e1d7fb",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and mouse",
+                    "action": "Rayposition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

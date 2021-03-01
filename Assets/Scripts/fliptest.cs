@@ -6,8 +6,14 @@ using UnityEngine.InputSystem;
 public class fliptest : MonoBehaviour
 {
     public InputMaster controls;
+    public Vector2 position;
+
     bool spin = false;
     int angleCount = 0;
+
+    //TODO: Ray should be sent from hmd in VR
+    Ray ray;
+    RaycastHit hit;
 
     void Awake()
     {
@@ -17,6 +23,17 @@ public class fliptest : MonoBehaviour
 
     void SetSpin()
     {
+        position = controls.Player.Rayposition.ReadValue<Vector2>();
+        ray = Camera.main.ScreenPointToRay(position);
+
+
+        if (Physics.Raycast(ray, out hit, 10000.0f))
+        {
+            Debug.Log(hit.distance);
+            //hit.transform.gameObject
+        }
+
+        //Debug.Log(position.x);
         spin = true;
     }
 
@@ -39,10 +56,13 @@ public class fliptest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(spin)
+
+        //Debug.Log(ray);
+
+        if(Physics.Raycast(ray, out hit, 10000.0f) && spin)
         {
             angleCount++;
-            transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
+            hit.transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
             if(angleCount == 360)
             {
                 spin = false;
@@ -50,5 +70,10 @@ public class fliptest : MonoBehaviour
             }
         }
 
+    }
+
+    private void PrintName(GameObject go)
+    {
+        Debug.Log(go.name);
     }
 }
