@@ -6,17 +6,18 @@ using UnityEngine.InputSystem;
 public class fliptest : MonoBehaviour
 {
     public InputMaster controls;
-    int spinVel = 30;
+    bool spin = false;
+    int angleCount = 0;
 
     void Awake()
     {
         controls = new InputMaster();
-        controls.Player.Tilespin.performed += ctx => Spin();
+        controls.Player.Tilespin.performed += ctx => SetSpin();
     }
 
-    void Spin()
+    void SetSpin()
     {
-        Debug.Log("Spin tile spin!!");
+        spin = true;
     }
 
     private void OnEnable()
@@ -26,7 +27,7 @@ public class fliptest : MonoBehaviour
 
     private void OnDisable()
     {
-        //controls.Disable();
+        controls.Disable();
     }
 
     // Start is called before the first frame update
@@ -38,9 +39,16 @@ public class fliptest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKey(KeyCode.A)) {
-        //    transform.Rotate(Vector3.up * spinVel * Time.deltaTime);
-        //}
+        if(spin)
+        {
+            angleCount++;
+            transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
+            if(angleCount == 90)
+            {
+                spin = false;
+                angleCount = 0;
+            }
+        }
 
     }
 }
