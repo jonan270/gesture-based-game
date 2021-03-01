@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour // Shows a card specifik for the character
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public List<Ability> Abilities;
+
+    
+    public Card() {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddToList(Ability ab)
     {
-        
+        Abilities.Add(ab);
     }
+
 }
+

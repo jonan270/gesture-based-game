@@ -5,21 +5,22 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     public int Health;
-    public string Name;
+    public static int attackValue;
+    public static string Name;
+    public static string Element;
     public bool isAlive;
     public State CurrentState;
+    //public Card card;
 
     public enum State
     {
-        Idle,
+        ChooseAbilityMode,
         AttackMode
-
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Hej");
 
     }
 
@@ -28,4 +29,23 @@ public class Character : MonoBehaviour
     {
 
     }
+
+    void setState(State state) {
+        CurrentState = state;
+    }
+
+
+    void checkHealth()
+    {
+        if (Health == 0)
+        {
+            isAlive = false;
+        }
+        else
+            isAlive = true;
+    }
+
+
+
+
 }
