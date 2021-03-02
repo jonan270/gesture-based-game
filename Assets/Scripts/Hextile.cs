@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class typehandler : MonoBehaviour
+public class Hextile : MonoBehaviour
 {
-    //public Material tempMat;
+    public Vector3 position;
 
     // Start is called before the first frame update
     void Start()
     {
-        //tile.GetComponent<MeshRenderer>().material = tempMat;
-        //this.material = tempMat;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    Vector3 getPosition()
+    {
+        return transform.position;
     }
 }

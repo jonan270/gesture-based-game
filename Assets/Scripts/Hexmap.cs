@@ -2,39 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Hexmap generates and keeps track of all generated map tiles
+ * 
+ * 
+ */
+
+
+//[ExecuteInEditMode] //DEBUG: Toggle this to display tiles in editor
+
 public class Hexmap : MonoBehaviour
 {
-    public GameObject hexPrefab;
-
-
     // Map size in terms of hexes
-    int width = 11;
-    int height = 22;
+    const int width = 11;
+    const int height = 22;
+    
+    // Hextiles is an array containing all gameobjects at index [x,y]
+    public GameObject[,] hexTiles = new GameObject[width,height];
+
+    // Each tile is a hexPrefab
+    public GameObject hexPrefab;
 
     // Offset values
     float xoff = 0.8f;
     float zoff = 0.46f;
 
-    // Start is called before the first frame update
+    // Start generates all tiles and places them in the array.
     void Start()
     {
-        for(int i = 0; i < width; i++)
+        GameObject instantiated;
+        for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
             {
                 // Do not offset
                 if(j % 2 == 0)
                 {
-                    Instantiate(hexPrefab, new Vector3(2*i*xoff, 0, j*zoff), Quaternion.identity);
+                    instantiated = Instantiate(hexPrefab, new Vector3(2 * i * xoff, 0, j * zoff), Quaternion.identity);
                 }
                 // Else offset
                 else
                 {
-                    Instantiate(hexPrefab, new Vector3(2*i*xoff+xoff, 0, j*zoff), Quaternion.identity);
+                     instantiated = Instantiate(hexPrefab, new Vector3(2 * i * xoff + xoff, 0, j * zoff), Quaternion.identity);
                 }
+                instantiated.transform.localScale = Vector3.one;
+                hexTiles[i, j] = instantiated;
+                Debug.Log(hexTiles[i, j]);
             }
         }
     }
+
 
     // Update is called once per frame
     void Update()

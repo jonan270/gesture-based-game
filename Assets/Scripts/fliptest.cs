@@ -11,7 +11,7 @@ public class fliptest : MonoBehaviour
     bool spin = false;
     int angleCount = 0;
 
-    //TODO: Ray should be sent from hmd in VR
+    //TODO: Shoould use UIElement interaction system from steamVR?
     Ray ray;
     RaycastHit hit;
 
@@ -29,12 +29,15 @@ public class fliptest : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 10000.0f))
         {
-            Debug.Log(hit.distance);
+            //Debug.Log(hit.distance);
             //hit.transform.gameObject
         }
 
         //Debug.Log(position.x);
-        spin = true;
+        if(Physics.Raycast(ray, out hit, 10000.0f))
+        {
+            spin = true;
+        }
     }
 
     private void OnEnable()
@@ -59,7 +62,8 @@ public class fliptest : MonoBehaviour
 
         //Debug.Log(ray);
 
-        if(Physics.Raycast(ray, out hit, 10000.0f) && spin)
+
+        if(spin)
         {
             angleCount++;
             hit.transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
