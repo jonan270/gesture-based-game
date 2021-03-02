@@ -7,11 +7,10 @@ public class Hilda : Character
     public Hilda()
     {
         Element = "earth";
-        Health = 100;
+        Health = 90;
         isAlive = true;
         Name = "Hilda";
         attackValue = 15;
-
     }
     
     public void compareElement(string enemyElement)

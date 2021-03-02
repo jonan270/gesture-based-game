@@ -11,6 +11,8 @@ public class Bjorn : Character
         isAlive = true;
         Name = "Bjorn";
         attackValue = 30;
+        //card = new Card(new Berserk(),new DrinkMead(), new Cleave());
+        
     }
 
     public void compareElement(string enemyElement)
@@ -20,6 +22,15 @@ public class Bjorn : Character
             attackValue -= 5;
         }
     }
+
+    void Attack(string whichAttack)
+    {
+        if(whichAttack == "Berserk")
+        {
+            
+        }
+    }
+
 
 }
 

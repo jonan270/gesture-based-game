@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
+
+public abstract class Character : ScriptableObject
 {
     public int Health;
     public static int attackValue;
@@ -10,25 +12,17 @@ public class Character : MonoBehaviour
     public static string Element;
     public bool isAlive;
     public State CurrentState;
+    public GameObject characterModel;
+
     public Card card;
 
     public enum State
     {
-        ChooseAbilityMode,
-        AttackMode
+        LookAtCard, // "Idle" mode, Character standing still
+        AttackMode // Attack mode, Character is about to perform an attack
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     void setState(State state) {
         CurrentState = state;
@@ -52,21 +46,7 @@ public class Character : MonoBehaviour
         Debug.Log("Character died");
     }
 
-    void Attack()
-    {
-        
-    }
 
-    public void createCard()
-    {
-        card = new Card();
-        //card.ability1 = new Berserk();
-        //card.Abilities.Add(new Berserk());
-        //card.AddToList(new Berserk());
 
-        //card.Abilities.add(Berserk());
-
-        //Abilities = List<Berserk, DrinkMead>;
-    }
 
 }

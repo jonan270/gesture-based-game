@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-    public abstract class Ability : MonoBehaviour
-    {
-        public string Description;
-        public int Damage;
-
+public abstract class Ability : MonoBehaviour
+{
+    public string Description;
+    public int Damage;
+}
         public class Berserk : Ability
         {
             public Berserk()
@@ -15,8 +15,6 @@ using UnityEngine;
                 Damage = 40;
             }
             
-           
-
         }
 
         public class DrinkMead : Ability
@@ -28,5 +26,14 @@ using UnityEngine;
             }
         }
 
-    }
+        public class Cleave : Ability
+        {
+            public Cleave()
+            {
+                Description = "Björn will do cleave and hurt multiple enemies.";
+                Damage = 20;
+            }
+        }
+
+
 
