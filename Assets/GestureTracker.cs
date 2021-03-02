@@ -12,6 +12,7 @@ public class GestureTracker : MonoBehaviour
     public GameObject obj;
 
     public float closeDistance = 1.5f;
+    private float TimeSinceGuess = 0.0f;
 
     private const float lifeTime = 5.0f;
 
@@ -25,11 +26,7 @@ public class GestureTracker : MonoBehaviour
     private List<Point> points = new List<Point>();
     private List<Gesture> trainingSet = new List<Gesture>();
 
-    private float TimeSinceGuess = 0.0f;
-
     public System.String GestureName = "";
-
-
 
     enum EnumGesture
     {
@@ -42,7 +39,7 @@ public class GestureTracker : MonoBehaviour
         s
     };
     
-
+    //A class that keeps track of positions to analyze as gestures.
     [System.Serializable]
     public class GesturePosition{
         public GesturePosition(GameObject _obj, float _life = lifeTime)
@@ -66,22 +63,25 @@ public class GestureTracker : MonoBehaviour
 
     void Start()
     {
-        //Load user custom gestures
+        //Load custom gestures
         string[] filePaths = Directory.GetFiles("Assets/Gestures/", "*.xml");
         foreach (string filePath in filePaths)
             trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
-
-
     }
 
     void Update()
     {
         TimeSinceGuess += Time.deltaTime;
 
+        //Check wether or not the back buttons are pressed
         bool stateLeft = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.LeftHand);
         bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand);
 
-        //left hand
+        //TODO:
+        //Check fallback
+        //Reset spawn point after some amount of time without movement
+
+        //Left hand
         handPositionLeft = player.GetHand(0).transform.position;
         float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
 
@@ -95,7 +95,7 @@ public class GestureTracker : MonoBehaviour
             gesturePositions.Add(gp);
         }
 
-        //right hand //todo check fallback // TODO spawn point at same place as previous when all points are goners
+        //Right hand
         handPositionRight = player.GetHand(1).transform.position;
         distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
 
@@ -111,8 +111,8 @@ public class GestureTracker : MonoBehaviour
 
         UpdateGesturePositions(Time.deltaTime);
 
-        //Holding one of the fire buttons
-        if(TimeSinceGuess >= 0.1f) // every 0.1s
+        //Update gesture guess every 0.1s
+        if(TimeSinceGuess >= 0.1f)
         {
             TransformToPoints();
             GuessGesture();
@@ -125,7 +125,7 @@ public class GestureTracker : MonoBehaviour
         }
     }
 
-
+    //Update the lifespan for each GesturePosition and delete invalid GesturePositions.
     void UpdateGesturePositions(float dt)
     {
         for (int i = gesturePositions.Count - 1; i >= 0; i--)
@@ -138,6 +138,7 @@ public class GestureTracker : MonoBehaviour
         }
     }
 
+    //Turn GesturePositions into Points for the gesture recognition.
     void TransformToPoints()
     {
         points.Clear();
@@ -145,13 +146,13 @@ public class GestureTracker : MonoBehaviour
         foreach(GesturePosition gp in gesturePositions)
         {
             Vector3 pos = gp.obj.transform.position;
-            float x = cam.WorldToScreenPoint(pos).x;
-            float y = cam.WorldToScreenPoint(pos).y;
+            pos = cam.WorldToScreenPoint(pos);
             
-            points.Add(new Point(x, y, 0));
+            points.Add(new Point(pos.x, pos.y, 0));
         }
     }
     
+    //Guess what gesture is being made by the player.
     void GuessGesture()
     {
         if (points.Count > 1)
@@ -173,6 +174,7 @@ public class GestureTracker : MonoBehaviour
         }
     }
 
+    //Add a gesture to a .xml file and save it for further use.
     void AddGesture()
     {
         string fileName = System.String.Format("{0}/{1}-{2}.xml", "Assets/Gestures/", GestureName, System.DateTime.Now.ToFileTime());
