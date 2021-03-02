@@ -14,6 +14,10 @@ public abstract class Character : ScriptableObject
     public State CurrentState;
     public GameObject characterModel;
 
+    public string descriptionText;
+    public string attackText;
+    public string healthText;
+
     public Card card;
 
     public enum State
