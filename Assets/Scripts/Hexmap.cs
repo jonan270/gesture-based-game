@@ -16,8 +16,8 @@ public class Hexmap : MonoBehaviour
     int count;
 
     // Map size in terms of hexes
-    const int width = 11;
-    const int height = 22;
+    const int width = 7;
+    const int height = 7;
     
     // Hextiles is an array containing all gameobjects at index [x,y]
     public Hextile[,] hexTiles = new Hextile[width,height];
@@ -27,8 +27,9 @@ public class Hexmap : MonoBehaviour
     public Raycasthandler rayhandler;
 
     // Offset values
-    float xoff = 0.8f;
-    float zoff = 0.46f;
+    float xoff = 0.8f;//0.8f;
+    //int xoff = 1;
+    float zoff = 0.46f;//0.46f;
 
     void Awake()
     {
@@ -43,27 +44,27 @@ public class Hexmap : MonoBehaviour
     // Start generates all tiles and places them in the array.
     void Start()
     {
+        float zSwitch = zoff;
+        float xSwitch = xoff;
         Hextile instantiated;
-        for (int i = 0; i < width; i++)
+        for(int x = 0; x < width; x++)
         {
-            for (int j = 0; j < height; j++)
+            for(int z = 0; z < height; z++)
             {
-                // Do not offset
-                if(j % 2 == 0)
-                {
-                    instantiated = Instantiate(hexPrefab, new Vector3(2 * i * xoff, 0, j * zoff), Quaternion.identity);
-                }
-                // Else offset
-                else
-                {
-                     instantiated = Instantiate(hexPrefab, new Vector3(2 * i * xoff + xoff, 0, j * zoff), Quaternion.identity);
-                }
+                instantiated = Instantiate(hexPrefab, new Vector3(x * xoff, 0, 2*zoff*z + zSwitch), Quaternion.identity);
                 instantiated.transform.localScale = Vector3.one;
-                hexTiles[i, j] = instantiated;
-                //Debug.Log(hexTiles[i, j]);
+                hexTiles[x, z] = instantiated;
             }
+            if(x % 2 == 0)
+            {
+                zSwitch = 0.0f;
+            }
+            else
+            {
+                zSwitch = zoff;
+            }
+            xSwitch += xoff;
         }
-        //hexTiles[2, 2].spinTile();
     }
 
 
@@ -74,23 +75,26 @@ public class Hexmap : MonoBehaviour
         ++count;
         if (count % 1000 == 0)
         {
-            hexTiles[2, 2].spinTile();
-            hexTiles[2, 1].spinTile(); // +0 -1
-            hexTiles[2, 0].spinTile(); // +0 -2
-            hexTiles[2, 3].spinTile(); // +0 +1
-            hexTiles[2, 4].spinTile(); // +0 +2
+            //hexTiles[2, 2].spinTile();
+            //hexTiles[2, 1].spinTile(); // +0 -1
+            //hexTiles[2, 0].spinTile(); // +0 -2
+            //hexTiles[2, 3].spinTile(); // +0 +1
+            //hexTiles[2, 4].spinTile(); // +0 +2
 
-            hexTiles[1, 3].spinTile(); // -1 +2
-            hexTiles[1, 1].spinTile(); // -1 -1
+            //hexTiles[1, 3].spinTile(); // -1 +2
+            //hexTiles[1, 1].spinTile(); // -1 -1
 
-            //hexTiles[2, 3].spinTile();
-            //hexTiles[2, 1].spinTile();
+            hexTiles[0, 0].spinTile();
+            hexTiles[1, 0].spinTile();
+            hexTiles[0, 6].spinTile();
+            hexTiles[3, 6].spinTile();
         }
 
     }
 
-    void areaTarget(int radius)
-    {
 
+    void areaTarget(int xcord, int ycord, int radius)
+    {
+        
     }
 }
