@@ -11,8 +11,7 @@ public class Bjorn : Character
         isAlive = true;
         Name = "Bjorn";
         attackValue = 30;
-        //card = new Card(new Berserk(),new DrinkMead(), new Cleave());
-        
+
     }
 
     public void compareElement(string enemyElement)
@@ -23,12 +22,21 @@ public class Bjorn : Character
         }
     }
 
-    void Attack(string whichAttack)
+    public void Attack(string whichAttack, Character ch)
     {
         if(whichAttack == "Berserk")
         {
-            
+            ch.takeDamage(40);
         }
+    }
+
+    public void OnEnable()
+    {
+        card = ScriptableObject.CreateInstance<Card>();
+        card.nameCharacter = "Bjorn";
+        card.description = "Björn will go berserk and do ... extra damage" + "\n" + "Björn will drink mead and ..." + "Björn will do cleave and hurt multiple enemies.";
+        
+
     }
 
 

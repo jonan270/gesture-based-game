@@ -17,8 +17,17 @@ public class Hilda : Character
     {
         if (enemyElement == "fire")
         {
-            //
+            attackValue -= 5;
         }
+    }
+
+    public void OnEnable()
+    {
+        card = ScriptableObject.CreateInstance<Card>();
+        card.nameCharacter = "Hilda";
+        card.description = "Björn will go berserk and do ... extra damage" + "\n" + "Björn will drink mead and ..." + "Björn will do cleave and hurt multiple enemies.";
+
+
     }
 
 }

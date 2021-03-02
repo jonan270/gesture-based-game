@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
-
-    public Character bjorn;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +15,17 @@ public class CharacterControl : MonoBehaviour
         var CharacterTwo = ScriptableObject.CreateInstance<Hilda>();
         Debug.Log(CharacterTwo.Health);
 
+        Debug.Log(CharacterOne.card.description);
+
+        CharacterOne.Attack("Berserk", CharacterTwo);
+        Debug.Log("Health after attack: " + CharacterTwo.Health);
+
+        // Add assets to the CharacterOne/CharacterTwo
+
+        //GameObject characterModel = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        //characterModel.transform.position = new Vector3(0, 0, 0);
+
+
     }
 
     // Update is called once per frame
@@ -23,6 +33,8 @@ public class CharacterControl : MonoBehaviour
     {
         
     }
+
+
 
 
 }
