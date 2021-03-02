@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
-    
-
+    GameObject character;
+    GameObject charactertwo;
     // Start is called before the first frame update
     void Start()
     {
-        var CharacterOne = ScriptableObject.CreateInstance<Bjorn>();
-        Debug.Log(CharacterOne.Health);
 
-        var CharacterTwo = ScriptableObject.CreateInstance<Hilda>();
-        Debug.Log(CharacterTwo.Health);
+        character = new GameObject("Bjorn");
 
-        Debug.Log(CharacterOne.card.description);
+        var ch = character.AddComponent<Bjorn>();
 
-        CharacterOne.Attack("Berserk", CharacterTwo);
-        Debug.Log("Health after attack: " + CharacterTwo.Health);
+        Bjorn b = ch.GetComponent<Bjorn>();
 
+        Debug.Log(b.Health);
+
+        //Debug.Log(charactertwo.Health);
+
+        Debug.Log(b.card.description);
+
+        //character.Attack("Berserk", charactertwo);
+       // Debug.Log("Health after attack: " + charactertwo.Health);
+        
         // Add assets to the CharacterOne/CharacterTwo
 
         //GameObject characterModel = GameObject.CreatePrimitive(PrimitiveType.Cube);

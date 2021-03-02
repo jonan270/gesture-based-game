@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bjorn : Character
 {
+
     public Bjorn()
     {
         Element = "fire";
@@ -32,9 +33,13 @@ public class Bjorn : Character
 
     public void OnEnable()
     {
+        //Instantiate characterModel here with prefab???
+        //Instantiate(characterModel, new Vector3(0, 0, 0), Quaternion.identity);
+        
+        
         card = ScriptableObject.CreateInstance<Card>();
         card.nameCharacter = "Bjorn";
-        card.description = "Björn will go berserk and do ... extra damage" + "\n" + "Björn will drink mead and ..." + "Björn will do cleave and hurt multiple enemies.";
+        card.description = "Björn will go berserk and do ... extra damage" + "\n" + "Björn will drink mead and ..." + "\n" + "Björn will do cleave and hurt multiple enemies.";
         
 
     }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
+//[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 
-public abstract class Character : ScriptableObject
+public abstract class Character : MonoBehaviour
 {
     public int Health;
     public static int attackValue;
@@ -12,7 +12,7 @@ public abstract class Character : ScriptableObject
     public static string Element;
     public bool isAlive;
     public State CurrentState;
-    public GameObject characterModel;
+   // public GameObject characterModel;
 
     public string descriptionText;
     public string attackText;
@@ -47,7 +47,7 @@ public abstract class Character : ScriptableObject
     public void Die()
     {
         Debug.Log("Character died");
-        Destroy(characterModel);
+        //Destroy(characterModel);
     }
 
 
