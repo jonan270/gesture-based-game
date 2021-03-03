@@ -16,15 +16,23 @@ public class CharacterControl : MonoBehaviour
 
         Bjorn b = ch.GetComponent<Bjorn>();
 
-        Debug.Log(b.Health);
+        Debug.Log(b.currentHealth);
 
         //Debug.Log(charactertwo.Health);
 
-        Debug.Log(b.card.description);
+        //Debug.Log(b.card.description);
+
+        //If attack is done:
+
+        float remainingHealth = b.ModifyHealth(10);
+
+        Debug.Log(remainingHealth);
+
+        b.healthBar.SetSize(remainingHealth);
 
         //character.Attack("Berserk", charactertwo);
-       // Debug.Log("Health after attack: " + charactertwo.Health);
-        
+        // Debug.Log("Health after attack: " + charactertwo.Health);
+
         // Add assets to the CharacterOne/CharacterTwo
 
         //GameObject characterModel = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -33,6 +41,13 @@ public class CharacterControl : MonoBehaviour
 
     }
 
+
+
+
+    public void removeCharacter()
+    {
+        //Destroy(character);
+    }
     // Update is called once per frame
     void Update()
     {

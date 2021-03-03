@@ -7,7 +7,6 @@ public class Hilda : Character
     public Hilda()
     {
         Element = "earth";
-        Health = 90;
         isAlive = true;
         Name = "Hilda";
         attackValue = 15;

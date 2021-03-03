@@ -8,7 +8,6 @@ public class Bjorn : Character
     public Bjorn()
     {
         Element = "fire";
-        Health = 100;
         isAlive = true;
         Name = "Bjorn";
         attackValue = 30;
@@ -27,7 +26,6 @@ public class Bjorn : Character
     {
         if(whichAttack == "Berserk")
         {
-            ch.takeDamage(40);
         }
     }
 
@@ -35,8 +33,11 @@ public class Bjorn : Character
     {
         //Instantiate characterModel here with prefab???
         //Instantiate(characterModel, new Vector3(0, 0, 0), Quaternion.identity);
-        
-        
+        currentHealth = maxHealth;
+
+        healthBar = HealthBar.Create(new Vector3(0, 0), new Vector3(10 , 1)); // Set position as character position but above it
+        healthBar.SetSize(currentHealth);
+
         card = ScriptableObject.CreateInstance<Card>();
         card.nameCharacter = "Bjorn";
         card.description = "Björn will go berserk and do ... extra damage" + "\n" + "Björn will drink mead and ..." + "\n" + "Björn will do cleave and hurt multiple enemies.";

@@ -6,7 +6,9 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    public int Health;
+    public HealthBar healthBar;
+    public float currentHealth;
+    public float maxHealth = 100;
     public static int attackValue;
     public string Name;
     public static string Element;
@@ -31,24 +33,27 @@ public abstract class Character : MonoBehaviour
         CurrentState = state;
     }
 
-    public void takeDamage(int amount)
+    public bool checkHealth()
     {
-        Health -= amount;
 
-        if (Health <= 0) //Check if still alive
+        if (currentHealth <= 0) //Check if still alive
         {
             isAlive = false;
-            Die();
         }
         else
             isAlive = true;
+        return isAlive;
     }
 
-    public void Die()
+    public float ModifyHealth(int amount)
     {
-        Debug.Log("Character died");
-        //Destroy(characterModel);
+        currentHealth -= amount;
+
+        float currentHealthPct = (float)currentHealth / (float)maxHealth; //Calculate current health percentage
+
+        return currentHealthPct;
     }
+
 
 
 
