@@ -9,7 +9,7 @@ public class CharacterControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //Call function createCharacter()
         character = new GameObject("Bjorn");
 
         var ch = character.AddComponent<Bjorn>();
@@ -22,7 +22,11 @@ public class CharacterControl : MonoBehaviour
 
         //Debug.Log(b.card.description);
 
-        //If attack is done:
+        //Call function to move character
+        
+        //Call function to attack opponent
+
+        //Call function to change healths of characters and modify health bars
 
         float remainingHealth = b.ModifyHealth(10);
 
