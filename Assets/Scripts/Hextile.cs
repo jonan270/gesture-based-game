@@ -9,13 +9,27 @@ using UnityEngine;
 
 public class Hextile : MonoBehaviour
 {
+    /********************************************************************
+     * tileType contains information of what element the tile belongs to.
+     * Enables checks such as " if (hexTile[0,0].tileType == "water") "
+     * 
+     * tileType can be: "grass", "dessert", "water" or "woods".
+     ********************************************************************/
+    public string tileType;
+
     public bool spin; // Should the tile be rotating?
     int angleCount = 0; // The angle of the tile during rotation.
 
-    // Start is called before the first frame update
-    void Start()
+    public Material matgrass;
+    public Material matdessert;
+    public Material matwater;
+    public Material matwoods;
+
+    // Awake runs before start
+    void Awake()
     {
-        spin = false;
+        spin = true;
+        randomizeType(); //Set to random
     }
 
     // Update checks what needs to be done to the tile in each frame
@@ -24,6 +38,16 @@ public class Hextile : MonoBehaviour
         if (spin)
             rotateHex();
     }
+    // Takes an argument of type string to control which action the tile should take
+    public void affectTile(string effect)
+    {
+        if (effect == "spin")
+            spinTile();
+        else if (effect == "typeGrass" || effect == "typeDessert" || effect == "typeWater" || effect == "typeWoods")
+            makeType(effect);
+        else if (effect == "typeRandom")
+            randomizeType();
+    }
 
     public Vector3 getPosition()
     {
@@ -31,6 +55,13 @@ public class Hextile : MonoBehaviour
         return transform.position;
     }
 
+    // Tells update to initiate spinning state
+    private void spinTile()
+    {
+        spin = true;
+    }
+
+    // Spin until 1 rotation has been completed
     void rotateHex()
     {
         angleCount++;
@@ -42,8 +73,45 @@ public class Hextile : MonoBehaviour
         }
     }
 
-    public void spinTile()
+    private void randomizeType()
     {
-        spin = true;
+        int randT = Random.Range(0, 4);
+        string type;
+
+        if (randT == 1)
+            type = "typeDessert";
+        else if (randT == 2)
+            type = "typeWater";
+        else if (randT == 3)
+            type = "typeWoods";
+        else
+            type = "typeGrass";
+        makeType(type);
+    }
+
+    // Takes argument of type string to convert tileType and rendering material
+    private void makeType(string type)
+    {
+        spinTile();
+        if(type == "typeGrass")
+        {
+            tileType = "grass";
+            GetComponentsInChildren<MeshRenderer>()[0].material = matgrass;
+        }
+        else if(type == "typeDessert")
+        {
+            tileType = "dessert";
+            GetComponentsInChildren<MeshRenderer>()[0].material = matdessert;
+        }
+        else if(type == "typeWater")
+        {
+            tileType = "water";
+            GetComponentsInChildren<MeshRenderer>()[0].material = matwater;
+        }
+        else if (type == "typeWoods")
+        {
+            tileType = "woods";
+            GetComponentsInChildren<MeshRenderer>()[0].material = matwoods;
+        }
     }
 }

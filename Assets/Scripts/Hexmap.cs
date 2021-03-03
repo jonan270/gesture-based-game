@@ -45,10 +45,12 @@ public class Hexmap : MonoBehaviour
         {
             for(int z = 0; z < height; z++)
             {
+                // Instantiate and add to array
                 instantiated = Instantiate(hexPrefab, new Vector3(x * xoff, 0, 2*zoff*z + zSwitch), Quaternion.identity);
                 instantiated.transform.localScale = Vector3.one;
                 hexTiles[x, z] = instantiated;
             }
+            // Only offsett odd rows
             if(x % 2 == 0)
             {
                 zSwitch = 0.0f;
@@ -59,88 +61,115 @@ public class Hexmap : MonoBehaviour
             }
             xSwitch += xoff;
         }
+        randomizeHexmap(1000, 3);
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        // Example: rotate tile at index 2,2 every 1000 frames.
-        ++count;
-        if (count % 1000 == 0)
-        {
-            //hexTiles[2, 2].spinTile();
-            //hexTiles[2, 1].spinTile(); // +0 -1
-            //hexTiles[2, 0].spinTile(); // +0 -2
-            //hexTiles[2, 3].spinTile(); // +0 +1
-            //hexTiles[2, 4].spinTile(); // +0 +2
-
-            //hexTiles[1, 3].spinTile(); // -1 +2
-            //hexTiles[1, 1].spinTile(); // -1 -1
-
-            //hexTiles[0, 0].spinTile();
-            //hexTiles[1, 0].spinTile();
-            //hexTiles[0, 6].spinTile();
-            //hexTiles[3, 6].spinTile();
-            affectRadius(5, 5, 3);
-            affectRadius(10, 12, 2);
-        }
 
     }
 
-    // This function is completely unreadable. Good luck! Mvh Jonathan vid klockan 23:16
-    // Should be changed some day. Preferably before 21:00.
-
-    //TODO: Check for out of bounds
-    void affectRadius(int xCord, int yCord, int radius)
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    * Utilizes affectRadius() to generate a random hexmap
+    * according to provided parameters.
+    * 
+    * More iterations generate a more varied map and higher
+    * continuity makes larger areas of tiletypes.
+    * 
+    * For best result use a large number of iterations and 
+    * a continuity that is smaller than 8.
+    * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    void randomizeHexmap(int iterations, int continuity)
     {
-        int nAffect = 0; // Number of tiles on each side of center to affect
-
-        // is center of first row consisting of 1 or 2 tiles?
-        bool symmetric;
-        if (radius % 2 == 0)
+        for (int i = 0; i < iterations; i++)
         {
-            symmetric = true;
-            nAffect++;
+            int randX = Random.Range(0, width);
+            int randY = Random.Range(0, height);
+            int randR = Random.Range(0, continuity);
+            int randT = Random.Range(0, 4);
+            string effect;
+
+            if (randT == 1)
+                effect = "typeDessert";
+            else if (randT == 2)
+                effect = "typeWater";
+            else if (randT == 3)
+                effect = "typeWoods";
+            else
+                effect = "typeGrass";
+
+            affectRadius(randX, randY, randR, effect);
         }
-        else
-            symmetric = false;
+    }
 
-        // Affect a growing amount of points around centerpoints.
-        for(int xi = -radius; xi <= radius; xi++)
+    // Applies a provided effect to a tile for given coordinates if within bounds
+    void applyEffect(int x, int y, string effect)
+    {
+        if (x >= 0 && x < width && y >= 0 && y < height)
+            hexTiles[x,y].affectTile(effect);
+    }
+
+    // This function is completely unreadable. Good luck! Mvh Jonathan vid klockan 23:16
+    //
+    // Should be changed some day. Preferably before 21:00.
+    // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
+    void affectRadius(int xCord, int yCord, int radius, string effect)
+    {
+        if (radius >= 1)
         {
-            if (xi <= 0)
-                nAffect += 1; 
-            else
-                nAffect -= 1;
+            int nAffect = 0; // Number of tiles on each side of center to affect
 
-            int range = nAffect / 2 + (radius - 1) / 2;
-
-            if (symmetric)
-            {   
-                for(int yi = -range; yi <= range; yi++)
-                {
-                    hexTiles[xCord + xi, yCord + yi].spinTile();
-                }
-                symmetric = false;
-            }
-            else
+            // is center of row consisting of 1 or 2 tiles?
+            bool symmetric;
+            if (radius % 2 == 0)
             {
-                // Weird correction necessary? I dont know.
-                int correction = 0;
-                if (xCord % 2 != 0)
-                    correction = 1;
-
-                for (int yi = -range; yi <= range; yi++)
-                {
-                    hexTiles[xCord + xi, yCord + yi - correction].spinTile();
-                    if(yi > 0)
-                    {
-                        hexTiles[xCord + xi, yCord + yi + 1 - correction].spinTile();
-                    }
-                }
                 symmetric = true;
+                nAffect++;
+            }
+            else
+                symmetric = false;
+
+            // Affect a growing amount of points around centerpoints.
+            for (int xi = -radius; xi <= radius; xi++)
+            {
+                if (xi <= 0)
+                    nAffect += 1;
+                else
+                    nAffect -= 1;
+
+                int range = nAffect / 2 + (radius - 1) / 2;
+
+                if (symmetric)
+                {
+                    for (int yi = -range; yi <= range; yi++)
+                    {
+                        applyEffect(xCord + xi, yCord + yi, effect);
+                    }
+                    symmetric = false;
+                }
+                else
+                {
+                    int correction = 0;
+                    if (xCord % 2 != 0)
+                        correction = 1;
+                    if (radius == 1) // If radius is 1 top-center tile must be made implicitly
+                        applyEffect(xCord + xi, yCord + 1 - correction, effect);
+                    for (int yi = -range; yi <= range; yi++)
+                    {
+                        applyEffect(xCord + xi, yCord + yi - correction, effect);
+                        if (yi > 0)
+                        {
+                            applyEffect(xCord + xi, yCord + yi + 1 - correction, effect);
+                        }
+                    }
+                    symmetric = true;
+                }
             }
         }
+        //Radius = 0, just affect 1 tile
+        else if(radius == 0)
+            applyEffect(xCord, yCord, effect); //hexTiles[xCord, yCord].affectTile(effect);
     }
 }
