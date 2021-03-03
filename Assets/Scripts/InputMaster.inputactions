@@ -20,6 +20,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Spacebutton",
+                    "type": "Button",
+                    "id": "9255cbf7-d7b0-4ed4-9a3c-4ead4dc22bee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -42,6 +50,17 @@
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "Rayposition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86e6fff6-1b2d-42cc-b4e3-5351b93cd33a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and mouse",
+                    "action": "Spacebutton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

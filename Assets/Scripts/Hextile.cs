@@ -2,24 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * Hextile contains basic information about a specific tile and provides
  * functions for modifying that specific tile
- */
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 public class Hextile : MonoBehaviour
 {
-    /********************************************************************
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * 
      * tileType contains information of what element the tile belongs to.
      * Enables checks such as " if (hexTile[0,0].tileType == "water") "
      * 
      * tileType can be: "grass", "dessert", "water" or "woods".
-     ********************************************************************/
+     * 
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     public string tileType;
 
-    public bool spin; // Should the tile be rotating?
-    int angleCount = 0; // The angle of the tile during rotation.
+    // Should the tile be rotating?
+    public bool spin;
 
+    // The angle of the tile during rotation.
+    int angleCount = 0; 
+
+    // Materials for the tilebase of different types
     public Material matgrass;
     public Material matdessert;
     public Material matwater;
@@ -28,7 +36,6 @@ public class Hextile : MonoBehaviour
     // Awake runs before start
     void Awake()
     {
-        spin = true;
         randomizeType(); //Set to random
     }
 
@@ -38,6 +45,19 @@ public class Hextile : MonoBehaviour
         if (spin)
             rotateHex();
     }
+
+    // Spin until 1 rotation has been completed TODO: Make rotateHex timebased instead of framebased.
+    void rotateHex()
+    {
+        angleCount++;
+        transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
+        if (angleCount == 360)
+        {
+            spin = false;
+            angleCount = 0;
+        }
+    }
+
     // Takes an argument of type string to control which action the tile should take
     public void affectTile(string effect)
     {
@@ -49,28 +69,10 @@ public class Hextile : MonoBehaviour
             randomizeType();
     }
 
-    public Vector3 getPosition()
-    {
-        //Debug.Log(transform.position);
-        return transform.position;
-    }
-
     // Tells update to initiate spinning state
     private void spinTile()
     {
         spin = true;
-    }
-
-    // Spin until 1 rotation has been completed
-    void rotateHex()
-    {
-        angleCount++;
-        transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
-        if (angleCount == 360)
-        {
-            spin = false;
-            angleCount = 0;
-        }
     }
 
     private void randomizeType()
@@ -92,26 +94,115 @@ public class Hextile : MonoBehaviour
     // Takes argument of type string to convert tileType and rendering material
     private void makeType(string type)
     {
-        spinTile();
         if(type == "typeGrass")
         {
             tileType = "grass";
             GetComponentsInChildren<MeshRenderer>()[0].material = matgrass;
+            showGrass(true);
+            showTrees(false);
+            showDunes(false);
+            showWaves(false);
         }
         else if(type == "typeDessert")
         {
             tileType = "dessert";
             GetComponentsInChildren<MeshRenderer>()[0].material = matdessert;
+            showGrass(false);
+            showTrees(false);
+            showDunes(true);
+            showWaves(false);
         }
         else if(type == "typeWater")
         {
             tileType = "water";
             GetComponentsInChildren<MeshRenderer>()[0].material = matwater;
+            showGrass(false);
+            showTrees(false);
+            showDunes(false);
+            showWaves(true);
         }
         else if (type == "typeWoods")
         {
             tileType = "woods";
             GetComponentsInChildren<MeshRenderer>()[0].material = matwoods;
+            showGrass(false);
+            showTrees(true);
+            showDunes(false);
+            showWaves(false);
         }
+        spinTile();
+    }
+
+    // TODO: Reimplement show functions to look for child names instead of indexes.
+
+    // Sets visibility of trees to true or false
+    private void showTrees(bool show)
+    {
+        if (show)
+        {
+            showSub(1);
+            showSub(2);
+        }
+        else
+        {
+            hideSub(1);
+            hideSub(2);
+        }
+    }
+
+    // Sets visibility of waves to true or false
+    private void showGrass(bool show)
+    {
+        if (show)
+        {
+            showSub(5);
+        }
+        else
+        {
+            hideSub(5);
+        }
+    }
+
+    // Sets visibility of dunes to true or false
+    private void showDunes(bool show)
+    {
+        if (show)
+        {
+            showSub(3);
+        }
+        else
+        {
+            hideSub(3);
+        }
+    }
+
+    // Sets visibility of waves to true or false
+    private void showWaves(bool show)
+    {
+        if (show)
+        {
+            showSub(4);
+        }
+        else
+        {
+            hideSub(4);
+        }
+    }
+
+    // Hides submodel for a given index
+    private void hideSub(int index)
+    {
+        GetComponentsInChildren<Renderer>()[index].enabled = false;
+    }
+
+    // Shows submodel for a given index
+    private void showSub(int index)
+    {
+        GetComponentsInChildren<Renderer>()[index].enabled = true;
+    }
+
+    public Vector3 getPosition()
+    {
+        return transform.position;
     }
 }

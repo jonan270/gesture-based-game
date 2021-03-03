@@ -33,6 +33,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Spacebutton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9255cbf7-d7b0-4ed4-9a3c-4ead4dc22bee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -55,6 +63,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and mouse"",
                     ""action"": ""Rayposition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86e6fff6-1b2d-42cc-b4e3-5351b93cd33a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""Spacebutton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -84,6 +103,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Tilespin = m_Player.FindAction("Tilespin", throwIfNotFound: true);
         m_Player_Rayposition = m_Player.FindAction("Rayposition", throwIfNotFound: true);
+        m_Player_Spacebutton = m_Player.FindAction("Spacebutton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -135,12 +155,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Tilespin;
     private readonly InputAction m_Player_Rayposition;
+    private readonly InputAction m_Player_Spacebutton;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
         public PlayerActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Tilespin => m_Wrapper.m_Player_Tilespin;
         public InputAction @Rayposition => m_Wrapper.m_Player_Rayposition;
+        public InputAction @Spacebutton => m_Wrapper.m_Player_Spacebutton;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -156,6 +178,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Rayposition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRayposition;
                 @Rayposition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRayposition;
                 @Rayposition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRayposition;
+                @Spacebutton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpacebutton;
+                @Spacebutton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpacebutton;
+                @Spacebutton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpacebutton;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -166,6 +191,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Rayposition.started += instance.OnRayposition;
                 @Rayposition.performed += instance.OnRayposition;
                 @Rayposition.canceled += instance.OnRayposition;
+                @Spacebutton.started += instance.OnSpacebutton;
+                @Spacebutton.performed += instance.OnSpacebutton;
+                @Spacebutton.canceled += instance.OnSpacebutton;
             }
         }
     }
@@ -183,5 +211,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
     {
         void OnTilespin(InputAction.CallbackContext context);
         void OnRayposition(InputAction.CallbackContext context);
+        void OnSpacebutton(InputAction.CallbackContext context);
     }
 }

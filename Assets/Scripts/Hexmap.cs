@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * Hexmap generates and keeps track of all generated map tiles.
  * It tells each tile to perform certain via function calls to
  * each specific tile.
- */
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-//[ExecuteInEditMode] //DEBUG: Toggle this to display tiles in editor
+//[ExecuteInEditMode] // DEBUG: Toggle this to display tiles in editor
 
 public class Hexmap : MonoBehaviour
 {
-    int count;
+    public InputMaster controls;
 
     // Map size in terms of hexes
     const int width = 20;
@@ -30,40 +32,29 @@ public class Hexmap : MonoBehaviour
     float xoff = 0.8f;//0.8f;
     float zoff = 0.46f;//0.46f;
 
+    // Enable and disable controls when necessary
+    private void OnEnable()
+    {
+        controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
+
     void Awake()
     {
-        //rayhandler.controls.Player.Tilespin.performed += ctx => Test();
+        controls = new InputMaster();
+        controls.Player.Spacebutton.performed += ctx => randomizeHexmap(1000, 3);
     }
 
-    // Start generates all tiles and places them in the array.
+    // Start by generating tiles and making a randomized map-config
     void Start()
     {
-        float zSwitch = zoff;
-        float xSwitch = xoff;
-        Hextile instantiated;
-        for(int x = 0; x < width; x++)
-        {
-            for(int z = 0; z < height; z++)
-            {
-                // Instantiate and add to array
-                instantiated = Instantiate(hexPrefab, new Vector3(x * xoff, 0, 2*zoff*z + zSwitch), Quaternion.identity);
-                instantiated.transform.localScale = Vector3.one;
-                hexTiles[x, z] = instantiated;
-            }
-            // Only offsett odd rows
-            if(x % 2 == 0)
-            {
-                zSwitch = 0.0f;
-            }
-            else
-            {
-                zSwitch = zoff;
-            }
-            xSwitch += xoff;
-        }
+        generateTiles();
         randomizeHexmap(1000, 3);
     }
-
 
     // Update is called once per frame
     void Update()
@@ -72,6 +63,7 @@ public class Hexmap : MonoBehaviour
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    *
     * Utilizes affectRadius() to generate a random hexmap
     * according to provided parameters.
     * 
@@ -80,6 +72,7 @@ public class Hexmap : MonoBehaviour
     * 
     * For best result use a large number of iterations and 
     * a continuity that is smaller than 8.
+    * 
     * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     void randomizeHexmap(int iterations, int continuity)
     {
@@ -111,7 +104,36 @@ public class Hexmap : MonoBehaviour
             hexTiles[x,y].affectTile(effect);
     }
 
-    // This function is completely unreadable. Good luck! Mvh Jonathan vid klockan 23:16
+    // Generates all tiles and places them in the array.
+    private void generateTiles()
+    {
+        float zSwitch = zoff;
+        float xSwitch = xoff;
+        Hextile instantiated;
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                // Instantiate and add to array
+                instantiated = Instantiate(hexPrefab, new Vector3(x * xoff, 0, 2 * zoff * z + zSwitch), Quaternion.identity);
+                instantiated.transform.localScale = Vector3.one;
+                instantiated.transform.parent = transform;
+                hexTiles[x, z] = instantiated;
+            }
+            // Only offsett odd rows
+            if (x % 2 == 0)
+            {
+                zSwitch = 0.0f;
+            }
+            else
+            {
+                zSwitch = zoff;
+            }
+            xSwitch += xoff;
+        }
+    }
+
+    // This function is completely unreadable. Good luck! Mvh Jonathan at 23:16
     //
     // Should be changed some day. Preferably before 21:00.
     // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
