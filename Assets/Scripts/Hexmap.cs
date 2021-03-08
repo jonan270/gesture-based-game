@@ -53,7 +53,7 @@ public class Hexmap : MonoBehaviour
     void Start()
     {
         generateTiles();
-        randomizeHexmap(1000, 3);
+        randomizeHexmap(500, 3);
     }
 
     // Update is called once per frame

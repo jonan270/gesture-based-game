@@ -142,11 +142,43 @@ public class Hextile : MonoBehaviour
         {
             showSub(1);
             showSub(2);
+            showSub(3);
         }
         else
         {
             hideSub(1);
             hideSub(2);
+            hideSub(3);
+        }
+    }
+
+
+    // Sets visibility of dunes to true or false
+    private void showDunes(bool show)
+    {
+        if (show)
+        {
+            showSub(4);
+            showSub(5);
+        }
+        else
+        {
+            hideSub(4);
+            hideSub(5);
+        }
+    }
+
+
+    // Sets visibility of waves to true or false
+    private void showWaves(bool show)
+    {
+        if (show)
+        {
+            showSub(6);
+        }
+        else
+        {
+            hideSub(6);
         }
     }
 
@@ -155,37 +187,16 @@ public class Hextile : MonoBehaviour
     {
         if (show)
         {
-            showSub(5);
+            showSub(7);
+            showSub(8);
+            showSub(9);
         }
         else
         {
-            hideSub(5);
-        }
-    }
+            hideSub(7);
+            hideSub(8);
+            hideSub(9);
 
-    // Sets visibility of dunes to true or false
-    private void showDunes(bool show)
-    {
-        if (show)
-        {
-            showSub(3);
-        }
-        else
-        {
-            hideSub(3);
-        }
-    }
-
-    // Sets visibility of waves to true or false
-    private void showWaves(bool show)
-    {
-        if (show)
-        {
-            showSub(4);
-        }
-        else
-        {
-            hideSub(4);
         }
     }
 
