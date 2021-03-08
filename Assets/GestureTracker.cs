@@ -26,7 +26,8 @@ public class GestureTracker : MonoBehaviour
     private List<Point> points = new List<Point>();
     private List<Gesture> trainingSet = new List<Gesture>();
 
-    public System.String GestureName = "";
+    public string GestureName = "";
+
 
     enum EnumGesture
     {
@@ -96,19 +97,21 @@ public class GestureTracker : MonoBehaviour
         }
 
         //Right hand
-        handPositionRight = player.GetHand(1).transform.position;
-        distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
-
-        if (distance >= closeDistance * closeDistance && stateRight)
+        if (player.GetHand(1) != null)
         {
-            var temp = Instantiate(obj, handPositionRight, Quaternion.identity, gameObject.transform);
+            handPositionRight = player.GetHand(1).transform.position;
+            distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
 
-            oldSpawnPositionRight = handPositionRight;
+            if (distance >= closeDistance * closeDistance && stateRight)
+            {
+                var temp = Instantiate(obj, handPositionRight, Quaternion.identity, gameObject.transform);
 
-            var gp = new GesturePosition(temp);
-            gesturePositions.Add(gp);
+                oldSpawnPositionRight = handPositionRight;
+
+                var gp = new GesturePosition(temp);
+                gesturePositions.Add(gp);
+            }
         }
-
         UpdateGesturePositions(Time.deltaTime);
 
         //Update gesture guess every 0.1s
@@ -116,10 +119,10 @@ public class GestureTracker : MonoBehaviour
         {
             TransformToPoints();
             GuessGesture();
-            TimeSinceGuess -= 0.1f;
+            TimeSinceGuess = 0.0f;
         }
 
-        if (SteamVR_Actions.default_AddGesture.GetStateDown(SteamVR_Input_Sources.Any))
+        if (SteamVR_Actions.default_GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
         {
             AddGesture();
         }
@@ -155,16 +158,17 @@ public class GestureTracker : MonoBehaviour
     //Guess what gesture is being made by the player.
     void GuessGesture()
     {
-        if (points.Count > 1)
+        if (points.Count > 1) //Single point can not be a gesture.
         {
             Gesture candidate = new Gesture(points.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+            //TODO Display gesture result ? 
+            //TODO Send confirmed gesture to rest of system. 
             Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
             EnumGesture gest;
             if (gestureResult.Score >= 0.85f)
             {
-            gest = (EnumGesture)System.Enum.Parse(typeof(EnumGesture), gestureResult.GestureClass);
-
+                gest = (EnumGesture)System.Enum.Parse(typeof(EnumGesture), gestureResult.GestureClass);
             }
             else
             {
@@ -177,7 +181,7 @@ public class GestureTracker : MonoBehaviour
     //Add a gesture to a .xml file and save it for further use.
     void AddGesture()
     {
-        string fileName = System.String.Format("{0}/{1}-{2}.xml", "Assets/Gestures/", GestureName, System.DateTime.Now.ToFileTime());
+        string fileName = string.Format("{0}/{1}-{2}.xml", "Assets/Gestures/", GestureName, System.DateTime.Now.ToFileTime());
 
         GestureIO.WriteGesture(points.ToArray(), GestureName, fileName);
 
