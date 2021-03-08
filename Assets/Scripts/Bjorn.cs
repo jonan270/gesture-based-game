@@ -22,7 +22,7 @@ public class Bjorn : Character
         }
     }
 
-    public void Attack(string whichAttack, Character ch)
+    public void Attack(string whichAttack, Character ch) //Get input from which gesture has been done? And which character to attack?
     {
         if(whichAttack == "Berserk")
         {
@@ -34,8 +34,8 @@ public class Bjorn : Character
         //Instantiate characterModel here with prefab???
         //Instantiate(characterModel, new Vector3(0, 0, 0), Quaternion.identity);
         currentHealth = maxHealth;
-
-        healthBar = HealthBar.Create(new Vector3(0, 0), new Vector3(10 , 1)); // Set position as character position but above it
+        
+        healthBar = HealthBar.Create(new Vector3(0, 0), new Vector3(0.1f , 0.01f)); // Set position as character position but above it
         healthBar.SetSize(currentHealth);
 
         card = ScriptableObject.CreateInstance<Card>();
