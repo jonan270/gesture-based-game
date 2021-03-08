@@ -1,22 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class CharacterControl : MonoBehaviour
 {
     GameObject character;
     GameObject charactertwo;
+    GameObject obj;
+
     // Start is called before the first frame update
     void Start()
     {
         //Call function createCharacter()
-        character = new GameObject("Bjorn");
+        //character = new GameObject("Bjorn");
+        character = createHilda();
 
-        var ch = character.AddComponent<Bjorn>();
+        //GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Hilda.prefab");
 
-        Bjorn b = ch.GetComponent<Bjorn>();
+        //character = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
 
-        Debug.Log(b.currentHealth);
+        //var ch = character.AddComponent<Hilda>();
+
+        Hilda h = character.GetComponent<Hilda>();
+
+        Debug.Log(h.currentHealth);
 
         //Debug.Log(charactertwo.Health);
 
@@ -28,12 +36,12 @@ public class CharacterControl : MonoBehaviour
 
         //Call function to change healths of characters and modify health bars
 
-        float remainingHealth = b.ModifyHealth(10);
+        float remainingHealth = h.ModifyHealth(10);
 
         Debug.Log(remainingHealth);
 
-        b.healthBar.SetSize(remainingHealth);
-
+        h.healthBar.SetSize(remainingHealth);
+        
         //character.Attack("Berserk", charactertwo);
         // Debug.Log("Health after attack: " + charactertwo.Health);
 
@@ -45,12 +53,23 @@ public class CharacterControl : MonoBehaviour
 
     }
 
-
-
-
-    public void removeCharacter()
+    public GameObject createHilda()
     {
-        //Destroy(character);
+
+        Object prefabHilda = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Hilda.prefab");
+
+        obj = Instantiate(prefabHilda, Vector3.zero, Quaternion.identity) as GameObject;
+
+        obj.AddComponent<Hilda>();
+        
+
+        return obj;
+    }
+
+
+    public void removeCharacter(GameObject ob)
+    {
+        //Destroy(ob);
     }
     // Update is called once per frame
     void Update()

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 
 public class Hilda : Character
 {
@@ -22,10 +24,24 @@ public class Hilda : Character
 
     public void OnEnable()
     {
-        card = ScriptableObject.CreateInstance<Card>();
-        card.nameCharacter = "Hilda";
-        card.description = "Björn will go berserk and do ... extra damage" + "\n" + "Björn will drink mead and ..." + "Björn will do cleave and hurt multiple enemies.";
+        descriptionTextCard1 = "Hilda will...";
+        descriptionTextCard2 = "Hilda will...";
+        descriptionTextCard3 = "Hilda will...";
 
+        //Instantiate card for character
+        Object prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Card.prefab", typeof(GameObject));
+        GameObject c1 = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+
+
+        //add description text for card
+        c1.GetComponent<Card>().description.text = descriptionTextCard1;
+        c1.GetComponent<Card>().nameText.text = Name;
+
+
+        currentHealth = maxHealth;
+
+        healthBar = HealthBar.Create(new Vector3(0, 6), new Vector3(0.1f, 0.01f)); // Set position as character position but above it
+        healthBar.SetSize(currentHealth);
 
     }
 

@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Card : ScriptableObject // Shows a card specifik for the character
+//[CreateAssetMenu(fileName = "New Card", menuName = "Card")]
+
+public class Card : MonoBehaviour // Shows a card specifik for the character
 {
-    public string description;
-    public string nameCharacter;
-    public int attack;
+    public Image cardFront;
+    public Text description;
+    public Text nameText;
+
+
     //public Ability ability1;
 
     /*public Card(Ability ab1, Ability ab2, Ability ab3) {
@@ -15,14 +20,6 @@ public class Card : ScriptableObject // Shows a card specifik for the character
         ability3 = ab3;
     }
     */
-    public Card()
-    {
 
-    }
-
-    public void Print()
-    {
-        Debug.Log(name + ": " + description);
-    }
 }
 

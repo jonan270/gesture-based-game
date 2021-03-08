@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 
@@ -14,13 +15,16 @@ public abstract class Character : MonoBehaviour
     public static string Element;
     public bool isAlive;
     public State CurrentState;
-   // public GameObject characterModel;
+    // public GameObject characterModel;
 
-    public string descriptionText;
-    public string attackText;
-    public string healthText;
 
-    public Card card;
+    public string descriptionTextCard1;
+    public string descriptionTextCard2;
+    public string descriptionTextCard3;
+
+    public GameObject c1;
+    public Card c2;
+    public Card c3;
 
     public enum State
     {
