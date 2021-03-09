@@ -17,14 +17,16 @@ public abstract class Character : MonoBehaviour
     public State CurrentState;
     // public GameObject characterModel;
 
+    //public List<GameObject> cards;
+
 
     public string descriptionTextCard1;
     public string descriptionTextCard2;
     public string descriptionTextCard3;
 
-    public GameObject c1;
-    public Card c2;
-    public Card c3;
+   // public GameObject c1;
+    //public Card c2;
+    //public Card c3;
 
     public enum State
     {

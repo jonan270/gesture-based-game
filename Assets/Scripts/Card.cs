@@ -11,6 +11,9 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     public Text description;
     public Text nameText;
 
+    // Randomisera korten lite, 5 kort dras fram för spelaren
+    //Korten visas som i en korthög
+
 
     //public Ability ability1;
 

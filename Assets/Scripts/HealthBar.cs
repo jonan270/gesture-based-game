@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     private static Image foregroundImage;
-    Canvas myCanvas;
     public static HealthBar Create(Vector3 position, Vector3 size)
      {
          //Main health bar

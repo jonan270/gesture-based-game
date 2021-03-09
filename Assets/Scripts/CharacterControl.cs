@@ -8,19 +8,22 @@ public class CharacterControl : MonoBehaviour
     GameObject character;
     GameObject charactertwo;
     GameObject obj;
+    //List<GameObject> deck = new List<GameObject>();
+    Deck deck;
 
     // Start is called before the first frame update
     void Start()
     {
+        deck = new Deck();
         //Call function createCharacter()
         //character = new GameObject("Bjorn");
         character = createHilda();
 
-        //GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Hilda.prefab");
+        //Create deck of cards for all characters
+        deck.addCardsToDeck(character.GetComponent<Hilda>());
 
-        //character = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
-
-        //var ch = character.AddComponent<Hilda>();
+        //Once we're done with deck of cards, set the deck
+       
 
         Hilda h = character.GetComponent<Hilda>();
 
@@ -52,6 +55,13 @@ public class CharacterControl : MonoBehaviour
 
 
     }
+
+   
+
+    /*public GameObject createCards(Character ch)
+    {
+        
+    }*/
 
     public GameObject createHilda()
     {
