@@ -19,14 +19,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
             ""id"": ""66c72468-5f38-4f4c-83d7-cc13d5c5be2a"",
             ""actions"": [
                 {
-                    ""name"": ""Tilespin"",
-                    ""type"": ""Button"",
-                    ""id"": ""60a427e7-0234-4275-b584-d471fc38b71f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Rayposition"",
                     ""type"": ""PassThrough"",
                     ""id"": ""8dbee755-6ef0-4280-9afa-c5b6585c499c"",
@@ -41,20 +33,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""DrawPath"",
+                    ""type"": ""Button"",
+                    ""id"": ""079e4293-eaa6-487c-86c9-d35ec6995cf0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""b48b87f4-cd4e-4932-8426-34b849e0db35"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""Tilespin"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""b703c0f5-3ee8-40cf-aeb0-5d19f4e1d7fb"",
@@ -76,6 +65,61 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Spacebutton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""f55d444b-b654-4f03-97ae-a838e53b0621"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DrawPath"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""698bd2bf-a1d9-42a8-a7c2-0dc8f561905a"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""DrawPath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""f7fdc649-b9b9-4501-ba60-cce04634c0f0"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DrawPath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""2cc12beb-9c74-4402-b442-e7511bae1ae6"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DrawPath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e8e315a7-18a2-4a6c-a52f-0c98684bca98"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DrawPath"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -101,9 +145,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Tilespin = m_Player.FindAction("Tilespin", throwIfNotFound: true);
         m_Player_Rayposition = m_Player.FindAction("Rayposition", throwIfNotFound: true);
         m_Player_Spacebutton = m_Player.FindAction("Spacebutton", throwIfNotFound: true);
+        m_Player_DrawPath = m_Player.FindAction("DrawPath", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -153,16 +197,16 @@ public class @InputMaster : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Tilespin;
     private readonly InputAction m_Player_Rayposition;
     private readonly InputAction m_Player_Spacebutton;
+    private readonly InputAction m_Player_DrawPath;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
         public PlayerActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Tilespin => m_Wrapper.m_Player_Tilespin;
         public InputAction @Rayposition => m_Wrapper.m_Player_Rayposition;
         public InputAction @Spacebutton => m_Wrapper.m_Player_Spacebutton;
+        public InputAction @DrawPath => m_Wrapper.m_Player_DrawPath;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -172,28 +216,28 @@ public class @InputMaster : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Tilespin.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTilespin;
-                @Tilespin.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTilespin;
-                @Tilespin.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTilespin;
                 @Rayposition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRayposition;
                 @Rayposition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRayposition;
                 @Rayposition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRayposition;
                 @Spacebutton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpacebutton;
                 @Spacebutton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpacebutton;
                 @Spacebutton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpacebutton;
+                @DrawPath.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
+                @DrawPath.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
+                @DrawPath.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Tilespin.started += instance.OnTilespin;
-                @Tilespin.performed += instance.OnTilespin;
-                @Tilespin.canceled += instance.OnTilespin;
                 @Rayposition.started += instance.OnRayposition;
                 @Rayposition.performed += instance.OnRayposition;
                 @Rayposition.canceled += instance.OnRayposition;
                 @Spacebutton.started += instance.OnSpacebutton;
                 @Spacebutton.performed += instance.OnSpacebutton;
                 @Spacebutton.canceled += instance.OnSpacebutton;
+                @DrawPath.started += instance.OnDrawPath;
+                @DrawPath.performed += instance.OnDrawPath;
+                @DrawPath.canceled += instance.OnDrawPath;
             }
         }
     }
@@ -209,8 +253,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnTilespin(InputAction.CallbackContext context);
         void OnRayposition(InputAction.CallbackContext context);
         void OnSpacebutton(InputAction.CallbackContext context);
+        void OnDrawPath(InputAction.CallbackContext context);
     }
 }

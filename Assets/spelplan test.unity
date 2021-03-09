@@ -203,7 +203,7 @@ PrefabInstance:
     - target: {fileID: 4519844416633073425, guid: 5ed3eeb9a34531f4d8dd230269b6354e,
         type: 3}
       propertyPath: m_Name
-      value: LineRender
+      value: PathDrawer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ed3eeb9a34531f4d8dd230269b6354e, type: 3}
@@ -225,10 +225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cfe2c6b0b2a56448f9f2e0688ee035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilesToDraw: []
   c1: {r: 1, g: 0, b: 0.2627451, a: 0}
   c2: {r: 1, g: 0, b: 0.2627451, a: 1}
-  tiles: []
-  lengthOfLineRenderer: 20
 --- !u!1001 &100277506
 PrefabInstance:
   m_ObjectHideFlags: 0

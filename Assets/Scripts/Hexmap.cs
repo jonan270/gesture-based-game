@@ -27,13 +27,16 @@ public class Hexmap : MonoBehaviour
 
     // Each tile is a hexPrefab
     public Hextile hexPrefab;
-    public Raycasthandler rayhandler;
 
     // Offset values
     float xoff = 0.8f;//0.8f;
     float zoff = 0.46f;//0.46f;
 
     private List<Hextile> tiles = new List<Hextile>();
+
+    // ** TEMPORARY VARIABLES **
+    public Raycasthandler rayhandler;
+    private Vector2Int currentHex;
 
     // Enable and disable controls when necessary
     private void OnEnable()
@@ -50,19 +53,15 @@ public class Hexmap : MonoBehaviour
     {
         controls = new InputMaster();
         controls.Player.Spacebutton.performed += ctx => randomizeHexmap(1000, 3);
+        controls.Player.DrawPath.performed += ctx => drawDirection(ctx.ReadValue<Vector2>());
     }
 
     // Start by generating tiles and making a randomized map-config
     void Start()
     {
+        currentHex = new Vector2Int(3, 0); // TODO: Remove me and make me based on character tile pos.
         generateTiles();
         randomizeHexmap(500, 3);
-
-        lineRenderer.addNodeToPath(hexTiles[4, 0]);
-        lineRenderer.addNodeToPath(hexTiles[5, 0]);
-        lineRenderer.addNodeToPath(hexTiles[5, 1]);
-        lineRenderer.addNodeToPath(hexTiles[5, 2]);
-        lineRenderer.addNodeToPath(hexTiles[5, 3]);
     }
 
     // Update is called once per frame
@@ -111,6 +110,33 @@ public class Hexmap : MonoBehaviour
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
             hexTiles[x,y].affectTile(effect);
+    }
+
+    // Checks direction of input to see what tile the path should be drawn to
+    void drawDirection(Vector2 input)
+    {
+        Vector2Int moveDir = new Vector2Int(0, 0);
+        if (input.x > 0)
+            moveDir.x = 1;
+        else if (input.x < 0)
+            moveDir.x = -1;
+        if (input.y > 0)
+            moveDir.y = 1;
+        else if (input.y < 0)
+            moveDir.y = -1;
+        drawNode(moveDir);
+    }
+
+    // Draw to identified tile and update currentHex if command is within bounds of the map
+    void drawNode(Vector2Int direction)
+    {
+        if(currentHex.x + direction.x < width && currentHex.x + direction.x >= 0
+            && currentHex.y + direction.y < height && currentHex.y + direction.y >= 0)
+        {
+            lineRenderer.addNodeToPath(hexTiles[currentHex.x + direction.x, currentHex.y + direction.y]);
+            currentHex.x += direction.x;
+            currentHex.y += direction.y;
+        }
     }
 
     // Generates all tiles and places them in the array.
