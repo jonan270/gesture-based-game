@@ -15,6 +15,12 @@ public class NetworkPlayer : MonoBehaviour
     void Start()
     {
         photonView = GetComponent<PhotonView>();
+        if (photonView.IsMine)
+        {
+            head.gameObject.SetActive(false);
+            lefthand.gameObject.SetActive(false);
+            righthand.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -22,10 +28,6 @@ public class NetworkPlayer : MonoBehaviour
     {
         if(photonView.IsMine)
         {
-            head.gameObject.SetActive(false);
-            lefthand.gameObject.SetActive(false);
-            righthand.gameObject.SetActive(false);
-
             MapPosition(head, XRNode.Head);
             MapPosition(lefthand, XRNode.LeftHand);
             MapPosition(righthand, XRNode.RightHand);

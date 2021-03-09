@@ -68,7 +68,10 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 1205466571129195499}
+  - {fileID: 899177215727210505}
+  - {fileID: 2350695149022417891}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -119,7 +122,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_UseLocal: 0
 --- !u!1 &7327997933085721098
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +170,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_UseLocal: 0
 --- !u!1 &7420810205401513566
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +313,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_UseLocal: 0
 --- !u!1001 &4837299998387570225
 PrefabInstance:
   m_ObjectHideFlags: 0
