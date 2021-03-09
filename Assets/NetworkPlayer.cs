@@ -4,11 +4,18 @@ using UnityEngine;
 using UnityEngine.XR;
 using Photon.Pun;
 
-public class NetworkPlayer : MonoBehaviourPunCallbacks
+public class NetworkPlayer : MonoBehaviour
 {
     public Transform head;
     public Transform lefthand;
     public Transform righthand;
+
+    private PhotonView photonView;
+
+    void Start()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
 
     // Update is called once per frame
     void Update()
