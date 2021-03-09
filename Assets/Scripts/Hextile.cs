@@ -70,7 +70,7 @@ public class Hextile : MonoBehaviour
     }
 
     // Tells update to initiate spinning state
-    private void spinTile()
+    public void spinTile()
     {
         spin = true;
     }
@@ -135,7 +135,7 @@ public class Hextile : MonoBehaviour
 
     // TODO: Reimplement show functions to look for child names instead of indexes.
 
-    // Sets visibility of trees to true or false
+    // Sets visibility of trees to true or false according to show
     private void showTrees(bool show)
     {
         if (show)
@@ -153,7 +153,7 @@ public class Hextile : MonoBehaviour
     }
 
 
-    // Sets visibility of dunes to true or false
+    // Sets visibility of dunes to true or false according to show
     private void showDunes(bool show)
     {
         if (show)
@@ -169,7 +169,7 @@ public class Hextile : MonoBehaviour
     }
 
 
-    // Sets visibility of waves to true or false
+    // Sets visibility of waves to true or false according to show
     private void showWaves(bool show)
     {
         if (show)
@@ -182,7 +182,7 @@ public class Hextile : MonoBehaviour
         }
     }
 
-    // Sets visibility of waves to true or false
+    // Sets visibility of waves to true or false according to show
     private void showGrass(bool show)
     {
         if (show)

@@ -16,6 +16,7 @@ using UnityEngine;
 public class Hexmap : MonoBehaviour
 {
     public InputMaster controls;
+    public PathDraw lineRenderer;
 
     // Map size in terms of hexes
     const int width = 20;
@@ -31,6 +32,8 @@ public class Hexmap : MonoBehaviour
     // Offset values
     float xoff = 0.8f;//0.8f;
     float zoff = 0.46f;//0.46f;
+
+    private List<Hextile> tiles = new List<Hextile>();
 
     // Enable and disable controls when necessary
     private void OnEnable()
@@ -54,12 +57,18 @@ public class Hexmap : MonoBehaviour
     {
         generateTiles();
         randomizeHexmap(500, 3);
+
+        lineRenderer.addNodeToPath(hexTiles[4, 0]);
+        lineRenderer.addNodeToPath(hexTiles[5, 0]);
+        lineRenderer.addNodeToPath(hexTiles[5, 1]);
+        lineRenderer.addNodeToPath(hexTiles[5, 2]);
+        lineRenderer.addNodeToPath(hexTiles[5, 3]);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //hexTiles[4, 0].spinTile();
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -192,6 +201,6 @@ public class Hexmap : MonoBehaviour
         }
         //Radius = 0, just affect 1 tile
         else if(radius == 0)
-            applyEffect(xCord, yCord, effect); //hexTiles[xCord, yCord].affectTile(effect);
+            applyEffect(xCord, yCord, effect);
     }
 }
