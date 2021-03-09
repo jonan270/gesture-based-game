@@ -6,8 +6,6 @@ using Photon.Pun;
 
 public class GameLauncher : MonoBehaviourPunCallbacks
 {
-
-
     [Tooltip("The Ui Panel to let the user enter name, connect and play")]
     [SerializeField]
     private GameObject controlPanel;
@@ -175,7 +173,7 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 
             // #Critical
             // Load the Room Level. 
-            PhotonNetwork.LoadLevel("Test scene");
+            PhotonNetwork.LoadLevel("multiplayertest");
 
         }
     }

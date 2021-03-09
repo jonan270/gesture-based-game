@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
 
+    public Camera camera;
+
     void Awake()
     {
         // #Important
@@ -21,6 +23,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         // #Critical
         // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void LateUpdate()
+    {
+        if(photonView.IsMine)
+        {
+            CameraFollow();
+        }
+    }
+
+    private void CameraFollow()
+    {
+
     }
 
     //Stream data to other clients

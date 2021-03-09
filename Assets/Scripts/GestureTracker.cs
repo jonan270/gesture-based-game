@@ -8,8 +8,8 @@ using PDollarGestureRecognizer;
 
 public class GestureTracker : MonoBehaviour
 {
-    public Player player;
-    public GameObject obj;
+    
+    public GameObject LeftHand, RightHand, visualAid;
 
     public float closeDistance = 1.5f;
     private float TimeSinceGuess = 0.0f;
@@ -83,12 +83,12 @@ public class GestureTracker : MonoBehaviour
         //Reset spawn point after some amount of time without movement
 
         //Left hand
-        handPositionLeft = player.GetHand(0).transform.position;
+        handPositionLeft = LeftHand.transform.position;
         float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
 
         if (distance >= closeDistance * closeDistance && stateLeft)
         {
-            var temp = Instantiate(obj, handPositionLeft, Quaternion.identity, gameObject.transform);
+            var temp = Instantiate(visualAid, handPositionLeft, Quaternion.identity, gameObject.transform);
 
             oldSpawnPositionLeft = handPositionLeft;
 
@@ -97,20 +97,19 @@ public class GestureTracker : MonoBehaviour
         }
 
         //Right hand
-        if (player.GetHand(1) != null)
-        {
-            handPositionRight = player.GetHand(1).transform.position;
+
+            handPositionRight = RightHand.transform.position;
             distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
 
             if (distance >= closeDistance * closeDistance && stateRight)
             {
-                var temp = Instantiate(obj, handPositionRight, Quaternion.identity, gameObject.transform);
+                var temp = Instantiate(visualAid, handPositionRight, Quaternion.identity, gameObject.transform);
 
                 oldSpawnPositionRight = handPositionRight;
 
                 var gp = new GesturePosition(temp);
                 gesturePositions.Add(gp);
-            }
+            
         }
         UpdateGesturePositions(Time.deltaTime);
 
