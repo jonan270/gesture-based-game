@@ -21,9 +21,7 @@ public class CharacterControl : MonoBehaviour
         character = createHilda();
         charactertwo = createBjorn();
 
-        //Create deck of cards for all characters
-        deck.addCardsToDeck(character.GetComponent<Hilda>());
-        deck.addCardsToDeck(charactertwo.GetComponent<Bjorn>());
+
 
         //Show hand of currently available cards
         deck.Shuffle(); //Must shuffle in order to get different cards each round
@@ -36,6 +34,8 @@ public class CharacterControl : MonoBehaviour
         Hilda h = character.GetComponent<Hilda>();
 
         Debug.Log(h.currentHealth);
+
+        removeCharacter(character); // Try removing character and its cards
 
         //Debug.Log(charactertwo.Health);
 
@@ -71,8 +71,7 @@ public class CharacterControl : MonoBehaviour
 
         obj = Instantiate(prefabHilda, Vector3.zero, Quaternion.identity) as GameObject;
 
-        //obj.AddComponent<Hilda>();
-        
+        deck.addCardsToDeck(obj.GetComponent<Hilda>()); //Add cards to deck for character
 
         return obj;
     }
@@ -84,16 +83,17 @@ public class CharacterControl : MonoBehaviour
 
         obj = Instantiate(prefabBjorn, Vector3.zero, Quaternion.identity) as GameObject;
 
-        //obj.AddComponent<Hilda>();
+        deck.addCardsToDeck(obj.GetComponent<Bjorn>()); //Add cards to deck for character
 
 
         return obj;
     }
 
 
-    public void removeCharacter(GameObject ob)
+    public void removeCharacter(GameObject ob) //If character health <= 0, destroy object
     {
-        //Destroy(ob);
+        deck.removeCards(ob.GetComponent<Character>().Name);
+        Destroy(ob);
     }
     // Update is called once per frame
     void Update()

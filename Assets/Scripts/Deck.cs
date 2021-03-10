@@ -9,6 +9,7 @@ public class Deck : MonoBehaviour
     public List<GameObject> drawnCards;
 
     public static int handSize = 5;
+    public static int maxCardsCharacter = 3;
 
     // Start is called before the first frame update
 
@@ -68,5 +69,20 @@ public class Deck : MonoBehaviour
 
         //deck = new Deck<Card>(cards);
 
+    }
+
+    public void removeCards(string name) //if character dies we need to remove its cards
+    {
+        int maxDestroy = 3;
+        for (int i = 0; i < deck.Count; i++)
+        {
+            if(deck[i].GetComponent<Card>().nameText.text == name && maxDestroy > 0)
+            {
+                Destroy(deck[i]);
+                maxDestroy--;
+               
+            }
+            
+        }
     }
 }
