@@ -12,37 +12,32 @@ public class CharacterControl : MonoBehaviour
     Deck deck;
     Hand hand;
 
+    int round = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+
         deck = new Deck(); //Create specific deck for player
+
         //Call function createCharacter()
-        //character = new GameObject("Bjorn");
         character = createHilda();
         charactertwo = createBjorn();
 
-
-
         //Show hand of currently available cards
-        deck.Shuffle(); //Must shuffle in order to get different cards each round
-        List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
-        hand = new Hand(drawnCards);
-        hand.showHand();
-
-        Debug.Log(drawnCards.Count);
+        
 
         Hilda h = character.GetComponent<Hilda>();
 
         Debug.Log(h.currentHealth);
 
-        removeCharacter(character); // Try removing character and its cards
 
         //Debug.Log(charactertwo.Health);
 
         //Debug.Log(b.card.description);
 
         //Call function to move character
-        
+
         //Call function to attack opponent
 
         //Call function to change healths of characters and modify health bars
@@ -56,12 +51,29 @@ public class CharacterControl : MonoBehaviour
         //character.Attack("Berserk", charactertwo);
         // Debug.Log("Health after attack: " + charactertwo.Health);
 
-        // Add assets to the CharacterOne/CharacterTwo
 
-        //GameObject characterModel = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        //characterModel.transform.position = new Vector3(0, 0, 0);
+   
+    }
 
+    void Update()
+    {
+        
+        if (round == 0)
+        {
+            deck.Shuffle(); //Must shuffle in order to get different cards each round
+            List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
+            hand = new Hand(drawnCards);
+            hand.showHand();
 
+            Debug.Log(drawnCards.Count);
+
+            round++;
+        }
+
+        if(!character.GetComponent<Character>().isAlive)
+        {
+            removeCharacter(character); // Try removing character and its cards
+        }
     }
 
     public GameObject createHilda()
@@ -94,11 +106,6 @@ public class CharacterControl : MonoBehaviour
     {
         deck.removeCards(ob.GetComponent<Character>().Name);
         Destroy(ob);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 

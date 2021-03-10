@@ -18,7 +18,7 @@ public class Deck : MonoBehaviour
         
         //Shuffle();
     }
-    public List<GameObject> Draw()
+    public List<GameObject> Draw() //Draws card from deck into hand
     {
         drawnCards = new List<GameObject>();
 
@@ -26,7 +26,7 @@ public class Deck : MonoBehaviour
         {
             drawnCards.Add(deck[i]);
         }
-        return drawnCards; //Need another class/function to display drawn cards
+        return drawnCards;
     }
 
     public void Shuffle() //Shuffles the card so random cards are shown
@@ -66,8 +66,6 @@ public class Deck : MonoBehaviour
         deck.Add(c1);
         deck.Add(c2);
         deck.Add(c3);
-
-        //deck = new Deck<Card>(cards);
 
     }
 

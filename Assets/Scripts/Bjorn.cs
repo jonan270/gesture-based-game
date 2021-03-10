@@ -6,11 +6,9 @@ using UnityEditor;
 
 public class Bjorn : Character
 {
-
     public Bjorn()
     {
         Element = "fire";
-        isAlive = true;
         Name = "Bjorn";
         attackValue = 30;
         descriptionTextCard1 = "Bjorn will go berserk";
@@ -40,7 +38,9 @@ public class Bjorn : Character
     {
 
         currentHealth = maxHealth;
-        
+
+        isAlive = true;
+
         healthBar = HealthBar.Create(new Vector3(0, 6), new Vector3(0.08f, 0.01f)); // Set position as character position but above it
         healthBar.SetSize(currentHealth);
 

@@ -67,7 +67,7 @@ public class HealthBar : MonoBehaviour
     }
 
 
-    /* private IEnumerator ChangeToPct(float pct)
+    /* private IEnumerator ChangeToPct(float pct) //Smoother health going down
      {
          float preChangePct = foregroundImage.fillAmount;
          float elapsed = 0.f;

@@ -48,6 +48,7 @@ public abstract class Character : MonoBehaviour
         }
         else
             isAlive = true;
+
         return isAlive;
     }
 
