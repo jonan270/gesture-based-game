@@ -718,7 +718,7 @@ MonoBehaviour:
   RightHand: {fileID: 1982374542}
   visualAid: {fileID: 8774746989568714442, guid: 596b8c2b16575f0448d4aae81b2b466d,
     type: 3}
-  closeDistance: 1.5
+  closeDistance: 0.5
   gesturePositions: []
   cam: {fileID: 120117260}
   GestureName: 

@@ -11,7 +11,7 @@ public class GestureTracker : MonoBehaviour
     
     public GameObject LeftHand, RightHand, visualAid;
 
-    public float closeDistance = 1.5f;
+    public float closeDistance = 0.5f;
     private float TimeSinceGuess = 0.0f;
 
     private const float lifeTime = 5.0f;
@@ -28,10 +28,10 @@ public class GestureTracker : MonoBehaviour
 
     public string GestureName = "";
 
-
+    //Types of gestures, names must match the gesture name in /Gestures/...xml 
     enum EnumGesture
     {
-        none,
+        none, //default
         circle,
         cross,
         horizontalline,
@@ -77,39 +77,38 @@ public class GestureTracker : MonoBehaviour
         //Check wether or not the back buttons are pressed
         bool stateLeft = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.LeftHand);
         bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand);
+        bool leftReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.LeftHand);
+        bool rightReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand);
 
         //TODO:
         //Check fallback
-        //Reset spawn point after some amount of time without movement
+
+        //Reset spawn point after releasing button  (so that a gesture can be started at the same place as last one)
+        if (leftReleased)
+        {
+            oldSpawnPositionLeft = Vector3.zero;
+        }
+        if (rightReleased)
+        {
+            oldSpawnPositionRight = Vector3.zero;
+        }
 
         //Left hand
         handPositionLeft = LeftHand.transform.position;
         float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
 
-        if (distance >= closeDistance * closeDistance && stateLeft)
+        if (stateLeft && distance >= closeDistance * closeDistance)
         {
-            var temp = Instantiate(visualAid, handPositionLeft, Quaternion.identity, gameObject.transform);
-
-            oldSpawnPositionLeft = handPositionLeft;
-
-            var gp = new GesturePosition(temp);
-            gesturePositions.Add(gp);
+            InstantiateGesturePosition(handPositionLeft, ref oldSpawnPositionLeft);
         }
 
         //Right hand
+        handPositionRight = RightHand.transform.position;
+        distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
 
-            handPositionRight = RightHand.transform.position;
-            distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
-
-            if (distance >= closeDistance * closeDistance && stateRight)
-            {
-                var temp = Instantiate(visualAid, handPositionRight, Quaternion.identity, gameObject.transform);
-
-                oldSpawnPositionRight = handPositionRight;
-
-                var gp = new GesturePosition(temp);
-                gesturePositions.Add(gp);
-            
+        if (stateRight && distance >= closeDistance * closeDistance)
+        {
+            InstantiateGesturePosition(handPositionRight, ref oldSpawnPositionRight);           
         }
         UpdateGesturePositions(Time.deltaTime);
 
@@ -126,8 +125,25 @@ public class GestureTracker : MonoBehaviour
             AddGesture();
         }
     }
+    /// <summary>
+    /// Instantiate gesturePosition 
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="oldPosition"></param>
+    void InstantiateGesturePosition(Vector3 position, ref Vector3 oldPosition)
+    {
+        var temp = Instantiate(visualAid, position, Quaternion.identity, gameObject.transform);
 
-    //Update the lifespan for each GesturePosition and delete invalid GesturePositions.
+        oldPosition = position;
+
+        var gp = new GesturePosition(temp);
+        gesturePositions.Add(gp);
+    }
+
+    /// <summary>
+    /// Update the lifespan for each GesturePosition and delete invalid GesturePositions.
+    /// </summary>
+    /// <param name="dt"></param>
     void UpdateGesturePositions(float dt)
     {
         for (int i = gesturePositions.Count - 1; i >= 0; i--)
@@ -140,7 +156,9 @@ public class GestureTracker : MonoBehaviour
         }
     }
 
-    //Turn GesturePositions into Points for the gesture recognition.
+    /// <summary>
+    /// Turn GesturePositions into Points for the gesture recognition.
+    /// </summary>
     void TransformToPoints()
     {
         points.Clear();
@@ -153,8 +171,10 @@ public class GestureTracker : MonoBehaviour
             points.Add(new Point(pos.x, pos.y, 0));
         }
     }
-    
-    //Guess what gesture is being made by the player.
+
+    /// <summary>
+    ///  Guess what gesture is being made by the player.
+    /// </summary>
     void GuessGesture()
     {
         if (points.Count > 1) //Single point can not be a gesture.
@@ -177,7 +197,9 @@ public class GestureTracker : MonoBehaviour
         }
     }
 
-    //Add a gesture to a .xml file and save it for further use.
+    /// <summary>
+    /// Add a gesture to a .xml file and save it for further use.
+    /// </summary>
     void AddGesture()
     {
         string fileName = string.Format("{0}/{1}-{2}.xml", "Assets/Gestures/", GestureName, System.DateTime.Now.ToFileTime());
