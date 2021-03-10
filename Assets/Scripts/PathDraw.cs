@@ -12,6 +12,7 @@ public class PathDraw : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private Vector3[] points = new Vector3[MAXLEN]; // Positions for all tiles
+    private float lineHeight = 0.2f;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class PathDraw : MonoBehaviour
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
         );
         lineRenderer.colorGradient = gradient;
+        //Vector3 startPos = transform.position;
     }
 
     void Update()
@@ -44,7 +46,7 @@ public class PathDraw : MonoBehaviour
         {
             points[i].x = tilesToDraw[i].getPosition().x - transform.position.x;
             points[i].z = tilesToDraw[i].getPosition().z - transform.position.z;
-            points[i].y = 0.1f;
+            points[i].y = lineHeight;
         }
         lineRenderer.SetPositions(points);
     }

@@ -59,9 +59,11 @@ public class Hexmap : MonoBehaviour
     // Start by generating tiles and making a randomized map-config
     void Start()
     {
-        currentHex = new Vector2Int(3, 0); // TODO: Remove me and make me based on character tile pos.
         generateTiles();
         randomizeHexmap(500, 3);
+
+        currentHex = new Vector2Int(3, 0); // TODO: Remove me and make me based on character tile pos.
+        lineRenderer.addNodeToPath(hexTiles[currentHex.x, currentHex.y]);
     }
 
     // Update is called once per frame
