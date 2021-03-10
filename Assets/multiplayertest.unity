@@ -665,6 +665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1617289216}
   - component: {fileID: 1617289215}
+  - component: {fileID: 1617289217}
   m_Layer: 0
   m_Name: XR Rig
   m_TagString: Untagged
@@ -705,6 +706,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1617289217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617289214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d8d4dcfcad6dc4bbb45b79b8659008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftHand: {fileID: 1933881271}
+  RightHand: {fileID: 1982374542}
+  visualAid: {fileID: 8774746989568714442, guid: 596b8c2b16575f0448d4aae81b2b466d,
+    type: 3}
+  closeDistance: 1.5
+  gesturePositions: []
+  cam: {fileID: 120117260}
+  GestureName: 
 --- !u!1 &1933881271
 GameObject:
   m_ObjectHideFlags: 0
