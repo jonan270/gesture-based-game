@@ -44,7 +44,6 @@ public class Bjorn : Character
         healthBar = HealthBar.Create(new Vector3(0, 6), new Vector3(0.08f, 0.01f)); // Set position as character position but above it
         healthBar.SetSize(currentHealth);
 
-      
 
     }
 

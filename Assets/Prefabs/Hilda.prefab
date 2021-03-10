@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7844885860253849260}
   - component: {fileID: 2104482372199289495}
   - component: {fileID: 4238002529181525597}
+  - component: {fileID: 1183613396816702781}
   m_Layer: 0
   m_Name: Hilda
   m_TagString: Untagged
@@ -81,3 +82,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1183613396816702781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7980987819885702857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0f7b8d207e884a4daecbe4803ecb22b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  currentHealth: 0
+  maxHealth: 100
+  Name: Hilda
+  isAlive: 1
+  CurrentState: 0
+  descriptionTextCard1: Hilda will conjure a potion
+  descriptionTextCard2: Hilda will see the future
+  descriptionTextCard3: Hilda will summon a raven

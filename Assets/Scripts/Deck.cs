@@ -6,20 +6,20 @@ using UnityEditor;
 public class Deck : MonoBehaviour
 {
     public List<GameObject> deck = new List<GameObject>();
+    public List<GameObject> drawnCards;
 
     public static int handSize = 5;
-
-    private Vector3 botCenterScreen;
 
     // Start is called before the first frame update
 
     void Start()
     {
-        this.botCenterScreen = new Vector3(Screen.width / 2, 0, 0);
+        
+        //Shuffle();
     }
     public List<GameObject> Draw()
     {
-        List<GameObject> drawnCards = new List<GameObject>();
+        drawnCards = new List<GameObject>();
 
         for(int i = 0; i < handSize; i++)
         {

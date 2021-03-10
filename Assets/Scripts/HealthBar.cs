@@ -67,7 +67,6 @@ public class HealthBar : MonoBehaviour
     }
 
 
-
     /* private IEnumerator ChangeToPct(float pct)
      {
          float preChangePct = foregroundImage.fillAmount;

@@ -28,10 +28,6 @@ public class Hilda : Character
     public void OnEnable()
     {
 
-
-        //Instantiate card for character
-       
-
         currentHealth = maxHealth;
 
         healthBar = HealthBar.Create(new Vector3(0, 6), new Vector3(0.08f, 0.01f)); // Set position as characters position in x
