@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Gesture Name = "">
-	<Stroke>
-		<Point X = "704,0639" Y = "1355,091" T = "0" Pressure = "0" />
-		<Point X = "702,2251" Y = "1061,964" T = "0" Pressure = "0" />
-		<Point X = "710,8964" Y = "875,2546" T = "0" Pressure = "0" />
-		<Point X = "744,0406" Y = "680,3657" T = "0" Pressure = "0" />
-	</Stroke>
-</Gesture>

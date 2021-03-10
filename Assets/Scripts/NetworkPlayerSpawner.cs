@@ -33,14 +33,15 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         }
     }
 
-
-    //when local leaves room
+    /// <summary>
+    /// Called when local player leaves the room
+    /// </summary>
+    //
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
         PhotonNetwork.Destroy(spawnedPlayerPrefab);
     }
-
 
     /// <summary>
     /// Called when a Photon Player got connected.

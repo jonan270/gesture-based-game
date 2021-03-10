@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using Photon.Pun;
+using Valve.VR;
 
 public class NetworkPlayer : MonoBehaviour
 {
@@ -34,7 +35,11 @@ public class NetworkPlayer : MonoBehaviour
 
         }
     }
-
+    /// <summary>
+    /// Track position and rotation of VR controllers 
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="node"></param>
     void MapPosition(Transform target, XRNode node)
     {
         InputDevices.GetDeviceAtXRNode(node).TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 position);
@@ -42,6 +47,5 @@ public class NetworkPlayer : MonoBehaviour
 
         target.position = position;
         target.rotation = rotation;
-
     }
 }
