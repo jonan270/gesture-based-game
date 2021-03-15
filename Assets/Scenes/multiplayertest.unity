@@ -520,6 +520,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f49ab516cd0f946ba6af32085c418b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hildaPrefab: {fileID: 7980987819885702857, guid: c492ed9cbb35bbf4dae07644c87f2752,
+    type: 3}
+  bjornPrefab: {fileID: 2427165480787925916, guid: 8131232e0f6c4ae4d91229fede7b2b4f,
+    type: 3}
 --- !u!1001 &1043579481
 PrefabInstance:
   m_ObjectHideFlags: 0

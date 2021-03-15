@@ -5,14 +5,17 @@ using UnityEditor;
 
 public class CharacterControl : MonoBehaviour
 {
-    GameObject character;
-    GameObject charactertwo;
-    GameObject obj;
+    [SerializeField]
+    private GameObject hildaPrefab;
+    [SerializeField]
+    private GameObject bjornPrefab;
     //List<GameObject> deck = new List<GameObject>();
     Deck deck;
     Hand hand;
 
     int round = 0;
+
+    private GameObject hilda, bjorn;
 
     // Start is called before the first frame update
     void Start()
@@ -21,20 +24,13 @@ public class CharacterControl : MonoBehaviour
         deck = new Deck(); //Create specific deck for player
 
         //Call function createCharacter()
-        character = createHilda();
-        charactertwo = createBjorn();
-
+        hilda = SpawnCharacter(hildaPrefab);
+        bjorn = SpawnCharacter(bjornPrefab);
         //Show hand of currently available cards
-        
-
-        Hilda h = character.GetComponent<Hilda>();
-
-        Debug.Log(h.currentHealth);
 
 
-        //Debug.Log(charactertwo.Health);
 
-        //Debug.Log(b.card.description);
+
 
         //Call function to move character
 
@@ -42,21 +38,21 @@ public class CharacterControl : MonoBehaviour
 
         //Call function to change healths of characters and modify health bars
 
-        float remainingHealth = h.ModifyHealth(10);
+        //float remainingHealth = hilda.ModifyHealth(10);
 
-        Debug.Log(remainingHealth);
-
-        h.healthBar.SetSize(remainingHealth);
+        //Debug.Log(remainingHealth);
+        //hilda.healthBar.SetSize(remainingHealth);
         
         //character.Attack("Berserk", charactertwo);
-        // Debug.Log("Health after attack: " + charactertwo.Health);
-
-
-   
+        // Debug.Log("Health after attack: " + charactertwo.Health
     }
 
     void Update()
     {
+        if(Input.GetMouseButtonDown(0))
+        {
+            //hilda.ModifyHealth(5);
+        }
         
         if (round == 0)
         {
@@ -70,39 +66,22 @@ public class CharacterControl : MonoBehaviour
             round++;
         }
 
-        if(!character.GetComponent<Character>().isAlive)
-        {
-            removeCharacter(character); // Try removing character and its cards
-        }
+        //if(!hilda.isAlive)
+        //{
+        //    RemoveCharacter(hildaPrefab); // Try removing character and its cards
+        //}
     }
 
-    public GameObject createHilda()
+    private GameObject SpawnCharacter(GameObject prefab)
     {
+        GameObject obj = Instantiate(prefab, Vector3.zero, Quaternion.identity, gameObject.transform);
 
-        Object prefabHilda = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Hilda.prefab");
-
-        obj = Instantiate(prefabHilda, Vector3.zero, Quaternion.identity) as GameObject;
-
-        deck.addCardsToDeck(obj.GetComponent<Hilda>()); //Add cards to deck for character
+        deck.addCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 
         return obj;
     }
 
-    public GameObject createBjorn()
-    {
-
-        Object prefabBjorn = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Bjorn.prefab");
-
-        obj = Instantiate(prefabBjorn, Vector3.zero, Quaternion.identity) as GameObject;
-
-        deck.addCardsToDeck(obj.GetComponent<Bjorn>()); //Add cards to deck for character
-
-
-        return obj;
-    }
-
-
-    public void removeCharacter(GameObject ob) //If character health <= 0, destroy object
+    public void RemoveCharacter(GameObject ob) //If character health <= 0, destroy object
     {
         deck.removeCards(ob.GetComponent<Character>().Name);
         Destroy(ob);
