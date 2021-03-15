@@ -10,11 +10,13 @@ public class NetworkPlayer : MonoBehaviour
     public Transform head;
     public Transform lefthand;
     public Transform righthand;
-
+    
     private PhotonView photonView;
 
     void Start()
     {
+
+        
         photonView = GetComponent<PhotonView>();
         if (photonView.IsMine)
         {
