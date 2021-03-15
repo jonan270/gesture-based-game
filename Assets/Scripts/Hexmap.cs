@@ -32,7 +32,6 @@ public class Hexmap : MonoBehaviour
     float xoff = 0.8f;//0.8f;
     float zoff = 0.46f;//0.46f;
 
-    private List<Hextile> tiles = new List<Hextile>();
 
     // ** TEMPORARY VARIABLES **
     public Raycasthandler rayhandler;
@@ -53,7 +52,15 @@ public class Hexmap : MonoBehaviour
     {
         controls = new InputMaster();
         controls.Player.Spacebutton.performed += ctx => randomizeHexmap(1000, 3);
+        controls.Player.EndTurn.performed += ctx => endTurn();
+
+
         controls.Player.DrawPath.performed += ctx => drawDirection(ctx.ReadValue<Vector2>());
+    }
+
+    void endTurn() 
+    {
+        Debug.Log("Ended.");
     }
 
     // Start by generating tiles and making a randomized map-config

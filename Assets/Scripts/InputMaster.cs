@@ -41,6 +41,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""EndTurn"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8de2907-eddc-4949-b0b0-437f45e54acd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""DrawPath"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0672a72e-1cfc-412c-b2a5-d8484c186f3b"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""EndTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -148,6 +167,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_Rayposition = m_Player.FindAction("Rayposition", throwIfNotFound: true);
         m_Player_Spacebutton = m_Player.FindAction("Spacebutton", throwIfNotFound: true);
         m_Player_DrawPath = m_Player.FindAction("DrawPath", throwIfNotFound: true);
+        m_Player_EndTurn = m_Player.FindAction("EndTurn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -200,6 +220,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Rayposition;
     private readonly InputAction m_Player_Spacebutton;
     private readonly InputAction m_Player_DrawPath;
+    private readonly InputAction m_Player_EndTurn;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -207,6 +228,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Rayposition => m_Wrapper.m_Player_Rayposition;
         public InputAction @Spacebutton => m_Wrapper.m_Player_Spacebutton;
         public InputAction @DrawPath => m_Wrapper.m_Player_DrawPath;
+        public InputAction @EndTurn => m_Wrapper.m_Player_EndTurn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -225,6 +247,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @DrawPath.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
                 @DrawPath.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
                 @DrawPath.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
+                @EndTurn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
+                @EndTurn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
+                @EndTurn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -238,6 +263,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @DrawPath.started += instance.OnDrawPath;
                 @DrawPath.performed += instance.OnDrawPath;
                 @DrawPath.canceled += instance.OnDrawPath;
+                @EndTurn.started += instance.OnEndTurn;
+                @EndTurn.performed += instance.OnEndTurn;
+                @EndTurn.canceled += instance.OnEndTurn;
             }
         }
     }
@@ -256,5 +284,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnRayposition(InputAction.CallbackContext context);
         void OnSpacebutton(InputAction.CallbackContext context);
         void OnDrawPath(InputAction.CallbackContext context);
+        void OnEndTurn(InputAction.CallbackContext context);
     }
 }

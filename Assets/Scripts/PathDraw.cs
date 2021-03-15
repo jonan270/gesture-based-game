@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PathDraw : MonoBehaviour
 {
-    const int MAXLEN = 1000; // TODO: should be set to width*height of map
     public List<Hextile> tilesToDraw; // Contains all tiles for path to be drawn between
 
     public Color c1; // Gradient between c1 and c2
     public Color c2;
 
+    private const int MAXLEN = 1000; // TODO: should be set to width*height of map
     private LineRenderer lineRenderer;
     private Vector3[] points = new Vector3[MAXLEN]; // Positions for all tiles
-    private float lineHeight = 0.2f;
+    private float lineHeight = 0.8f;
 
     void Start()
     {
@@ -55,5 +55,6 @@ public class PathDraw : MonoBehaviour
     public void addNodeToPath(Hextile h)
     {
         tilesToDraw.Insert(0, h);
+        //tilesToDraw.Add(h);
     }
 }
