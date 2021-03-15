@@ -8,6 +8,7 @@ public class PathDraw : MonoBehaviour
 
     public Color c1; // Gradient between c1 and c2
     public Color c2;
+    public Vector2 direction;
 
     private const int MAXLEN = 1000; // TODO: should be set to width*height of map
     private LineRenderer lineRenderer;
@@ -16,7 +17,13 @@ public class PathDraw : MonoBehaviour
 
     void Start()
     {
-        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
+        makeLr();
+        direction = new Vector2(0, 0);
+    }
+
+    private void makeLr()
+    {
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.1f;
         lineRenderer.positionCount = MAXLEN;
@@ -30,7 +37,6 @@ public class PathDraw : MonoBehaviour
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
         );
         lineRenderer.colorGradient = gradient;
-        //Vector3 startPos = transform.position;
     }
 
     void Update()
@@ -38,10 +44,14 @@ public class PathDraw : MonoBehaviour
         drawPoints();
     }
 
+    public void EmptyList()
+    {
+        //TODO: reset the list so that it may be repopulated.
+    }
+
     // Draws all paths that have been added.
     public void drawPoints()
     {
-        lineRenderer = GetComponent<LineRenderer>();
         for (int i = 0; i < tilesToDraw.Count; i++)
         {
             points[i].x = tilesToDraw[i].getPosition().x - transform.position.x;
@@ -52,8 +62,9 @@ public class PathDraw : MonoBehaviour
     }
 
     // Tells PathDraw to add another node at position of Hextile h to be drawn.
-    public void addNodeToPath(Hextile h)
+    public void addNodeToPath(Hextile h, Vector2Int dir)
     {
+        direction = dir;
         tilesToDraw.Insert(0, h);
         //tilesToDraw.Add(h);
     }
