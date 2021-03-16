@@ -45,12 +45,15 @@ public class PathDraw : MonoBehaviour
     public void EmptyList()
     {
         //TODO: reset the list so that it may be repopulated.
+        //lineRenderer.positionCount = 0;
+        //lineRenderer.SetPositions(points);
     }
 
     // Draws all paths that have been added.
-    public void drawPoints()
+    private void drawPoints()
     {
-        for (int i = 0; i < tilesToDraw.Count; i++)
+        int size = tilesToDraw.Count;
+        for (int i = 0; i < size; i++)
         {
             points[i].x = tilesToDraw[i].getPosition().x - transform.position.x;
             points[i].z = tilesToDraw[i].getPosition().z - transform.position.z;
