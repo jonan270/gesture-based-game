@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Photon.Pun;
 //[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 
-public abstract class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour , IPunObservable
 {
     public HealthBar healthBar;
 
@@ -16,7 +16,7 @@ public abstract class Character : MonoBehaviour
 
     public int attackValue;
     public string Name;
-    protected bool isAlive;
+    protected bool isAlive = true;
     
     public ElementState Element;
     public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
@@ -38,6 +38,10 @@ public abstract class Character : MonoBehaviour
         currentHealth = maxHealth;
         isAlive = true;
     }
+    //private void OnEnable()
+    //{
+    //    isAlive = true;
+    //}
 
     public enum ElementState
     {
@@ -74,16 +78,9 @@ public abstract class Character : MonoBehaviour
         CurrentState = state;
     }
 
-    public bool CheckHealth() //är det en funktion för att kolla om karaktären lever eller för att få veta hur mycke liv finns kvar
+    public bool IsAlive //är det en funktion för att kolla om karaktären lever eller för att få veta hur mycke liv finns kvar
     {
-        if (currentHealth <= 0) //Check if still alive
-        {
-            isAlive = false;
-        }
-        else
-            isAlive = true;
-
-        return isAlive;
+        get { return isAlive; }
     }
 
     /// <summary>
@@ -97,5 +94,25 @@ public abstract class Character : MonoBehaviour
         float currentHealthPct = currentHealth / maxHealth; //Calculate current health percentage
 
         healthBar.SetFill(currentHealthPct); //health image 
+        
+        if(currentHealth <= 0)
+        {
+            isAlive = false;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //Own player: send data to others
+            stream.SendNext(currentHealth);
+        }
+        else
+        {
+            //Network player, receive data
+            currentHealth = (float)stream.ReceiveNext();
+            ModifyHealth(0); //updates healthbar 
+        }
     }
 }

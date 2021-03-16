@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Photon.Pun;
 
 public class CharacterControl : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class CharacterControl : MonoBehaviour
     [SerializeField]
     private GameObject bjornPrefab;
     //List<GameObject> deck = new List<GameObject>();
-    Deck deck;
-    Hand hand;
+    [SerializeField]
+    private Deck deck;
+    private Hand hand;
 
     int round = 0;
 
@@ -21,7 +23,8 @@ public class CharacterControl : MonoBehaviour
     void Start()
     {
 
-        deck = new Deck(); //Create specific deck for player
+        //deck = new Deck(); //Create specific deck for player
+
 
         //Call function createCharacter()
         hilda = SpawnCharacter(hildaPrefab);
@@ -42,52 +45,55 @@ public class CharacterControl : MonoBehaviour
 
         //Debug.Log(remainingHealth);
         //hilda.healthBar.SetSize(remainingHealth);
-        
+
         //character.Attack("Berserk", charactertwo);
         // Debug.Log("Health after attack: " + charactertwo.Health
     }
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            //hilda.ModifyHealth(5);
-        }
-        
-        if (round == 0)
-        {
-            deck.Shuffle(); //Must shuffle in order to get different cards each round
-            List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
-            hand = new Hand(drawnCards);
-            hand.showHand();
 
-            Debug.Log(drawnCards.Count);
-
-            round++;
+        if (Input.GetMouseButtonDown(0) && hilda != null)
+        {
+            hilda.GetComponent<Hilda>().ModifyHealth(-10);
         }
 
-        //if(!hilda.isAlive)
+        //if (round == 0)
         //{
-        //    RemoveCharacter(hildaPrefab); // Try removing character and its cards
+        //    deck.Shuffle(); //Must shuffle in order to get different cards each round
+        //    List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
+        //    hand = new Hand(drawnCards);
+        //    hand.showHand();
+
+        //    Debug.Log(drawnCards.Count);
+
+        //    round++;
         //}
+
+        if (hilda != null)
+        {
+            if (!hilda.GetComponent<Hilda>().IsAlive)
+            {
+                Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
+                RemoveCharacter(hilda); // Try removing character and its cards
+            }
+        }
+
     }
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
-        GameObject obj = Instantiate(prefab, Vector3.zero, Quaternion.identity, gameObject.transform);
+        //TODO: spawn character at each side
+        GameObject obj = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity);
 
-        deck.addCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
+        //deck.AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 
         return obj;
     }
 
     public void RemoveCharacter(GameObject ob) //If character health <= 0, destroy object
     {
-        deck.removeCards(ob.GetComponent<Character>().Name);
-        Destroy(ob);
+        //deck.RemoveCards(ob.GetComponent<Character>().Name);
+        PhotonNetwork.Destroy(ob);
     }
-
-
-
-
 }
