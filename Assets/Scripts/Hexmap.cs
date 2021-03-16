@@ -32,6 +32,9 @@ public class Hexmap : MonoBehaviour
     private float xoff = 0.8f;
     private float zoff = 0.46f;
 
+    // Spawn
+    private int master_count = 0;
+
 
     // ** TEMPORARY VARIABLES **
     public Raycasthandler rayhandler;
@@ -110,6 +113,21 @@ public class Hexmap : MonoBehaviour
         else if (input.y < 0)
             moveDir.y = -1;
         drawNode(moveDir);
+    }
+
+    public Vector3 getSpawnPosition(bool master)
+    {
+        Vector3 pos;
+        if(master)
+        {
+            pos = hexTiles[master_count + 1, 0].getPosition();
+            ++master_count;
+        }
+        else
+        {
+            // else return non master position
+        }
+        return pos;
     }
 
     /// Draw to identified tile and update currentHex if command is within bounds of the map
