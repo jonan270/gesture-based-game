@@ -19,8 +19,8 @@ public class Hexmap : MonoBehaviour
     public PathDraw lineRenderer;
 
     // Map size in terms of hexes
-    const int width = 20;
-    const int height = 20;
+    public const int width = 20;
+    public const int height = 20;
     
     // Hextiles is an array containing all gameobjects at index [x,y]
     public Hextile[,] hexTiles = new Hextile[width,height];
@@ -29,32 +29,14 @@ public class Hexmap : MonoBehaviour
     public Hextile hexPrefab;
 
     // Offset values
-    float xoff = 0.8f;//0.8f;
-    float zoff = 0.46f;//0.46f;
+    private float xoff = 0.8f;
+    private float zoff = 0.46f;
 
-    private List<Hextile> tiles = new List<Hextile>();
 
     // ** TEMPORARY VARIABLES **
     public Raycasthandler rayhandler;
     private Vector2Int currentHex;
 
-    // Enable and disable controls when necessary
-    private void OnEnable()
-    {
-        controls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Disable();
-    }
-
-    void Awake()
-    {
-        controls = new InputMaster();
-        controls.Player.Spacebutton.performed += ctx => randomizeHexmap(1000, 3);
-        controls.Player.DrawPath.performed += ctx => drawDirection(ctx.ReadValue<Vector2>());
-    }
 
     // Start by generating tiles and making a randomized map-config
     void Start()
@@ -72,19 +54,20 @@ public class Hexmap : MonoBehaviour
         //hexTiles[4, 0].spinTile();
     }
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-    *
-    * Utilizes affectRadius() to generate a random hexmap
-    * according to provided parameters.
-    * 
-    * More iterations generate a more varied map and higher
-    * continuity makes larger areas of tiletypes.
-    * 
-    * For best result use a large number of iterations and 
-    * a continuity that is smaller than 8.
-    * 
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-    void randomizeHexmap(int iterations, int continuity)
+    /// <summary>
+    /// Utilizes affectRadius() to generate a random hexmap
+    /// according to provided parameters.
+    /// 
+    /// More iterations generate a more varied map and higher
+    /// continuity makes larger areas of tiletypes.
+    /// 
+    /// For best result use a large number of iterations and
+    /// a continuity that is smaller than 8.
+    /// 
+    /// </summary>
+    /// <param name="iterations"></param>
+    /// <param name="continuity"></param>
+    public void randomizeHexmap(int iterations, int continuity)
     {
         for (int i = 0; i < iterations; i++)
         {
@@ -107,15 +90,15 @@ public class Hexmap : MonoBehaviour
         }
     }
 
-    // Applies a provided effect to a tile for given coordinates if within bounds
-    void applyEffect(int x, int y, string effect)
+    /// Applies a provided effect to a tile for given coordinates if within bounds
+    private void applyEffect(int x, int y, string effect)
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
             hexTiles[x,y].affectTile(effect);
     }
 
-    // Checks direction of input to see what tile the path should be drawn to
-    void drawDirection(Vector2 input)
+    /// Checks direction of input to see what tile the path should be drawn to
+    public void drawDirection(Vector2 input)
     {
         Vector2Int moveDir = new Vector2Int(0, 0);
         if (input.x > 0)
@@ -129,8 +112,8 @@ public class Hexmap : MonoBehaviour
         drawNode(moveDir);
     }
 
-    // Draw to identified tile and update currentHex if command is within bounds of the map
-    void drawNode(Vector2Int direction)
+    /// Draw to identified tile and update currentHex if command is within bounds of the map
+    private void drawNode(Vector2Int direction)
     {
         if(currentHex.x + direction.x < width && currentHex.x + direction.x >= 0
             && currentHex.y + direction.y < height && currentHex.y + direction.y >= 0)
@@ -141,7 +124,7 @@ public class Hexmap : MonoBehaviour
         }
     }
 
-    // Generates all tiles and places them in the array.
+    /// Generates all tiles and places them in the array.
     private void generateTiles()
     {
         float zSwitch = zoff;
@@ -174,7 +157,7 @@ public class Hexmap : MonoBehaviour
     //
     // Should be changed some day. Preferably before 21:00.
     // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
-    void affectRadius(int xCord, int yCord, int radius, string effect)
+    private void affectRadius(int xCord, int yCord, int radius, string effect)
     {
         if (radius >= 1)
         {
