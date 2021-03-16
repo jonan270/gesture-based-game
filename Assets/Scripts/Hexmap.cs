@@ -115,19 +115,21 @@ public class Hexmap : MonoBehaviour
         drawNode(moveDir);
     }
 
-    public Vector3 getSpawnPosition(bool master)
+    public Hextile GetSpawnPosition(bool master)
     {
-        Vector3 pos;
+        Hextile tile;
         if(master)
         {
-            pos = hexTiles[master_count + 1, 0].getPosition();
-            ++master_count;
+            tile = hexTiles[master_count + 3, 0];
+            master_count+=4;
         }
         else
         {
             // else return non master position
+            tile = hexTiles[master_count + 3, height - 1];
+            master_count += 4;
         }
-        return pos;
+        return tile;
     }
 
     /// Draw to identified tile and update currentHex if command is within bounds of the map

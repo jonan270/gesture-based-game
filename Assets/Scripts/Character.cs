@@ -8,6 +8,7 @@ using Photon.Pun;
 public abstract class Character : MonoBehaviour , IPunObservable
 {
     public HealthBar healthBar;
+    public Hextile CurrentTile { get; set; }
 
     [SerializeField]
     protected float currentHealth;

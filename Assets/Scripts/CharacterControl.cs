@@ -10,6 +10,8 @@ public class CharacterControl : MonoBehaviour
     private GameObject hildaPrefab;
     [SerializeField]
     private GameObject bjornPrefab;
+    [SerializeField]
+    private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
     [SerializeField]
     private Deck deck;
@@ -84,8 +86,10 @@ public class CharacterControl : MonoBehaviour
     private GameObject SpawnCharacter(GameObject prefab)
     {
         //TODO: spawn character at each side
-        GameObject obj = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity);
-
+        Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
+        
+        GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.getPosition(), Quaternion.identity);
+        obj.GetComponent<Character>().CurrentTile = spawnTile;
         //deck.AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 
         return obj;

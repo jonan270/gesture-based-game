@@ -8,7 +8,7 @@ using UnityEngine;
  * functions for modifying that specific tile
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+ [System.Serializable]
 public class Hextile : MonoBehaviour
 {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
