@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 //[CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 
 public class Card : MonoBehaviour // Shows a card specifik for the character
 {
     public Image cardFront;
-    public Text description;
-    public Text nameText;
+    public TextMeshProUGUI description;
+    public TextMeshProUGUI nameText;
 
     // Randomisera korten lite, 5 kort dras fram för spelaren
     //Korten visas som i en korthög
