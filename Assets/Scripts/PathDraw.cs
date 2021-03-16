@@ -8,7 +8,6 @@ public class PathDraw : MonoBehaviour
 
     public Color c1; // Gradient between c1 and c2
     public Color c2;
-    public Vector2 direction;
 
     private const int MAXLEN = 1000; // TODO: should be set to width*height of map
     private LineRenderer lineRenderer;
@@ -18,7 +17,6 @@ public class PathDraw : MonoBehaviour
     void Start()
     {
         makeLr();
-        direction = new Vector2(0, 0);
     }
 
     private void makeLr()
@@ -62,9 +60,8 @@ public class PathDraw : MonoBehaviour
     }
 
     // Tells PathDraw to add another node at position of Hextile h to be drawn.
-    public void addNodeToPath(Hextile h, Vector2Int dir)
+    public void addNodeToPath(Hextile h)
     {
-        direction = dir;
         tilesToDraw.Insert(0, h);
         //tilesToDraw.Add(h);
     }

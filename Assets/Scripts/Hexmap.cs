@@ -45,7 +45,7 @@ public class Hexmap : MonoBehaviour
         randomizeHexmap(500, 3);
 
         currentHex = new Vector2Int(3, 0); // TODO: Remove me and make me based on character tile pos.
-        lineRenderer.addNodeToPath(hexTiles[currentHex.x, currentHex.y], new Vector2Int(0,0));
+        lineRenderer.addNodeToPath(hexTiles[currentHex.x, currentHex.y]);
     }
 
     // Update is called once per frame
@@ -118,7 +118,7 @@ public class Hexmap : MonoBehaviour
         if(currentHex.x + direction.x < width && currentHex.x + direction.x >= 0
             && currentHex.y + direction.y < height && currentHex.y + direction.y >= 0)
         {
-            lineRenderer.addNodeToPath(hexTiles[currentHex.x + direction.x, currentHex.y + direction.y], direction);
+            lineRenderer.addNodeToPath(hexTiles[currentHex.x + direction.x, currentHex.y + direction.y]);
             currentHex.x += direction.x;
             currentHex.y += direction.y;
         }
