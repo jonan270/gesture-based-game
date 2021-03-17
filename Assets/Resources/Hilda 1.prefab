@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1187446234487540213}
   - component: {fileID: 2634129342243103366}
   - component: {fileID: 4529493182429685642}
+  - component: {fileID: 296793832959055970}
   m_Layer: 0
   m_Name: Hilda 1
   m_TagString: Untagged
@@ -99,6 +100,19 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &296793832959055970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309197466412274921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3807d0662b692408c851be73a0ee19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1.5
 --- !u!1001 &4532339856747650513
 PrefabInstance:
   m_ObjectHideFlags: 0

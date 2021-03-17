@@ -36,6 +36,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Select1",
+                    "type": "Button",
+                    "id": "6fda314b-5120-42c1-a4e7-012243f2646b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Select2",
+                    "type": "Button",
+                    "id": "3e96d4bb-a64c-4d60-a15f-4788f0eaee9f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -124,6 +140,28 @@
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "EndTurn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f814542-1df3-4d2c-bb11-e9805f8a6837",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3036820a-93d7-4080-8390-978f31e3024d",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

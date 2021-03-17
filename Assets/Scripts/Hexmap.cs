@@ -16,7 +16,7 @@ using UnityEngine;
 public class Hexmap : MonoBehaviour
 {
     private InputMaster controls;
-    public PathDraw lineRenderer;
+    //public PathDraw lineRenderer;
 
     // Map size in terms of hexes
     public const int width = 20;
@@ -35,26 +35,11 @@ public class Hexmap : MonoBehaviour
     // Spawn
     private int master_count = 0;
 
-
-    // ** TEMPORARY VARIABLES **
-    public Raycasthandler rayhandler;
-    private Vector2Int currentHex;
-
-
     // Start by generating tiles and making a randomized map-config
-    void Start()
+    void Awake()
     {
         generateTiles();
         randomizeHexmap(500, 3);
-
-        currentHex = new Vector2Int(3, 0); // TODO: Remove me and make me based on character tile pos.
-        lineRenderer.addNodeToPath(hexTiles[currentHex.x, currentHex.y]);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //hexTiles[4, 0].spinTile();
     }
 
     /// <summary>
@@ -78,70 +63,49 @@ public class Hexmap : MonoBehaviour
             int randY = Random.Range(0, height);
             int randR = Random.Range(0, continuity);
             int randT = Random.Range(0, 4);
-            string effect;
+            ElementState element;
 
             if (randT == 1)
-                effect = "typeDessert";
+                element = ElementState.Fire;
             else if (randT == 2)
-                effect = "typeWater";
+                element = ElementState.Water;
             else if (randT == 3)
-                effect = "typeWoods";
+                element = ElementState.Earth;
             else
-                effect = "typeGrass";
+                element = ElementState.Wind;
 
-            affectRadius(randX, randY, randR, effect);
+            affectRadius(randX, randY, randR, element);
         }
     }
 
     /// Applies a provided effect to a tile for given coordinates if within bounds
-    private void applyEffect(int x, int y, string effect)
+    private void applyEffect(int x, int y, ElementState element)
     {
-        if (x >= 0 && x < width && y >= 0 && y < height)
-            hexTiles[x,y].affectTile(effect);
+        if(CheckValid(x,y))
+            hexTiles[x,y].makeType(element);
     }
 
-    /// Checks direction of input to see what tile the path should be drawn to
-    public void drawDirection(Vector2 input)
+    /// Check if the given index is within bounds of map
+    private bool CheckValid(int x, int y) 
     {
-        Vector2Int moveDir = new Vector2Int(0, 0);
-        if (input.x > 0)
-            moveDir.x = 1;
-        else if (input.x < 0)
-            moveDir.x = -1;
-        if (input.y > 0)
-            moveDir.y = 1;
-        else if (input.y < 0)
-            moveDir.y = -1;
-        drawNode(moveDir);
+        return (x >= 0 && x < width && y >= 0 && y < height);
     }
 
     public Hextile GetSpawnPosition(bool master)
     {
-        Hextile tile;
-        if(master)
+        Hextile tile = null;
+        if(master && CheckValid(master_count + 3, 0))
         {
             tile = hexTiles[master_count + 3, 0];
             master_count+=4;
         }
-        else
+        else if(!master && CheckValid(master_count + 3, height - 1))
         {
             // else return non master position
             tile = hexTiles[master_count + 3, height - 1];
             master_count += 4;
         }
         return tile;
-    }
-
-    /// Draw to identified tile and update currentHex if command is within bounds of the map
-    private void drawNode(Vector2Int direction)
-    {
-        if(currentHex.x + direction.x < width && currentHex.x + direction.x >= 0
-            && currentHex.y + direction.y < height && currentHex.y + direction.y >= 0)
-        {
-            lineRenderer.addNodeToPath(hexTiles[currentHex.x + direction.x, currentHex.y + direction.y]);
-            currentHex.x += direction.x;
-            currentHex.y += direction.y;
-        }
     }
 
     /// Generates all tiles and places them in the array.
@@ -177,7 +141,7 @@ public class Hexmap : MonoBehaviour
     //
     // Should be changed some day. Preferably before 21:00.
     // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
-    private void affectRadius(int xCord, int yCord, int radius, string effect)
+    private void affectRadius(int xCord, int yCord, int radius, ElementState element)
     {
         if (radius >= 1)
         {
@@ -207,7 +171,7 @@ public class Hexmap : MonoBehaviour
                 {
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        applyEffect(xCord + xi, yCord + yi, effect);
+                        applyEffect(xCord + xi, yCord + yi, element);
                     }
                     symmetric = false;
                 }
@@ -217,13 +181,13 @@ public class Hexmap : MonoBehaviour
                     if (xCord % 2 != 0)
                         correction = 1;
                     if (radius == 1) // If radius is 1 top-center tile must be made implicitly
-                        applyEffect(xCord + xi, yCord + 1 - correction, effect);
+                        applyEffect(xCord + xi, yCord + 1 - correction, element);
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        applyEffect(xCord + xi, yCord + yi - correction, effect);
+                        applyEffect(xCord + xi, yCord + yi - correction, element);
                         if (yi > 0)
                         {
-                            applyEffect(xCord + xi, yCord + yi + 1 - correction, effect);
+                            applyEffect(xCord + xi, yCord + yi + 1 - correction, element);
                         }
                     }
                     symmetric = true;
@@ -232,6 +196,6 @@ public class Hexmap : MonoBehaviour
         }
         //Radius = 0, just affect 1 tile
         else if(radius == 0)
-            applyEffect(xCord, yCord, effect);
+            applyEffect(xCord, yCord, element);
     }
 }
