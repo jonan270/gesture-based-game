@@ -9,6 +9,8 @@ public class Deck : MonoBehaviour
     private List<GameObject> deck = new List<GameObject>();
     private List<GameObject> drawnCards;
 
+    public Card cardPrefab;
+
     private const int handSize = 5;
     private const int maxCardsCharacter = 3;
 
@@ -61,23 +63,35 @@ public class Deck : MonoBehaviour
             //Object prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Card.prefab", typeof(GameObject));
             GameObject c1 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
 
+            c1.transform.localScale = Vector3.one;
+            c1.transform.parent = this.transform;
+
             Debug.Log("c1: " + c1.name);
 
             //add description text for card
             c1.GetComponent<Card>().description.text = ch.descriptionTextCard1;
             c1.GetComponent<Card>().nameText.text = ch.Name;
+            c1.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType; // Does not work. Get cardModels' mesh renderer??
 
             GameObject c2 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
+
+            c2.transform.localScale = Vector3.one;
+            c2.transform.parent = this.transform;
 
             //add description text for card
             c2.GetComponent<Card>().description.text = ch.descriptionTextCard2;
             c2.GetComponent<Card>().nameText.text = ch.Name;
+            //c2.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType;
 
             GameObject c3 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
+
+            c3.transform.localScale = Vector3.one;
+            c3.transform.parent = this.transform;
 
             //add description text for card
             c3.GetComponent<Card>().description.text = ch.descriptionTextCard3;
             c3.GetComponent<Card>().nameText.text = ch.Name;
+            //c3.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType;
             //ch.cards.Add(c1);
 
             deck.Add(c1);

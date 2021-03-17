@@ -10,11 +10,13 @@ public class Hilda : Character
     {
         base.Start();
 
-        Element = ElementState.Earth;
+        Element = ElementState.Fire;
         Name = "Hilda";
         attackValue = 15;
+        MaterialType = Resources.Load("Materials/RoseMat.mat", typeof(Material)) as Material;
         descriptionTextCard1 = "Hilda will conjure a health potion.";
         descriptionTextCard2 = "Hilda will see the future.";
-        descriptionTextCard3 = "Hilda will summon a raven.";    
+        descriptionTextCard3 = "Hilda will summon a raven.";
+        
     }
 }

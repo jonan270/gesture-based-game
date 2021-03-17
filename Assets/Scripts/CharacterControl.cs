@@ -14,26 +14,28 @@ public class CharacterControl : MonoBehaviour
     private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
     [SerializeField]
-    private Deck deck;
-    private Hand hand;
-
+    private GameObject deckPrefab;
+    [SerializeField]
+    private GameObject handPrefab;
+    //private HandCards hand;
+    //private Deck deck;
     int round = 0;
 
-    private GameObject hilda, bjorn;
+    private GameObject hilda, bjorn, deck, hand;
 
     // Start is called before the first frame update
     void Start()
     {
-
-        //deck = new Deck(); //Create specific deck for player
-
+        deck = Instantiate(deckPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        
+        //deckPrefab = new Deck(); //Create specific deck for player
+        //var prefab = Resources.Load("Deck");
+        //deck = SpawnDeck(deckPrefab);
 
         //Call function createCharacter()
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
         //Show hand of currently available cards
-
-
 
 
 
@@ -60,17 +62,20 @@ public class CharacterControl : MonoBehaviour
             hilda.GetComponent<Hilda>().ModifyHealth(-10);
         }
 
-        //if (round == 0)
-        //{
-        //    deck.Shuffle(); //Must shuffle in order to get different cards each round
-        //    List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
-        //    hand = new Hand(drawnCards);
-        //    hand.showHand();
+        if (round == 0)
+        {
+            deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
+            List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
 
-        //    Debug.Log(drawnCards.Count);
+            hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
-        //    round++;
-        //}
+            hand.GetComponent<HandCards>().setHand(drawnCards);
+           // hand.GetComponent<HandCards>().showHand();
+
+           Debug.Log(drawnCards.Count);
+
+            round++;
+        }
 
         if (hilda != null)
         {
@@ -85,12 +90,14 @@ public class CharacterControl : MonoBehaviour
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
+
         //TODO: spawn character at each side
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
         
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.getPosition(), Quaternion.identity);
         obj.GetComponent<Character>().CurrentTile = spawnTile;
-        //deck.AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
+        
+        deck.GetComponent<Deck>().AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 
         return obj;
     }
@@ -100,4 +107,6 @@ public class CharacterControl : MonoBehaviour
         //deck.RemoveCards(ob.GetComponent<Character>().Name);
         PhotonNetwork.Destroy(ob);
     }
+
+  
 }

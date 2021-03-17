@@ -18,7 +18,8 @@ public abstract class Character : MonoBehaviour , IPunObservable
     public int attackValue;
     public string Name;
     protected bool isAlive = true;
-    
+
+    public Material MaterialType;
     public ElementState Element;
     public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
 

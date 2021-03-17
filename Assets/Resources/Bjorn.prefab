@@ -52,6 +52,7 @@ MonoBehaviour:
   maxHealth: 100
   attackValue: 15
   Name: Bjorn
+  MaterialType: {fileID: 0}
   Element: 0
   StrongAgainst: 1
   WeakAgainst: 2

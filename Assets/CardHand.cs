@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hand
+public class CardHand : MonoBehaviour
 {
     public float speed = 1.0f;
     private Transform target;
@@ -13,12 +13,12 @@ public class Hand
     int y = 5;
     int z = 15;
 
-    public Hand(List<GameObject> h)
+    public CardHand(List<GameObject> h)
     {
         hand = h;
     }
 
-    public void showHand() //Puts the cards to use in round on the spelplan
+    /*public void showHand() //Puts the cards to use in round on the spelplan
     {
         for (int i = 0; i < hand.Count; i++)
         {
@@ -28,9 +28,9 @@ public class Hand
             hand[i].transform.position = new Vector3(x, y, z);
             x += 10;
         }
-    }
+    }*/
 
-   /* void Update() // Not working, not being called??? Would be used to animate cards into scene
+    void Update() // Not working, not being called??? Would be used to animate cards into scene
     {
         float step = speed * Time.deltaTime;
 
@@ -44,6 +44,6 @@ public class Hand
             x += 10;
         }
 
-    }*/
+    }
 
 }
