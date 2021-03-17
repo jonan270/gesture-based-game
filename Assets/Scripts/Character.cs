@@ -4,8 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 //[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
+/// <summary>
+/// Element of character or tile, found in Character.cs
+/// </summary>
+public enum ElementState
+{
+    Fire, Earth, Water, Wind
+}
 
-public abstract class Character : MonoBehaviour , IPunObservable
+public abstract class Character : MonoBehaviour, IPunObservable
 {
     public HealthBar healthBar;
     public Hextile CurrentTile { get; set; }
@@ -44,10 +51,7 @@ public abstract class Character : MonoBehaviour , IPunObservable
     //    isAlive = true;
     //}
 
-    public enum ElementState
-    {
-        Fire, Earth, Water, Wind
-    }
+
 
     public enum CharacterState
     {
