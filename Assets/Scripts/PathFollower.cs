@@ -64,15 +64,25 @@ public class PathFollower : MonoBehaviour
         transform.position = Vector3.Lerp(startTarget, pathTarget, fraction);
 
         //If we are close enough to the target move towards next
-        if(Vector3.Distance(transform.position, pathTarget) <= 0.01) 
+        if(Vector3.Distance(transform.position, pathTarget) <= 0.01)
+        {
+            // Check for traps and effects
+            if (character.CurrentTile.areaEffect.isActivated)
+            {
+                character.ModifyHealth(character.CurrentTile.areaEffect.ApplyEffect(character));
+                character.CurrentTile.RemoveEffect();
+            }
+                
             GetNextPoint();
+        }
     }
     /// <summary>
     /// Get the next point on the path
     /// </summary>
     private void GetNextPoint() {
+
         //If we are not at the end 
-        if(index < path.Count) {
+        if (index < path.Count) {
             startTarget = transform.position;
             pathTarget = path[index].Position;
 

@@ -17,10 +17,10 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public HealthBar healthBar;
     public Hextile CurrentTile { get; set; }
 
-    [SerializeField]
-    protected float currentHealth;
-    [SerializeField]
-    protected float maxHealth = 100;
+    //[SerializeField]
+    public float currentHealth;
+    //[SerializeField]
+    public float maxHealth = 100;
 
     public int attackValue;
     public string Name;
@@ -99,7 +99,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         float currentHealthPct = currentHealth / maxHealth; //Calculate current health percentage
 
         healthBar.SetFill(currentHealthPct); //health image 
-        
+
         if(currentHealth <= 0)
         {
             isAlive = false;

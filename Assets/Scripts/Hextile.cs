@@ -21,6 +21,7 @@ public class Hextile : MonoBehaviour
     //public string tileType;
 
     public ElementState tileType;
+    public AreaEffect areaEffect; // Could for example be a trap
 
     // Should the tile be rotating?
     public bool spin;
@@ -38,12 +39,13 @@ public class Hextile : MonoBehaviour
     [SerializeField]
     private Material matwoods;
 
-    public GameObject tile, forest, dessert, water, grass;
+    public GameObject tile, forest, dessert, water, grass ,trap;
 
     // Awake runs before start
     void Awake()
     {
         randomizeType(); //Set to random
+        areaEffect = new AreaEffect();
     }
 
     // Update checks what needs to be done to the tile in each frame
@@ -81,6 +83,25 @@ public class Hextile : MonoBehaviour
     {
         transform.localEulerAngles = new Vector3(-180, 0, 0);
         spin = true;
+    }
+
+    /// <summary>
+    /// Adds an effect to this tile
+    /// </summary>
+    public void AddEffect(ElementState state, int healthMod)
+    {
+        spinTile();
+        trap.SetActive(true);
+        areaEffect.SetEffect(state, healthMod);
+    }
+
+    /// <summary>
+    /// Clears the effect from this tile
+    /// </summary>
+    public void RemoveEffect()
+    {
+        trap.SetActive(false);
+        areaEffect.Remove();
     }
 
     private void randomizeType()
@@ -140,6 +161,7 @@ public class Hextile : MonoBehaviour
         water.SetActive(false);
         grass.SetActive(false);
         dessert.SetActive(false);
+        trap.SetActive(false);
     }
 
     /// Get the position of a tile

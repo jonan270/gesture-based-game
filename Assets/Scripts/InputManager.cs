@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour
         controls.Player.Spacebutton.performed += ctx => map.randomizeHexmap(1000, 3);
         //controls.Player.DrawPath.performed += ctx => map.drawDirection(ctx.ReadValue<Vector2>());
         controls.Player.DrawPath.performed += ctx => addShit(SelectCharacter(1));
-        //controls.Player.EndTurn.performed += ctx => endTurn();
+        controls.Player.EndTurn.performed += ctx => SpawnTrap();
         controls.Player.Select1.performed += ctx => addShit(SelectCharacter(1));
         controls.Player.Select2.performed += ctx => addShit(SelectCharacter(2));
 
@@ -57,6 +57,12 @@ public class InputManager : MonoBehaviour
         // creator.AddTile(map.hexTiles[5,7]);
 
         // creator.FinishPath(GameObject.Find("Bjorn(Clone)"));
+    }
+
+    private void SpawnTrap()
+    {
+        map.hexTiles[2, 2].AddEffect(ElementState.Fire, -50);
+        Debug.Log("Trap spawned: " + map.hexTiles[2, 2].areaEffect.TrapElement + " with damage " + map.hexTiles[2, 2].areaEffect.healthModifier);
     }
 
     private string SelectCharacter(int num) 
