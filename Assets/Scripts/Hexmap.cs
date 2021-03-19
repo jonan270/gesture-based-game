@@ -29,8 +29,8 @@ public class Hexmap : MonoBehaviour
     public Hextile hexPrefab;
 
     // Offset values
-    private float xoff = 0.8f;
-    private float zoff = 0.46f;
+    private const float xoff = 0.8f;
+    private const float zoff = 0.46f;
 
     // Spawn
     private int master_count = 0;
