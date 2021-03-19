@@ -175,7 +175,7 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 
             // #Critical
             // Load the Room Level. 
-            PhotonNetwork.LoadLevel(scene.name);
+            PhotonNetwork.LoadLevel("Andreas_sprint_2");
 
         }
     }

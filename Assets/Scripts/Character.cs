@@ -8,7 +8,7 @@ using Photon.Pun;
 /// Element of character or tile, found in Character.cs
 /// </summary>
 public enum ElementState
-{
+{ 
     Fire, Earth, Water, Wind
 }
 
@@ -83,7 +83,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         CurrentState = state;
     }
 
-    public bool IsAlive //är det en funktion för att kolla om karaktären lever eller för att få veta hur mycke liv finns kvar
+    public bool IsAlive //ï¿½r det en funktion fï¿½r att kolla om karaktï¿½ren lever eller fï¿½r att fï¿½ veta hur mycke liv finns kvar
     {
         get { return isAlive; }
     }

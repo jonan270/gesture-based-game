@@ -80,13 +80,15 @@ public class CharacterControl : MonoBehaviour
                 RemoveCharacter(hilda); // Try removing character and its cards
             }
         }
-
     }
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
         //TODO: spawn character at each side
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
+        Debug.LogError("Spawn Tile " + spawnTile.Position);
+        
+        
 
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.identity);
         obj.GetComponent<Character>().CurrentTile = spawnTile;
