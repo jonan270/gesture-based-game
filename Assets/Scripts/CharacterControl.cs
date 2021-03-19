@@ -2,39 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Photon.Pun;
 
 public class CharacterControl : MonoBehaviour
 {
-    GameObject character;
-    GameObject charactertwo;
-    GameObject obj;
+    [SerializeField]
+    private GameObject hildaPrefab;
+    [SerializeField]
+    private GameObject bjornPrefab;
+    [SerializeField]
+    private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
-    Deck deck;
-    Hand hand;
+    [SerializeField]
+    private Deck deck;
+    private Hand hand;
 
     int round = 0;
+
+    private GameObject hilda, bjorn;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        deck = new Deck(); //Create specific deck for player
+        //deck = new Deck(); //Create specific deck for player
+
 
         //Call function createCharacter()
-        character = createHilda();
-        charactertwo = createBjorn();
-
+        hilda = SpawnCharacter(hildaPrefab);
+        bjorn = SpawnCharacter(bjornPrefab);
         //Show hand of currently available cards
-        
-
-        Hilda h = character.GetComponent<Hilda>();
-
-        Debug.Log(h.currentHealth);
 
 
-        //Debug.Log(charactertwo.Health);
 
-        //Debug.Log(b.card.description);
+
 
         //Call function to move character
 
@@ -42,73 +43,63 @@ public class CharacterControl : MonoBehaviour
 
         //Call function to change healths of characters and modify health bars
 
-        float remainingHealth = h.ModifyHealth(10);
+        //float remainingHealth = hilda.ModifyHealth(10);
 
-        Debug.Log(remainingHealth);
+        //Debug.Log(remainingHealth);
+        //hilda.healthBar.SetSize(remainingHealth);
 
-        h.healthBar.SetSize(remainingHealth);
-        
         //character.Attack("Berserk", charactertwo);
-        // Debug.Log("Health after attack: " + charactertwo.Health);
-
-
-   
+        // Debug.Log("Health after attack: " + charactertwo.Health
     }
 
     void Update()
     {
+
+        if (Input.GetMouseButtonDown(0) && hilda != null)
+        {
+            hilda.GetComponent<Hilda>().ModifyHealth(-10);
+        }
+
+        //if (round == 0)
+        //{
+        //    deck.Shuffle(); //Must shuffle in order to get different cards each round
+        //    List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
+        //    hand = new Hand(drawnCards);
+        //    hand.showHand();
+
+        //    Debug.Log(drawnCards.Count);
+
+        //    round++;
+        //}
+
+        if (hilda != null)
+        {
+            if (!hilda.GetComponent<Hilda>().IsAlive)
+            {
+                Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
+                RemoveCharacter(hilda); // Try removing character and its cards
+            }
+        }
+    }
+
+    private GameObject SpawnCharacter(GameObject prefab)
+    {
+        //TODO: spawn character at each side
+        Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
+        Debug.LogError("Spawn Tile " + spawnTile.Position);
         
-        if (round == 0)
-        {
-            deck.Shuffle(); //Must shuffle in order to get different cards each round
-            List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
-            hand = new Hand(drawnCards);
-            hand.showHand();
+        
 
-            Debug.Log(drawnCards.Count);
-
-            round++;
-        }
-
-        if(!character.GetComponent<Character>().isAlive)
-        {
-            removeCharacter(character); // Try removing character and its cards
-        }
-    }
-
-    public GameObject createHilda()
-    {
-
-        Object prefabHilda = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Hilda.prefab");
-
-        obj = Instantiate(prefabHilda, Vector3.zero, Quaternion.identity) as GameObject;
-
-        deck.addCardsToDeck(obj.GetComponent<Hilda>()); //Add cards to deck for character
+        GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.identity);
+        obj.GetComponent<Character>().CurrentTile = spawnTile;
+        //deck.AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 
         return obj;
     }
 
-    public GameObject createBjorn()
+    public void RemoveCharacter(GameObject ob) //If character health <= 0, destroy object
     {
-
-        Object prefabBjorn = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Bjorn.prefab");
-
-        obj = Instantiate(prefabBjorn, Vector3.zero, Quaternion.identity) as GameObject;
-
-        deck.addCardsToDeck(obj.GetComponent<Bjorn>()); //Add cards to deck for character
-
-
-        return obj;
+        //deck.RemoveCards(ob.GetComponent<Character>().Name);
+        PhotonNetwork.Destroy(ob);
     }
-
-
-    public void removeCharacter(GameObject ob) //If character health <= 0, destroy object
-    {
-        deck.removeCards(ob.GetComponent<Character>().Name);
-        Destroy(ob);
-    }
-
-
-
-
 }

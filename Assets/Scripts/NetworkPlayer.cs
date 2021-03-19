@@ -10,9 +10,10 @@ public class NetworkPlayer : MonoBehaviour
     public Transform head;
     public Transform lefthand;
     public Transform righthand;
-
+    
     private PhotonView photonView;
 
+    private Transform xrHead, xrLeft, xrRight;
     void Start()
     {
         photonView = GetComponent<PhotonView>();
@@ -22,6 +23,13 @@ public class NetworkPlayer : MonoBehaviour
             lefthand.gameObject.SetActive(false);
             righthand.gameObject.SetActive(false);
         }
+        //Fallback if no vr headset is connected make sure we still track and update the position of the other player
+        if(!SteamVR.active)
+        {
+            xrHead = GameObject.Find("Main Camera").transform;
+            xrLeft = GameObject.Find("LeftHand Controller").transform;
+            xrRight = GameObject.Find("RightHand Controller").transform;
+        }
     }
 
     // Update is called once per frame
@@ -29,9 +37,19 @@ public class NetworkPlayer : MonoBehaviour
     {
         if(photonView.IsMine)
         {
-            MapPosition(head, XRNode.Head);
-            MapPosition(lefthand, XRNode.LeftHand);
-            MapPosition(righthand, XRNode.RightHand);
+            //if we have VR headset connected track 
+            if (SteamVR.active)
+            {
+                MapPosition(head, XRNode.Head);
+                MapPosition(lefthand, XRNode.LeftHand);
+                MapPosition(righthand, XRNode.RightHand);
+            }//track ingame gameobjects
+            else
+            {
+                MapPosition(head, xrHead);
+                MapPosition(lefthand, xrLeft);
+                MapPosition(righthand, xrRight);
+            }
 
         }
     }
@@ -47,5 +65,15 @@ public class NetworkPlayer : MonoBehaviour
 
         target.position = position;
         target.rotation = rotation;
+    }
+    /// <summary>
+    /// Track position and rotation without VR controllers
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="track"></param>
+    void MapPosition(Transform target, Transform track)
+    {
+        target.position = track.position;
+        target.rotation = track.rotation;
     }
 }

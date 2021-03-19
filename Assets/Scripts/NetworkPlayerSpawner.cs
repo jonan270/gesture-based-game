@@ -29,8 +29,30 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         }
         else
         {
-            spawnedPlayerPrefab = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity);
+            SpawnPlayer();
         }
+    }
+    /// <summary>
+    /// Instantiate network player at spawn location
+    /// </summary>
+    private void SpawnPlayer()
+    {
+        GameObject[] spawnpoints = GameObject.FindGameObjectsWithTag("Respawn");
+        GameObject xrRig = GameObject.Find("XR Rig"); //local xr rig 
+        Vector3 spawnPoint;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            spawnPoint = spawnpoints[0].transform.position;
+            xrRig.transform.position = spawnPoint;
+        }
+        else
+        {
+            spawnPoint = spawnpoints[1].transform.position;
+            xrRig.transform.position = spawnPoint;
+            xrRig.transform.Rotate(0, 180f, 0);
+        }
+        spawnedPlayerPrefab = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint, Quaternion.identity);
     }
 
     /// <summary>
