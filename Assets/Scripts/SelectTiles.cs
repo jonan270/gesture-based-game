@@ -46,8 +46,8 @@ public class SelectTiles : MonoBehaviour
         if (Physics.Raycast(handRay, out hit, Mathf.Infinity) && hit.collider.gameObject.transform.IsChildOf(hexTiles))
         {
             Hextile currentObject = hit.collider.gameObject.GetComponent<Hextile>();
-            if (tilesSelected.Count == 0 || (!tilesSelected.Contains(currentObject) && Mathf.Abs(currentObject.position.x - tilesSelected.LastOrDefault().position.x) <= 1 && 
-                Mathf.Abs(currentObject.position.y - tilesSelected.LastOrDefault().position.y) <= 1))
+            if (tilesSelected.Count == 0 || (!tilesSelected.Contains(currentObject) && Mathf.Abs(currentObject.tileIndex.x - tilesSelected.LastOrDefault().tileIndex.x) <= 1 && 
+                Mathf.Abs(currentObject.tileIndex.y - tilesSelected.LastOrDefault().tileIndex.y) <= 1))
             {
                 tilesSelected.Add(currentObject);
                 pathCreator.AddTile(currentObject);

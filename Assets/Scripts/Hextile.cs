@@ -52,7 +52,7 @@ public class Hextile : MonoBehaviourPun
     public GameObject grass;
 
 
-    public Vector2Int position = new Vector2Int(-1, -1);
+    public Vector2Int tileIndex = new Vector2Int(-1, -1);
 
     // Awake runs before start
     void Awake()
@@ -198,8 +198,8 @@ public class Hextile : MonoBehaviourPun
         get { return transform.position; }
     }
 
-    public void SetPosition(Vector2Int pos)
+    public void SetTileIndex(Vector2Int pos)
     {
-        position = pos;
+        tileIndex = pos;
     }
 }

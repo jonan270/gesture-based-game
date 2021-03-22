@@ -180,7 +180,7 @@ public class Hexmap : MonoBehaviour
                 instantiated.transform.parent = transform;
                 //Hextile tile = instantiated.GetComponent<Hextile>();
                 hexTiles[x, z] = instantiated;
-                hexTiles[x, z].SetPosition(new Vector2Int(x, z));
+                hexTiles[x, z].SetTileIndex(new Vector2Int(x, z));
                 //photonView.RPC("RPC_AddTile", RpcTarget.AllBuffered, instantiated, x, z);
             }
             // Only offsett odd rows
