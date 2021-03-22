@@ -26,11 +26,11 @@ public class PathCreator : MonoBehaviour
 
     public void AddTile(Hextile h)
     {
-        if(!isBusy) 
-        {
-            tiles.Add(h);
-            pathdrawer.DrawPath(CreatePointsFromTiles());
-        }
+        if (isBusy || h == null)
+            return;
+        
+        tiles.Add(h);
+        pathdrawer.DrawPath(CreatePointsFromTiles());        
     }
 
     //Skapa en lista som PathDraw kan rita ut punkterna
