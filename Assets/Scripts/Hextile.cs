@@ -52,6 +52,8 @@ public class Hextile : MonoBehaviourPun
     public GameObject grass;
 
 
+    public Vector2Int position = new Vector2Int(-1, -1);
+
     // Awake runs before start
     void Awake()
     {
@@ -194,5 +196,10 @@ public class Hextile : MonoBehaviourPun
     /// Get the position of a tile
     public Vector3 Position {
         get { return transform.position; }
+    }
+
+    public void SetPosition(Vector2Int pos)
+    {
+        position = pos;
     }
 }
