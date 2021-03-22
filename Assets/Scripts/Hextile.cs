@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
@@ -8,7 +9,7 @@ using UnityEngine;
  * functions for modifying that specific tile
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-public class Hextile : MonoBehaviour
+public class Hextile : MonoBehaviourPun
 {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * 
@@ -23,12 +24,16 @@ public class Hextile : MonoBehaviour
     public ElementState tileType;
     public AreaEffect areaEffect; // Could for example be a trap
 
+    public GameObject trap;
+
+
     // Should the tile be rotating?
     public bool spin;
 
     // The angle of the tile during rotation.
     private int angleCount = -180;
 
+    [Header("Materials")]
     // Materials for the tilebase of different types
     [SerializeField]
     private Material matgrass;
@@ -39,13 +44,21 @@ public class Hextile : MonoBehaviour
     [SerializeField]
     private Material matwoods;
 
-    public GameObject tile, forest, dessert, water, grass ,trap;
+    [Header("Type Graphics")]
+    public GameObject tile;
+    public GameObject forest;
+    public GameObject dessert;
+    public GameObject water;
+    public GameObject grass;
+
 
     // Awake runs before start
     void Awake()
     {
         randomizeType(); //Set to random
-        areaEffect = new AreaEffect();
+        //areaEffect = (new GameObject("areaEffect")).AddComponent<AreaEffect>();
+
+
     }
 
     // Update checks what needs to be done to the tile in each frame
@@ -53,6 +66,20 @@ public class Hextile : MonoBehaviour
     {
         if (spin)
             rotateHex();
+    }
+
+    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier)
+    { 
+        makeType(tileElement);
+        //Synchronize traps 
+        if(isTrapActive)
+        {
+            AddEffect(trapElement, trapModifier);
+        }
+        else
+        {
+            RemoveEffect();
+        }
     }
 
     /// Spin until 1 rotation has been completed TODO: Make rotateHex timebased instead of framebased.

@@ -9,7 +9,7 @@ using Photon.Pun;
 /// </summary>
 public enum ElementState
 { 
-    Fire, Earth, Water, Wind
+    None, Fire, Earth, Water, Wind
 }
 
 public abstract class Character : MonoBehaviour, IPunObservable

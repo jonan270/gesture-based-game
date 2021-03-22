@@ -61,7 +61,8 @@ public class InputManager : MonoBehaviour
 
     private void SpawnTrap()
     {
-        map.hexTiles[2, 2].AddEffect(ElementState.Fire, -50);
+        //map.hexTiles[2, 2].AddEffect(ElementState.Fire, -50);
+        map.ChangeEffect(2,2, true, ElementState.Fire, -50);
         Debug.Log("Trap spawned: " + map.hexTiles[2, 2].areaEffect.TrapElement + " with damage " + map.hexTiles[2, 2].areaEffect.healthModifier);
     }
 
