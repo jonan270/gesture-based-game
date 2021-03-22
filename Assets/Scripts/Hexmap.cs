@@ -134,6 +134,7 @@ public class Hexmap : MonoBehaviour
                 instantiated.transform.localScale = Vector3.one;
                 instantiated.transform.parent = transform;
                 hexTiles[x, z] = instantiated;
+                hexTiles[x, z].SetPosition(new Vector2Int(x, z));
                 //photonView.RPC("RPC_AddTile", RpcTarget.AllBuffered, instantiated, x, z);
             }
             // Only offsett odd rows

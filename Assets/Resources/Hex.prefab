@@ -78,6 +78,7 @@ MonoBehaviour:
   water: {fileID: 568501116889539641}
   grass: {fileID: 2854313132208572085}
   trap: {fileID: 6703905411691400829}
+  position: {x: -1, y: -1}
 --- !u!114 &8745059117606235278
 MonoBehaviour:
   m_ObjectHideFlags: 0
