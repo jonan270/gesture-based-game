@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4822111796892936788}
   - component: {fileID: 1834351815250394717}
   - component: {fileID: 1156072231798157232}
-  - component: {fileID: 3927929520629509138}
+  - component: {fileID: 8763146127276830377}
   m_Layer: 0
   m_Name: Hex
   m_TagString: Untagged
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  areaEffect: {fileID: 3927929520629509138}
+  areaEffect: {fileID: 8763146127276830377}
   trap: {fileID: 6703905411691400829}
   spin: 0
   matgrass: {fileID: 2100000, guid: a86ce661c5145d74b8625cccb52123d4, type: 2}
@@ -77,31 +77,7 @@ MonoBehaviour:
   dessert: {fileID: 7229900117214556373}
   water: {fileID: 568501116889539641}
   grass: {fileID: 2854313132208572085}
-  trap: {fileID: 6703905411691400829}
-  position: {x: -1, y: -1}
---- !u!114 &8745059117606235278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976209754331856996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 8763146127276830377}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  tileIndex: {x: -1, y: -1}
 --- !u!114 &8763146127276830377
 MonoBehaviour:
   m_ObjectHideFlags: 0

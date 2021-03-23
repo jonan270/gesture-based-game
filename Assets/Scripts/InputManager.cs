@@ -34,7 +34,7 @@ public class InputManager : MonoBehaviour
         controls.Player.DrawPath.performed += ctx => addShit(SelectCharacter(1));
         controls.Player.EndTurn.performed += ctx => SpawnTrap();
         controls.Player.Select1.performed += ctx => addShit(SelectCharacter(1));
-        controls.Player.Select2.performed += ctx => addShit(SelectCharacter(2));
+        controls.Player.Select2.performed += ctx => addOtherShit(SelectCharacter(1));
 
     }
 
@@ -57,6 +57,18 @@ public class InputManager : MonoBehaviour
         // creator.AddTile(map.hexTiles[5,7]);
 
         // creator.FinishPath(GameObject.Find("Bjorn(Clone)"));
+    }
+
+    private void addOtherShit(string name) 
+    {
+        creator.AddTile(map.hexTiles[5,0]);
+        creator.AddTile(map.hexTiles[6,1]);
+        creator.AddTile(map.hexTiles[7,2]);
+        creator.AddTile(map.hexTiles[8,3]);
+        creator.AddTile(map.hexTiles[9,4]);
+        creator.AddTile(map.hexTiles[10,5]);
+
+        creator.FinishPath(GameObject.Find(name));
     }
 
     private void SpawnTrap()
