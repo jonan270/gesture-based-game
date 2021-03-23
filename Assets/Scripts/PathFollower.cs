@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 // This is just a simple solution that should be reworked.
 public class PathFollower : MonoBehaviour
 {
@@ -70,7 +70,8 @@ public class PathFollower : MonoBehaviour
             if (character.CurrentTile.areaEffect.isActivated)
             {
                 character.ModifyHealth(character.CurrentTile.areaEffect.ApplyEffect(character));
-                character.CurrentTile.RemoveEffect();
+                var index = character.CurrentTile.tileIndex;
+                FindObjectOfType<Hexmap>().ChangeEffect(index.x, index.y, false);
             }
                 
             GetNextPoint();
@@ -103,7 +104,7 @@ public class PathFollower : MonoBehaviour
     {
         moving = false;
         index = 0;
-        transform.eulerAngles = transform.forward;
+        transform.eulerAngles = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
         pathDrawer.ClearPath();
         PathCreator.isBusy = false; //Lets another character create its path
     }

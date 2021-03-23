@@ -129,6 +129,7 @@ public class Hextile : MonoBehaviourPun
     /// </summary>
     public void RemoveEffect()
     {
+        spinTile();
         trap.SetActive(false);
         areaEffect.Remove();
     }

@@ -97,7 +97,8 @@ public class Hexmap : MonoBehaviour
             {
                 //TODO: if lobby function, removed buffered target
                 AreaEffect areaEffect = hexTiles[x, y].areaEffect;
-                photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated, areaEffect.TrapElement, areaEffect.healthModifier);
+                photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated
+                    ,areaEffect.TrapElement, areaEffect.healthModifier);
             }
         }
     }
@@ -122,7 +123,7 @@ public class Hexmap : MonoBehaviour
     }
 
     
-    public void ChangeEffect(int x, int y, bool setEffect, ElementState element, int healthMod) 
+    public void ChangeEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, int healthMod = 0) 
     {
         if(CheckValid(x,y)) 
         {
@@ -194,8 +195,6 @@ public class Hexmap : MonoBehaviour
             }
             xSwitch += xoff;
         }
-
-        SynchronizeNetworkMap();
     }
 
     // This function is completely unreadable. Good luck! Mvh Jonathan at 23:16

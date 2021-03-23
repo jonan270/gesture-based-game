@@ -87,10 +87,11 @@ public class CharacterControl : MonoBehaviour
         //TODO: spawn character at each side
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
         Debug.LogError("Spawn Tile " + spawnTile.Position);
-        
-        
 
-        GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.identity);
+
+        Vector3 rotation = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
+
+        GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.GetComponent<Character>().CurrentTile = spawnTile;
         //deck.AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 
