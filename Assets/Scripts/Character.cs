@@ -24,8 +24,8 @@ public abstract class Character : MonoBehaviour , IPunObservable
     public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
 
     public CharacterState CurrentState;
-    
-    //public List<GameObject> cards;
+
+    public List<Ability> abilities = new List<Ability>();
 
     public string descriptionTextCard1;
     public string descriptionTextCard2;
@@ -39,6 +39,7 @@ public abstract class Character : MonoBehaviour , IPunObservable
     {
         currentHealth = maxHealth;
         isAlive = true;
+        
     }
     //private void OnEnable()
     //{
@@ -67,10 +68,13 @@ public abstract class Character : MonoBehaviour , IPunObservable
     {
         if (enemyElement == StrongAgainst)
         {
+            Debug.Log("strong");
             return attackValue += bonusDamage;
+            
         }
         else if(enemyElement == WeakAgainst)
         {
+            Debug.Log("weak");
             return attackValue -= bonusDamage;
         }
         return attackValue;

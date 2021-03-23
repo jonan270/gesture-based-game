@@ -12,14 +12,8 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     //public Plane plane;
     public TextMeshProUGUI description;
     public TextMeshProUGUI nameText;
-    [SerializeField]
-    private Material matgrass;
-    [SerializeField]
-    private Material matdessert;
-    [SerializeField]
-    private Material matwater;
-    [SerializeField]
-    private Material matwoods;
+
+    
 
     // Randomisera korten lite, 5 kort dras fram för spelaren
     //Korten visas som i en korthög

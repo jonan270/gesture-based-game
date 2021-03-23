@@ -11,10 +11,10 @@ public class Bjorn : Character
     {
         base.Start();
         Element = ElementState.Water;
+        StrongAgainst = ElementState.Fire;
+        WeakAgainst = ElementState.Wind;
         Name = "Bjorn";
-        attackValue = 30;
-        currentHealth = maxHealth;
-        isAlive = true;
+        attackValue = 20;
         MaterialType = Resources.Load("Materials/waterMat.mat", typeof(Material)) as Material;
         descriptionTextCard1 = "Bjorn will go berserk";
         descriptionTextCard2 = "Björn will drink mead and ...";

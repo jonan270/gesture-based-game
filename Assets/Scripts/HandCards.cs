@@ -39,26 +39,24 @@ public class HandCards : MonoBehaviour
         hand = h;
     }
 
-    private void Update()
-    {
+    //private void Update()  // Not working, not being called??? Would be used to get hand of cards into scene
+   // {
         //if(!cardsShown)
         //showHand(speed * Time.deltaTime);
 
         //hand[counter].transform.position = Vector3.Lerp(hand[counter].transform.position, new Vector3(x, y, z), speed * Time.deltaTime);
         
-    }
+   // }
 
-    public void showHand(float step) // Not working, not being called??? Would be used to get hand of cards into scene
+    public void showHand(float step)
     {
         //cardsShown = false;
 
         for (int i = 0; i < hand.Count; i++)
         {
-            //target = hand[i].transform;
             
             //hand[i].transform.position = new Vector3(x, y, z);
            
-            
             //x += 10;
         }
 

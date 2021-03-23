@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 1187446234487540213}
   - component: {fileID: 2634129342243103366}
   - component: {fileID: 4529493182429685642}
+  - component: {fileID: 2495727299194636730}
+  - component: {fileID: 287462228249114002}
+  - component: {fileID: 8448523936259282057}
   m_Layer: 0
   m_Name: Hilda 1
   m_TagString: Untagged
@@ -57,6 +60,7 @@ MonoBehaviour:
   StrongAgainst: 3
   WeakAgainst: 0
   CurrentState: 0
+  abilities: []
   descriptionTextCard1: Hilda will conjure a potion
   descriptionTextCard2: Hilda will see the future
   descriptionTextCard3: Hilda will summon a raven
@@ -100,6 +104,45 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
+--- !u!114 &2495727299194636730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309197466412274921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fcf52a2cf673c44bbbb7a68ae00d14c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 10da0e6e48ae51e43b8a3953447e2667, type: 2}
+--- !u!114 &287462228249114002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309197466412274921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fcf52a2cf673c44bbbb7a68ae00d14c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: b34f9561f07d5da4ead5d3d39fa9590d, type: 2}
+--- !u!114 &8448523936259282057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309197466412274921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fcf52a2cf673c44bbbb7a68ae00d14c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3fec27a8a2606b44c92ef4e7bd8bdc28, type: 2}
 --- !u!1001 &4532339856747650513
 PrefabInstance:
   m_ObjectHideFlags: 0

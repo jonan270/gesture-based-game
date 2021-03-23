@@ -19,6 +19,10 @@ public class CharacterControl : MonoBehaviour
     private GameObject handPrefab;
     //private HandCards hand;
     //private Deck deck;
+
+    public Ability[] bjornAbilities;
+    public Ability[] hildaAbilities;
+
     int round = 0;
 
     private GameObject hilda, bjorn, deck, hand;
@@ -27,7 +31,8 @@ public class CharacterControl : MonoBehaviour
     void Start()
     {
         deck = Instantiate(deckPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        
+        hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+
         //deckPrefab = new Deck(); //Create specific deck for player
         //var prefab = Resources.Load("Deck");
         //deck = SpawnDeck(deckPrefab);
@@ -35,31 +40,27 @@ public class CharacterControl : MonoBehaviour
         //Call function createCharacter()
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
-        //Show hand of currently available cards
 
+        //Testing abilities
+        bjornAbilities = bjorn.GetComponent<Character>().GetComponents<Ability>();
+        hildaAbilities = hilda.GetComponent<Character>().GetComponents<Ability>();
 
+        int dmg = hildaAbilities[0].TriggerAbility(bjorn.GetComponent<Character>(), hilda.GetComponent<Character>());
 
-        //Call function to move character
+        Debug.Log("Damage done: " + dmg); //20
 
-        //Call function to attack opponent
+        
 
-        //Call function to change healths of characters and modify health bars
-
-        //float remainingHealth = hilda.ModifyHealth(10);
-
-        //Debug.Log(remainingHealth);
-        //hilda.healthBar.SetSize(remainingHealth);
-
-        //character.Attack("Berserk", charactertwo);
-        // Debug.Log("Health after attack: " + charactertwo.Health
     }
 
     void Update()
     {
+        buffTick(hildaAbilities);
 
         if (Input.GetMouseButtonDown(0) && hilda != null)
         {
             hilda.GetComponent<Hilda>().ModifyHealth(-10);
+           
         }
 
         if (round == 0)
@@ -67,14 +68,13 @@ public class CharacterControl : MonoBehaviour
             deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
             List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
 
-            hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
             hand.GetComponent<HandCards>().setHand(drawnCards);
            // hand.GetComponent<HandCards>().showHand();
 
-           Debug.Log(drawnCards.Count);
 
             round++;
+
         }
 
         if (hilda != null)
@@ -106,6 +106,12 @@ public class CharacterControl : MonoBehaviour
     {
         //deck.RemoveCards(ob.GetComponent<Character>().Name);
         PhotonNetwork.Destroy(ob);
+    }
+
+    public void buffTick(Ability[] ab)
+    {
+        
+
     }
 
   
