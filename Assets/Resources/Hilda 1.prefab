@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2634129342243103366}
   - component: {fileID: 4529493182429685642}
   - component: {fileID: 296793832959055970}
+  - component: {fileID: 2974195771333001750}
   m_Layer: 0
   m_Name: Hilda 1
   m_TagString: Untagged
@@ -113,6 +114,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1.5
+--- !u!54 &2974195771333001750
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309197466412274921}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &4558438522135908221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3613983429286486144}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.026171142, y: 0.020000005, z: 0.04369574}
+  m_Center: {x: -0.00009144191, y: -0.0004806408, z: 0.021881878}
 --- !u!1001 &4532339856747650513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,6 +227,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec800b7751835e45bd1559d0a5edfe2, type: 3}
+--- !u!1 &3613983429286486144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cec800b7751835e45bd1559d0a5edfe2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4532339856747650513}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4137860739777215034 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cec800b7751835e45bd1559d0a5edfe2,

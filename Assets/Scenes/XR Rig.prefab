@@ -251,6 +251,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6608639143550981038}
   - component: {fileID: 6608639143550981041}
+  - component: {fileID: 1016786281}
+  - component: {fileID: 1016786279}
   m_Layer: 0
   m_Name: RightHand Controller
   m_TagString: Untagged
@@ -298,6 +300,33 @@ MonoBehaviour:
   m_AnimateModel: 0
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
+--- !u!65 &1016786281
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6608639143550981039}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08829689, y: 0.12507737, z: 0.2060507}
+  m_Center: {x: -0.016996384, y: 0.006965935, z: 0.07420042}
+--- !u!114 &1016786279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6608639143550981039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dfedce06cb343d499e321153f3015ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 6608639143550981038}
+  selectedCharacter: {fileID: 0}
 --- !u!1 &6608639143640899222
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +337,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6608639143640899225}
   - component: {fileID: 6608639143640899224}
+  - component: {fileID: 1953353302}
+  - component: {fileID: 1953353301}
   m_Layer: 0
   m_Name: LeftHand Controller
   m_TagString: Untagged
@@ -355,6 +386,33 @@ MonoBehaviour:
   m_AnimateModel: 0
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
+--- !u!65 &1953353302
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6608639143640899222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.09462023, y: 0.12425363, z: 0.20294112}
+  m_Center: {x: 0.013304949, y: 0.0073692203, z: 0.07661936}
+--- !u!114 &1953353301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6608639143640899222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dfedce06cb343d499e321153f3015ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 6608639143640899225}
+  selectedCharacter: {fileID: 0}
 --- !u!1001 &6608639141759966193
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class CharacterControl : MonoBehaviour
 {
+    [SerializeField] public static GameObject SelectedCharacter;
     [SerializeField]
     private GameObject hildaPrefab;
     [SerializeField]
@@ -79,6 +80,11 @@ public class CharacterControl : MonoBehaviour
                 Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
                 RemoveCharacter(hilda); // Try removing character and its cards
             }
+        }
+
+        if(SelectedCharacter != null)
+        {
+            Debug.Log("select char from CC" + SelectedCharacter.name);
         }
     }
 
