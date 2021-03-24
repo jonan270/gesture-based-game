@@ -41,6 +41,8 @@ public class Hexmap : MonoBehaviour
     void Awake()
     {
         photonView = GetComponent<PhotonView>();
+        if (photonView == null)
+            Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
     }
