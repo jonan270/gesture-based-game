@@ -17,12 +17,14 @@ public class CharacterControl : MonoBehaviour
     private GameObject deckPrefab;
     [SerializeField]
     private GameObject handPrefab;
+    [SerializeField]
+    public List<GameObject> listOfCharacters = new List<GameObject>();
 
     private string[] gestureTypes = { "Circle", "Triangle", "Square" };
 
     private string doneGesture;
 
-    //[SerializeField]
+   // [SerializeField]
     //public AbilityManager abilityManager;
 
     //private HandCards hand;
@@ -49,23 +51,17 @@ public class CharacterControl : MonoBehaviour
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
 
+        listOfCharacters.Add(hilda);
+        listOfCharacters.Add(bjorn);
 
-        //Testing abilities
-        //bjornAbilities = bjorn.GetComponent<Character>().GetComponents<Ability>();
+        //Select character
 
-        doneGesture = "Triangle";
+        //Text on cards in hand shows. Text includes information about abilities
 
-        bjorn.GetComponent<Character>().ModifyHealth(-50);
+        //Character performs gesture -> certain card is activated
 
+        //We know now what ability should be performed
         
-
-        //whichAbility(HildaAbilities);
-        
-
-        //int dmg = hildaAbilities[0].TriggerAbility(bjorn.GetComponent<Character>(), hilda.GetComponent<Character>());
-
-        //Debug.Log("Damage done: " + dmg); //20
-
         
 
     }
@@ -77,6 +73,7 @@ public class CharacterControl : MonoBehaviour
         {
             hilda.GetComponent<Hilda>().ModifyHealth(-10);
            
+          
         }
 
         if (round == 0)
@@ -86,7 +83,7 @@ public class CharacterControl : MonoBehaviour
 
 
             hand.GetComponent<HandCards>().setHand(drawnCards);
-           // hand.GetComponent<HandCards>().showHand();
+            hand.GetComponent<HandCards>().showHand();
 
 
             round++;

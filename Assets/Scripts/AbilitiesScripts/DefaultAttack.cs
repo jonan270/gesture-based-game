@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/DefaultAttack")]
-public class DefaultAttack : dmgOrHealAbility
+public class DefaultAttack : AbilityData
 {
 
-    public override void OnHit(Character target, Character attacker)
+    public override void OnHit(GameObject target, GameObject attacker)
     {
-        amount = attacker.CompareEnemyElement(target.Element, extraPowerElement);
+        amount = attacker.GetComponent<Character>().CompareEnemyElement(target.GetComponent<Character>().Element, extraPowerElement);
 
         target.GetComponent<Character>().ModifyHealth(-amount);
     }

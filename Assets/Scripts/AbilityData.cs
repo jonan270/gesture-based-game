@@ -7,6 +7,7 @@ public abstract class AbilityData : ScriptableObject
 {
     //public int baseDamage;
     public string abilityName;
+    public string abilityDescription;
 
     public int gemsCost;
     public int amount;
@@ -22,26 +23,27 @@ public abstract class AbilityData : ScriptableObject
     public GameObject effectPrefab; //Would be used for animate/effect for ability
 
     //public abstract void TriggerAbility();
+    public abstract void OnHit(GameObject target, GameObject attacker);
 
 }
-
+/*
 public abstract class dmgOrHealAbility : AbilityData // Berserk, Trap, Multishot, Heal, Cleave
 {
-    public abstract void OnHit(Character t, Character a);
+    //public abstract void OnHit(Character target, Character attacker);
 }
 
 public abstract class affectEnvironment : AbilityData // Curse
 {
-    public abstract void changeTiles(Hextile tile);
+    //public abstract void changeTiles(Hextile tile);
 }
 
 public abstract class Buff : AbilityData // Poison, Ring of Attack, Drink Mead
 {
 
-    public abstract void Apply(Character t);
+   // public abstract void Apply(Character t);
 
 
-}
+}*/
 
 public enum TargetType
 {

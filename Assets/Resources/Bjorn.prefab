@@ -58,9 +58,6 @@ MonoBehaviour:
   CurrentState: 0
   ListAbilityData:
   - {fileID: 11400000, guid: 51689c35bc4bda547adfcb42cb9ad9fa, type: 2}
-  descriptionTextCard1: Bjorn will go berserk
-  descriptionTextCard2: "Bj\xF6rn will drink mead and ..."
-  descriptionTextCard3: "Bj\xF6rn will do cleave and hurt multiple enemies."
 --- !u!114 &5341129425386056602
 MonoBehaviour:
   m_ObjectHideFlags: 0

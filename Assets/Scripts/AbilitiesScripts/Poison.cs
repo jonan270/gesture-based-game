@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Poison")]
-public class Poison : Buff
+public class Poison : AbilityData
 {
-    public override void Apply(Character target)
+    public override void OnHit(GameObject target, GameObject attacker)
     {
         target.GetComponent<Character>().ModifyHealth(-amount);
-
-        Instantiate(effectPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-
-        //Tick();
     }
 
 

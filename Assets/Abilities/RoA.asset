@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: RoA
   m_EditorClassIdentifier: 
   abilityName: RoA
+  abilityDescription: Hilda will conjure an Attack boost for her teammates.
   gemsCost: 10
   amount: 10
   targType: 1
-  numberOfTargets: 3
   numberOfTurns: 1
+  IsFinished: 0
+  gestureType: 
   effectPrefab: {fileID: 0}

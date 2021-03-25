@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: DefaultAttack
   m_EditorClassIdentifier: 
   abilityName: DefaultAttack
+  abilityDescription: 
   gemsCost: 0
   amount: 0
   targType: 0
-  numberOfTargets: 1
   numberOfTurns: 1
-  effectPrefab: {fileID: 0}
+  IsFinished: 0
+  gestureType: 
+  effectPrefab: {fileID: 170850, guid: 8e13c6e5a21aeea4db3c25ef0e529308, type: 3}

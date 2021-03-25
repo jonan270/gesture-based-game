@@ -29,9 +29,9 @@ public abstract class Character : MonoBehaviour , IPunObservable
 
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
-    public string descriptionTextCard1;
-    public string descriptionTextCard2;
-    public string descriptionTextCard3;
+    //public string descriptionTextCard1;
+    //public string descriptionTextCard2;
+    //public string descriptionTextCard3;
 
     // public GameObject c1;
     //public Card c2;

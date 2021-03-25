@@ -2,25 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*public enum EffectType
-{
-    AoeDamage,
-    SingleTargetDamage,
-    SingleTargetHeal
-}*/
-
 public class AbilityManager : MonoBehaviour
 {
-    //public List<AbilityData> ListAbilityData = new List<AbilityData>();
-    private List<AbilityData> HildaAbilities;
-    private List<AbilityData> BjornAbilities;
+    private List<GameObject> CharacterList = new List<GameObject>();
+    private List<AbilityData> BjornAbilities = new List<AbilityData>();
+    private List<AbilityData> HildaAbilities = new List<AbilityData>();
 
     void Start()
     {
-        HildaAbilities = GameObject.Find("Hilda 1(Clone)").GetComponent<Character>().ListAbilityData;
-        BjornAbilities = GameObject.Find("Bjorn(Clone)").GetComponent<Character>().ListAbilityData;
+        CharacterList = GameObject.Find("Game Manager").GetComponent<CharacterControl>().listOfCharacters;
+        Debug.Log(CharacterList.Count);
+        for (int i = 0; i < CharacterList.Count; i++)
+        {
+            /*if (listOfCharacters[i].GetComponent<Character>().Name == "Bjorn")
+                BjornAbilities = listOfCharacters[i].GetComponent<Character>().ListAbilityData;
 
-        Debug.Log("Hildas första ability: " + HildaAbilities[0].abilityName);
+            if (listOfCharacters[i].GetComponent<Character>().Name == "Hilda")
+                HildaAbilities = listOfCharacters[i].GetComponent<Character>().ListAbilityData;*/
+        }
+
+        //Default Attack
+            HildaAbilities[0].OnHit(CharacterList[0], CharacterList[1]); // Instead of CharacterList[0]: GetTarget(enemy)
+
+        //Debug.Log("Hildas första ability: " + HildaAbilities[0].abilityName);
     }
 
     void Update()
@@ -43,14 +47,14 @@ public class AbilityManager : MonoBehaviour
 
     public void calculateBuffs()
     {
-        for(int i = 0; i < BjornAbilities.Count; i++)
+        /*for(int i = 0; i < listOfAbilities.Count; i++)
         {
-            if (BjornAbilities[i].GetType() == typeof(Poison))
-            {
+            //if (BjornAbilities[i].GetType() == typeof(Poison))
+            //{
                 //Debug.Log("Here");
                 //BjornAbilities[i].Apply(GetTarget());
-            }
-        }
+            //}
+        }*/
     }
 
     public void Tick(int nrTurns)
@@ -65,92 +69,8 @@ public class AbilityManager : MonoBehaviour
         }*/
     }
 
-
-    /*public void chooseAbility(string gesture)
-    {
-        for(int i = 0; i < ListAbilityData.Count; i++)
-        {
-           // ListAbilityData[i].TriggerAbility();
-        }
-    }*/
 }
 
     //Maybe do abilities like this: https://answers.unity.com/questions/1727492/spells-and-abilities-system.html
-
-    /*public void TriggerAbility(Character target, Character attacker) //If gesture is correct
-    {
-        //int totDmg = data.abilityValue + attacker.CompareEnemyElement(target.Element, extraPowerElement);
-        
-        if (data.abilityName == "Heal")
-        {
-            Heal(target);
-
-        }else if(data.abilityName == "DrinkMead")
-        {
-            //DrinkMead(attacker);
-        } else
-        {
-            //if (data.targType == TargetType MULTI)
-            //{
-            //    totDmg = totDmg / 3;
-                //Get attackers' CurrentTile and calculate nearby tiles => see if any Enemy chars are on those tiles
-            //}
-
-            //target.GetComponent<Character>().ModifyHealth(-totDmg);
-
-            //Instantiate(data.effectPrefab, new Vector3(0, 0, 0), Quaternion.identity); //Instantiate(data.effectPrefab, attacker.pos, attacker.rot);
-        }
-
-        
-    }*/
-
-    /*public void Heal(Character target)
-    {
-        target.ModifyHealth(data.abilityValue);
-
-        Instantiate(data.effectPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-    }
-
-    public void Buff(Character attacker)
-    {
-        target.attackValue += 5;
-
-        //Get all teammates attackValue and buff their values.
-
-        Instantiate(data.effectPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        
-    }*/
-
-
-
-
-
-public enum ElementState
-{
-    Fire, Earth, Water, Wind
-}
-
-/*public class BaseAbility : Ability
-{
-public override void TriggerAbility(GameObject ob)
-{
-
-}
-}
-public class Heal : Ability
-{
-public int healingPower = 15;
-}
-
-public class DrinkMead : Ability
-{
-
-}
-
-public class Cleave : Ability
-{
-
-}*/
-
 
 

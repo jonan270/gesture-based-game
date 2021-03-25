@@ -727,15 +727,4 @@ MonoBehaviour:
     type: 3}
   handPrefab: {fileID: 410460279390455026, guid: c92dc016d669f3e4caf4b3456d00bc8f,
     type: 3}
---- !u!114 &2075790051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2075790046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fcf52a2cf673c44bbbb7a68ae00d14c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  abilityManager: {fileID: 0}

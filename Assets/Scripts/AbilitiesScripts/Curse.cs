@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Abilities/Curse")]
-public class Curse : affectEnvironment
+public class Curse : AbilityData
 {
-    public override void changeTiles(Hextile tile)
+    public override void OnHit(GameObject target, GameObject attacker)
     {
-
+        // target == Hextile
     }
 
 }
