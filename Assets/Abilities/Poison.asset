@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7977afdb5a08c1342bd3db0eac5c50f4, type: 3}
-  m_Name: cleave
+  m_Script: {fileID: 11500000, guid: 50d5dcd3bd3306848909705f0680e198, type: 3}
+  m_Name: Poison
   m_EditorClassIdentifier: 
-  abilityValue: 50
-  numberOfTargets: 3
-  duration: 0
-  areaAttack: 1
-  healAbility: 0
-  buffAbility: 0
+  abilityName: Poison
+  gemsCost: 10
+  amount: 5
+  targType: 0
+  numberOfTargets: 1
+  numberOfTurns: 3
   effectPrefab: {fileID: 170850, guid: 8e13c6e5a21aeea4db3c25ef0e529308, type: 3}
+  IsFinished: 0

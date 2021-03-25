@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 using System.IO;
 
@@ -54,7 +55,7 @@ public class Deck : MonoBehaviour
 
     public void AddCardsToDeck(Character ch)
     {
-        var prefab = Resources.Load("Card");
+        var prefab = Resources.Load("TriangleCard");
         if(prefab == null)
         {
             throw new FileNotFoundException("... No file found");
@@ -66,12 +67,13 @@ public class Deck : MonoBehaviour
             c1.transform.localScale = Vector3.one;
             c1.transform.parent = this.transform;
 
-            Debug.Log("c1: " + c1.name);
+            //Debug.Log("c1: " + c1.name);
 
             //add description text for card
             c1.GetComponent<Card>().description.text = ch.descriptionTextCard1;
             c1.GetComponent<Card>().nameText.text = ch.Name;
-            c1.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType; // Does not work. Get cardModels' mesh renderer??
+            //c1.GetComponent<Card>().gestureText.text = "Circle";
+           //c1.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType; // Does not work. Get cardModels' mesh renderer??
 
             GameObject c2 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
 
@@ -81,6 +83,7 @@ public class Deck : MonoBehaviour
             //add description text for card
             c2.GetComponent<Card>().description.text = ch.descriptionTextCard2;
             c2.GetComponent<Card>().nameText.text = ch.Name;
+            //c2.GetComponent<Card>().gesture.GetComponent<Image>() = Resources.Load("triangle.png");
             //c2.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType;
 
             GameObject c3 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
@@ -91,8 +94,13 @@ public class Deck : MonoBehaviour
             //add description text for card
             c3.GetComponent<Card>().description.text = ch.descriptionTextCard3;
             c3.GetComponent<Card>().nameText.text = ch.Name;
-            //c3.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType;
+
+            //Canvas.c3.SetActive(false);
+            //text.c1.SetActive(false);
+
             //ch.cards.Add(c1);
+
+
 
             deck.Add(c1);
             deck.Add(c2);

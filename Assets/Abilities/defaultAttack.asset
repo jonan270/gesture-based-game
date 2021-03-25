@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7977afdb5a08c1342bd3db0eac5c50f4, type: 3}
-  m_Name: defaultAttack
+  m_Script: {fileID: 11500000, guid: 8c8944e1f26487148a28f768fe7e2bf7, type: 3}
+  m_Name: DefaultAttack
   m_EditorClassIdentifier: 
-  abilityValue: 0
+  abilityName: DefaultAttack
+  gemsCost: 0
+  amount: 0
+  targType: 0
   numberOfTargets: 1
-  duration: 1
-  areaAttack: 0
-  healAbility: 0
-  buffAbility: 0
-  effectPrefab: {fileID: 170850, guid: 8e13c6e5a21aeea4db3c25ef0e529308, type: 3}
+  numberOfTurns: 1
+  effectPrefab: {fileID: 0}

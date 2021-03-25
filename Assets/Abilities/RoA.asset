@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7977afdb5a08c1342bd3db0eac5c50f4, type: 3}
-  m_Name: drinkmead
+  m_Script: {fileID: 11500000, guid: 0bce9bba6b6b68d448ab998f091c53c2, type: 3}
+  m_Name: RoA
   m_EditorClassIdentifier: 
-  abilityValue: 0
-  numberOfTargets: 1
-  duration: 0
-  areaAttack: 0
-  healAbility: 0
-  buffAbility: 0
+  abilityName: RoA
+  gemsCost: 10
+  amount: 10
+  targType: 1
+  numberOfTargets: 3
+  numberOfTurns: 1
   effectPrefab: {fileID: 0}

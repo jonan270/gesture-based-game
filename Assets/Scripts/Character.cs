@@ -19,13 +19,15 @@ public abstract class Character : MonoBehaviour , IPunObservable
     public string Name;
     protected bool isAlive = true;
 
-    public Material MaterialType;
+    //public Material MaterialType;
     public ElementState Element;
     public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
 
     public CharacterState CurrentState;
 
-    public List<Ability> abilities = new List<Ability>();
+    //public AbilityManager abilityManager;
+
+    public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
     public string descriptionTextCard1;
     public string descriptionTextCard2;
@@ -105,6 +107,11 @@ public abstract class Character : MonoBehaviour , IPunObservable
         {
             isAlive = false;
         }
+    }
+
+    public void UpdateAll()
+    {
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

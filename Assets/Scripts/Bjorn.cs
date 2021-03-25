@@ -15,21 +15,11 @@ public class Bjorn : Character
         WeakAgainst = ElementState.Wind;
         Name = "Bjorn";
         attackValue = 20;
-        MaterialType = Resources.Load("Materials/waterMat.mat", typeof(Material)) as Material;
+        //MaterialType = Resources.Load("Materials/waterMat.mat", typeof(Material)) as Material;
         descriptionTextCard1 = "Bjorn will go berserk";
         descriptionTextCard2 = "Björn will drink mead and ...";
         descriptionTextCard3 = "Björn will do cleave and hurt multiple enemies.";
     }
 
-
-
-    public void Attack(string whichAttack, Character ch) //Get input from which gesture has been done? And which character to attack?
-    {
-        if(whichAttack == "Berserk")
-        {
-            //TODO: animation
-            ch.ModifyHealth(attackValue + 10);
-        }
-    }
 }
 

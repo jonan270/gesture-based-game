@@ -13,7 +13,7 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     public TextMeshProUGUI description;
     public TextMeshProUGUI nameText;
 
-    
+    public Image gesture;
 
     // Randomisera korten lite, 5 kort dras fram för spelaren
     //Korten visas som i en korthög

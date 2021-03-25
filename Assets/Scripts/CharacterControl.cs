@@ -17,11 +17,19 @@ public class CharacterControl : MonoBehaviour
     private GameObject deckPrefab;
     [SerializeField]
     private GameObject handPrefab;
+
+    private string[] gestureTypes = { "Circle", "Triangle", "Square" };
+
+    private string doneGesture;
+
+    //[SerializeField]
+    //public AbilityManager abilityManager;
+
     //private HandCards hand;
     //private Deck deck;
 
-    public Ability[] bjornAbilities;
-    public Ability[] hildaAbilities;
+    //public Ability[] bjornAbilities;
+    //public Ability[] hildaAbilities;
 
     int round = 0;
 
@@ -41,13 +49,22 @@ public class CharacterControl : MonoBehaviour
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
 
+
         //Testing abilities
-        bjornAbilities = bjorn.GetComponent<Character>().GetComponents<Ability>();
-        hildaAbilities = hilda.GetComponent<Character>().GetComponents<Ability>();
+        //bjornAbilities = bjorn.GetComponent<Character>().GetComponents<Ability>();
 
-        int dmg = hildaAbilities[0].TriggerAbility(bjorn.GetComponent<Character>(), hilda.GetComponent<Character>());
+        doneGesture = "Triangle";
 
-        Debug.Log("Damage done: " + dmg); //20
+        bjorn.GetComponent<Character>().ModifyHealth(-50);
+
+        
+
+        //whichAbility(HildaAbilities);
+        
+
+        //int dmg = hildaAbilities[0].TriggerAbility(bjorn.GetComponent<Character>(), hilda.GetComponent<Character>());
+
+        //Debug.Log("Damage done: " + dmg); //20
 
         
 
@@ -55,7 +72,6 @@ public class CharacterControl : MonoBehaviour
 
     void Update()
     {
-        buffTick(hildaAbilities);
 
         if (Input.GetMouseButtonDown(0) && hilda != null)
         {
@@ -108,11 +124,9 @@ public class CharacterControl : MonoBehaviour
         PhotonNetwork.Destroy(ob);
     }
 
-    public void buffTick(Ability[] ab)
-    {
-        
 
-    }
+
+    
 
   
 }
