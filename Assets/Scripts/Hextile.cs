@@ -8,7 +8,7 @@ using UnityEngine;
  * functions for modifying that specific tile
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+ [System.Serializable]
 public class Hextile : MonoBehaviour
 {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -25,13 +25,17 @@ public class Hextile : MonoBehaviour
     public bool spin;
 
     // The angle of the tile during rotation.
-    int angleCount = 0; 
+    private int angleCount = 0;
 
     // Materials for the tilebase of different types
-    public Material matgrass;
-    public Material matdessert;
-    public Material matwater;
-    public Material matwoods;
+    [SerializeField]
+    private Material matgrass;
+    [SerializeField]
+    private Material matdessert;
+    [SerializeField]
+    private Material matwater;
+    [SerializeField]
+    private Material matwoods;
 
     // Awake runs before start
     void Awake()
@@ -40,14 +44,14 @@ public class Hextile : MonoBehaviour
     }
 
     // Update checks what needs to be done to the tile in each frame
-    void Update()
+    private void Update()
     {
         if (spin)
             rotateHex();
     }
 
-    // Spin until 1 rotation has been completed TODO: Make rotateHex timebased instead of framebased.
-    void rotateHex()
+    /// Spin until 1 rotation has been completed TODO: Make rotateHex timebased instead of framebased.
+    private void rotateHex()
     {
         angleCount++;
         transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
@@ -58,7 +62,7 @@ public class Hextile : MonoBehaviour
         }
     }
 
-    // Takes an argument of type string to control which action the tile should take
+    /// Takes an argument of type string to control which action the tile should take
     public void affectTile(string effect)
     {
         if (effect == "spin")
@@ -69,7 +73,7 @@ public class Hextile : MonoBehaviour
             randomizeType();
     }
 
-    // Tells update to initiate spinning state
+    /// Tells update to initiate spinning state
     public void spinTile()
     {
         spin = true;
@@ -91,7 +95,7 @@ public class Hextile : MonoBehaviour
         makeType(type);
     }
 
-    // Takes argument of type string to convert tileType and rendering material
+    /// Takes argument of type string to convert tileType and rendering material
     private void makeType(string type)
     {
         if(type == "typeGrass")
@@ -135,7 +139,7 @@ public class Hextile : MonoBehaviour
 
     // TODO: Reimplement show functions to look for child names instead of indexes.
 
-    // Sets visibility of trees to true or false according to show
+    /// Sets visibility of trees to true or false according to show
     private void showTrees(bool show)
     {
         if (show)
@@ -153,7 +157,7 @@ public class Hextile : MonoBehaviour
     }
 
 
-    // Sets visibility of dunes to true or false according to show
+    /// Sets visibility of dunes to true or false according to show
     private void showDunes(bool show)
     {
         if (show)
@@ -169,7 +173,7 @@ public class Hextile : MonoBehaviour
     }
 
 
-    // Sets visibility of waves to true or false according to show
+    /// Sets visibility of waves to true or false according to show
     private void showWaves(bool show)
     {
         if (show)
@@ -182,7 +186,7 @@ public class Hextile : MonoBehaviour
         }
     }
 
-    // Sets visibility of waves to true or false according to show
+    /// Sets visibility of waves to true or false according to show
     private void showGrass(bool show)
     {
         if (show)
@@ -200,18 +204,19 @@ public class Hextile : MonoBehaviour
         }
     }
 
-    // Hides submodel for a given index
+    /// Hides submodel for a given index
     private void hideSub(int index)
     {
         GetComponentsInChildren<Renderer>()[index].enabled = false;
     }
 
-    // Shows submodel for a given index
+    /// Shows submodel for a given index
     private void showSub(int index)
     {
         GetComponentsInChildren<Renderer>()[index].enabled = true;
     }
 
+    /// Get the position of a tile
     public Vector3 getPosition()
     {
         return transform.position;

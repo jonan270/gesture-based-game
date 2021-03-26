@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class PathDraw : MonoBehaviour
 {
-    const int MAXLEN = 1000; // TODO: should be set to width*height of map
     public List<Hextile> tilesToDraw; // Contains all tiles for path to be drawn between
 
     public Color c1; // Gradient between c1 and c2
     public Color c2;
 
+    private const int MAXLEN = 1000; // TODO: should be set to width*height of map
     private LineRenderer lineRenderer;
     private Vector3[] points = new Vector3[MAXLEN]; // Positions for all tiles
-    private float lineHeight = 0.2f;
+    private float lineHeight = 0.8f;
 
     void Start()
     {
-        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
+        makeLr();
+    }
+
+    private void makeLr()
+    {
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.1f;
         lineRenderer.positionCount = MAXLEN;
@@ -30,7 +35,6 @@ public class PathDraw : MonoBehaviour
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
         );
         lineRenderer.colorGradient = gradient;
-        //Vector3 startPos = transform.position;
     }
 
     void Update()
@@ -38,11 +42,18 @@ public class PathDraw : MonoBehaviour
         drawPoints();
     }
 
-    // Draws all paths that have been added.
-    public void drawPoints()
+    public void EmptyList()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        for (int i = 0; i < tilesToDraw.Count; i++)
+        //TODO: reset the list so that it may be repopulated.
+        //lineRenderer.positionCount = 0;
+        //lineRenderer.SetPositions(points);
+    }
+
+    // Draws all paths that have been added.
+    private void drawPoints()
+    {
+        int size = tilesToDraw.Count;
+        for (int i = 0; i < size; i++)
         {
             points[i].x = tilesToDraw[i].getPosition().x - transform.position.x;
             points[i].z = tilesToDraw[i].getPosition().z - transform.position.z;
@@ -55,5 +66,6 @@ public class PathDraw : MonoBehaviour
     public void addNodeToPath(Hextile h)
     {
         tilesToDraw.Insert(0, h);
+        //tilesToDraw.Add(h);
     }
 }

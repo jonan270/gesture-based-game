@@ -2,67 +2,130 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Photon.Pun;
 //[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 
-public abstract class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour , IPunObservable
 {
     public HealthBar healthBar;
-    public float currentHealth;
-    public float maxHealth = 100;
-    public static int attackValue;
+    public Hextile CurrentTile { get; set; }
+
+    [SerializeField]
+    protected float currentHealth;
+    [SerializeField]
+    protected float maxHealth = 100;
+
+    public int attackValue;
     public string Name;
-    public static string Element;
-    public bool isAlive;
-    public State CurrentState;
-    // public GameObject characterModel;
+    protected bool isAlive = true;
 
-    //public List<GameObject> cards;
+    //public Material MaterialType;
+    public ElementState Element;
+    public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
 
+    public CharacterState CurrentState;
 
-    public string descriptionTextCard1;
-    public string descriptionTextCard2;
-    public string descriptionTextCard3;
+    //public AbilityManager abilityManager;
 
-   // public GameObject c1;
+    public List<AbilityData> ListAbilityData = new List<AbilityData>();
+
+    //public string descriptionTextCard1;
+    //public string descriptionTextCard2;
+    //public string descriptionTextCard3;
+
+    // public GameObject c1;
     //public Card c2;
     //public Card c3;
 
-    public enum State
+    protected virtual void Start()
+    {
+        currentHealth = maxHealth;
+        isAlive = true;
+        
+    }
+    //private void OnEnable()
+    //{
+    //    isAlive = true;
+    //}
+
+    public enum ElementState
+    {
+        Fire, Earth, Water, Wind
+    }
+
+    public enum CharacterState
     {
         LookAtCard, // "Idle" mode, Character standing still
         Walk, //walking mode
         AttackMode // Attack mode, Character is about to perform an attack
     }
 
-    public void setState(State state) {
+    /// <summary>
+    /// Compares attacking hero element vs hero being attacked
+    /// </summary>
+    /// <param name="enemyElement">Element of the enemy</param>
+    /// <param name="bonusDamage">How much extra damage is added</param>
+    /// <returns></returns>
+    public int CompareEnemyElement(ElementState enemyElement, int bonusDamage)
+    {
+        if (enemyElement == StrongAgainst)
+        {
+            Debug.Log("strong");
+            return attackValue += bonusDamage;
+            
+        }
+        else if(enemyElement == WeakAgainst)
+        {
+            Debug.Log("weak");
+            return attackValue -= bonusDamage;
+        }
+        return attackValue;
+    }
+
+    public void SetState(CharacterState state) {
         CurrentState = state;
     }
 
-    public bool checkHealth()
+    public bool IsAlive //är det en funktion för att kolla om karaktären lever eller för att få veta hur mycke liv finns kvar
     {
+        get { return isAlive; }
+    }
 
-        if (currentHealth <= 0) //Check if still alive
+    /// <summary>
+    /// Modifies health and updates the healthbar
+    /// </summary>
+    /// <param name="amount">Positive value heals and negative value deals damage</param>
+    public void ModifyHealth(int amount)
+    {
+        currentHealth += amount;
+
+        float currentHealthPct = currentHealth / maxHealth; //Calculate current health percentage
+
+        healthBar.SetFill(currentHealthPct); //health image 
+        
+        if(currentHealth <= 0)
         {
             isAlive = false;
         }
-        else
-            isAlive = true;
-
-        return isAlive;
     }
 
-    public float ModifyHealth(int amount)
+    public void UpdateAll()
     {
-        currentHealth -= amount;
 
-        float currentHealthPct = (float)currentHealth / (float)maxHealth; //Calculate current health percentage
-
-        return currentHealthPct;
     }
 
-
-
-
-
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            //Own player: send data to others
+            stream.SendNext(currentHealth);
+        }
+        else
+        {
+            //Network player, receive data
+            currentHealth = (float)stream.ReceiveNext();
+            ModifyHealth(0); //updates healthbar 
+        }
+    }
 }
