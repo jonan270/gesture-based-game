@@ -15,42 +15,56 @@ public class CharacterControl : MonoBehaviour
     private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
     [SerializeField]
-    private Deck deck;
-    private Hand hand;
+    private GameObject deckPrefab;
+    [SerializeField]
+    private GameObject handPrefab;
+    [SerializeField]
+    public List<GameObject> listOfCharacters = new List<GameObject>();
+
+    private string[] gestureTypes = { "Circle", "Triangle", "Square" };
+
+    private string doneGesture;
+
+   // [SerializeField]
+    //public AbilityManager abilityManager;
+
+    //private HandCards hand;
+    //private Deck deck;
+
+    //public Ability[] bjornAbilities;
+    //public Ability[] hildaAbilities;
 
     int round = 0;
 
-    private GameObject hilda, bjorn;
+    private GameObject hilda, bjorn, deck, hand;
 
     // Start is called before the first frame update
     void Start()
     {
+        deck = Instantiate(deckPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
-        //deck = new Deck(); //Create specific deck for player
-
+        //deckPrefab = new Deck(); //Create specific deck for player
+        //var prefab = Resources.Load("Deck");
+        //deck = SpawnDeck(deckPrefab);
 
         //Call function createCharacter()
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
-        //Show hand of currently available cards
 
+        listOfCharacters.Add(hilda);
+        listOfCharacters.Add(bjorn);
 
+        //Select character
 
+        //Text on cards in hand shows. Text includes information about abilities
 
+        //Character performs gesture -> certain card is activated
 
-        //Call function to move character
+        //We know now what ability should be performed
+        
+        
 
-        //Call function to attack opponent
-
-        //Call function to change healths of characters and modify health bars
-
-        //float remainingHealth = hilda.ModifyHealth(10);
-
-        //Debug.Log(remainingHealth);
-        //hilda.healthBar.SetSize(remainingHealth);
-
-        //character.Attack("Berserk", charactertwo);
-        // Debug.Log("Health after attack: " + charactertwo.Health
     }
 
     void Update()
@@ -59,19 +73,23 @@ public class CharacterControl : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && hilda != null)
         {
             hilda.GetComponent<Hilda>().ModifyHealth(-10);
+           
+          
         }
 
-        //if (round == 0)
-        //{
-        //    deck.Shuffle(); //Must shuffle in order to get different cards each round
-        //    List<GameObject> drawnCards = deck.Draw(); //Draws the cards from deck
-        //    hand = new Hand(drawnCards);
-        //    hand.showHand();
+        if (round == 0)
+        {
+            deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
+            List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
 
-        //    Debug.Log(drawnCards.Count);
 
-        //    round++;
-        //}
+            hand.GetComponent<HandCards>().setHand(drawnCards);
+            hand.GetComponent<HandCards>().showHand();
+
+
+            round++;
+
+        }
 
         if (hilda != null)
         {
@@ -90,6 +108,7 @@ public class CharacterControl : MonoBehaviour
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
+
         //TODO: spawn character at each side
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
         Debug.LogError("Spawn Tile " + spawnTile.Position);
@@ -99,7 +118,8 @@ public class CharacterControl : MonoBehaviour
 
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.GetComponent<Character>().CurrentTile = spawnTile;
-        //deck.AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
+        
+        deck.GetComponent<Deck>().AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 
         return obj;
     }
@@ -109,4 +129,10 @@ public class CharacterControl : MonoBehaviour
         //deck.RemoveCards(ob.GetComponent<Character>().Name);
         PhotonNetwork.Destroy(ob);
     }
+
+
+
+    
+
+  
 }

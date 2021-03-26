@@ -25,17 +25,20 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public int attackValue;
     public string Name;
     protected bool isAlive = true;
-    
+
+    //public Material MaterialType;
     public ElementState Element;
     public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
 
     public CharacterState CurrentState;
-    
-    //public List<GameObject> cards;
 
-    public string descriptionTextCard1;
-    public string descriptionTextCard2;
-    public string descriptionTextCard3;
+    //public AbilityManager abilityManager;
+
+    public List<AbilityData> ListAbilityData = new List<AbilityData>();
+
+    //public string descriptionTextCard1;
+    //public string descriptionTextCard2;
+    //public string descriptionTextCard3;
 
     // public GameObject c1;
     //public Card c2;
@@ -45,6 +48,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         currentHealth = maxHealth;
         isAlive = true;
+        
     }
     //private void OnEnable()
     //{
@@ -70,10 +74,13 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         if (enemyElement == StrongAgainst)
         {
+            Debug.Log("strong");
             return attackValue += bonusDamage;
+            
         }
         else if(enemyElement == WeakAgainst)
         {
+            Debug.Log("weak");
             return attackValue -= bonusDamage;
         }
         return attackValue;
@@ -104,6 +111,11 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             isAlive = false;
         }
+    }
+
+    public void UpdateAll()
+    {
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
