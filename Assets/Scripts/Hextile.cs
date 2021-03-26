@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
@@ -8,8 +9,7 @@ using UnityEngine;
  * functions for modifying that specific tile
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
- [System.Serializable]
-public class Hextile : MonoBehaviour
+public class Hextile : MonoBehaviourPun
 {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * 
@@ -19,14 +19,21 @@ public class Hextile : MonoBehaviour
      * tileType can be: "grass", "dessert", "water" or "woods".
      * 
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-    public string tileType;
+    //public string tileType;
+
+    public ElementState tileType;
+    public AreaEffect areaEffect; // Could for example be a trap
+
+    public GameObject trap;
+
 
     // Should the tile be rotating?
     public bool spin;
 
     // The angle of the tile during rotation.
-    private int angleCount = 0;
+    private int angleCount = -180;
 
+    [Header("Materials")]
     // Materials for the tilebase of different types
     [SerializeField]
     private Material matgrass;
@@ -37,10 +44,23 @@ public class Hextile : MonoBehaviour
     [SerializeField]
     private Material matwoods;
 
+    [Header("Type Graphics")]
+    public GameObject tile;
+    public GameObject forest;
+    public GameObject dessert;
+    public GameObject water;
+    public GameObject grass;
+
+
+    public Vector2Int tileIndex = new Vector2Int(-1, -1);
+
     // Awake runs before start
     void Awake()
     {
         randomizeType(); //Set to random
+        //areaEffect = (new GameObject("areaEffect")).AddComponent<AreaEffect>();
+
+
     }
 
     // Update checks what needs to be done to the tile in each frame
@@ -50,175 +70,137 @@ public class Hextile : MonoBehaviour
             rotateHex();
     }
 
+    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier)
+    { 
+        makeType(tileElement);
+        //Synchronize traps 
+        if(isTrapActive)
+        {
+            AddEffect(trapElement, trapModifier);
+        }
+        else
+        {
+            RemoveEffect();
+        }
+    }
+
     /// Spin until 1 rotation has been completed TODO: Make rotateHex timebased instead of framebased.
     private void rotateHex()
     {
         angleCount++;
-        transform.localEulerAngles = new Vector3(-angleCount, 0, 0);
-        if (angleCount == 360)
+        transform.localEulerAngles = new Vector3(angleCount, 0, 0);
+        if (angleCount == 0)
         {
             spin = false;
-            angleCount = 0;
+            angleCount = -180;
         }
     }
 
-    /// Takes an argument of type string to control which action the tile should take
-    public void affectTile(string effect)
-    {
-        if (effect == "spin")
-            spinTile();
-        else if (effect == "typeGrass" || effect == "typeDessert" || effect == "typeWater" || effect == "typeWoods")
-            makeType(effect);
-        else if (effect == "typeRandom")
-            randomizeType();
-    }
+    ///// Takes an argument of type string to control which action the tile should take
+    //public void affectTile(ElementState _element)
+    //{
+    //    // if (effect == "spin")
+    //    //     spinTile();
+    //    else if (_element == "typeGrass" || _element == "typeDessert" || _element == "typeWater" || _element == "typeWoods")
+    //        makeType(_element);
+    //    //else if (effect == "typeRandom")
+    //    //    randomizeType();
+    //}
 
     /// Tells update to initiate spinning state
     public void spinTile()
     {
+        transform.localEulerAngles = new Vector3(-180, 0, 0);
         spin = true;
+    }
+
+    /// <summary>
+    /// Adds an effect to this tile
+    /// </summary>
+    public void AddEffect(ElementState state, int healthMod)
+    {
+        spinTile();
+        trap.SetActive(true);
+        areaEffect.SetEffect(state, healthMod);
+    }
+
+    /// <summary>
+    /// Clears the effect from this tile
+    /// </summary>
+    public void RemoveEffect()
+    {
+        spinTile();
+        trap.SetActive(false);
+        areaEffect.Remove();
     }
 
     private void randomizeType()
     {
         int randT = Random.Range(0, 4);
-        string type;
-
+        // string type;
+        ElementState state;
         if (randT == 1)
-            type = "typeDessert";
+            state = ElementState.Earth;
         else if (randT == 2)
-            type = "typeWater";
+            state = ElementState.Fire;
         else if (randT == 3)
-            type = "typeWoods";
+            state = ElementState.Water;
         else
-            type = "typeGrass";
-        makeType(type);
+            state = ElementState.Wind;
+
+        makeType(state);
     }
 
     /// Takes argument of type string to convert tileType and rendering material
-    private void makeType(string type)
+    public void makeType(ElementState type)
     {
-        if(type == "typeGrass")
+        if(type == ElementState.Wind)
         {
-            tileType = "grass";
-            GetComponentsInChildren<MeshRenderer>()[0].material = matgrass;
-            showGrass(true);
-            showTrees(false);
-            showDunes(false);
-            showWaves(false);
+            tileType = ElementState.Wind;
+            tile.GetComponent<MeshRenderer>().material = matgrass;
+            ResetTiles();
+            grass.SetActive(true);
         }
-        else if(type == "typeDessert")
+        else if(type == ElementState.Fire)
         {
-            tileType = "dessert";
-            GetComponentsInChildren<MeshRenderer>()[0].material = matdessert;
-            showGrass(false);
-            showTrees(false);
-            showDunes(true);
-            showWaves(false);
+            tileType = ElementState.Fire;
+            tile.GetComponent<MeshRenderer>().material = matdessert;
+            ResetTiles();
+            dessert.SetActive(true);
         }
-        else if(type == "typeWater")
+        else if(type == ElementState.Water)
         {
-            tileType = "water";
-            GetComponentsInChildren<MeshRenderer>()[0].material = matwater;
-            showGrass(false);
-            showTrees(false);
-            showDunes(false);
-            showWaves(true);
+            tileType = ElementState.Water;
+            tile.GetComponent<MeshRenderer>().material = matwater;
+            ResetTiles();
+            water.SetActive(true);
         }
-        else if (type == "typeWoods")
+        else if (type == ElementState.Earth)
         {
-            tileType = "woods";
-            GetComponentsInChildren<MeshRenderer>()[0].material = matwoods;
-            showGrass(false);
-            showTrees(true);
-            showDunes(false);
-            showWaves(false);
+            tileType = ElementState.Earth;
+            tile.GetComponent<MeshRenderer>().material = matwoods;
+            ResetTiles();
+            forest.SetActive(true);
         }
         spinTile();
     }
 
-    // TODO: Reimplement show functions to look for child names instead of indexes.
-
-    /// Sets visibility of trees to true or false according to show
-    private void showTrees(bool show)
+    private void ResetTiles() 
     {
-        if (show)
-        {
-            showSub(1);
-            showSub(2);
-            showSub(3);
-        }
-        else
-        {
-            hideSub(1);
-            hideSub(2);
-            hideSub(3);
-        }
-    }
-
-
-    /// Sets visibility of dunes to true or false according to show
-    private void showDunes(bool show)
-    {
-        if (show)
-        {
-            showSub(4);
-            showSub(5);
-        }
-        else
-        {
-            hideSub(4);
-            hideSub(5);
-        }
-    }
-
-
-    /// Sets visibility of waves to true or false according to show
-    private void showWaves(bool show)
-    {
-        if (show)
-        {
-            showSub(6);
-        }
-        else
-        {
-            hideSub(6);
-        }
-    }
-
-    /// Sets visibility of waves to true or false according to show
-    private void showGrass(bool show)
-    {
-        if (show)
-        {
-            showSub(7);
-            showSub(8);
-            showSub(9);
-        }
-        else
-        {
-            hideSub(7);
-            hideSub(8);
-            hideSub(9);
-
-        }
-    }
-
-    /// Hides submodel for a given index
-    private void hideSub(int index)
-    {
-        GetComponentsInChildren<Renderer>()[index].enabled = false;
-    }
-
-    /// Shows submodel for a given index
-    private void showSub(int index)
-    {
-        GetComponentsInChildren<Renderer>()[index].enabled = true;
+        forest.SetActive(false);
+        water.SetActive(false);
+        grass.SetActive(false);
+        dessert.SetActive(false);
+        trap.SetActive(false);
     }
 
     /// Get the position of a tile
-    public Vector3 getPosition()
+    public Vector3 Position {
+        get { return transform.position; }
+    }
+
+    public void SetTileIndex(Vector2Int pos)
     {
-        return transform.position;
+        tileIndex = pos;
     }
 }

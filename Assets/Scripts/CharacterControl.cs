@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class CharacterControl : MonoBehaviour
 {
+    [SerializeField] public static GameObject SelectedCharacter;
     [SerializeField]
     private GameObject hildaPrefab;
     [SerializeField]
@@ -99,6 +100,10 @@ public class CharacterControl : MonoBehaviour
             }
         }
 
+        if(SelectedCharacter != null)
+        {
+            Debug.Log("select char from CC" + SelectedCharacter.name);
+        }
     }
 
     private GameObject SpawnCharacter(GameObject prefab)
@@ -106,8 +111,12 @@ public class CharacterControl : MonoBehaviour
 
         //TODO: spawn character at each side
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
-        
-        GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.getPosition(), Quaternion.identity);
+        Debug.LogError("Spawn Tile " + spawnTile.Position);
+
+
+        Vector3 rotation = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
+
+        GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.GetComponent<Character>().CurrentTile = spawnTile;
         
         deck.GetComponent<Deck>().AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character

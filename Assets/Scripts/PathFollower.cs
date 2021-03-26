@@ -1,103 +1,111 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 // This is just a simple solution that should be reworked.
 public class PathFollower : MonoBehaviour
 {
+    
+
+    private int index = 0; //index of the current node
+
+    private bool moving = false; // Should the follower be moving?
+    /// <summary>
+    ///  How fast the gameobject moves between tiles
+    /// </summary>
     [SerializeField]
+    private float speed = 0.5f;
+    private float startTime;
+    private float journeyLength;
+    /// <summary>
+    /// The path to follow
+    /// </summary>
+    private List<Hextile> path;
+    private Vector3 pathTarget;
+    private Vector3 startTarget;
+
+    /// <summary>
+    /// Drawer object in scene
+    /// </summary>
     private PathDraw pathDrawer;
+    /// <summary>
+    /// reference to attached character script
+    /// </summary>
+    private Character character;
 
-    public Hextile current; // Current hextile where the pathfollower is positioned
-    public bool moving; // Should the follower be moving?
-
-    private Vector3 currentFront; // Always facing toward positive z (forward)
-    private int moveCounter; // Counter used for lerping positions
-    private int nodeIndex; // Indexing for lerping
-    private const float stopSize = 0.01f; // How fast the gameobject moves between tiles
-
-    void Reset()
-    {
-        // TODO: when it is possible to reset the linrenderer, this function should be called after a move is completed
-        moveCounter = 0;
-        nodeIndex = 0;
-        moving = false;
-        currentFront = transform.forward;
+    private void Start() {
+        character = GetComponent<Character>();
+        pathDrawer = FindObjectOfType<PathDraw>();
+    }
+    /// <summary>
+    /// Begin movement of the character
+    /// </summary>
+    /// <param name="points">Path to follow</param>
+    public void StartMoving(List<Hextile> points) {
+        if(points.Count > 0) {
+            path = points;
+            moving = true;
+            GetNextPoint();
+        }
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        Reset();
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (moving)
-            moveBetween();
+            MoveBetweenPoints();
     }
-
     /// <summary>
-    /// Turns the pathfollower toward next
+    /// Moves the character between two points on the path
     /// </summary>
-    /// <param name="next"></param>
-    private void turnToNext(Hextile next)
-    {
-        Vector3 moveVec = next.getPosition() - transform.position; // Vector pointing from current position to the tile
-        float angle = Vector3.Angle(currentFront, moveVec);
+    private void MoveBetweenPoints() {
+        transform.LookAt(pathTarget);
+        float distanceCovered = (Time.time - startTime) * speed;
+        float fraction = distanceCovered / journeyLength;
+        transform.position = Vector3.Lerp(startTarget, pathTarget, fraction);
 
-        // Check for negative angle
-        Vector3 cross = Vector3.Cross(currentFront, moveVec);
-        if (cross.y < 0) angle = -angle;
-
-        transform.eulerAngles = new Vector3(0, angle, 0);
-    }
-
-    /// <summary>
-    /// Moves the PathFollower across the list of tiles
-    /// </summary>
-    public void moveBetween()
-    {
-        //Temporary solution. List must be reversed
-        List<Hextile> moveNodes = new List<Hextile>(pathDrawer.tilesToDraw);
-        moveNodes.Reverse();
-        int size = moveNodes.Count;
-        if (size > 0)
+        //If we are close enough to the target move towards next
+        if(Vector3.Distance(transform.position, pathTarget) <= 0.01)
         {
-            if(moveCounter == 0)
-                turnToNext(moveNodes[nodeIndex]);
-
-            Vector3 currentPos = transform.position; // Current position
-            Vector3 nextPos = moveNodes[nodeIndex].getPosition(); // Move here
-            transform.position = Vector3.Lerp(currentPos, nextPos, moveCounter * stopSize); // Find angle to rotate
-            moveCounter++;
-
-            // Check if the movement between 2 tiles is finished. If finished, move on to next tile.
-            if (moveCounter * stopSize >= 1)
+            // Check for traps and effects
+            if (character.CurrentTile.areaEffect.isActivated)
             {
-                moveCounter = 0;
-                if (nodeIndex < size - 1)
-                {
-                    nodeIndex++;
-                    turnToNext(moveNodes[nodeIndex]);
-                }
-                // Else tile is reached
-                else if (nodeIndex == size - 1)
-                {
-                    nodeIndex++;
-                    transform.eulerAngles = transform.forward;
-                }
+                character.ModifyHealth(character.CurrentTile.areaEffect.ApplyEffect(character));
+                var index = character.CurrentTile.tileIndex;
+                FindObjectOfType<Hexmap>().ChangeEffect(index.x, index.y, false);
             }
-            // Check if end of list is reached
-            if (nodeIndex == size)
-            {
-                moving = false;
-                currentFront = transform.forward;
-                //Debug.Log(currentFront);
-                current = moveNodes[nodeIndex-1];
-                pathDrawer.EmptyList();
-            }
+                
+            GetNextPoint();
         }
+    }
+    /// <summary>
+    /// Get the next point on the path
+    /// </summary>
+    private void GetNextPoint() {
+
+        //If we are not at the end 
+        if (index < path.Count) {
+            startTarget = transform.position;
+            pathTarget = path[index].Position;
+
+            journeyLength = Vector3.Distance(startTarget, pathTarget);
+
+            startTime = Time.time;
+            character.CurrentTile = path[index];
+            index++;
+        }
+        else { //The end of the path has been reached
+            ReachedEnd();
+        }
+    }
+    /// <summary>
+    /// Raised when the character has reached end of its path
+    /// </summary>
+    private void ReachedEnd()
+    {
+        moving = false;
+        index = 0;
+        transform.eulerAngles = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
+        pathDrawer.ClearPath();
+        PathCreator.isBusy = false; //Lets another character create its path
     }
 }

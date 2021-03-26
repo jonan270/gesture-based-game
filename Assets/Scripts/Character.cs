@@ -4,16 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 //[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
+/// <summary>
+/// Element of character or tile, found in Character.cs
+/// </summary>
+public enum ElementState
+{ 
+    None, Fire, Earth, Water, Wind
+}
 
-public abstract class Character : MonoBehaviour , IPunObservable
+public abstract class Character : MonoBehaviour, IPunObservable
 {
     public HealthBar healthBar;
     public Hextile CurrentTile { get; set; }
 
-    [SerializeField]
-    protected float currentHealth;
-    [SerializeField]
-    protected float maxHealth = 100;
+    //[SerializeField]
+    public float currentHealth;
+    //[SerializeField]
+    public float maxHealth = 100;
 
     public int attackValue;
     public string Name;
@@ -48,10 +55,7 @@ public abstract class Character : MonoBehaviour , IPunObservable
     //    isAlive = true;
     //}
 
-    public enum ElementState
-    {
-        Fire, Earth, Water, Wind
-    }
+
 
     public enum CharacterState
     {
@@ -86,7 +90,7 @@ public abstract class Character : MonoBehaviour , IPunObservable
         CurrentState = state;
     }
 
-    public bool IsAlive //är det en funktion för att kolla om karaktären lever eller för att få veta hur mycke liv finns kvar
+    public bool IsAlive //ï¿½r det en funktion fï¿½r att kolla om karaktï¿½ren lever eller fï¿½r att fï¿½ veta hur mycke liv finns kvar
     {
         get { return isAlive; }
     }
@@ -102,7 +106,7 @@ public abstract class Character : MonoBehaviour , IPunObservable
         float currentHealthPct = currentHealth / maxHealth; //Calculate current health percentage
 
         healthBar.SetFill(currentHealthPct); //health image 
-        
+
         if(currentHealth <= 0)
         {
             isAlive = false;

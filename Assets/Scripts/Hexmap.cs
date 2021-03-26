@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
  * Hexmap generates and keeps track of all generated map tiles.
@@ -16,7 +16,7 @@ using UnityEngine;
 public class Hexmap : MonoBehaviour
 {
     private InputMaster controls;
-    public PathDraw lineRenderer;
+    //public PathDraw lineRenderer;
 
     // Map size in terms of hexes
     public const int width = 20;
@@ -29,32 +29,22 @@ public class Hexmap : MonoBehaviour
     public Hextile hexPrefab;
 
     // Offset values
-    private float xoff = 0.8f;
-    private float zoff = 0.46f;
+    private const float xoff = 0.8f;
+    private const float zoff = 0.46f;
 
     // Spawn
     private int master_count = 0;
 
-
-    // ** TEMPORARY VARIABLES **
-    public Raycasthandler rayhandler;
-    private Vector2Int currentHex;
-
+    PhotonView photonView;
 
     // Start by generating tiles and making a randomized map-config
-    void Start()
+    void Awake()
     {
+        photonView = GetComponent<PhotonView>();
+        if (photonView == null)
+            Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
-
-        currentHex = new Vector2Int(3, 0); // TODO: Remove me and make me based on character tile pos.
-        lineRenderer.addNodeToPath(hexTiles[currentHex.x, currentHex.y]);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //hexTiles[4, 0].spinTile();
     }
 
     /// <summary>
@@ -72,93 +62,129 @@ public class Hexmap : MonoBehaviour
     /// <param name="continuity"></param>
     public void randomizeHexmap(int iterations, int continuity)
     {
+        Debug.Log("Randomizing map");
         for (int i = 0; i < iterations; i++)
         {
             int randX = Random.Range(0, width);
             int randY = Random.Range(0, height);
             int randR = Random.Range(0, continuity);
             int randT = Random.Range(0, 4);
-            string effect;
+            ElementState element;
 
             if (randT == 1)
-                effect = "typeDessert";
+                element = ElementState.Fire;
             else if (randT == 2)
-                effect = "typeWater";
+                element = ElementState.Water;
             else if (randT == 3)
-                effect = "typeWoods";
+                element = ElementState.Earth;
             else
-                effect = "typeGrass";
+                element = ElementState.Wind;
 
-            affectRadius(randX, randY, randR, effect);
+            affectRadius(randX, randY, randR, element);
+        }
+
+        //synka nya mapen med andra 
+        SynchronizeNetworkMap();
+    }
+    /// <summary>
+    /// Synchronize all tiles for both players so they have identical map layout 
+    /// </summary>
+    public void SynchronizeNetworkMap()
+    {
+        Debug.LogError("Synchronizing map over network");
+        //synka nya mapen med andra 
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                //TODO: if lobby function, removed buffered target
+                AreaEffect areaEffect = hexTiles[x, y].areaEffect;
+                photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated
+                    ,areaEffect.TrapElement, areaEffect.healthModifier);
+            }
         }
     }
 
-    /// Applies a provided effect to a tile for given coordinates if within bounds
-    private void applyEffect(int x, int y, string effect)
+    [PunRPC]
+    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier)
     {
-        if (x >= 0 && x < width && y >= 0 && y < height)
-            hexTiles[x,y].affectTile(effect);
+        hexTiles[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier);
     }
 
-    /// Checks direction of input to see what tile the path should be drawn to
-    public void drawDirection(Vector2 input)
+
+    /// <summary>
+    /// Change the element type of a single tile
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="element"></param>
+    private void ChangeTileElement(int x, int y, ElementState element)
     {
-        Vector2Int moveDir = new Vector2Int(0, 0);
-        if (input.x > 0)
-            moveDir.x = 1;
-        else if (input.x < 0)
-            moveDir.x = -1;
-        if (input.y > 0)
-            moveDir.y = 1;
-        else if (input.y < 0)
-            moveDir.y = -1;
-        drawNode(moveDir);
+        if(CheckValid(x,y))
+            hexTiles[x,y].makeType(element);
+    }
+
+    
+    public void ChangeEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, int healthMod = 0) 
+    {
+        if(CheckValid(x,y)) 
+        {
+            if(setEffect){
+                hexTiles[x, y].AddEffect(element, healthMod);
+            }
+            else {
+                hexTiles[x,y].RemoveEffect();
+            }
+            AreaEffect areaEffect = hexTiles[x, y].areaEffect;
+            photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated, areaEffect.TrapElement, areaEffect.healthModifier);
+
+        }
+    }
+
+    /// Check if the given index is within bounds of map
+    private bool CheckValid(int x, int y) 
+    {
+        return (x >= 0 && x < width && y >= 0 && y < height);
     }
 
     public Hextile GetSpawnPosition(bool master)
     {
-        Hextile tile;
-        if(master)
+        // retunera fr�n hosts tiles yo
+        Hextile tile = null;
+        if(master && CheckValid(master_count + 3, 0))
         {
             tile = hexTiles[master_count + 3, 0];
             master_count+=4;
+            return hexTiles[master_count + 3, 0];
         }
-        else
+        else if(!master && CheckValid(master_count + 3, height - 1))
         {
             // else return non master position
             tile = hexTiles[master_count + 3, height - 1];
             master_count += 4;
+            return hexTiles[master_count + 3, height - 1];
         }
         return tile;
-    }
-
-    /// Draw to identified tile and update currentHex if command is within bounds of the map
-    private void drawNode(Vector2Int direction)
-    {
-        if(currentHex.x + direction.x < width && currentHex.x + direction.x >= 0
-            && currentHex.y + direction.y < height && currentHex.y + direction.y >= 0)
-        {
-            lineRenderer.addNodeToPath(hexTiles[currentHex.x + direction.x, currentHex.y + direction.y]);
-            currentHex.x += direction.x;
-            currentHex.y += direction.y;
-        }
     }
 
     /// Generates all tiles and places them in the array.
     private void generateTiles()
     {
+        Debug.Log("Generating tiles");
         float zSwitch = zoff;
         float xSwitch = xoff;
-        Hextile instantiated;
         for (int x = 0; x < width; x++)
         {
             for (int z = 0; z < height; z++)
             {
                 // Instantiate and add to array
-                instantiated = Instantiate(hexPrefab, new Vector3(x * xoff, 0, 2 * zoff * z + zSwitch), Quaternion.identity);
+                Hextile instantiated = Instantiate(hexPrefab, new Vector3(x * xoff, 0, 2 * zoff * z + zSwitch), Quaternion.identity);
                 instantiated.transform.localScale = Vector3.one;
                 instantiated.transform.parent = transform;
+                //Hextile tile = instantiated.GetComponent<Hextile>();
                 hexTiles[x, z] = instantiated;
+                hexTiles[x, z].SetTileIndex(new Vector2Int(x, z));
+                //photonView.RPC("RPC_AddTile", RpcTarget.AllBuffered, instantiated, x, z);
             }
             // Only offsett odd rows
             if (x % 2 == 0)
@@ -177,7 +203,7 @@ public class Hexmap : MonoBehaviour
     //
     // Should be changed some day. Preferably before 21:00.
     // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
-    private void affectRadius(int xCord, int yCord, int radius, string effect)
+    private void affectRadius(int xCord, int yCord, int radius, ElementState element)
     {
         if (radius >= 1)
         {
@@ -207,7 +233,7 @@ public class Hexmap : MonoBehaviour
                 {
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        applyEffect(xCord + xi, yCord + yi, effect);
+                        ChangeTileElement(xCord + xi, yCord + yi, element);
                     }
                     symmetric = false;
                 }
@@ -217,13 +243,13 @@ public class Hexmap : MonoBehaviour
                     if (xCord % 2 != 0)
                         correction = 1;
                     if (radius == 1) // If radius is 1 top-center tile must be made implicitly
-                        applyEffect(xCord + xi, yCord + 1 - correction, effect);
+                        ChangeTileElement(xCord + xi, yCord + 1 - correction, element);
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        applyEffect(xCord + xi, yCord + yi - correction, effect);
+                        ChangeTileElement(xCord + xi, yCord + yi - correction, element);
                         if (yi > 0)
                         {
-                            applyEffect(xCord + xi, yCord + yi + 1 - correction, effect);
+                            ChangeTileElement(xCord + xi, yCord + yi + 1 - correction, element);
                         }
                     }
                     symmetric = true;
@@ -232,6 +258,6 @@ public class Hexmap : MonoBehaviour
         }
         //Radius = 0, just affect 1 tile
         else if(radius == 0)
-            applyEffect(xCord, yCord, effect);
+            ChangeTileElement(xCord, yCord, element);
     }
 }
