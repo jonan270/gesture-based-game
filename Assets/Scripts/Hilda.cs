@@ -6,34 +6,19 @@ using UnityEditor;
 
 public class Hilda : Character
 {
-    public Hilda()
+    protected override void Start()
     {
-        Element = "earth";
+        base.Start();
+        Element = ElementState.Fire;
+        StrongAgainst = ElementState.Earth;
+        WeakAgainst = ElementState.Water;
         Name = "Hilda";
         attackValue = 15;
-        descriptionTextCard1 = "Hilda will conjure a health potion.";
-        descriptionTextCard2 = "Hilda will see the future.";
-        descriptionTextCard3 = "Hilda will summon a raven.";
+        //MaterialType = Resources.Load("Materials/RoseMat.mat", typeof(Material)) as Material;
+        /*descriptionTextCard1 = "Hilda will conjure a health potion to be used on self or her teammates.";
+        descriptionTextCard2 = "Hilda will conjure an Attack boost for her teammates.";
+        descriptionTextCard3 = "Hilda will change tiles to match her own element.";*/
+        
+        
     }
-    
-    public void compareElement(string enemyElement)
-    {
-        if (enemyElement == "fire")
-        {
-            attackValue -= 5;
-        }
-    }
-
-    public void OnEnable()
-    {
-
-        currentHealth = maxHealth;
-
-        isAlive = true;
-
-        healthBar = HealthBar.Create(new Vector3(0, 6), new Vector3(0.08f, 0.01f)); // Set position as characters position in x
-        healthBar.SetSize(currentHealth);
-
-    }
-
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4860302380031582869}
   - component: {fileID: 4860302380031582868}
+  - component: {fileID: -4780641490868156331}
   m_Layer: 0
   m_Name: Hexmap
   m_TagString: Untagged
@@ -43,7 +44,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ace9f949cd21b04b86405fda9a9c47e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 0}
   hexPrefab: {fileID: 1156072231798157232, guid: 794548858c0a1fa41bcbb708eedd5177,
     type: 3}
-  rayhandler: {fileID: 0}
+--- !u!114 &-4780641490868156331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4860302380031582871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

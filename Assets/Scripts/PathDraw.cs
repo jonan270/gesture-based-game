@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class PathDraw : MonoBehaviour
 {
-    const int MAXLEN = 1000; // TODO: should be set to width*height of map
-    public List<Hextile> tilesToDraw; // Contains all tiles for path to be drawn between
-
     public Color c1; // Gradient between c1 and c2
     public Color c2;
 
     private LineRenderer lineRenderer;
-    private Vector3[] points = new Vector3[MAXLEN]; // Positions for all tiles
-    private float lineHeight = 0.2f;
+    //private Vector3[] points = new Vector3[MAXLEN]; // Positions for all tiles
+    private float lineHeight = 0.8f;
 
     void Start()
     {
-        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
+        MakeLr();
+    }
+
+    private void MakeLr()
+    {
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.widthMultiplier = 0.1f;
-        lineRenderer.positionCount = MAXLEN;
         lineRenderer.useWorldSpace = false;
+        lineRenderer.loop = false;
+        lineRenderer.positionCount = 0;
+
 
         // A simple 2 color gradient with a fixed alpha of 1.0f.
         float alpha = 0.5f;
@@ -30,30 +34,51 @@ public class PathDraw : MonoBehaviour
             new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) }
         );
         lineRenderer.colorGradient = gradient;
-        //Vector3 startPos = transform.position;
     }
 
     void Update()
     {
-        drawPoints();
+        //drawPoints();
+        //lineRenderer.enabled = true;
+        //DrawPath()
     }
 
-    // Draws all paths that have been added.
-    public void drawPoints()
-    {
-        lineRenderer = GetComponent<LineRenderer>();
-        for (int i = 0; i < tilesToDraw.Count; i++)
-        {
-            points[i].x = tilesToDraw[i].getPosition().x - transform.position.x;
-            points[i].z = tilesToDraw[i].getPosition().z - transform.position.z;
-            points[i].y = lineHeight;
-        }
-        lineRenderer.SetPositions(points);
+    
+    public void DrawPath(Vector3[] path) {
+        lineRenderer.positionCount = path.Length;
+        lineRenderer.SetPositions(path);
     }
 
-    // Tells PathDraw to add another node at position of Hextile h to be drawn.
-    public void addNodeToPath(Hextile h)
+    public void ClearPath()
     {
-        tilesToDraw.Insert(0, h);
+        lineRenderer.positionCount = 0;
     }
+
+    // public void EmptyList()
+    // {
+    //     //TODO: reset the list so that it may be repopulated.
+    //     //lineRenderer.positionCount = 0;
+    //     //lineRenderer.SetPositions(points);
+    // }
+
+    // // Draws all paths that have been added.
+    // private void drawPoints()
+    // {
+    //     int size = tilesToDraw.Count;
+    //     for (int i = 0; i < size; i++)
+    //     {
+    //         points[i].x = tilesToDraw[i].getPosition().x - transform.position.x;
+    //         points[i].z = tilesToDraw[i].getPosition().z - transform.position.z;
+    //         points[i].y = lineHeight;
+    //     }
+    //     lineRenderer.SetPositions(points);
+    // }
+
+
+    // // Tells PathDraw to add another node at position of Hextile h to be drawn.
+    // public void addNodeToPath(Hextile h)
+    // {
+    //     tilesToDraw.Insert(0, h);
+    //     //tilesToDraw.Add(h);
+    // }
 }

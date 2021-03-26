@@ -41,6 +41,30 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""EndTurn"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8de2907-eddc-4949-b0b0-437f45e54acd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Select1"",
+                    ""type"": ""Button"",
+                    ""id"": ""6fda314b-5120-42c1-a4e7-012243f2646b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Select2"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e96d4bb-a64c-4d60-a15f-4788f0eaee9f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +144,39 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""DrawPath"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0672a72e-1cfc-412c-b2a5-d8484c186f3b"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""EndTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f814542-1df3-4d2c-bb11-e9805f8a6837"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3036820a-93d7-4080-8390-978f31e3024d"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -148,6 +205,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_Rayposition = m_Player.FindAction("Rayposition", throwIfNotFound: true);
         m_Player_Spacebutton = m_Player.FindAction("Spacebutton", throwIfNotFound: true);
         m_Player_DrawPath = m_Player.FindAction("DrawPath", throwIfNotFound: true);
+        m_Player_EndTurn = m_Player.FindAction("EndTurn", throwIfNotFound: true);
+        m_Player_Select1 = m_Player.FindAction("Select1", throwIfNotFound: true);
+        m_Player_Select2 = m_Player.FindAction("Select2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -200,6 +260,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Rayposition;
     private readonly InputAction m_Player_Spacebutton;
     private readonly InputAction m_Player_DrawPath;
+    private readonly InputAction m_Player_EndTurn;
+    private readonly InputAction m_Player_Select1;
+    private readonly InputAction m_Player_Select2;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -207,6 +270,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Rayposition => m_Wrapper.m_Player_Rayposition;
         public InputAction @Spacebutton => m_Wrapper.m_Player_Spacebutton;
         public InputAction @DrawPath => m_Wrapper.m_Player_DrawPath;
+        public InputAction @EndTurn => m_Wrapper.m_Player_EndTurn;
+        public InputAction @Select1 => m_Wrapper.m_Player_Select1;
+        public InputAction @Select2 => m_Wrapper.m_Player_Select2;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -225,6 +291,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @DrawPath.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
                 @DrawPath.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
                 @DrawPath.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
+                @EndTurn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
+                @EndTurn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
+                @EndTurn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
+                @Select1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect1;
+                @Select1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect1;
+                @Select1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect1;
+                @Select2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect2;
+                @Select2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect2;
+                @Select2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect2;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -238,6 +313,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @DrawPath.started += instance.OnDrawPath;
                 @DrawPath.performed += instance.OnDrawPath;
                 @DrawPath.canceled += instance.OnDrawPath;
+                @EndTurn.started += instance.OnEndTurn;
+                @EndTurn.performed += instance.OnEndTurn;
+                @EndTurn.canceled += instance.OnEndTurn;
+                @Select1.started += instance.OnSelect1;
+                @Select1.performed += instance.OnSelect1;
+                @Select1.canceled += instance.OnSelect1;
+                @Select2.started += instance.OnSelect2;
+                @Select2.performed += instance.OnSelect2;
+                @Select2.canceled += instance.OnSelect2;
             }
         }
     }
@@ -256,5 +340,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnRayposition(InputAction.CallbackContext context);
         void OnSpacebutton(InputAction.CallbackContext context);
         void OnDrawPath(InputAction.CallbackContext context);
+        void OnEndTurn(InputAction.CallbackContext context);
+        void OnSelect1(InputAction.CallbackContext context);
+        void OnSelect2(InputAction.CallbackContext context);
     }
 }

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d5dcd3bd3306848909705f0680e198, type: 3}
+  m_Name: Poison
+  m_EditorClassIdentifier: 
+  abilityName: Poison
+  gemsCost: 10
+  amount: 5
+  targType: 0
+  numberOfTargets: 1
+  numberOfTurns: 3
+  effectPrefab: {fileID: 170850, guid: 8e13c6e5a21aeea4db3c25ef0e529308, type: 3}
+  IsFinished: 0

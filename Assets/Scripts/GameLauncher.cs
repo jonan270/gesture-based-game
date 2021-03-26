@@ -18,6 +18,8 @@ public class GameLauncher : MonoBehaviourPunCallbacks
     [SerializeField]
     private byte maxPlayersPerRoom = 4;
 
+    [SerializeField]
+    private Object scene;
 
     /// <summary>
     /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon, 
@@ -173,7 +175,7 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 
             // #Critical
             // Load the Room Level. 
-            PhotonNetwork.LoadLevel("multiplayertest");
+            PhotonNetwork.LoadLevel("GamePlayScene");
 
         }
     }

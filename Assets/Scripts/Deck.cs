@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
+using System.IO;
 
 public class Deck : MonoBehaviour
 {
-    public List<GameObject> deck = new List<GameObject>();
-    public List<GameObject> drawnCards;
+    private List<GameObject> deck = new List<GameObject>();
+    private List<GameObject> drawnCards;
 
-    public static int handSize = 5;
-    public static int maxCardsCharacter = 3;
+    public Card cardPrefab;
+
+    private const int handSize = 5;
+    private const int maxCardsCharacter = 3;
 
     // Start is called before the first frame update
 
@@ -18,7 +22,12 @@ public class Deck : MonoBehaviour
         
         //Shuffle();
     }
-    public List<GameObject> Draw() //Draws card from deck into hand
+
+    /// <summary>
+    /// Draws card from deck into hand
+    /// </summary>
+    /// <returns></returns>
+    public List<GameObject> Draw() 
     {
         drawnCards = new List<GameObject>();
 
@@ -29,7 +38,10 @@ public class Deck : MonoBehaviour
         return drawnCards;
     }
 
-    public void Shuffle() //Shuffles the card so random cards are shown
+    /// <summary>
+    /// Shuffles the card so random cards are shown
+    /// </summary>
+    public void Shuffle()
     {
         for(int i = deck.Count - 1; i > 0; i--)
         {
@@ -41,35 +53,57 @@ public class Deck : MonoBehaviour
         
     }
 
-    public void addCardsToDeck(Character ch)
+    public void AddCardsToDeck(Character ch)
     {
-        Object prefab = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Card.prefab", typeof(GameObject));
-        GameObject c1 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
+        var prefabTri = Resources.Load("TriangleCard");
+        var prefabCir = Resources.Load("CircleCard");
+        var prefabSq = Resources.Load("SquareCard");
 
-        //add description text for card
-        c1.GetComponent<Card>().description.text = ch.descriptionTextCard1;
-        c1.GetComponent<Card>().nameText.text = ch.Name;
+        if (prefabTri == null || prefabCir == null || prefabSq == null)
+        {
+            throw new FileNotFoundException("... No file found");
+        }
+        else {
+            GameObject c1 = Instantiate(prefabTri, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
 
-        GameObject c2 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
+            c1.transform.localScale = Vector3.one;
+            c1.transform.parent = this.transform;
 
-        //add description text for card
-        c2.GetComponent<Card>().description.text = ch.descriptionTextCard2;
-        c2.GetComponent<Card>().nameText.text = ch.Name;
 
-        GameObject c3 = Instantiate(prefab, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
+            //add description text for card
+            //c1.GetComponent<Card>().description.text = ch.ListAbilityData[1].abilityDescription;
+            //c1.GetComponent<Card>().nameText.text = ch.Name;
+            //c1.GetComponent<Card>().gestureText.text = "Circle";
+           //c1.GetComponentsInChildren<MeshRenderer>()[0].material = ch.MaterialType; // Does not work. Get cardModels' mesh renderer??
 
-        //add description text for card
-        c3.GetComponent<Card>().description.text = ch.descriptionTextCard3;
-        c3.GetComponent<Card>().nameText.text = ch.Name;
-        //ch.cards.Add(c1);
+            GameObject c2 = Instantiate(prefabCir, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
 
-        deck.Add(c1);
-        deck.Add(c2);
-        deck.Add(c3);
+            c2.transform.localScale = Vector3.one;
+            c2.transform.parent = this.transform;
+
+            //add description text for card
+            //c2.GetComponent<Card>().description.text = ch.ListAbilityData[2].abilityDescription;
+            //c2.GetComponent<Card>().nameText.text = ch.Name;
+
+            GameObject c3 = Instantiate(prefabSq, new Vector3(0, 0, -20), Quaternion.Euler(90f, 0f, 0f)) as GameObject;
+
+            c3.transform.localScale = Vector3.one;
+            c3.transform.parent = this.transform;
+
+            //add description text for card
+            //c3.GetComponent<Card>().description.text = ch.ListAbilityData[3].abilityDescription;
+            //c3.GetComponent<Card>().nameText.text = ch.Name;
+
+            //c1.GetComponent<Card>().description.SetActive(true); // Hide / show text?
+
+            deck.Add(c1);
+            deck.Add(c2);
+            deck.Add(c3);
+        }
 
     }
 
-    public void removeCards(string name) //if character dies we need to remove its cards
+    public void RemoveCards(string name) //if character dies we need to remove its cards
     {
         int maxDestroy = 3;
         for (int i = 0; i < deck.Count; i++)
