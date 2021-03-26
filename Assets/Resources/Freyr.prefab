@@ -58,7 +58,9 @@ MonoBehaviour:
   StrongAgainst: 0
   WeakAgainst: 0
   CurrentState: 0
-  ListAbilityData: []
+  ListAbilityData:
+  - {fileID: 11400000, guid: 75f40b345263ee747a59db981511c27a, type: 2}
+  - {fileID: 11400000, guid: 51689c35bc4bda547adfcb42cb9ad9fa, type: 2}
 --- !u!114 &1494582386117470461
 MonoBehaviour:
   m_ObjectHideFlags: 0
