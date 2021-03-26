@@ -14,7 +14,7 @@ public class PlayerStateEvent : UnityEvent<PlayerState>
 /// </summary>
 public enum PlayerState
 {
-    idle, chooseCharacter, drawPath, makeGesture
+    idle, waitingForMyTurn, chooseCharacter, drawPath, makeGesture
 }
 
 /// <summary>
@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
 
-    public PlayerState playerState;
+    public PlayerState PlayerState { get; private set; }
 
     public GameObject selectedCharacter;
 
@@ -59,8 +59,8 @@ public class PlayerManager : MonoBehaviour
     {
         if(HoldingCharacter)
         {
-            playerState = state;
-            toolChangedEvent.Invoke(playerState);
+            PlayerState = state; //call onPlayerStateChanged instead ?
+            toolChangedEvent.Invoke(PlayerState);
         }
     }
 
@@ -70,6 +70,13 @@ public class PlayerManager : MonoBehaviour
         {
             character.CurrentState = Character.CharacterState.CanDoAction;
         }
+    }
+
+    public void OnPlayerStateChanged(PlayerState state)
+    {
+        PlayerState = state;
+        Debug.Log("Player state changed to " + PlayerState);
+        //do other things
     }
 
     public bool HasAllCharacterDoneSomething()

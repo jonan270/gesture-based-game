@@ -24,6 +24,7 @@ public class GameRound : MonoBehaviourPun
 
         if (myTurn)
         {
+            PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
             //Gems are given
             //Draw new cards
         }
@@ -43,7 +44,7 @@ public class GameRound : MonoBehaviourPun
     /// </summary>
     public void OnActionTaken()
     {
-        PlayerManager.Instance.playerState = PlayerState.idle;
+        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
 
         bool roundComplete = PlayerManager.Instance.HasAllCharacterDoneSomething();
         
@@ -60,8 +61,9 @@ public class GameRound : MonoBehaviourPun
     /// </summary>
     void EndTurn()
     {
+        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.waitingForMyTurn);
         PlayerManager.Instance.OnEndTurn();
-        //Logic for ending a turn, lets the other player begin his turn
+        //Logic for ending a turn, lets the other player begin their turn
         BeginTurn();
     }
 
