@@ -34,6 +34,8 @@ public class CharacterControl : MonoBehaviour
         bjorn = SpawnCharacter(bjornPrefab);
         //Show hand of currently available cards
 
+        PlayerManager.Instance.characters.Add(hilda.GetComponent<Character>());
+        PlayerManager.Instance.characters.Add(bjorn.GetComponent<Character>());
 
 
 

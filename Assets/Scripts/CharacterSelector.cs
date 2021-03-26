@@ -7,10 +7,14 @@ using Photon.Pun;
 
 public class CharacterSelector : MonoBehaviour
 {
+    public SteamVR_Input_Sources source;
+    [SerializeField] CharacterSelector otherHand;
+    [SerializeField] GameObject glove, brush, magicWand;
+    
     //alias for this transform
-    [SerializeField] private Transform hand;
+    private Transform hand;
 
-    public GameObject selectedCharacter;
+    private GameObject selectedCharacter;
 
     private bool hasTarget = false;
 
@@ -46,9 +50,24 @@ public class CharacterSelector : MonoBehaviour
         } 
     }
 
+    public void OnChangedTool(PlayerState state)
+    {
+        if(state == PlayerState.drawPath && !hasTarget)
+        {
+            brush.SetActive(true);
+            magicWand.SetActive(false);
+
+        }
+        if (state == PlayerState.makeGesture && !hasTarget)
+        {
+            magicWand.SetActive(true);
+            brush.SetActive(false);
+        }
+    }
+
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("Hand collided with" + collider.transform.root.name);
+        Debug.Log(hand.name + " collided with " + collider.transform.root.name);
     }
 
     void OnTriggerStay(Collider collider)
@@ -56,14 +75,14 @@ public class CharacterSelector : MonoBehaviour
         if (hasTarget)
             return;
         //TODO: check player state can pickup
-        if (Input.GetKey(KeyCode.F) || SteamVR_Actions.default_GrabGrip.GetState(SteamVR_Input_Sources.Any)) {
+        if (Input.GetKey(KeyCode.F) || SteamVR_Actions.default_GrabGrip.GetState(source)) {
             GameObject character = collider.transform.root.gameObject;
             if(character != null && character.GetComponent<Character>() != null && character.GetComponent<PhotonView>().IsMine)
             {
                 selectedCharacter = character;
                 hasTarget = true;
                 CopyTransform(selectedCharacter.transform);
-                CharacterControl.SelectedCharacter = selectedCharacter;
+                FindObjectOfType<PlayerManager>().selectedCharacter = selectedCharacter;
                 Debug.Log("Selected character is " + selectedCharacter.name);
             }
         }
@@ -98,7 +117,14 @@ public class CharacterSelector : MonoBehaviour
         selectedCharacter.transform.rotation = originalRotation;
         selectedCharacter.transform.localScale = originalScale;
         selectedCharacter = null;
-        CharacterControl.SelectedCharacter = null;
+        otherHand.OnReleasedCharacter();
+        FindObjectOfType<PlayerManager>().selectedCharacter = null;
         Debug.Log("No seleced character");
+    }
+
+    public void OnReleasedCharacter()
+    {
+        brush.SetActive(false);
+        magicWand.SetActive(false);
     }
 }

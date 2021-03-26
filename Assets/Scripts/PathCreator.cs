@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PathCreator : MonoBehaviour
 {
@@ -10,7 +11,10 @@ public class PathCreator : MonoBehaviour
     
     [SerializeField]
     private float offsetY = 0.5f;
-    private List<Hextile> tiles;   
+    private List<Hextile> tiles;
+
+
+    public UnityEvent actionTaken;
     
     private void Start() 
     {
@@ -22,6 +26,8 @@ public class PathCreator : MonoBehaviour
         selectedCharacter.GetComponent<PathFollower>().StartMoving(new List<Hextile>(tiles));
         tiles.Clear();
         isBusy = true;
+        actionTaken.Invoke(); //todo on reached end instead
+        selectedCharacter.GetComponent<Character>().CurrentState = Character.CharacterState.ActionCompleted;
     }
 
     public void AddTile(Hextile h)
