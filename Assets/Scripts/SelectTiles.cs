@@ -6,13 +6,16 @@ using Valve.VR;
 
 public class SelectTiles : MonoBehaviour
 {
-    public GameObject leftHand, rightHand, currentCharacter;
+    public GameObject leftHand, rightHand;
+    public Character currentCharacter;
+    public LineRenderer leftLine, rightLine;
     public Transform hexTiles;
     public List<Hextile> tilesSelected;
     public PathCreator pathCreator;
     // Start is called before the first frame update
     void Start()
     {
+        rightLine = rightHand.GetComponent<LineRenderer>();
         pathCreator = FindObjectOfType<PathCreator>();
     }
 
@@ -20,11 +23,15 @@ public class SelectTiles : MonoBehaviour
     void Update()
     {
         if (SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand))
+        {
             scanForTiles();
+            rightLine.enabled = true;
+        }
         if (SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand))
         {
             //This is where the final list will be sent to the manager, but for now it will just be reset.
-            pathCreator.FinishPath(currentCharacter);
+            rightLine.enabled = false;
+            pathCreator.FinishPath(currentCharacter.gameObject);
             tilesSelected.Clear();
             //resetTiles();
         }
@@ -41,13 +48,17 @@ public class SelectTiles : MonoBehaviour
             rotation.y -= rotation.y + 1;
         }
         Ray handRay = new Ray(rightHand.transform.position, rotation);
+        Vector3[] laserPositions = new Vector3[2] { rightHand.transform.position, rightHand.transform.position + (rotation * 5.0f) };
         //Debug.Log(rightHand.transform.forward + " " + rotation);
-
+        //TODO: Add canceling of path drawing
         if (Physics.Raycast(handRay, out hit, Mathf.Infinity) && hit.collider.gameObject.transform.IsChildOf(hexTiles))
         {
+            laserPositions[1] = hit.point;
+            rightLine.SetPositions(laserPositions);
             Hextile currentObject = hit.collider.gameObject.GetComponent<Hextile>();
-            if (tilesSelected.Count == 0 || (!tilesSelected.Contains(currentObject) && Mathf.Abs(currentObject.tileIndex.x - tilesSelected.LastOrDefault().tileIndex.x) <= 1 && 
-                Mathf.Abs(currentObject.tileIndex.y - tilesSelected.LastOrDefault().tileIndex.y) <= 1))
+            Debug.Log(PathCreator.isBusy);
+            if ((tilesSelected.Count == 0 && areTilesAdjacent(currentObject, currentCharacter.CurrentTile)) || (tilesSelected.Count != 0 && 
+                !tilesSelected.Contains(currentObject) && areTilesAdjacent(currentObject, tilesSelected.Last())))
             {
                 tilesSelected.Add(currentObject);
                 pathCreator.AddTile(currentObject);
@@ -56,6 +67,11 @@ public class SelectTiles : MonoBehaviour
             //hit.collider.enabled = false; //This solution is terrible, fix something else
             Debug.Log("woooo");
         }
+    }
+
+    bool areTilesAdjacent(Hextile a, Hextile b)
+    {
+        return (Mathf.Abs(a.tileIndex.x - b.tileIndex.x) <= 1 && Mathf.Abs(a.tileIndex.y - b.tileIndex.y) <= 1);
     }
 
     //void resetTiles() //Borde nog flyttas till ett annat script som sitter i HexTiles men lägger den här så länge
