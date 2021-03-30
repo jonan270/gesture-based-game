@@ -38,7 +38,7 @@ public class CharacterSelector : MonoBehaviour
             //Check for button release
             if (SteamVR.active) //check if we are in VR or not
             {
-                if (!SteamVR_Actions.default_GrabGrip.GetState(SteamVR_Input_Sources.Any)) //is VR button released
+                if (!SteamVR_Actions.default_GrabGrip.GetState(source)) //is VR button released
                     ReleaseCharacter();
             }
             else
@@ -52,16 +52,23 @@ public class CharacterSelector : MonoBehaviour
 
     public void OnChangedTool(PlayerState state)
     {
-        if(state == PlayerState.drawPath && !hasTarget)
+        if(!hasTarget)
         {
-            brush.SetActive(true);
-            magicWand.SetActive(false);
-
-        }
-        if (state == PlayerState.makeGesture && !hasTarget)
-        {
-            magicWand.SetActive(true);
-            brush.SetActive(false);
+            switch (state)
+            {
+                case PlayerState.drawPath:                     
+                    brush.SetActive(true);
+                    magicWand.SetActive(false);
+                    break;
+                case PlayerState.makeGesture:
+                    magicWand.SetActive(true);
+                    brush.SetActive(false);
+                    break;
+                default:
+                    magicWand.SetActive(false);
+                    brush.SetActive(false);
+                    break;
+            }
         }
     }
 
@@ -76,18 +83,40 @@ public class CharacterSelector : MonoBehaviour
             return;
         //TODO: check player state can pickup
         if (Input.GetKey(KeyCode.F) || SteamVR_Actions.default_GrabGrip.GetState(source)) {
-            GameObject character = collider.transform.root.gameObject;
-            if(character != null && character.GetComponent<Character>() != null && character.GetComponent<PhotonView>().IsMine)
+            if (CanPickUp())
             {
-                selectedCharacter = character;
-                hasTarget = true;
-                CopyTransform(selectedCharacter.transform);
-                FindObjectOfType<PlayerManager>().selectedCharacter = selectedCharacter;
-                Debug.Log("Selected character is " + selectedCharacter.name);
+                GameObject character = collider.transform.root.gameObject;
+                if (character != null && character.GetComponent<Character>() != null && character.GetComponent<PhotonView>().IsMine)
+                {
+                    PickupCharacter(character);
+                }
+            }
+            else
+            {
+                Debug.Log("Can't pickup character, not my turn");
             }
         }
     }
-
+    /// <summary>
+    /// Is the player in a state where we can pickup a character
+    /// </summary>
+    /// <returns></returns>
+    private bool CanPickUp()
+    {
+        return PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn;
+    }
+    /// <summary>
+    /// Pickup the character 
+    /// </summary>
+    /// <param name="character"></param>
+    private void PickupCharacter(GameObject character)
+    {
+        selectedCharacter = character;
+        hasTarget = true;
+        CopyTransform(selectedCharacter.transform);
+        PlayerManager.Instance.selectedCharacter = selectedCharacter;
+        Debug.Log("Selected character is " + selectedCharacter.name);
+    }
     /// <summary>
     /// Copy target transform
     /// </summary>
@@ -118,7 +147,7 @@ public class CharacterSelector : MonoBehaviour
         selectedCharacter.transform.localScale = originalScale;
         selectedCharacter = null;
         otherHand.OnReleasedCharacter();
-        FindObjectOfType<PlayerManager>().selectedCharacter = null;
+        PlayerManager.Instance.selectedCharacter = null;
         Debug.Log("No seleced character");
     }
 
