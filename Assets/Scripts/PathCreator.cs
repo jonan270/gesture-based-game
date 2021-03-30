@@ -1,17 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PathCreator : MonoBehaviour
 {
-    public static bool isBusy = false;
-    [SerializeField]
-    private PathDraw pathdrawer;
+    /// <summary>
+    /// Drawer object in scene
+    /// </summary>
+    [SerializeField] private PathDraw pathdrawer;
     
     [SerializeField]
     private float offsetY = 0.5f;
-    private List<Hextile> tiles;   
-    
+    private List<Hextile> tiles;
+
+
+    public UnityEvent actionTaken;
+
+    private bool isBusy = false;
+
+
     private void Start() 
     {
         tiles = new List<Hextile>();
@@ -44,6 +52,14 @@ public class PathCreator : MonoBehaviour
             points.Add(tile.Position + offset);
         }
         return points.ToArray();
+    }
+
+    public void OnReachedEnd(GameObject obj)
+    {
+        isBusy = false; //Lets another character create its path
+        obj.GetComponent<Character>().CurrentState = Character.CharacterState.ActionCompleted; //TODO change to a function call instead 
+        pathdrawer.ClearPath();
+        actionTaken.Invoke();
     }
 
     // //Skicka listan till en pathFollower som sedan vandrar iväg
