@@ -19,9 +19,12 @@ public class PathCreator : MonoBehaviour
 
     //Man har ritat färdigt 
     public void FinishPath(GameObject selectedCharacter) {
-        selectedCharacter.GetComponent<PathFollower>().StartMoving(new List<Hextile>(tiles));
-        tiles.Clear();
-        isBusy = true;
+        if (tiles.Count != 0)
+        {
+            selectedCharacter.GetComponent<PathFollower>().StartMoving(new List<Hextile>(tiles));
+            tiles.Clear();
+            isBusy = true;
+        }
     }
 
     public void AddTile(Hextile h)
