@@ -56,7 +56,6 @@ public class SelectTiles : MonoBehaviour
             laserPositions[1] = hit.point;
             rightLine.SetPositions(laserPositions);
             Hextile currentObject = hit.collider.gameObject.GetComponent<Hextile>();
-            Debug.Log(PathCreator.isBusy);
             if ((tilesSelected.Count == 0 && areTilesAdjacent(currentObject, currentCharacter.CurrentTile)) || (tilesSelected.Count != 0 && 
                 !tilesSelected.Contains(currentObject) && areTilesAdjacent(currentObject, tilesSelected.Last())))
             {
