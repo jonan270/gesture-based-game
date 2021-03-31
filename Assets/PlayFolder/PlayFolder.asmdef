@@ -1,0 +1,6 @@
+{
+    "name": "PlayFolder",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}
