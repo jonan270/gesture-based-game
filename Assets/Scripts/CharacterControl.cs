@@ -11,6 +11,7 @@ public class CharacterControl : MonoBehaviour
     private GameObject hildaPrefab;
     [SerializeField]
     private GameObject bjornPrefab;
+    [SerializeField] private GameObject freyrPrefab;
     [SerializeField]
     private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
@@ -36,7 +37,7 @@ public class CharacterControl : MonoBehaviour
 
     int round = 0;
 
-    private GameObject hilda, bjorn, deck, hand;
+    private GameObject hilda, bjorn,freyr, deck, hand;
 
     // Start is called before the first frame update
     void Start()
@@ -51,14 +52,18 @@ public class CharacterControl : MonoBehaviour
         //Call function createCharacter()
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
+        freyr = SpawnCharacter(freyrPrefab);
 		
         //Show hand of currently available cards
 
         PlayerManager.Instance.characters.Add(hilda.GetComponent<Character>());
         PlayerManager.Instance.characters.Add(bjorn.GetComponent<Character>());
+        PlayerManager.Instance.characters.Add(freyr.GetComponent<Character>());
+
 
         listOfCharacters.Add(hilda);
         listOfCharacters.Add(bjorn);
+        listOfCharacters.Add(freyr);
 
         //Select character
 
