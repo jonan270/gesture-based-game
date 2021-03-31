@@ -94,7 +94,10 @@ public class PathFollower : MonoBehaviour
         else if (path[index].isOccupied)
         {
             // Do damage.
-            Debug.Log("KARATE");
+            if(!path[index].occupant.GetComponent<PhotonView>().IsMine)
+            {
+                Debug.Log("KARATE");
+            }
             ReachedEnd();
         }
 
