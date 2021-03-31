@@ -1,8 +1,29 @@
 fileFormatVersion: 2
-guid: 6afc9792bfa884e42b8d7e59d5d05fe9
+guid: 40a617d33dc9ab34192b6db8c8604934
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 1234157843697610825
+    second: Armature_H|Die_Hilda
+  - first:
+      74: 7500915255786098902
+    second: Armature_H|Die_Hilda.001
+  - first:
+      74: -2881185160904966657
+    second: Armature_H|Idle_Hilda
+  - first:
+      74: 3105114693268522116
+    second: Armature_H|Idle_Hilda.001
+  - first:
+      74: 8608110601249426050
+    second: Armature_H|NarutoRun_Hilda
+  - first:
+      74: 1507129142912695990
+    second: Armature_H|Run_hilda
+  - first:
+      74: -3435621544579298951
+    second: Armature_H|TPose
   externalObjects: {}
   materials:
     materialImportMode: 2
