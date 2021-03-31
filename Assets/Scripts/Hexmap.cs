@@ -111,7 +111,6 @@ public class Hexmap : MonoBehaviour
         hexTiles[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive);
     }
 
-
     /// <summary>
     /// Syncs occupation status over network
     /// </summary>
