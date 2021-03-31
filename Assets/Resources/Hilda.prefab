@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 296793832959055970}
   - component: {fileID: 2974195771333001750}
   m_Layer: 0
-  m_Name: Hilda 1
+  m_Name: Hilda
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,8 +55,8 @@ MonoBehaviour:
   attackValue: 15
   Name: Hilda
   Element: 1
-  StrongAgainst: 3
-  WeakAgainst: 0
+  StrongAgainst: 2
+  WeakAgainst: 3
   CurrentState: 0
   ListAbilityData:
   - {fileID: 11400000, guid: 75f40b345263ee747a59db981511c27a, type: 2}
@@ -114,7 +114,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3807d0662b692408c851be73a0ee19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.5
+  movingComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  speed: 3
 --- !u!54 &2974195771333001750
 Rigidbody:
   m_ObjectHideFlags: 0

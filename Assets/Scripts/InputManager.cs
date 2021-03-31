@@ -31,24 +31,28 @@ public class InputManager : MonoBehaviour
         controls = new InputMaster();
         controls.Player.Spacebutton.performed += ctx => map.randomizeHexmap(1000, 3);
         //controls.Player.DrawPath.performed += ctx => map.drawDirection(ctx.ReadValue<Vector2>());
-        controls.Player.DrawPath.performed += ctx => addShit(SelectCharacter(1));
+        controls.Player.DrawPath.performed += ctx => addShit();
         controls.Player.EndTurn.performed += ctx => SpawnTrap();
-        controls.Player.Select1.performed += ctx => addShit(SelectCharacter(1));
-        controls.Player.Select2.performed += ctx => addOtherShit(SelectCharacter(1));
+
+        controls.Player.Select1.performed += ctx => addShit();
+        controls.Player.Select2.performed += ctx => addOtherShit();
 
     }
 
-    private void addShit(string name) 
+    private void addShit() 
     {
-        creator.AddTile(map.hexTiles[0,0]);
-        creator.AddTile(map.hexTiles[1,1]);
-        creator.AddTile(map.hexTiles[2,2]);
-        creator.AddTile(map.hexTiles[3,4]);
-        creator.AddTile(map.hexTiles[3,5]);
-        creator.AddTile(map.hexTiles[4,4]);
+        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.selectedCharacter != null)
+        {
+            creator.AddTile(map.hexTiles[0, 0]);
+            creator.AddTile(map.hexTiles[1, 1]);
+            creator.AddTile(map.hexTiles[2, 2]);
+            creator.AddTile(map.hexTiles[3, 4]);
+            creator.AddTile(map.hexTiles[3, 5]);
+            creator.AddTile(map.hexTiles[4, 4]);
 
-        creator.FinishPath(GameObject.Find(name));
+            creator.FinishPath(PlayerManager.Instance.selectedCharacter);
 
+        }
         // creator.AddTile(map.hexTiles[0,4]);
         // creator.AddTile(map.hexTiles[1,4]);
         // creator.AddTile(map.hexTiles[2,4]);
@@ -59,16 +63,19 @@ public class InputManager : MonoBehaviour
         // creator.FinishPath(GameObject.Find("Bjorn(Clone)"));
     }
 
-    private void addOtherShit(string name) 
+    private void addOtherShit() 
     {
-        creator.AddTile(map.hexTiles[5,0]);
-        creator.AddTile(map.hexTiles[6,1]);
-        creator.AddTile(map.hexTiles[7,2]);
-        creator.AddTile(map.hexTiles[8,3]);
-        creator.AddTile(map.hexTiles[9,4]);
-        creator.AddTile(map.hexTiles[10,5]);
+        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.selectedCharacter != null)
+        {
+            creator.AddTile(map.hexTiles[5, 0]);
+            creator.AddTile(map.hexTiles[6, 1]);
+            creator.AddTile(map.hexTiles[7, 2]);
+            creator.AddTile(map.hexTiles[8, 3]);
+            creator.AddTile(map.hexTiles[9, 4]);
+            creator.AddTile(map.hexTiles[10, 5]);
 
-        creator.FinishPath(GameObject.Find(name));
+            creator.FinishPath(PlayerManager.Instance.selectedCharacter);
+        }
     }
 
     private void SpawnTrap()

@@ -50,18 +50,24 @@ public abstract class Character : MonoBehaviour, IPunObservable
         isAlive = true;
         
     }
+
     //private void OnEnable()
     //{
     //    isAlive = true;
     //}
 
-
-
     public enum CharacterState
     {
+        CanDoAction,
         LookAtCard, // "Idle" mode, Character standing still
         Walk, //walking mode
-        AttackMode // Attack mode, Character is about to perform an attack
+        AttackMode, // Attack mode, Character is about to perform an attack
+        ActionCompleted
+    }
+
+    public bool canDoAction()
+    {
+        return CurrentState != CharacterState.ActionCompleted;
     }
 
     /// <summary>

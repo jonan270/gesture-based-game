@@ -11,8 +11,7 @@ public class CharacterControl : MonoBehaviour
     private GameObject hildaPrefab;
     [SerializeField]
     private GameObject bjornPrefab;
-    [SerializeField]
-    private GameObject freyrPrefab;
+    [SerializeField] private GameObject freyrPrefab;
     [SerializeField]
     private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
@@ -38,7 +37,7 @@ public class CharacterControl : MonoBehaviour
 
     int round = 0;
 
-    private GameObject hilda, bjorn, freyr, deck, hand;
+    private GameObject hilda, bjorn,freyr, deck, hand;
 
     // Start is called before the first frame update
     void Start()
@@ -54,9 +53,17 @@ public class CharacterControl : MonoBehaviour
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
         freyr = SpawnCharacter(freyrPrefab);
+		
+        //Show hand of currently available cards
+
+        PlayerManager.Instance.characters.Add(hilda.GetComponent<Character>());
+        PlayerManager.Instance.characters.Add(bjorn.GetComponent<Character>());
+        PlayerManager.Instance.characters.Add(freyr.GetComponent<Character>());
+
 
         listOfCharacters.Add(hilda);
         listOfCharacters.Add(bjorn);
+        listOfCharacters.Add(freyr);
 
         //Select character
 
@@ -65,8 +72,6 @@ public class CharacterControl : MonoBehaviour
         //Character performs gesture -> certain card is activated
 
         //We know now what ability should be performed
-        
-        
 
     }
 
@@ -85,10 +90,8 @@ public class CharacterControl : MonoBehaviour
             deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
             List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
 
-
             hand.GetComponent<HandCards>().setHand(drawnCards);
             hand.GetComponent<HandCards>().showHand();
-
 
             round++;
 

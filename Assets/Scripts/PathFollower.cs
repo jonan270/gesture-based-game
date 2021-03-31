@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Photon.Pun;
+
+[System.Serializable]
+public class UnityGameObjectEvent : UnityEvent<GameObject>
+{
+
+} 
+
 // This is just a simple solution that should be reworked.
 public class PathFollower : MonoBehaviour
 {
-    
+    /// <summary>
+    /// Event when character has reached the end of its path
+    /// </summary>
+    public UnityGameObjectEvent movingComplete;
 
     private int index = 0; //index of the current node
 
@@ -25,17 +36,16 @@ public class PathFollower : MonoBehaviour
     private Vector3 startTarget;
 
     /// <summary>
-    /// Drawer object in scene
-    /// </summary>
-    private PathDraw pathDrawer;
-    /// <summary>
     /// reference to attached character script
     /// </summary>
     private Character character;
 
     private void Start() {
         character = GetComponent<Character>();
-        pathDrawer = FindObjectOfType<PathDraw>();
+
+        //Adds the pathCreator as a listner to this event
+        movingComplete.AddListener(FindObjectOfType<PathCreator>().OnReachedEnd);
+
     }
     /// <summary>
     /// Begin movement of the character
@@ -54,6 +64,7 @@ public class PathFollower : MonoBehaviour
         if (moving)
             MoveBetweenPoints();
     }
+
     /// <summary>
     /// Moves the character between two points on the path
     /// </summary>
@@ -73,7 +84,6 @@ public class PathFollower : MonoBehaviour
                 var index = character.CurrentTile.tileIndex;
                 FindObjectOfType<Hexmap>().ChangeEffect(index.x, index.y, false);
             }
-                
             GetNextPoint();
         }
     }
@@ -82,19 +92,37 @@ public class PathFollower : MonoBehaviour
     /// </summary>
     private void GetNextPoint() {
 
-        //If we are not at the end 
-        if (index < path.Count) {
+        // If we are at the end of the path stop movement
+        if (index == path.Count)
+        {
+            ReachedEnd();
+        }
+
+        // If we encounter an enemy along the path, deal damage and stop
+        else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
+        {
+            Debug.Log("KARATE");
+            ReachedEnd();
+        }
+
+        // Else move
+        else
+        {
+            //Debug.Log("Is it occupied? " + path[index].isOccupied);
+            Hexmap map = FindObjectOfType<Hexmap>();
+
             startTarget = transform.position;
             pathTarget = path[index].Position;
 
             journeyLength = Vector3.Distance(startTarget, pathTarget);
 
             startTime = Time.time;
+
+            map.SetOccupation(path[index].tileIndex.x, path[index].tileIndex.y, false, character); // Old tile is no longer occupied
             character.CurrentTile = path[index];
+            map.SetOccupation(path[index].tileIndex.x, path[index].tileIndex.y, true, character); // New tile is occupied
+
             index++;
-        }
-        else { //The end of the path has been reached
-            ReachedEnd();
         }
     }
     /// <summary>
@@ -105,7 +133,6 @@ public class PathFollower : MonoBehaviour
         moving = false;
         index = 0;
         transform.eulerAngles = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
-        pathDrawer.ClearPath();
-        PathCreator.isBusy = false; //Lets another character create its path
+        movingComplete.Invoke(gameObject);
     }
 }
