@@ -31,16 +31,16 @@ public class InputManager : MonoBehaviour
         controls = new InputMaster();
         controls.Player.Spacebutton.performed += ctx => map.randomizeHexmap(1000, 3);
         //controls.Player.DrawPath.performed += ctx => map.drawDirection(ctx.ReadValue<Vector2>());
-        controls.Player.DrawPath.performed += ctx => addShit(SelectCharacter(1));
+        controls.Player.DrawPath.performed += ctx => addShit();
         controls.Player.EndTurn.performed += ctx => SpawnTrap();
-        controls.Player.Select1.performed += ctx => addShit(SelectCharacter(1));
-        controls.Player.Select2.performed += ctx => addOtherShit(SelectCharacter(1));
+        controls.Player.Select1.performed += ctx => addShit();
+        controls.Player.Select2.performed += ctx => addOtherShit();
 
     }
 
-    private void addShit(string name) 
+    private void addShit() 
     {
-        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn)
+        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.selectedCharacter != null)
         {
             creator.AddTile(map.hexTiles[0, 0]);
             creator.AddTile(map.hexTiles[1, 1]);
@@ -62,9 +62,9 @@ public class InputManager : MonoBehaviour
         // creator.FinishPath(GameObject.Find("Bjorn(Clone)"));
     }
 
-    private void addOtherShit(string name) 
+    private void addOtherShit() 
     {
-        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn)
+        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.selectedCharacter != null)
         {
             creator.AddTile(map.hexTiles[5, 0]);
             creator.AddTile(map.hexTiles[6, 1]);

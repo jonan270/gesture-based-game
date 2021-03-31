@@ -67,8 +67,6 @@ public class CharacterControl : MonoBehaviour
         //Character performs gesture -> certain card is activated
 
         //We know now what ability should be performed
-        
-        
 
     }
 
@@ -87,10 +85,8 @@ public class CharacterControl : MonoBehaviour
             deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
             List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
 
-
             hand.GetComponent<HandCards>().setHand(drawnCards);
             hand.GetComponent<HandCards>().showHand();
-
 
             round++;
 

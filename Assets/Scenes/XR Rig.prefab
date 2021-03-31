@@ -519,6 +519,7 @@ GameObject:
   - component: {fileID: 6608639143387098846}
   - component: {fileID: 6608639143387091232}
   - component: {fileID: 2951588019000638473}
+  - component: {fileID: 4843234232118438338}
   m_Layer: 0
   m_Name: XR Rig
   m_TagString: Untagged
@@ -597,6 +598,47 @@ MonoBehaviour:
   hexTiles: {fileID: 0}
   tilesSelected: []
   pathCreator: {fileID: 0}
+--- !u!114 &4843234232118438338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6608639143387098847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e70d299c32d1f1a46b6cd565d6ba9dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedCharacter: {fileID: 0}
+  characters: []
+  toolChangedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1953353301}
+        m_TargetAssemblyTypeName: CharacterSelector, Assembly-CSharp
+        m_MethodName: OnChangedTool
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1016786279}
+        m_TargetAssemblyTypeName: CharacterSelector, Assembly-CSharp
+        m_MethodName: OnChangedTool
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6608639143550981039
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,6 +725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dfedce06cb343d499e321153f3015ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: 2
+  otherHand: {fileID: 1953353301}
   glove: {fileID: 6608214176526286727}
   brush: {fileID: 924868954582316371}
   magicWand: {fileID: 8060170514174486254}
@@ -772,6 +816,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dfedce06cb343d499e321153f3015ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: 1
+  otherHand: {fileID: 1016786279}
   glove: {fileID: 6608214179258256115}
   brush: {fileID: 2370942601871939186}
   magicWand: {fileID: 5413131410274912833}

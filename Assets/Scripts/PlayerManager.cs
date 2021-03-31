@@ -49,7 +49,9 @@ public class PlayerManager : MonoBehaviour
             ChangeTool(PlayerState.makeGesture);
     }
 
-
+    /// <summary>
+    /// returns true if the player has a charcter selected
+    /// </summary>
     public bool HoldingCharacter
     {
         get { return selectedCharacter != null; }
@@ -59,11 +61,13 @@ public class PlayerManager : MonoBehaviour
     {
         if(HoldingCharacter)
         {
-            PlayerState = state; //call onPlayerStateChanged instead ?
+            OnPlayerStateChanged(state);
             toolChangedEvent.Invoke(PlayerState);
         }
     }
-
+    /// <summary>
+    /// Reset 
+    /// </summary>
     public void OnEndTurn()
     {
         foreach(Character character in characters)
@@ -72,13 +76,20 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets a new state for the player
+    /// </summary>
+    /// <param name="state"></param>
     public void OnPlayerStateChanged(PlayerState state)
     {
         PlayerState = state;
         Debug.Log("Player state changed to " + PlayerState);
         //do other things
     }
-
+    /// <summary>
+    /// Returns false if there are still actions to make on atleast one character
+    /// </summary>
+    /// <returns></returns>
     public bool HasAllCharacterDoneSomething()
     {
         foreach (Character character in characters)
