@@ -1,57 +1,103 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-using Photon.Pun;
-
-public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
+[System.Serializable]
+public class PlayerStateEvent : UnityEvent<PlayerState>
 {
-    [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-    public static GameObject LocalPlayerInstance;
 
-    public Camera camera;
+}
 
-    void Awake()
+/// <summary>
+/// What state the player is currently in, found in PlayerManager.cs
+/// </summary>
+public enum PlayerState
+{
+    idle, waitingForMyTurn, chooseCharacter, drawPath, makeGesture, characterWalking
+}
+
+/// <summary>
+/// Keeps track of what state the player is in, has it picked up a character, is it drawing a path or making a gesture. 
+/// Contains a reference to the selected character 
+/// TODO: select area or enemy character to attack / cast ability on
+/// </summary>
+public class PlayerManager : MonoBehaviour
+{
+    public static PlayerManager Instance { get; private set; }
+
+    public PlayerState PlayerState { get; private set; }
+
+    public GameObject selectedCharacter;
+
+    public List<Character> characters;
+
+    public PlayerStateEvent toolChangedEvent;
+
+
+    private void Awake()
     {
-        // #Important
-        // used in GameManager.cs: we keep track of the localPlayer instance to prevent instanciation when levels are synchronized
-        if (photonView.IsMine)
-        {
-            LocalPlayerInstance = gameObject;
-        }
-
-        // #Critical
-        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-        DontDestroyOnLoad(gameObject);
+        Instance = this;
+        characters = new List<Character>();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        if(photonView.IsMine)
+        if (Input.GetKeyDown(KeyCode.K))
+            ChangeTool(PlayerState.drawPath);
+        if (Input.GetKeyDown(KeyCode.L))
+            ChangeTool(PlayerState.makeGesture);
+    }
+
+    /// <summary>
+    /// returns true if the player has a charcter selected
+    /// </summary>
+    public bool HoldingCharacter
+    {
+        get { return selectedCharacter != null; }
+    }
+
+    private void ChangeTool(PlayerState state)
+    {
+        if(HoldingCharacter)
         {
-            CameraFollow();
+            OnPlayerStateChanged(state);
+            toolChangedEvent.Invoke(PlayerState);
+        }
+    }
+    /// <summary>
+    /// Reset 
+    /// </summary>
+    public void OnEndTurn()
+    {
+        foreach(Character character in characters)
+        {
+            character.CurrentState = Character.CharacterState.CanDoAction;
         }
     }
 
-    private void CameraFollow()
+    /// <summary>
+    /// Sets a new state for the player
+    /// </summary>
+    /// <param name="state"></param>
+    public void OnPlayerStateChanged(PlayerState state)
     {
-
+        PlayerState = state;
+        Debug.Log("Player state changed to " + PlayerState);
+        //do other things
     }
-
-    //Stream data to other clients
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    /// <summary>
+    /// Returns false if there are still actions to make on atleast one character
+    /// </summary>
+    /// <returns></returns>
+    public bool HasAllCharacterDoneSomething()
     {
-        if (stream.IsWriting)
+        foreach (Character character in characters)
         {
-            // We own this player: send the others our data
-            //stream.SendNext(this.IsFiring);
-            //stream.SendNext(this.Health);
+            if (character.CurrentState == Character.CharacterState.CanDoAction)
+                return false;
+            
         }
-        else
-        {
-            // Network player, receive data
-            //this.IsFiring = (bool)stream.ReceiveNext();
-            //this.Health = (float)stream.ReceiveNext();
-        }
+        return true;
     }
 }
