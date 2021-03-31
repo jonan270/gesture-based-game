@@ -98,7 +98,7 @@ public class CharacterSelector : MonoBehaviour
             }
             else
             {
-                Debug.Log("Can't pickup character, not my turn");
+                Debug.Log("Can't pickup character, not my turn or this character has already been played");
             }
         }
     }
