@@ -1,29 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PathCreator : MonoBehaviour
 {
-    public static bool isBusy = false;
-    [SerializeField]
-    private PathDraw pathdrawer;
+    /// <summary>
+    /// Drawer object in scene
+    /// </summary>
+    [SerializeField] private PathDraw pathdrawer;
     
     [SerializeField]
     private float offsetY = 0.5f;
-    private List<Hextile> tiles;   
-    
+    private List<Hextile> tiles;
+
+
+    public UnityEvent actionTaken;
+    public UnityEvent FinishCreatingPath;
+
+    private bool isBusy = false;
+
+
     private void Start() 
     {
         tiles = new List<Hextile>();
     }
 
-    //Man har ritat färdigt 
+    /// <summary>
+    /// Call when player has finished drawing
+    /// </summary>
+    /// <param name="selectedCharacter"></param>
     public void FinishPath(GameObject selectedCharacter) {
+        FinishCreatingPath.Invoke();
         selectedCharacter.GetComponent<PathFollower>().StartMoving(new List<Hextile>(tiles));
         tiles.Clear();
         isBusy = true;
+        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.characterWalking);
     }
 
+    /// <summary>
+    /// Adds a new tile to the list
+    /// </summary>
+    /// <param name="h"></param>
     public void AddTile(Hextile h)
     {
         if (isBusy || h == null)
@@ -33,7 +51,10 @@ public class PathCreator : MonoBehaviour
         pathdrawer.DrawPath(CreatePointsFromTiles());        
     }
 
-    //Skapa en lista som PathDraw kan rita ut punkterna
+    /// <summary>
+    /// Skapa en lista som PathDraw kan rita ut punkterna
+    /// </summary>
+    /// <returns></returns>
     private Vector3[] CreatePointsFromTiles() {
         List<Vector3> points = new List<Vector3>();
         Vector3 offset = new Vector3(0,offsetY,0);
@@ -41,6 +62,16 @@ public class PathCreator : MonoBehaviour
             points.Add(tile.Position + offset);
         }
         return points.ToArray();
+    }
+
+    public void OnReachedEnd(GameObject obj)
+    {
+        isBusy = false; //Lets another character create its path
+        obj.GetComponent<Character>().CurrentState = Character.CharacterState.ActionCompleted; //TODO change to a function call instead 
+        pathdrawer.ClearPath();
+        PlayerManager.Instance.selectedCharacter = null;
+
+        actionTaken.Invoke();
     }
 
     // //Skicka listan till en pathFollower som sedan vandrar iväg
