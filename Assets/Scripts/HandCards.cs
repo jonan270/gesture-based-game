@@ -13,9 +13,9 @@ public class HandCards : MonoBehaviour
     public bool cardsShown = false;
 
     int counter = 0;
-    int x = -20; //Initial positions for cards
-    int y = 5;
-    int z = 15;
+    int x = 10; //Initial positions for cards
+    int y = 10;
+    int z = 0;
 
     public void setHand(List<GameObject> h)
     {
@@ -58,7 +58,8 @@ public class HandCards : MonoBehaviour
         {
             
             hand[i].transform.position = new Vector3(x, y, z);
-           
+            hand[i].transform.LookAt(Camera.main.transform);
+            hand[i].transform.Rotate(0, 180, 0);
             x += 10;
         }
 

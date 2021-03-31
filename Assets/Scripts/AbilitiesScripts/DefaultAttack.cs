@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/DefaultAttack")]
 public class DefaultAttack : AbilityData
 {
-
     public override void OnHit(GameObject target, GameObject attacker)
     {
         amount = attacker.GetComponent<Character>().CompareEnemyElement(target.GetComponent<Character>().Element, extraPowerElement);

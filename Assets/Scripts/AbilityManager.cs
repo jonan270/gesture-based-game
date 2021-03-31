@@ -22,7 +22,7 @@ public class AbilityManager : MonoBehaviour
         }
 
         //Default Attack
-            HildaAbilities[0].OnHit(CharacterList[0], CharacterList[1]); // Instead of CharacterList[0]: GetTarget(enemy)
+        triggerAbility(HildaAbilities, "DefaultAttack"); // Instead of CharacterList[0]: GetTarget(enemy)
 
         //Debug.Log("Hildas första ability: " + HildaAbilities[0].abilityName);
     }
@@ -34,14 +34,12 @@ public class AbilityManager : MonoBehaviour
         //Check if card has been chosen
         
     }
-    public void triggerAbility(List<AbilityData> listAbilityData)
+    public void triggerAbility(List<AbilityData> listAbilityData, string abilityType)
     {
         for (int i = 0; i < listAbilityData.Count; i++)
         {
-          if(listAbilityData[i].abilityName == "Heal")
-            {
-                //listAbilityData[i].OnHit(GetTarget(), GetCaster());
-            }
+            if(abilityType == "DefaultAttack")
+                listAbilityData[0].OnHit(CharacterList[0], CharacterList[1]);
         }
     }
 
