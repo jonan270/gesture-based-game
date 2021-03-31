@@ -10,18 +10,18 @@ public class GameRound : MonoBehaviourPun
 {
     private int turnCounter = -1;
 
-    private bool myTurn = false;
+    private bool myTurn = true;
 
     private void Start()
     {
-        BeginTurn();
+        EndTurn();
     }
 
-    //Round begin 
+    /// <summary>
+    /// Begin a new turn, reseting some values if nessesary 
+    /// </summary>
     void BeginTurn()
     {
-        photonView.RPC("RPC_NewTurn", RpcTarget.All);
-
         if (myTurn)
         {
             PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
@@ -29,7 +29,8 @@ public class GameRound : MonoBehaviourPun
             //Draw new cards
         }
 
-        Debug.Log("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn);
+        Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
+        Debug.LogError("Player state is " + PlayerManager.Instance.PlayerState);
 
     }
 
@@ -64,12 +65,24 @@ public class GameRound : MonoBehaviourPun
         PlayerManager.Instance.OnPlayerStateChanged(PlayerState.waitingForMyTurn);
         PlayerManager.Instance.OnEndTurn();
         //Logic for ending a turn, lets the other player begin their turn
-        BeginTurn();
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 1) {
+            BeginTurn(); 
+        }
+        else
+        {
+            photonView.RPC("RPC_NewTurn", RpcTarget.All, turnCounter);
+        }
+
     }
 
+    /// <summary>
+    /// Check whos turn it is
+    /// </summary>
+    /// <param name="c"></param>
     [PunRPC]
-    void RPC_NewTurn()
+    void RPC_NewTurn(int c)
     {
+        turnCounter = c;     
         ++turnCounter;
         myTurn = false;
 
@@ -87,5 +100,7 @@ public class GameRound : MonoBehaviourPun
                 myTurn = true;
             }
         }
+        Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter  + " starting new turn");
+        BeginTurn();
     }
 }

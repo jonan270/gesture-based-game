@@ -60,6 +60,11 @@ public abstract class Character : MonoBehaviour, IPunObservable
         ActionCompleted
     }
 
+    public bool canDoAction()
+    {
+        return CurrentState != CharacterState.ActionCompleted;
+    }
+
     /// <summary>
     /// Compares attacking hero element vs hero being attacked
     /// </summary>
