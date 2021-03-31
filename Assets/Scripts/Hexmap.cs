@@ -100,15 +100,37 @@ public class Hexmap : MonoBehaviour
                 //TODO: if lobby function, removed buffered target
                 AreaEffect areaEffect = hexTiles[x, y].areaEffect;
                 photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated
-                    ,areaEffect.TrapElement, areaEffect.healthModifier, hexTiles[x, y].isOccupied, hexTiles[x, y].occupant);
+                    ,areaEffect.TrapElement, areaEffect.healthModifier, hexTiles[x, y].isOccupied);
             }
         }
     }
 
     [PunRPC]
-    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive, Character character)
+    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive)
     {
-        hexTiles[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive, character);
+        hexTiles[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive);
+    }
+
+
+    /// <summary>
+    /// Syncs occupation status over network
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="isOccupied"></param>
+    /// <param name="character"></param>
+    public void SetOccupation(int x, int y, bool isOccupied, Character character)
+    {
+        if(isOccupied)
+        {
+            hexTiles[x, y].SetOccupant(character);
+        }
+        else
+        {
+            hexTiles[x, y].RemoveOccupant();
+        }
+        photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, hexTiles[x, y].areaEffect.isActivated
+                    , hexTiles[x, y].areaEffect.TrapElement, hexTiles[x, y].areaEffect.healthModifier, hexTiles[x, y].isOccupied);
     }
 
 

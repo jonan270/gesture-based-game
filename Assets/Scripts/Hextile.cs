@@ -60,9 +60,6 @@ public class Hextile : MonoBehaviourPun
     void Awake()
     {
         randomizeType(); //Set to random
-        //areaEffect = (new GameObject("areaEffect")).AddComponent<AreaEffect>();
-
-
     }
 
     // Update checks what needs to be done to the tile in each frame
@@ -72,19 +69,24 @@ public class Hextile : MonoBehaviourPun
             rotateHex();
     }
 
-    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive, Character character)
-    { 
-        makeType(tileElement);
+    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive)
+    {
+        if(tileType != tileElement)
+        {
+            makeType(tileElement);
+        }
+
         //Synchronize traps 
-        if(isTrapActive)
+        if(!areaEffect.isActivated && isTrapActive)
         {
             AddEffect(trapElement, trapModifier);
         }
-        else
+        else if(areaEffect.isActivated && !isTrapActive)
             RemoveEffect();
+
         if (isCharActive)
         {
-            SetOccupant(character);
+            isOccupied = true;
         }
         else
             RemoveOccupant();
@@ -101,17 +103,6 @@ public class Hextile : MonoBehaviourPun
             angleCount = -180;
         }
     }
-
-    ///// Takes an argument of type string to control which action the tile should take
-    //public void affectTile(ElementState _element)
-    //{
-    //    // if (effect == "spin")
-    //    //     spinTile();
-    //    else if (_element == "typeGrass" || _element == "typeDessert" || _element == "typeWater" || _element == "typeWoods")
-    //        makeType(_element);
-    //    //else if (effect == "typeRandom")
-    //    //    randomizeType();
-    //}
 
     /// Tells update to initiate spinning state
     public void spinTile()
@@ -130,18 +121,6 @@ public class Hextile : MonoBehaviourPun
         areaEffect.SetEffect(state, healthMod);
     }
 
-    public void SetOccupant(Character character)
-    {
-        isOccupied = true;
-        occupant = character;
-    }
-
-    public void RemoveOccupant()
-    {
-        isOccupied = false;
-        occupant = null;
-    }
-
     /// <summary>
     /// Clears the effect from this tile
     /// </summary>
@@ -150,6 +129,26 @@ public class Hextile : MonoBehaviourPun
         spinTile();
         trap.SetActive(false);
         areaEffect.Remove();
+    }
+
+
+    /// <summary>
+    /// Sets a specific character as occupant to a tile
+    /// </summary>
+    /// <param name="character"></param>
+    public void SetOccupant(Character character)
+    {
+        isOccupied = true;
+        occupant = character;
+    }
+
+    /// <summary>
+    /// Removes occupant and sets isOccupied to false
+    /// </summary>
+    public void RemoveOccupant()
+    {
+        isOccupied = false;
+        occupant = null;
     }
 
     private void randomizeType()

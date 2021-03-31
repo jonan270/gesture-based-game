@@ -80,9 +80,6 @@ public class PathFollower : MonoBehaviour
     /// Get the next point on the path
     /// </summary>
     private void GetNextPoint() {
-        //bool available = index + 1 < path.Count && !path[index + 1].isOccupied; // Tile is not occupied and end is not reached
-        //bool stop = index == path.Count || path[index].isOccupied;
-        //Debug.Log("Stop? " + stop);
 
         // If we are at the end of the path stop movement
         if (index == path.Count)
@@ -91,28 +88,28 @@ public class PathFollower : MonoBehaviour
         }
 
         // If we encounter an enemy along the path, deal damage and stop
-        else if (path[index].isOccupied)
+        else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
         {
-            // Do damage.
-            if(!path[index].occupant.GetComponent<PhotonView>().IsMine)
-            {
-                Debug.Log("KARATE");
-            }
+            Debug.Log("KARATE");
             ReachedEnd();
         }
 
         // Else move
         else
-        { 
+        {
+            //Debug.Log("Is it occupied? " + path[index].isOccupied);
+            Hexmap map = FindObjectOfType<Hexmap>();
+
             startTarget = transform.position;
             pathTarget = path[index].Position;
 
             journeyLength = Vector3.Distance(startTarget, pathTarget);
 
             startTime = Time.time;
-            character.CurrentTile.RemoveOccupant(); // Old tile is no longer occupied
+
+            map.SetOccupation(path[index].tileIndex.x, path[index].tileIndex.y, false, character); // Old tile is no longer occupied
             character.CurrentTile = path[index];
-            character.CurrentTile.SetOccupant(character); // New tile is occupied
+            map.SetOccupation(path[index].tileIndex.x, path[index].tileIndex.y, true, character); // New tile is occupied
 
             index++;
         }
