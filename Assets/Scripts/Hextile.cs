@@ -14,7 +14,7 @@ public class Hextile : MonoBehaviourPun
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * 
      * tileType contains information of what element the tile belongs to.
-     * Enables checks such as " if (hexTile[0,0].tileType == "water") "
+     * Enables checks such as " if (hexTile[0,0].tileType == ElementState.Fire) "
      * 
      * tileType can be: "grass", "dessert", "water" or "woods".
      * 
@@ -23,6 +23,8 @@ public class Hextile : MonoBehaviourPun
 
     public ElementState tileType;
     public AreaEffect areaEffect; // Could for example be a trap
+    public bool isOccupied; // Is the hextile occupied by a character?
+    public Character occupant;
 
     public GameObject trap;
 
@@ -70,7 +72,7 @@ public class Hextile : MonoBehaviourPun
             rotateHex();
     }
 
-    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier)
+    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive, Character character)
     { 
         makeType(tileElement);
         //Synchronize traps 
@@ -79,9 +81,13 @@ public class Hextile : MonoBehaviourPun
             AddEffect(trapElement, trapModifier);
         }
         else
-        {
             RemoveEffect();
+        if (isCharActive)
+        {
+            SetOccupant(character);
         }
+        else
+            RemoveOccupant();
     }
 
     /// Spin until 1 rotation has been completed TODO: Make rotateHex timebased instead of framebased.
@@ -122,6 +128,18 @@ public class Hextile : MonoBehaviourPun
         spinTile();
         trap.SetActive(true);
         areaEffect.SetEffect(state, healthMod);
+    }
+
+    public void SetOccupant(Character character)
+    {
+        isOccupied = true;
+        occupant = character;
+    }
+
+    public void RemoveOccupant()
+    {
+        isOccupied = false;
+        occupant = null;
     }
 
     /// <summary>

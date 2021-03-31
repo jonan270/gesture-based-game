@@ -100,15 +100,15 @@ public class Hexmap : MonoBehaviour
                 //TODO: if lobby function, removed buffered target
                 AreaEffect areaEffect = hexTiles[x, y].areaEffect;
                 photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated
-                    ,areaEffect.TrapElement, areaEffect.healthModifier);
+                    ,areaEffect.TrapElement, areaEffect.healthModifier, hexTiles[x, y].isOccupied, hexTiles[x, y].occupant);
             }
         }
     }
 
     [PunRPC]
-    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier)
+    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive, Character character)
     {
-        hexTiles[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier);
+        hexTiles[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive, character);
     }
 
 

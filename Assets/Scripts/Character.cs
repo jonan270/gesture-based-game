@@ -50,6 +50,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         isAlive = true;
         
     }
+
     //private void OnEnable()
     //{
     //    isAlive = true;
