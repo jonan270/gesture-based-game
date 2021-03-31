@@ -84,7 +84,6 @@ public class PathFollower : MonoBehaviour
                 var index = character.CurrentTile.tileIndex;
                 FindObjectOfType<Hexmap>().ChangeEffect(index.x, index.y, false);
             }
-                
             GetNextPoint();
         }
     }
@@ -93,19 +92,37 @@ public class PathFollower : MonoBehaviour
     /// </summary>
     private void GetNextPoint() {
 
-        //If we are not at the end 
-        if (index < path.Count) {
+        // If we are at the end of the path stop movement
+        if (index == path.Count)
+        {
+            ReachedEnd();
+        }
+
+        // If we encounter an enemy along the path, deal damage and stop
+        else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
+        {
+            Debug.Log("KARATE");
+            ReachedEnd();
+        }
+
+        // Else move
+        else
+        {
+            //Debug.Log("Is it occupied? " + path[index].isOccupied);
+            Hexmap map = FindObjectOfType<Hexmap>();
+
             startTarget = transform.position;
             pathTarget = path[index].Position;
 
             journeyLength = Vector3.Distance(startTarget, pathTarget);
 
             startTime = Time.time;
+
+            map.SetOccupation(path[index].tileIndex.x, path[index].tileIndex.y, false, character); // Old tile is no longer occupied
             character.CurrentTile = path[index];
+            map.SetOccupation(path[index].tileIndex.x, path[index].tileIndex.y, true, character); // New tile is occupied
+
             index++;
-        }
-        else { //The end of the path has been reached
-            ReachedEnd();
         }
     }
     /// <summary>

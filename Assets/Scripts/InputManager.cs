@@ -33,6 +33,7 @@ public class InputManager : MonoBehaviour
         //controls.Player.DrawPath.performed += ctx => map.drawDirection(ctx.ReadValue<Vector2>());
         controls.Player.DrawPath.performed += ctx => addShit();
         controls.Player.EndTurn.performed += ctx => SpawnTrap();
+
         controls.Player.Select1.performed += ctx => addShit();
         controls.Player.Select2.performed += ctx => addOtherShit();
 
