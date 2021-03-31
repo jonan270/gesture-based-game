@@ -1,15 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class AbilityManager : MonoBehaviour
 {
     private List<GameObject> CharacterList = new List<GameObject>();
     private List<AbilityData> BjornAbilities = new List<AbilityData>();
     private List<AbilityData> HildaAbilities = new List<AbilityData>();
+    private Hexmap map;
+
+
+    [PunRPC]
+    void RPC_DamageCharacter(int x, int y, int damage)
+    {
+        map.hexTiles[x, y].occupant.ModifyHealth(-damage);
+    }
+
+    public void DamageEnemy(int x, int y)
+    {
+        GetComponent<PhotonView>().RPC("RPC_DamageCharacter", RpcTarget.Others, x, y,
+            PlayerManager.Instance.selectedCharacter.GetComponent<Character>().attackValue);
+    }
 
     void Start()
     {
+        map = FindObjectOfType<Hexmap>();
         CharacterList = GameObject.Find("Game Manager").GetComponent<CharacterControl>().listOfCharacters;
         Debug.Log(CharacterList.Count);
         for (int i = 0; i < CharacterList.Count; i++)

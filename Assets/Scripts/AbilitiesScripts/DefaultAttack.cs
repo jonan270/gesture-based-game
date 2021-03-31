@@ -11,4 +11,9 @@ public class DefaultAttack : AbilityData
 
         target.GetComponent<Character>().ModifyHealth(-amount);
     }
+
+    public int AutoAttack(int damage)
+    {
+        return -damage;
+    }
 }

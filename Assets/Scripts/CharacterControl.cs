@@ -91,7 +91,7 @@ public class CharacterControl : MonoBehaviour
             List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
 
             hand.GetComponent<HandCards>().setHand(drawnCards);
-            hand.GetComponent<HandCards>().showHand();
+            //hand.GetComponent<HandCards>().showHand();
 
             round++;
 

@@ -173,6 +173,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1579805309}
+    - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1579805308}
+    - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReleaseCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ReleaseCharacter
+      objectReference: {fileID: 0}
     - target: {fileID: 4442730546263637228, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: sceneViewId
@@ -710,3 +730,27 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &1579805308 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1016786279, guid: 9da09992e77a4c540838efc136e0db31,
+    type: 3}
+  m_PrefabInstance: {fileID: 1579805305}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579805306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dfedce06cb343d499e321153f3015ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1579805309 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1953353301, guid: 9da09992e77a4c540838efc136e0db31,
+    type: 3}
+  m_PrefabInstance: {fileID: 1579805305}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dfedce06cb343d499e321153f3015ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
