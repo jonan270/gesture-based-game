@@ -16,9 +16,9 @@ public class CharacterControl : MonoBehaviour
     private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
     [SerializeField]
-    private GameObject deckPrefab;
-    [SerializeField]
     private GameObject handPrefab;
+    [SerializeField]
+    private GameObject deckPrefab;
     [SerializeField]
     public List<GameObject> listOfCharacters = new List<GameObject>();
 
@@ -37,13 +37,16 @@ public class CharacterControl : MonoBehaviour
 
     int round = 0;
 
-    private GameObject hilda, bjorn,freyr, deck, hand;
+    private GameObject hilda, bjorn,freyr, hand, deck;
 
     // Start is called before the first frame update
     void Start()
     {
-        deck = Instantiate(deckPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        deck = Instantiate(deckPrefab, new Vector3(18, 0, 3), Quaternion.identity);
+
+
 
         //deckPrefab = new Deck(); //Create specific deck for player
         //var prefab = Resources.Load("Deck");
@@ -65,45 +68,38 @@ public class CharacterControl : MonoBehaviour
         listOfCharacters.Add(bjorn);
         listOfCharacters.Add(freyr);
 
-        //Select character
-
-        //Text on cards in hand shows. Text includes information about abilities
-
-        //Character performs gesture -> certain card is activated
-
-        //We know now what ability should be performed
 
     }
 
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) && hilda != null)
+        hand.GetComponent<HandCards>().UpdateCardsOnHand();
+
+        //if (Input.GetMouseButtonDown(0) && hilda != null)
+        //{
+        //hilda.GetComponent<Hilda>().ModifyHealth(-10);
+        //}
+
+        if (Input.GetMouseButtonDown(0))
         {
-            hilda.GetComponent<Hilda>().ModifyHealth(-10);
-           
-          
-        }
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-        if (round == 0)
-        {
-            deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
-            List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
-
-            hand.GetComponent<HandCards>().setHand(drawnCards);
-            //hand.GetComponent<HandCards>().showHand();
-
-            round++;
-
-        }
-
-        if (hilda != null)
-        {
-            if (!hilda.GetComponent<Hilda>().IsAlive)
+            if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
-                RemoveCharacter(hilda); // Try removing character and its cards
+                Debug.Log(hit.transform.gameObject);
+                hand.GetComponent<HandCards>().RemoveCardOnHand(hit.transform.parent.gameObject);
             }
+        }
+
+            if (hilda != null)
+            {
+                if (!hilda.GetComponent<Hilda>().IsAlive)
+                {
+                    Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
+                    RemoveCharacter(hilda); // Try removing character and its cards
+                }
         }
 
         if(SelectedCharacter != null)
@@ -125,7 +121,7 @@ public class CharacterControl : MonoBehaviour
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.GetComponent<Character>().CurrentTile = spawnTile;
         
-        deck.GetComponent<Deck>().AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
+        
 
         return obj;
     }

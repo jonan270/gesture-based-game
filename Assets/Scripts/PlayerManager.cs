@@ -14,7 +14,7 @@ public class PlayerStateEvent : UnityEvent<PlayerState>
 /// </summary>
 public enum PlayerState
 {
-    idle, waitingForMyTurn, chooseCharacter, drawPath, makeGesture, characterWalking
+    idle, waitingForMyTurn, chooseCharacter, drawPath, makeGesture, characterWalking, chooseCard
 }
 
 /// <summary>
@@ -99,5 +99,10 @@ public class PlayerManager : MonoBehaviour
             
         }
         return true;
+    }
+
+    public int CountCharacters()
+    {
+        return characters.Count;
     }
 }

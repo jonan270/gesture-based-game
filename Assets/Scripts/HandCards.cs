@@ -5,40 +5,118 @@ using UnityEngine;
 public class HandCards : MonoBehaviour
 {
 
-    public float speed = 1.0f;
-    private Transform target;
+    public List<GameObject> cardsOnHand = new List<GameObject>();
 
-    public List<GameObject> hand;
+    [SerializeField]
+    List<GameObject> cardPrefabs = new List<GameObject>();
 
-    public bool cardsShown = false;
+    private static int maxCardsOnHand = 5;
 
-    int counter = 0;
-    int x = 10; //Initial positions for cards
-    int y = 10;
-    int z = 0;
+    public Vector3 positionOne;
+    public Vector3 positionTwo;
+    public Vector3 positionThree;
 
-    public void setHand(List<GameObject> h)
+    private float counter = 0f;
+
+    private float CardX; //Position for card to spawn on
+    private float CardY;
+    private float CardZ;
+
+    void Start()
     {
-        hand = h;
+        CardX = 18f;
+        CardY = 0f;
+        CardZ = -3f;
     }
 
-    /*public HandCards(List<GameObject> h)
-     {
-         hand = h;
-     }
+    void Update()
+    {
+        UpdateCardsPosition();
+    }
 
-     public void showHand() //Puts the cards to use in round on the spelplan
-     {
-         for (int i = 0; i < hand.Count; i++)
-         {
-             //target = hand[i].transform;
-             //transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 
-             hand[i].transform.position = new Vector3(x, y, z);
-             x += 10;
-         }
-     }*/
+    private GameObject GenerateNewCard(float x, float y, float z)
+    {
+        //if (cardsOnHand.Count <= 3) 
 
+        int prefabIndex = UnityEngine.Random.Range(0, 3);
+
+        GameObject ob = Instantiate(cardPrefabs[prefabIndex], new Vector3(x, y, z), Quaternion.Euler(90f, 0f, 0f)); // Lerp?
+
+        ob.transform.parent = this.transform;
+
+        //UpdateCardsPosition();
+
+        return ob;
+    }
+
+
+    public void UpdateCardsOnHand()
+    {
+        int size = PlayerManager.Instance.CountCharacters();
+        //Debug.Log("Nr of chars: " + size);
+       
+        if(size > cardsOnHand.Count && cardsOnHand.Count < maxCardsOnHand) //We have more characters than cards on field, and not more than 5 cards => add more cards to hand
+        {
+            //UpdateCardsPosition();
+
+            cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ));
+
+            //CardX += 5f;
+        }
+
+    }
+
+    public void RemoveCardOnHand(GameObject card)
+    {
+        Debug.Log("Card to be removed: " + card);
+        //card.cardShown = false;
+        Vector3 removedCardPos = card.GetComponent<Card>().cardPosition();
+        
+        if (card != null)
+        {
+            //Remove card from cardsOnHand
+            Destroy(card);
+        }
+
+
+        //Update all cards positions
+        //UpdateCardsPosition(removedCardPos);
+
+        //Replace card
+        cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ)); //Set new card to old cards position
+    }
+
+    private void UpdateCardsPosition()
+    {
+        counter += Time.deltaTime;
+        //Move cards to the left hand side
+        for (int i = 1; i < cardsOnHand.Count; i++)
+        {
+
+            if (cardsOnHand[i].transform.position.x > 10f ) // If card are positioned on right side of the recently removed card
+            {
+                cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, 
+                    new Vector3(10f,0f,-3f), counter);
+
+                cardsOnHand[i+1].transform.position = Vector3.Lerp(cardsOnHand[i+1].transform.position,
+                    new Vector3(5f, 0f, -3f), counter);
+
+            }
+            if (cardsOnHand[i].transform.position.x <= 10f) // If card are positioned on right side of the recently removed card
+            {
+                cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position,
+                    new Vector3(5f,0f,-3f), counter);
+                Debug.Log("Cards position: " + cardsOnHand[i].GetComponent<Card>().cardPosition());
+
+            }
+            
+        }
+        counter = 0f;
+    }
+
+
+    
 
 
     //private void Update()  // Not working, not being called??? Would be used to get hand of cards into scene
@@ -50,7 +128,7 @@ public class HandCards : MonoBehaviour
 
     // }
 
-    public void showHand()
+    /*public void showHand()
     {
         //cardsShown = false;
 
@@ -69,5 +147,5 @@ public class HandCards : MonoBehaviour
             //x = -20;
         }*/
 
-    }
+    
 }

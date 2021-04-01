@@ -302,6 +302,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4780641490868156331, guid: d7825691e87349149966c8772b389224,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4860302380031582868, guid: d7825691e87349149966c8772b389224,
         type: 3}
       propertyPath: lineRenderer
@@ -722,9 +727,10 @@ MonoBehaviour:
     type: 3}
   bjornPrefab: {fileID: 2427165480787925916, guid: 8131232e0f6c4ae4d91229fede7b2b4f,
     type: 3}
+  freyrPrefab: {fileID: 0}
   hexMap: {fileID: 1152915632}
   deckPrefab: {fileID: 4897451762834160154, guid: e8ba2902007ddd64d8e3f6111d9392d7,
     type: 3}
   handPrefab: {fileID: 410460279390455026, guid: c92dc016d669f3e4caf4b3456d00bc8f,
     type: 3}
-  abilityManager: {fileID: 0}
+  listOfCharacters: []
