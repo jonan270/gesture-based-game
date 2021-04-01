@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
 [System.Serializable]
 public class PlayerStateEvent : UnityEvent<PlayerState>
@@ -14,7 +15,7 @@ public class PlayerStateEvent : UnityEvent<PlayerState>
 /// </summary>
 public enum PlayerState
 {
-    idle, waitingForMyTurn, chooseCharacter, drawPath, makeGesture, characterWalking
+    idle, waitingForMyTurn, chooseFriendlyCharacter, chooseEnemyCharacter, drawPath, makeGesture, characterWalking
 }
 
 /// <summary>
@@ -24,6 +25,8 @@ public enum PlayerState
 /// </summary>
 public class PlayerManager : MonoBehaviour
 {
+    public GameObject arrow;
+
     public static PlayerManager Instance { get; private set; }
 
     public PlayerState PlayerState { get; private set; }
@@ -35,10 +38,14 @@ public class PlayerManager : MonoBehaviour
     public PlayerStateEvent toolChangedEvent;
 
 
+    public delegate void SelectTargetCharacterHandler(Character character);
+    private SelectTargetCharacterHandler targetHandler;
+
     private void Awake()
     {
         Instance = this;
         characters = new List<Character>();
+        arrow.SetActive(false);
     }
 
     private void Update()
@@ -47,6 +54,43 @@ public class PlayerManager : MonoBehaviour
             ChangeTool(PlayerState.drawPath);
         if (Input.GetKeyDown(KeyCode.L))
             ChangeTool(PlayerState.makeGesture);
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            characters[0].ListAbilityData[1].ActivateAbility();
+        }
+
+        //raycast from mouse to find a character: TODO: move this function to the hands instead and raycast from the wand for example. 
+        if(PlayerState == PlayerState.chooseFriendlyCharacter)
+        {
+            Camera camera = FindObjectOfType<Camera>();
+            RaycastHit hit;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit)) //raycast into the world
+            {
+                GameObject obj = hit.transform.gameObject;
+
+                PhotonView pv = obj.GetComponent<PhotonView>();
+                if (pv != null && pv.IsMine) //if we find a character and it belongs to us
+                {
+                    arrow.SetActive(true);
+                    arrow.transform.position = obj.transform.position + new Vector3(0, 2.5f, 0);
+                    if (Input.GetMouseButtonDown(0)) //when the player presses left mouse btn invoke function
+                    {
+                        arrow.SetActive(false);
+                        targetHandler.Invoke(obj.GetComponent<Character>());
+                    }
+                }
+                else
+                {
+                    arrow.SetActive(false);
+                }
+
+            }
+
+
+        }
+
     }
 
     /// <summary>
@@ -56,7 +100,10 @@ public class PlayerManager : MonoBehaviour
     {
         get { return selectedCharacter != null; }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="state"></param>
     private void ChangeTool(PlayerState state)
     {
         if(HoldingCharacter)
@@ -65,6 +112,35 @@ public class PlayerManager : MonoBehaviour
             toolChangedEvent.Invoke(PlayerState);
         }
     }
+    /// <summary>
+    /// Subscribes a function to call when appropriate
+    /// </summary>
+    /// <param name="e">function to call</param>
+    public void SubscribeToSelectTargetCharacter(SelectTargetCharacterHandler e)
+    {
+        Debug.Log("Subscribing function to handler");
+        targetHandler += e;
+    }
+    /// <summary>
+    /// unsubscribe the function to no longer recive calls
+    /// </summary>
+    /// <param name="e">function to unsubscribe</param>
+    public void UnsubscribeFromSelectTargetCharacter(SelectTargetCharacterHandler e)
+    {
+        Debug.Log("Unsubscribing the function from the handler");
+        if (targetHandler != null)
+            targetHandler -= e;
+    }
+
+    //public void foo()
+    //{
+    //    Debug.Log("Finding the character");
+    //    target = characters[0];
+    //    Debug.Log("Invoking the function");
+    //    targetHandler.Invoke(target);
+
+    //}
+
     /// <summary>
     /// Reset 
     /// </summary>
