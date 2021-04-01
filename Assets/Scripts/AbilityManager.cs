@@ -36,6 +36,11 @@ public class AbilityManager : MonoBehaviour
         map.hexTiles[x, y].occupant.ModifyHealth(amount);
     }
 
+    public void PlaceAreaEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, int healthMod = 0)
+    {
+        map.ChangeEffect(x, y, setEffect, element, healthMod);
+    }
+
     public void ActivateAbilityFromGesture(GestureType type, Character character)
     {
         foreach (var ability in character.ListAbilityData)
