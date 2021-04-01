@@ -34,6 +34,8 @@ public class PathFollower : MonoBehaviour
     private List<Hextile> path;
     private Vector3 pathTarget;
     private Vector3 startTarget;
+    private Hexmap map;
+    private AbilityManager abilities;
 
     /// <summary>
     /// reference to attached character script
@@ -42,6 +44,8 @@ public class PathFollower : MonoBehaviour
 
     private void Start() {
         character = GetComponent<Character>();
+        map = FindObjectOfType<Hexmap>();
+        abilities = FindObjectOfType<AbilityManager>();
 
         //Adds the pathCreator as a listner to this event
         movingComplete.AddListener(FindObjectOfType<PathCreator>().OnReachedEnd);
@@ -84,7 +88,6 @@ public class PathFollower : MonoBehaviour
                 var index = character.CurrentTile.tileIndex;
                 FindObjectOfType<Hexmap>().ChangeEffect(index.x, index.y, false);
             }
-                
             GetNextPoint();
         }
     }
@@ -93,19 +96,40 @@ public class PathFollower : MonoBehaviour
     /// </summary>
     private void GetNextPoint() {
 
-        //If we are not at the end 
-        if (index < path.Count) {
+        // If we are at the end of the path stop movement
+        if (index == path.Count)
+        {
+            ReachedEnd();
+        }
+
+        // If we encounter an enemy along the path, deal damage and stop
+        else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
+        {
+            // Nu är vi på path[index].tileIndex
+            // Vill hämta occupant från map.hexTiles[path[index].tileIndex.x, path[index].tileIndex.y];
+            Debug.Log("KARATE");
+            abilities.DamageEnemy(path[index].tileIndex.x, path[index].tileIndex.y);
+            // character.ListAbilityData[0].OnHit(, character);
+            ReachedEnd();
+        }
+
+        // Else move
+        else
+        {
+            //Debug.Log("Is it occupied? " + path[index].isOccupied);
+
             startTarget = transform.position;
             pathTarget = path[index].Position;
 
             journeyLength = Vector3.Distance(startTarget, pathTarget);
 
             startTime = Time.time;
+
+            map.SetOccupation(character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y, false, character); // Old tile is no longer occupied
             character.CurrentTile = path[index];
+            map.SetOccupation(character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y, true, character); // New tile is occupied
+
             index++;
-        }
-        else { //The end of the path has been reached
-            ReachedEnd();
         }
     }
     /// <summary>
