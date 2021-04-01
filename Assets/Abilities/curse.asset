@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e87f4c88a16e1b64687c5872816d0542, type: 3}
+  m_Name: curse
+  m_EditorClassIdentifier: 
+  abilityName: Fire world
+  abilityDescription: "V\xE4lja en tile och d\xE5 blir omr\xE5det omkring tilen,
+    med radie 2, till \xF6ken"
+  gemsCost: 5
+  powerValue: 0
+  targetType: 1
+  abilityElement: 1
+  numberOfTurns: 0
+  gestureType: 2
+  effectPrefab: {fileID: 0}

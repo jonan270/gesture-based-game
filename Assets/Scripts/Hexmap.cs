@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
  * Hexmap generates and keeps track of all generated map tiles.
@@ -141,11 +139,15 @@ public class Hexmap : MonoBehaviour
     /// <param name="element"></param>
     private void ChangeTileElement(int x, int y, ElementState element)
     {
-        if(CheckValid(x,y))
-            hexTiles[x,y].makeType(element);
+        if (CheckValid(x, y))
+        {
+            hexTiles[x, y].makeType(element);
+            photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, hexTiles[x, y].areaEffect.isActivated
+            , hexTiles[x, y].areaEffect.TrapElement, hexTiles[x, y].areaEffect.healthModifier, hexTiles[x, y].isOccupied);
+        }
     }
 
-    
+
     public void ChangeEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, int healthMod = 0) 
     {
         if(CheckValid(x,y)) 
@@ -224,7 +226,7 @@ public class Hexmap : MonoBehaviour
     //
     // Should be changed some day. Preferably before 21:00.
     // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
-    private void affectRadius(int xCord, int yCord, int radius, ElementState element)
+    public void affectRadius(int xCord, int yCord, int radius, ElementState element)
     {
         if (radius >= 1)
         {

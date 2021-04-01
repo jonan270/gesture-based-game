@@ -15,7 +15,7 @@ public class PlayerStateEvent : UnityEvent<PlayerState>
 /// </summary>
 public enum PlayerState
 {
-    idle, waitingForMyTurn, chooseFriendlyCharacter, chooseEnemyCharacter, drawPath, makeGesture, characterWalking
+    idle, waitingForMyTurn, chooseFriendlyCharacter, chooseEnemyCharacter,chooseTile, drawPath, makeGesture, characterWalking
 }
 
 /// <summary>
@@ -39,7 +39,9 @@ public class PlayerManager : MonoBehaviour
 
 
     public delegate void SelectTargetCharacterHandler(Character character);
-    private SelectTargetCharacterHandler targetHandler;
+    private SelectTargetCharacterHandler characterTargetHandler;
+    public delegate void SelectTargetTileHandler(Hextile hextile);
+    private SelectTargetTileHandler tileTargetHandler;
 
     private void Awake()
     {
@@ -74,17 +76,44 @@ public class PlayerManager : MonoBehaviour
                     if (Input.GetMouseButtonDown(0)) //when the player presses left mouse btn invoke function
                     {
                         arrow.SetActive(false);
-                        targetHandler.Invoke(obj.GetComponent<Character>());
+                        characterTargetHandler.Invoke(obj.GetComponent<Character>());
                     }
                 }
                 else
                 {
                     arrow.SetActive(false);
                 }
-
             }
+        }
+        if(PlayerState == PlayerState.chooseTile)
+        {
+            Camera camera = FindObjectOfType<Camera>();
+            RaycastHit hit;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit)) //raycast into the world
+            {
+                GameObject obj = hit.transform.gameObject;
 
-
+                Hextile tile = obj.GetComponent<Hextile>();
+                if (tile != null) //if we find a tile
+                {
+                    arrow.SetActive(true);
+                    arrow.transform.position = obj.transform.position + new Vector3(0, 0.5f, 0); //TODO: add material to tile currently hover over
+                    if (Input.GetMouseButtonDown(0)) //when the player presses left mouse btn invoke function
+                    {
+                        arrow.SetActive(false);
+                        tileTargetHandler.Invoke(tile);
+                    }
+                }
+                else
+                {
+                    arrow.SetActive(false);
+                }
+            }
+            else
+            {
+                arrow.SetActive(false);
+            }
         }
 
     }
@@ -115,7 +144,7 @@ public class PlayerManager : MonoBehaviour
     public void SubscribeToSelectTargetCharacter(SelectTargetCharacterHandler e)
     {
         Debug.Log("Subscribing function to handler");
-        targetHandler += e;
+        characterTargetHandler += e;
     }
     /// <summary>
     /// unsubscribe the function to no longer recive calls
@@ -124,8 +153,27 @@ public class PlayerManager : MonoBehaviour
     public void UnsubscribeFromSelectTargetCharacter(SelectTargetCharacterHandler e)
     {
         Debug.Log("Unsubscribing the function from the handler");
-        if (targetHandler != null)
-            targetHandler -= e;
+        if (characterTargetHandler != null)
+            characterTargetHandler -= e;
+    }
+    /// <summary>
+    /// Subscribes a function to call when appropriate
+    /// </summary>
+    /// <param name="e">function to call</param>
+    public void SubscribeToSelectTargetTile(SelectTargetTileHandler e)
+    {
+        Debug.Log("Subscribing function to handler");
+        tileTargetHandler += e;
+    }
+    /// <summary>
+    /// unsubscribe the function to no longer recive calls
+    /// </summary>
+    /// <param name="e">function to unsubscribe</param>
+    public void UnsubscribeFromSelectTargetTile(SelectTargetTileHandler e)
+    {
+        Debug.Log("Unsubscribing the function from the handler");
+        if (tileTargetHandler != null)
+            tileTargetHandler -= e;
     }
 
     //public void foo()

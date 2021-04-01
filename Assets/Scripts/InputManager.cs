@@ -40,6 +40,11 @@ public class InputManager : MonoBehaviour
         controls.Player.Select2.performed += ctx => addOtherShit();
 
     }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F2))
+            RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.cross);
+    }
 
     private void addShit() 
     {
@@ -74,8 +79,11 @@ public class InputManager : MonoBehaviour
 
     private void RunAbility(Character character, GestureType type)
     {
-        Debug.Log("Running ability " + type + " of: " + character.name);
-        abilitymanager.ActivateAbilityFromGesture(type, character);
+        if (PlayerManager.Instance.PlayerState == PlayerState.idle)
+        {
+            Debug.Log("Running ability " + type + " of: " + character.name);
+            abilitymanager.ActivateAbilityFromGesture(type, character);
+        }
     }
 
     private void SpawnTrap()

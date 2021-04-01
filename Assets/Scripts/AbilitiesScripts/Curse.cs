@@ -5,12 +5,22 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Curse")]
 public class Curse : AbilityData
 {
-    //public override void OnHit(GameObject target, GameObject attacker)
-    //{
-    //    // target == Hextile
-    //}
+    public int tileRadius = 2;
+
     public override void ActivateAbility()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Waiting for a tile to be selected");
+        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.chooseTile);
+        PlayerManager.Instance.SubscribeToSelectTargetTile(OnSelectedTile);
     }
+
+    private void OnSelectedTile(Hextile tile)
+    {
+        Debug.Log("Does something to the tile with index: " + tile.tileIndex);
+        Hexmap map = FindObjectOfType<Hexmap>();
+        map.affectRadius(tile.tileIndex.x, tile.tileIndex.y, tileRadius, abilityElement);
+        PlayerManager.Instance.UnsubscribeFromSelectTargetTile(OnSelectedTile);
+        AbilityCompleted();
+    }
+
 }

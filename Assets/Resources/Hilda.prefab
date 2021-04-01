@@ -64,7 +64,7 @@ MonoBehaviour:
   ListAbilityData:
   - {fileID: 11400000, guid: 75f40b345263ee747a59db981511c27a, type: 2}
   - {fileID: 11400000, guid: 6c3f4ae27cef4e74cbb7b434fb2f1697, type: 2}
-  - {fileID: 11400000, guid: 2ef131b801d74f94c9b2474650f7f77f, type: 2}
+  - {fileID: 11400000, guid: 16b3adc47a22c154fb84e23d877c9c08, type: 2}
 --- !u!114 &2634129342243103366
 MonoBehaviour:
   m_ObjectHideFlags: 0
