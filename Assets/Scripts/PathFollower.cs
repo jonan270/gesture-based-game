@@ -105,11 +105,8 @@ public class PathFollower : MonoBehaviour
         // If we encounter an enemy along the path, deal damage and stop
         else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
         {
-            // Nu är vi på path[index].tileIndex
-            // Vill hämta occupant från map.hexTiles[path[index].tileIndex.x, path[index].tileIndex.y];
             Debug.Log("KARATE");
-            abilities.DamageEnemy(path[index].tileIndex.x, path[index].tileIndex.y);
-            // character.ListAbilityData[0].OnHit(, character);
+            abilities.DamageCharacter(path[index].tileIndex.x, path[index].tileIndex.y);
             ReachedEnd();
         }
 
@@ -117,7 +114,6 @@ public class PathFollower : MonoBehaviour
         else
         {
             //Debug.Log("Is it occupied? " + path[index].isOccupied);
-
             startTarget = transform.position;
             pathTarget = path[index].Position;
 
@@ -132,6 +128,7 @@ public class PathFollower : MonoBehaviour
             index++;
         }
     }
+
     /// <summary>
     /// Raised when the character has reached end of its path
     /// </summary>

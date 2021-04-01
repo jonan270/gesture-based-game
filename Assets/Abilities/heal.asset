@@ -15,10 +15,10 @@ MonoBehaviour:
   abilityName: Heal
   abilityDescription: Hilda will conjure a health potion to be used on self or her
     teammates.
+  gesture: 1
   gemsCost: 10
   amount: 30
   targType: 0
   numberOfTurns: 0
   IsFinished: 0
-  gestureType: Triangle
   effectPrefab: {fileID: 170850, guid: 8e13c6e5a21aeea4db3c25ef0e529308, type: 3}

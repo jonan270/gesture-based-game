@@ -6,15 +6,20 @@ using UnityEngine;
 public class DefaultAttack : AbilityData
 {
 
-    public override void OnHit(GameObject target, GameObject attacker)
-    {
-        amount = attacker.GetComponent<Character>().CompareEnemyElement(target.GetComponent<Character>().Element, extraPowerElement);
+    //public override void OnHit(GameObject target, GameObject attacker)
+    //{
+    //    amount = attacker.GetComponent<Character>().CompareEnemyElement(target.GetComponent<Character>().Element, extraPowerElement);
 
-        target.GetComponent<Character>().ModifyHealth(-amount);
-    }
+    //    target.GetComponent<Character>().ModifyHealth(-amount);
+    //}
 
     public int AutoAttack(int damage)
     {
         return -damage;
+    }
+
+    public override void ActivateAbility()
+    {
+
     }
 }

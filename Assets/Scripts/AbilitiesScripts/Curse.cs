@@ -5,9 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Curse")]
 public class Curse : AbilityData
 {
-    public override void OnHit(GameObject target, GameObject attacker)
+    //public override void OnHit(GameObject target, GameObject attacker)
+    //{
+    //    // target == Hextile
+    //}
+
+    public override void ActivateAbility()
     {
-        // target == Hextile
+
     }
 
 }

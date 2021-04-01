@@ -9,6 +9,7 @@ public abstract class AbilityData : ScriptableObject
     public string abilityName;
     public string abilityDescription;
 
+    public GestureType gesture;
     public int gemsCost;
     public int amount;
     public TargetType targType;
@@ -16,16 +17,16 @@ public abstract class AbilityData : ScriptableObject
     public int numberOfTurns;
     public bool IsFinished;
 
-    public string gestureType;
-
     public static int extraPowerElement = 5;
 
     public GameObject effectPrefab; //Would be used for animate/effect for ability
 
     //public abstract void TriggerAbility();
-    public abstract void OnHit(GameObject target, GameObject attacker);
-
+    //public abstract void OnHit(GameObject target, GameObject attacker);
+    public abstract void ActivateAbility();
 }
+
+
 /*
 public abstract class dmgOrHealAbility : AbilityData // Berserk, Trap, Multishot, Heal, Cleave
 {

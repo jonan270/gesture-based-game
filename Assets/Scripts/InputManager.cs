@@ -9,12 +9,11 @@ public class InputManager : MonoBehaviour
 
     [SerializeField]
     private Hexmap map;
-    // [SerializeField]
-    // private PathFollower follower;
+
     [SerializeField]
     private PathCreator creator;
-    //[SerializeField]
-    //private PathDraw path;
+    private AbilityManager abilitymanager;
+
 
     private void OnEnable()
     {
@@ -29,10 +28,15 @@ public class InputManager : MonoBehaviour
     void Awake()
     {
         controls = new InputMaster();
+        abilitymanager = FindObjectOfType<AbilityManager>();
+
+        // Abilitties
+        controls.Player.CircleF1.performed += ctx => RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+
         controls.Player.Spacebutton.performed += ctx => map.randomizeHexmap(1000, 3);
         //controls.Player.DrawPath.performed += ctx => map.drawDirection(ctx.ReadValue<Vector2>());
         controls.Player.DrawPath.performed += ctx => addShit();
-        controls.Player.EndTurn.performed += ctx => SpawnTrap();
+        controls.Player.EnterPress.performed += ctx => SpawnTrap();
 
         controls.Player.Select1.performed += ctx => addShit();
         controls.Player.Select2.performed += ctx => addOtherShit();
@@ -53,14 +57,6 @@ public class InputManager : MonoBehaviour
             creator.FinishPath(PlayerManager.Instance.selectedCharacter);
 
         }
-        // creator.AddTile(map.hexTiles[0,4]);
-        // creator.AddTile(map.hexTiles[1,4]);
-        // creator.AddTile(map.hexTiles[2,4]);
-        // creator.AddTile(map.hexTiles[3,4]);
-        // creator.AddTile(map.hexTiles[4,5]);
-        // creator.AddTile(map.hexTiles[5,7]);
-
-        // creator.FinishPath(GameObject.Find("Bjorn(Clone)"));
     }
 
     private void addOtherShit() 
@@ -78,23 +74,16 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void SpawnTrap()
+    private void RunAbility(Character character)
     {
-        //map.hexTiles[2, 2].AddEffect(ElementState.Fire, -50);
-        map.ChangeEffect(2,2, true, ElementState.Fire, -50);
-        Debug.Log("Trap spawned: " + map.hexTiles[2, 2].areaEffect.TrapElement + " with damage " + map.hexTiles[2, 2].areaEffect.healthModifier);
+        Debug.Log("Running ability circle of: " + character.name);
+        //Debug.Log(GestureType.circle);
+        abilitymanager.ActivateAbilityFromGesture(GestureType.circle, character);
     }
 
-    private string SelectCharacter(int num) 
+    private void SpawnTrap()
     {
-        switch(num)
-        {
-            case 1:
-                return "Hilda 1(Clone)";
-            case 2:
-                return "Bjorn(Clone)";
-            default:
-                return "Hilda 1(Clone)";
-        }
+        map.ChangeEffect(2,2, true, ElementState.Fire, -50);
+        Debug.Log("Trap spawned: " + map.hexTiles[2, 2].areaEffect.TrapElement + " with damage " + map.hexTiles[2, 2].areaEffect.healthModifier);
     }
 }

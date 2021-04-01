@@ -6,7 +6,12 @@ using UnityEngine;
 public class RingOfAttack : AbilityData
 {
 
-    public override void OnHit(GameObject target, GameObject attacker)
+    //public override void OnHit(GameObject target, GameObject attacker)
+    //{
+
+    //}
+
+    public override void ActivateAbility()
     {
 
     }
