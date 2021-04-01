@@ -43,7 +43,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""EndTurn"",
+                    ""name"": ""EnterPress"",
                     ""type"": ""Button"",
                     ""id"": ""c8de2907-eddc-4949-b0b0-437f45e54acd"",
                     ""expectedControlType"": ""Button"",
@@ -62,6 +62,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""name"": ""Select2"",
                     ""type"": ""Button"",
                     ""id"": ""3e96d4bb-a64c-4d60-a15f-4788f0eaee9f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CircleF1"",
+                    ""type"": ""Button"",
+                    ""id"": ""126b8337-384e-46e6-a1a2-59e6561a0cba"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -152,7 +160,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and mouse"",
-                    ""action"": ""EndTurn"",
+                    ""action"": ""EnterPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -175,6 +183,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Select2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81b00bfa-8932-44cb-86b5-13ad017dc54a"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and mouse"",
+                    ""action"": ""CircleF1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -205,9 +224,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_Rayposition = m_Player.FindAction("Rayposition", throwIfNotFound: true);
         m_Player_Spacebutton = m_Player.FindAction("Spacebutton", throwIfNotFound: true);
         m_Player_DrawPath = m_Player.FindAction("DrawPath", throwIfNotFound: true);
-        m_Player_EndTurn = m_Player.FindAction("EndTurn", throwIfNotFound: true);
+        m_Player_EnterPress = m_Player.FindAction("EnterPress", throwIfNotFound: true);
         m_Player_Select1 = m_Player.FindAction("Select1", throwIfNotFound: true);
         m_Player_Select2 = m_Player.FindAction("Select2", throwIfNotFound: true);
+        m_Player_CircleF1 = m_Player.FindAction("CircleF1", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,9 +280,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Rayposition;
     private readonly InputAction m_Player_Spacebutton;
     private readonly InputAction m_Player_DrawPath;
-    private readonly InputAction m_Player_EndTurn;
+    private readonly InputAction m_Player_EnterPress;
     private readonly InputAction m_Player_Select1;
     private readonly InputAction m_Player_Select2;
+    private readonly InputAction m_Player_CircleF1;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -270,9 +291,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Rayposition => m_Wrapper.m_Player_Rayposition;
         public InputAction @Spacebutton => m_Wrapper.m_Player_Spacebutton;
         public InputAction @DrawPath => m_Wrapper.m_Player_DrawPath;
-        public InputAction @EndTurn => m_Wrapper.m_Player_EndTurn;
+        public InputAction @EnterPress => m_Wrapper.m_Player_EnterPress;
         public InputAction @Select1 => m_Wrapper.m_Player_Select1;
         public InputAction @Select2 => m_Wrapper.m_Player_Select2;
+        public InputAction @CircleF1 => m_Wrapper.m_Player_CircleF1;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -291,15 +313,18 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @DrawPath.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
                 @DrawPath.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
                 @DrawPath.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrawPath;
-                @EndTurn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
-                @EndTurn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
-                @EndTurn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEndTurn;
+                @EnterPress.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterPress;
+                @EnterPress.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterPress;
+                @EnterPress.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnterPress;
                 @Select1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect1;
                 @Select1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect1;
                 @Select1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect1;
                 @Select2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect2;
                 @Select2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect2;
                 @Select2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelect2;
+                @CircleF1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCircleF1;
+                @CircleF1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCircleF1;
+                @CircleF1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCircleF1;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -313,15 +338,18 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @DrawPath.started += instance.OnDrawPath;
                 @DrawPath.performed += instance.OnDrawPath;
                 @DrawPath.canceled += instance.OnDrawPath;
-                @EndTurn.started += instance.OnEndTurn;
-                @EndTurn.performed += instance.OnEndTurn;
-                @EndTurn.canceled += instance.OnEndTurn;
+                @EnterPress.started += instance.OnEnterPress;
+                @EnterPress.performed += instance.OnEnterPress;
+                @EnterPress.canceled += instance.OnEnterPress;
                 @Select1.started += instance.OnSelect1;
                 @Select1.performed += instance.OnSelect1;
                 @Select1.canceled += instance.OnSelect1;
                 @Select2.started += instance.OnSelect2;
                 @Select2.performed += instance.OnSelect2;
                 @Select2.canceled += instance.OnSelect2;
+                @CircleF1.started += instance.OnCircleF1;
+                @CircleF1.performed += instance.OnCircleF1;
+                @CircleF1.canceled += instance.OnCircleF1;
             }
         }
     }
@@ -340,8 +368,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnRayposition(InputAction.CallbackContext context);
         void OnSpacebutton(InputAction.CallbackContext context);
         void OnDrawPath(InputAction.CallbackContext context);
-        void OnEndTurn(InputAction.CallbackContext context);
+        void OnEnterPress(InputAction.CallbackContext context);
         void OnSelect1(InputAction.CallbackContext context);
         void OnSelect2(InputAction.CallbackContext context);
+        void OnCircleF1(InputAction.CallbackContext context);
     }
 }
