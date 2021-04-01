@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.Events;
 //[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 /// <summary>
 /// Element of character or tile, found in Character.cs
@@ -33,6 +34,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public CharacterState CurrentState;
 
     //public AbilityManager abilityManager;
+
+    public UnityEvent deathEvent;
 
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
@@ -114,12 +117,18 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
         if(currentHealth <= 0)
         {
-            isAlive = false;
+            Die();
         }
     }
 
-    public void UpdateAll()
+    /// <summary>
+    /// Called when character dies
+    /// </summary>
+    private void Die()
     {
+        Debug.Log(gameObject.name + " is now dead");
+        isAlive = false;
+        deathEvent.Invoke();
 
     }
 
