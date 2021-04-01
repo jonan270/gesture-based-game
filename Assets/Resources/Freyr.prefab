@@ -111,6 +111,9 @@ MonoBehaviour:
   StrongAgainst: 4
   WeakAgainst: 1
   CurrentState: 0
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   ListAbilityData: []
 --- !u!114 &4638374529834447028
 MonoBehaviour:

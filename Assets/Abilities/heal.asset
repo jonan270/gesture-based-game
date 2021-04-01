@@ -16,9 +16,10 @@ MonoBehaviour:
   abilityDescription: Hilda will conjure a health potion to be used on self or her
     teammates.
   gemsCost: 10
-  amount: 30
-  targType: 0
+  powerValue: 30
+  targetType: 0
+  abilityElement: 1
   numberOfTurns: 0
   IsFinished: 0
-  gestureType: Triangle
+  gestureType: 0
   effectPrefab: {fileID: 170850, guid: 8e13c6e5a21aeea4db3c25ef0e529308, type: 3}

@@ -58,6 +58,9 @@ MonoBehaviour:
   StrongAgainst: 1
   WeakAgainst: 2
   CurrentState: 0
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   ListAbilityData:
   - {fileID: 11400000, guid: 51689c35bc4bda547adfcb42cb9ad9fa, type: 2}
 --- !u!114 &5341129425386056602
