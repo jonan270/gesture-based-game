@@ -63,14 +63,14 @@ public class PathCreator : MonoBehaviour
         }
         return points.ToArray();
     }
-
+    /// <summary>
+    /// Allows the player to draw a new path for another character
+    /// </summary>
+    /// <param name="obj"></param>
     public void OnReachedEnd(GameObject obj)
     {
-        isBusy = false; //Lets another character create its path
-        obj.GetComponent<Character>().CurrentState = Character.CharacterState.ActionCompleted; //TODO change to a function call instead 
+        isBusy = false;
         pathdrawer.ClearPath();
-        PlayerManager.Instance.selectedCharacter = null;
-
         actionTaken.Invoke();
     }
 

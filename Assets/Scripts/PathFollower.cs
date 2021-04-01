@@ -47,7 +47,7 @@ public class PathFollower : MonoBehaviour
         map = FindObjectOfType<Hexmap>();
         abilities = FindObjectOfType<AbilityManager>();
 
-        //Adds the pathCreator as a listner to this event
+        //Adds the pathCreator as a listener to this event
         movingComplete.AddListener(FindObjectOfType<PathCreator>().OnReachedEnd);
 
     }
