@@ -55,10 +55,6 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
             ChangeTool(PlayerState.makeGesture);
 
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            characters[0].ListAbilityData[1].ActivateAbility();
-        }
 
         //raycast from mouse to find a character: TODO: move this function to the hands instead and raycast from the wand for example. 
         if(PlayerState == PlayerState.chooseFriendlyCharacter)

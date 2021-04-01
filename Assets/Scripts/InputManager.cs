@@ -75,7 +75,7 @@ public class InputManager : MonoBehaviour
     private void RunAbility(Character character, GestureType type)
     {
         Debug.Log("Running ability " + type + " of: " + character.name);
-        abilitymanager.ActivateAbilityFromGesture(GestureType.circle, character);
+        abilitymanager.ActivateAbilityFromGesture(type, character);
     }
 
     private void SpawnTrap()

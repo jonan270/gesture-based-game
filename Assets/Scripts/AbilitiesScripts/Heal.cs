@@ -22,7 +22,7 @@ public class Heal : AbilityData
     private void OnSelectedCharacter(Character target)
     {
         Debug.Log("Healing " + target.name);
-        target.ModifyHealth(powerValue + CalculateBonusHeal(target));
+        target.ModifyHealth(powerValue + CalculateBonusHeal(PlayerManager.Instance.selectedCharacter.GetComponent<Character>()));
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);        
         AbilityCompleted();
     }

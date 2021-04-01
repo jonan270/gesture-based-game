@@ -40,7 +40,7 @@ public class AbilityManager : MonoBehaviour
     {
         foreach (var ability in character.ListAbilityData)
         {
-            if (ability.gesture == type)
+            if (ability.gestureType == type)
                 ability.ActivateAbility();
         }
     }
