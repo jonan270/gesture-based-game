@@ -7,8 +7,6 @@ public class AbilityManager : MonoBehaviour
 {
     public static AbilityManager ManagerInstance { get; private set; }
     private List<GameObject> CharacterList = new List<GameObject>();
-    //private List<AbilityData> BjornAbilities = new List<AbilityData>();
-    //private List<AbilityData> HildaAbilities = new List<AbilityData>();
     private Hexmap map;
 
     void Start()

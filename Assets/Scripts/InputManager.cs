@@ -5,7 +5,6 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     private InputMaster controls;
-    //private PathDraw lineRenderer;
 
     [SerializeField]
     private Hexmap map;
@@ -30,11 +29,10 @@ public class InputManager : MonoBehaviour
         controls = new InputMaster();
         abilitymanager = FindObjectOfType<AbilityManager>();
 
-        // Abilitties
-        controls.Player.CircleF1.performed += ctx => RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+        // Abilities
+        controls.Player.CircleF1.performed += ctx => RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.circle);
 
         controls.Player.Spacebutton.performed += ctx => map.randomizeHexmap(1000, 3);
-        //controls.Player.DrawPath.performed += ctx => map.drawDirection(ctx.ReadValue<Vector2>());
         controls.Player.DrawPath.performed += ctx => addShit();
         controls.Player.EnterPress.performed += ctx => SpawnTrap();
 
@@ -74,10 +72,9 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void RunAbility(Character character)
+    private void RunAbility(Character character, GestureType type)
     {
-        Debug.Log("Running ability circle of: " + character.name);
-        //Debug.Log(GestureType.circle);
+        Debug.Log("Running ability " + type + " of: " + character.name);
         abilitymanager.ActivateAbilityFromGesture(GestureType.circle, character);
     }
 
