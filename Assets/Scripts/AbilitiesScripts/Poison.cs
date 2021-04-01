@@ -5,10 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Poison")]
 public class Poison : AbilityData
 {
-    public override void OnHit(GameObject target, GameObject attacker)
+    //public override void OnHit(GameObject target, GameObject attacker)
+    //{
+    //    target.GetComponent<Character>().ModifyHealth(-amount);
+    //}
+    public override void ActivateAbility()
     {
-        target.GetComponent<Character>().ModifyHealth(-amount);
+        throw new System.NotImplementedException();
     }
-
 
 }
