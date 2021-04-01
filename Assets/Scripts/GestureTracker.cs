@@ -6,6 +6,21 @@ using Valve.VR;
 using Valve.VR.InteractionSystem;
 using PDollarGestureRecognizer;
 
+//Types of gestures, names must match the gesture name in /Gestures/...xml
+/// <summary>
+/// Gesture Type represents the type of gesture a user makes. Found in GestureTracker.cs
+/// </summary>
+public enum GestureType
+{
+    none, //default
+    circle,
+    cross,
+    horizontalline,
+    verticalline,
+    square,
+    s
+};
+
 public class GestureTracker : MonoBehaviour
 {
     
@@ -27,18 +42,6 @@ public class GestureTracker : MonoBehaviour
     private List<Gesture> trainingSet = new List<Gesture>();
 
     public string GestureName = "";
-
-    //Types of gestures, names must match the gesture name in /Gestures/...xml 
-    enum EnumGesture
-    {
-        none, //default
-        circle,
-        cross,
-        horizontalline,
-        verticalline,
-        square,
-        s
-    };
     
     //A class that keeps track of positions to analyze as gestures.
     [System.Serializable]
@@ -184,14 +187,14 @@ public class GestureTracker : MonoBehaviour
             //TODO Display gesture result ? 
             //TODO Send confirmed gesture to rest of system. 
             Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
-            EnumGesture gest;
+            GestureType gest;
             if (gestureResult.Score >= 0.85f)
             {
-                gest = (EnumGesture)System.Enum.Parse(typeof(EnumGesture), gestureResult.GestureClass);
+                gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
             }
             else
             {
-                gest = EnumGesture.none;
+                gest = GestureType.none;
             }
             Debug.Log(gest);
         }
