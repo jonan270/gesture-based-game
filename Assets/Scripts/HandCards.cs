@@ -10,7 +10,7 @@ public class HandCards : MonoBehaviour
     [SerializeField]
     List<GameObject> cardPrefabs = new List<GameObject>();
 
-    private static int maxCardsOnHand = 5;
+    private static int maxCardsOnHand = 3;
 
     public Vector3 positionOne;
     public Vector3 positionTwo;
@@ -27,6 +27,7 @@ public class HandCards : MonoBehaviour
         CardX = 18f;
         CardY = 0f;
         CardZ = -3f;
+
     }
 
     void Update()
@@ -54,11 +55,9 @@ public class HandCards : MonoBehaviour
     public void UpdateCardsOnHand()
     {
         int size = PlayerManager.Instance.CountCharacters();
-        //Debug.Log("Nr of chars: " + size);
        
         if(size > cardsOnHand.Count && cardsOnHand.Count < maxCardsOnHand) //We have more characters than cards on field, and not more than 5 cards => add more cards to hand
         {
-            //UpdateCardsPosition();
 
             cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ));
 
@@ -69,14 +68,13 @@ public class HandCards : MonoBehaviour
 
     public void RemoveCardOnHand(GameObject card)
     {
-        Debug.Log("Card to be removed: " + card);
-        //card.cardShown = false;
+
         Vector3 removedCardPos = card.GetComponent<Card>().cardPosition();
         
         if (card != null)
         {
-            //Remove card from cardsOnHand
             Destroy(card);
+            cardsOnHand.Remove(card);
         }
 
 
@@ -84,35 +82,27 @@ public class HandCards : MonoBehaviour
         //UpdateCardsPosition(removedCardPos);
 
         //Replace card
-        cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ)); //Set new card to old cards position
+        //cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ)); //Set new card to old cards position
     }
 
     private void UpdateCardsPosition()
     {
         counter += Time.deltaTime;
         //Move cards to the left hand side
-        for (int i = 1; i < cardsOnHand.Count; i++)
+
+        Vector3[] cardEndPositions = new Vector3[2];
+
+        cardEndPositions[0] = new Vector3(5f, 0f, -3f);
+        cardEndPositions[1] = new Vector3(10f, 0f, -3f);
+        //cardEndPositions.Add(new Vector3(18f, 0f, -3f));
+
+       for (int i = 0; i < cardsOnHand.Count - 1; i++)
         {
+            if(cardsOnHand[i].transform.position != cardEndPositions[i])
+                cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
 
-            if (cardsOnHand[i].transform.position.x > 10f ) // If card are positioned on right side of the recently removed card
-            {
-                cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, 
-                    new Vector3(10f,0f,-3f), counter);
-
-                cardsOnHand[i+1].transform.position = Vector3.Lerp(cardsOnHand[i+1].transform.position,
-                    new Vector3(5f, 0f, -3f), counter);
-
-            }
-            if (cardsOnHand[i].transform.position.x <= 10f) // If card are positioned on right side of the recently removed card
-            {
-                cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position,
-                    new Vector3(5f,0f,-3f), counter);
-                Debug.Log("Cards position: " + cardsOnHand[i].GetComponent<Card>().cardPosition());
-
-            }
-            
         }
-        counter = 0f;
+            counter = 0f;
     }
 
 
