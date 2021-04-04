@@ -29,11 +29,19 @@ public class SelectTiles : MonoBehaviour
         }
         if (SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand))
         {
-            //This is where the final list will be sent to the manager, but for now it will just be reset.
             rightLine.enabled = false;
-            pathCreator.FinishPath(currentCharacter.gameObject);
-            tilesSelected.Clear();
+            //This is where the final list will be sent to the manager, but for now it will just be reset.
+            if (tilesSelected.Count != 0)
+            {
+                pathCreator.FinishPath(currentCharacter.gameObject);
+                tilesSelected.Clear();
+            }
             //resetTiles();
+        }
+        if (SteamVR_Actions.default_GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
+        {
+            pathCreator.ClearPath();
+            tilesSelected.Clear();
         }
     }
 

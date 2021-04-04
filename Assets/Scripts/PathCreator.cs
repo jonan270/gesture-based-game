@@ -31,7 +31,7 @@ public class PathCreator : MonoBehaviour
     /// </summary>
     /// <param name="selectedCharacter"></param>
     public void FinishPath(GameObject selectedCharacter) {
-        FinishCreatingPath.Invoke();
+        //FinishCreatingPath.Invoke();
         selectedCharacter.GetComponent<PathFollower>().StartMoving(new List<Hextile>(tiles));
         tiles.Clear();
         isBusy = true;
@@ -49,6 +49,12 @@ public class PathCreator : MonoBehaviour
         
         tiles.Add(h);
         pathdrawer.DrawPath(CreatePointsFromTiles());        
+    }
+
+    public void ClearPath()
+    {
+        tiles.Clear();
+        pathdrawer.ClearPath();
     }
 
     /// <summary>
