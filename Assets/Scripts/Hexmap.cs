@@ -78,7 +78,7 @@ public class Hexmap : MonoBehaviour
             else
                 element = ElementState.Wind;
 
-            affectRadius(randX, randY, randR, element);
+            affectRadius(randX, randY, randR, element, false);
         }
 
         //synka nya mapen med andra 
@@ -137,13 +137,16 @@ public class Hexmap : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="element"></param>
-    private void ChangeTileElement(int x, int y, ElementState element)
+    private void ChangeTileElement(int x, int y, ElementState element, bool synchronize = true)
     {
         if (CheckValid(x, y))
         {
             hexTiles[x, y].makeType(element);
-            photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, hexTiles[x, y].areaEffect.isActivated
-            , hexTiles[x, y].areaEffect.TrapElement, hexTiles[x, y].areaEffect.healthModifier, hexTiles[x, y].isOccupied);
+            if (synchronize)
+            {
+                photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, hexTiles[x, y].areaEffect.isActivated
+                , hexTiles[x, y].areaEffect.TrapElement, hexTiles[x, y].areaEffect.healthModifier, hexTiles[x, y].isOccupied);
+            }
         }
     }
 
@@ -159,7 +162,7 @@ public class Hexmap : MonoBehaviour
                 hexTiles[x,y].RemoveEffect();
             }
             AreaEffect areaEffect = hexTiles[x, y].areaEffect;
-            photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated, areaEffect.TrapElement, areaEffect.healthModifier);
+            photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated, areaEffect.TrapElement, areaEffect.healthModifier, hexTiles[x, y].isOccupied);
 
         }
     }
@@ -226,7 +229,7 @@ public class Hexmap : MonoBehaviour
     //
     // Should be changed some day. Preferably before 21:00.
     // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
-    public void affectRadius(int xCord, int yCord, int radius, ElementState element)
+    public void affectRadius(int xCord, int yCord, int radius, ElementState element, bool sync = true)
     {
         if (radius >= 1)
         {
@@ -256,7 +259,7 @@ public class Hexmap : MonoBehaviour
                 {
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        ChangeTileElement(xCord + xi, yCord + yi, element);
+                        ChangeTileElement(xCord + xi, yCord + yi, element, sync);
                     }
                     symmetric = false;
                 }
@@ -266,13 +269,13 @@ public class Hexmap : MonoBehaviour
                     if (xCord % 2 != 0)
                         correction = 1;
                     if (radius == 1) // If radius is 1 top-center tile must be made implicitly
-                        ChangeTileElement(xCord + xi, yCord + 1 - correction, element);
+                        ChangeTileElement(xCord + xi, yCord + 1 - correction, element, sync);
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        ChangeTileElement(xCord + xi, yCord + yi - correction, element);
+                        ChangeTileElement(xCord + xi, yCord + yi - correction, element, sync);
                         if (yi > 0)
                         {
-                            ChangeTileElement(xCord + xi, yCord + yi + 1 - correction, element);
+                            ChangeTileElement(xCord + xi, yCord + yi + 1 - correction, element, sync);
                         }
                     }
                     symmetric = true;
@@ -281,6 +284,6 @@ public class Hexmap : MonoBehaviour
         }
         //Radius = 0, just affect 1 tile
         else if(radius == 0)
-            ChangeTileElement(xCord, yCord, element);
+            ChangeTileElement(xCord, yCord, element, sync);
     }
 }
