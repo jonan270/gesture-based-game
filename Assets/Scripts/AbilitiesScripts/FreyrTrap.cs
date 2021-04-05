@@ -17,7 +17,7 @@ public class FreyrTrap : AbilityData
 
     private void TileReceived(Hextile tile)
     {
-        Debug.Log("Damage: " + CalculateBonusDamage(tile));
+        //Debug.Log("Damage: " + CalculateBonusDamage(tile));
         AbilityManager.ManagerInstance.PlaceAreaEffect(tile.tileIndex.x, tile.tileIndex.y, true, abilityElement, CalculateBonusDamage(tile));
         PlayerManager.Instance.UnsubscribeFromSelectTargetTile(TileReceived);
         AbilityCompleted();
@@ -26,10 +26,10 @@ public class FreyrTrap : AbilityData
     private int CalculateBonusDamage(Hextile tile)
     {
         if (tile.tileType == abilityElement)
-            return powerValue * 2;
+            return -powerValue * 2;
         else if (tile.tileType == ElementState.Fire)
-            return powerValue / 2;
+            return -powerValue / 2;
         else
-            return powerValue;
+            return -powerValue;
     }
 }

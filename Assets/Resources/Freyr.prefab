@@ -106,6 +106,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 100
   attackValue: 15
+  turnBasedEffect: {fileID: 0}
   Name: Freyr
   Element: 2
   StrongAgainst: 4

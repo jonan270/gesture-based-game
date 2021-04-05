@@ -24,6 +24,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public float maxHealth = 100;
 
     public int attackValue;
+    //public List<TurnBasedEffect> turnBasedEffects;
+    public TurnBasedEffect turnBasedEffect;
     public string Name;
     protected bool isAlive = true;
 
@@ -51,7 +53,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         currentHealth = maxHealth;
         isAlive = true;
-        
+        turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
     }
 
     //private void OnEnable()
@@ -66,6 +68,13 @@ public abstract class Character : MonoBehaviour, IPunObservable
         Walk, //walking mode
         AttackMode, // Attack mode, Character is about to perform an attack
         ActionCompleted
+    }
+
+    public void AddTurnBasedEffect(int hMod, float aMod, float maxMod, int turns)
+    {
+        //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        Debug.Log(turnBasedEffect);
+        turnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
     }
 
     public bool canDoAction()

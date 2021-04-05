@@ -13,9 +13,6 @@ using UnityEngine;
 
 public class Hexmap : MonoBehaviour
 {
-    private InputMaster controls;
-    //public PathDraw lineRenderer;
-
     // Map size in terms of hexes
     public const int width = 20;
     public const int height = 20;
