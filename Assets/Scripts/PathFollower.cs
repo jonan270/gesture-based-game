@@ -105,8 +105,11 @@ public class PathFollower : MonoBehaviour
         // If we encounter an enemy along the path, deal damage and stop
         else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
         {
-            Debug.Log("KARATE");
-            abilities.DamageCharacter(path[index].tileIndex.x, path[index].tileIndex.y);
+            Character target = path[index].occupant;
+            int bonusAttackDmg = 5;
+            int damage = character.CompareEnemyElement(target.Element, character.attackValue, bonusAttackDmg);
+            Debug.Log(character.name + " auto attacks " + target.name + " damaging it for " + damage + " health");
+            abilities.DamageCharacter(target, damage);
             ReachedEnd();
         }
 
