@@ -44,6 +44,8 @@ public class InputManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.F2))
             RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.cross);
+        if (Input.GetKeyDown(KeyCode.F3))
+            RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.square);
     }
 
     private void addShit() 
