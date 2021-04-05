@@ -74,32 +74,36 @@ public abstract class Character : MonoBehaviour, IPunObservable
     }
 
     /// <summary>
-    /// Compares attacking hero element vs hero being attacked
+    /// Compares attacking hero element vs the hero being attacked
     /// </summary>
     /// <param name="enemyElement">Element of the enemy</param>
+    /// <param name="baseDamage">Base damage of the ability / auto attack</param>
     /// <param name="bonusDamage">How much extra damage is added</param>
     /// <returns></returns>
-    public int CompareEnemyElement(ElementState enemyElement, int bonusDamage)
+    public int CompareEnemyElement(ElementState enemyElement, int baseDamage, int bonusDamage)
     {
         if (enemyElement == StrongAgainst)
         {
-            Debug.Log("strong");
-            return attackValue += bonusDamage;
+            Debug.Log("attack is strong against enemy character");
+            return baseDamage += bonusDamage;
             
         }
-        else if(enemyElement == WeakAgainst)
-        {
-            Debug.Log("weak");
-            return attackValue -= bonusDamage;
-        }
-        return attackValue;
+        //else if(enemyElement == WeakAgainst)
+        //{
+        //    Debug.Log("weak");
+        //    return baseDamage -= bonusDamage;
+        //}
+        return baseDamage;
     }
 
     public void SetState(CharacterState state) {
         CurrentState = state;
     }
 
-    public bool IsAlive //�r det en funktion f�r att kolla om karakt�ren lever eller f�r att f� veta hur mycke liv finns kvar
+    /// <summary>
+    /// Returns true if the character is still alive
+    /// </summary>
+    public bool IsAlive
     {
         get { return isAlive; }
     }
