@@ -23,10 +23,20 @@ public class AbilityManager : MonoBehaviour
         map.hexTiles[x, y].occupant.ModifyHealth(amount);
     }
 
-    public void DamageCharacter(int x, int y)
+    /// <summary>
+    /// Damages a character 
+    /// </summary>
+    /// <param name="target">Character to damage</param>
+    /// <param name="damage">Amount of damage to deal, assumes finalized damage</param>
+    public void DamageCharacter(Character target, int damage)
     {
-        GetComponent<PhotonView>().RPC("RPC_AffectHealth", RpcTarget.Others, x, y,
-            -PlayerManager.Instance.selectedCharacter.GetComponent<Character>().attackValue);
+        int x = target.CurrentTile.tileIndex.x;
+        int y = target.CurrentTile.tileIndex.y;
+        //Character attacker = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+        //Character target = map.hexTiles[x, y].occupant;
+        //int bonusAttackDmg = 5;
+        //int damage = attacker.CompareEnemyElement(target.Element, attacker.attackValue, bonusAttackDmg);
+        GetComponent<PhotonView>().RPC("RPC_AffectHealth", RpcTarget.Others, x, y, -damage);
     }
 
     public void HealCharacter(int x, int y, int amount)
