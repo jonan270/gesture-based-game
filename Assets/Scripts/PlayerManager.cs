@@ -59,7 +59,7 @@ public class PlayerManager : MonoBehaviour
 
 
         //raycast from mouse to find a character: TODO: move this function to the hands instead and raycast from the wand for example. 
-        if(PlayerState == PlayerState.chooseFriendlyCharacter)
+        if(PlayerState == PlayerState.chooseFriendlyCharacter || PlayerState == PlayerState.chooseEnemyCharacter)
         {
             Camera camera = FindObjectOfType<Camera>();
             RaycastHit hit;
@@ -67,9 +67,9 @@ public class PlayerManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit)) //raycast into the world
             {
                 GameObject obj = hit.transform.gameObject;
-
+                bool targetFriendly = PlayerState == PlayerState.chooseFriendlyCharacter;
                 PhotonView pv = obj.GetComponent<PhotonView>();
-                if (pv != null && pv.IsMine) //if we find a character and it belongs to us
+                if (pv != null && (pv.IsMine == targetFriendly)) //if we find a character 
                 {
                     arrow.SetActive(true);
                     arrow.transform.position = obj.transform.position + new Vector3(0, 2.5f, 0);
@@ -85,7 +85,8 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
-        if(PlayerState == PlayerState.chooseTile)
+        //raycast from mouse to find a tile: TODO: move this function to the hands instead and raycast from the wand for example. 
+        if (PlayerState == PlayerState.chooseTile)
         {
             Camera camera = FindObjectOfType<Camera>();
             RaycastHit hit;
