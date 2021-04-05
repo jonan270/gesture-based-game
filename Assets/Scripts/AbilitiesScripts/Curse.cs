@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Curse")]
 public class Curse : AbilityData
 {
+    /// <summary>
+    /// how large area around the middle tile should this ability affect
+    /// </summary>
     public int tileRadius = 2;
 
     public override void ActivateAbility()
