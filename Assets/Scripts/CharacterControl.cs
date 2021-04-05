@@ -124,6 +124,7 @@ public class CharacterControl : MonoBehaviour
 
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.GetComponent<Character>().CurrentTile = spawnTile;
+        spawnTile.SetOccupant(obj.GetComponent<Character>()); // Set occupant in tile class
         
         deck.GetComponent<Deck>().AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
 

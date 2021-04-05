@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 3a230ca04dad5384b89d8e66a961215d
+guid: 0e4976d121965cc49abe7bb8815ce99e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - healthBar: {instanceID: 0}
-  - turnBasedEffect: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

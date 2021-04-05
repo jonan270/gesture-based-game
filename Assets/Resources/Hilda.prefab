@@ -53,6 +53,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 100
   attackValue: 15
+  turnBasedEffect: {fileID: 0}
   Name: Hilda
   Element: 1
   StrongAgainst: 2

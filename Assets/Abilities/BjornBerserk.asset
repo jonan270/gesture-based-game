@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2618d25c7b9a4b4cabd3cff41684d59, type: 3}
+  m_Name: BjornBerserk
+  m_EditorClassIdentifier: 
+  abilityName: 
+  abilityDescription: 
+  gemsCost: 0
+  powerValue: 0
+  targetType: 0
+  abilityElement: 0
+  numberOfTurns: 0
+  gestureType: 1
+  effectPrefab: {fileID: 0}
