@@ -26,7 +26,7 @@ public class HandCards : MonoBehaviour
     {
         CardX = 18f;
         CardY = 0f;
-        CardZ = -3f;
+        CardZ = 3f;
 
     }
 
@@ -45,6 +45,8 @@ public class HandCards : MonoBehaviour
         GameObject ob = Instantiate(cardPrefabs[prefabIndex], new Vector3(x, y, z), Quaternion.Euler(90f, 0f, 0f)); // Lerp?
 
         ob.transform.parent = this.transform;
+
+       // ob.transform.position = Vector3.Lerp(ob.transform.position, new Vector3(), counter);
 
         //UpdateCardsPosition();
 
@@ -90,19 +92,31 @@ public class HandCards : MonoBehaviour
         counter += Time.deltaTime;
         //Move cards to the left hand side
 
-        Vector3[] cardEndPositions = new Vector3[2];
+        Vector3[] cardEndPositions = new Vector3[3];
 
         cardEndPositions[0] = new Vector3(5f, 0f, -3f);
         cardEndPositions[1] = new Vector3(10f, 0f, -3f);
+        cardEndPositions[2] = new Vector3(16f, 0f, -3f);
         //cardEndPositions.Add(new Vector3(18f, 0f, -3f));
 
-       for (int i = 0; i < cardsOnHand.Count - 1; i++)
+        for (int i = 0; i < cardsOnHand.Count; i++)
         {
+         
             if(cardsOnHand[i].transform.position != cardEndPositions[i])
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
 
         }
             counter = 0f;
+    }
+
+    private void setTextHand()
+    {
+        GameObject ob = PlayerManager.Instance.selectedCharacter;
+
+        for(int i = 0; i < cardsOnHand.Count; i++)
+        {
+            cardsOnHand[i].GetComponent<Card>().setText("test", "namn");
+        }
     }
 
 
