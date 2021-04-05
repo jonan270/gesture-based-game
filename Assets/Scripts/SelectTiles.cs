@@ -12,17 +12,20 @@ public class SelectTiles : MonoBehaviour
     public Transform hexTiles;
     public List<Hextile> tilesSelected;
     public PathCreator pathCreator;
+
+    public bool canDraw;
     // Start is called before the first frame update
     void Start()
     {
         rightLine = rightHand.GetComponent<LineRenderer>();
         pathCreator = FindObjectOfType<PathCreator>();
+        canDraw = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand))
+        if (SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand) && canDraw)
         {
             scanForTiles();
             rightLine.enabled = true;
@@ -36,12 +39,14 @@ public class SelectTiles : MonoBehaviour
                 pathCreator.FinishPath(currentCharacter.gameObject);
                 tilesSelected.Clear();
             }
+            if (!canDraw) canDraw = true;
             //resetTiles();
         }
         if (SteamVR_Actions.default_GrabGrip.GetStateDown(SteamVR_Input_Sources.RightHand))
         {
             pathCreator.ClearPath();
             tilesSelected.Clear();
+            canDraw = false;
         }
     }
 
