@@ -111,7 +111,7 @@ public class CharacterSelector : MonoBehaviour
         return PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.PlayerState != PlayerState.characterWalking;
     }
     /// <summary>
-    /// Pickup the character 
+    /// Pickup the character and set text on cards
     /// </summary>
     /// <param name="character"></param>
     private void PickupCharacter(GameObject character)
@@ -120,6 +120,9 @@ public class CharacterSelector : MonoBehaviour
         hasTarget = true;
         CopyTransform(selectedCharacter.transform);
         PlayerManager.Instance.selectedCharacter = selectedCharacter;
+
+        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setTextHand(true);
+
         Debug.Log("Selected character in hand is " + selectedCharacter.name);
         Debug.Log("Selected character in player manager is " + PlayerManager.Instance.selectedCharacter.name);
     }
@@ -148,7 +151,9 @@ public class CharacterSelector : MonoBehaviour
     public void ReleaseCharacter()
     {
         if (selectedCharacter == null)
-            return; 
+            return;
+
+        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setTextHand(false);
 
         selectedCharacter.transform.position = originalPosition;
         selectedCharacter.transform.rotation = originalRotation;

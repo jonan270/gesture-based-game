@@ -76,6 +76,8 @@ public class CharacterControl : MonoBehaviour
 
         hand.GetComponent<HandCards>().UpdateCardsOnHand();
 
+
+
         //if (Input.GetMouseButtonDown(0) && hilda != null)
         //{
         //hilda.GetComponent<Hilda>().ModifyHealth(-10);

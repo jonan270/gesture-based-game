@@ -22,17 +22,21 @@ public class HandCards : MonoBehaviour
     private float CardY;
     private float CardZ;
 
+    private string description;
+
     void Start()
     {
         CardX = 18f;
         CardY = 0f;
         CardZ = 3f;
+        description = "";
 
     }
 
     void Update()
     {
         UpdateCardsPosition();
+        //setTextHand();
     }
 
 
@@ -46,7 +50,7 @@ public class HandCards : MonoBehaviour
 
         ob.transform.parent = this.transform;
 
-       // ob.transform.position = Vector3.Lerp(ob.transform.position, new Vector3(), counter);
+        // ob.transform.position = Vector3.Lerp(ob.transform.position, new Vector3(), counter);
 
         //UpdateCardsPosition();
 
@@ -57,8 +61,8 @@ public class HandCards : MonoBehaviour
     public void UpdateCardsOnHand()
     {
         int size = PlayerManager.Instance.CountCharacters();
-       
-        if(size > cardsOnHand.Count && cardsOnHand.Count < maxCardsOnHand) //We have more characters than cards on field, and not more than 5 cards => add more cards to hand
+
+        if (size > cardsOnHand.Count && cardsOnHand.Count < maxCardsOnHand) //We have more characters than cards on field, and not more than 5 cards => add more cards to hand
         {
 
             cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ));
@@ -72,7 +76,7 @@ public class HandCards : MonoBehaviour
     {
 
         Vector3 removedCardPos = card.GetComponent<Card>().cardPosition();
-        
+
         if (card != null)
         {
             Destroy(card);
@@ -101,55 +105,80 @@ public class HandCards : MonoBehaviour
 
         for (int i = 0; i < cardsOnHand.Count; i++)
         {
-         
-            if(cardsOnHand[i].transform.position != cardEndPositions[i])
+
+            if (cardsOnHand[i].transform.position != cardEndPositions[i])
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
 
         }
-            counter = 0f;
+        counter = 0f;
     }
 
-    private void setTextHand()
+    public void setTextHand(bool textValue)
     {
-        GameObject ob = PlayerManager.Instance.selectedCharacter;
-
-        for(int i = 0; i < cardsOnHand.Count; i++)
+        if (textValue == true)
         {
-            cardsOnHand[i].GetComponent<Card>().setText("test", "namn");
+            //GameObject ob = PlayerManager.Instance.selectedCharacter;
+
+            for (int i = 0; i < cardsOnHand.Count; i++)
+            {
+                if (cardsOnHand[i].name == "CircleCard(Clone)")
+                {
+                    description = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().ListAbilityData[0].abilityDescription;
+                   
+                }
+                else if (cardsOnHand[i].name == "HorizCard(Clone)")
+                {
+                    description = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().ListAbilityData[1].abilityDescription;
+
+                }
+                else if (cardsOnHand[i].name == "VertCard(Clone)")
+                {
+                    description = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().ListAbilityData[2].abilityDescription;
+                }
+
+                cardsOnHand[i].GetComponent<Card>().setText(description, PlayerManager.Instance.selectedCharacter.GetComponent<Character>().Name);
+            }
         }
+        else if(textValue == false)
+        {
+            for (int i = 0; i < cardsOnHand.Count; i++)
+            {
+                cardsOnHand[i].GetComponent<Card>().setText("  ", "  ");
+
+            }
+        }
+            
+        
+
     }
-
-
-    
-
-
+}
     //private void Update()  // Not working, not being called??? Would be used to get hand of cards into scene
     // {
     //if(!cardsShown)
     //showHand(speed * Time.deltaTime);
 
-    //hand[counter].transform.position = Vector3.Lerp(hand[counter].transform.position, new Vector3(x, y, z), speed * Time.deltaTime);
+//hand[counter].transform.position = Vector3.Lerp(hand[counter].transform.position, new Vector3(x, y, z), speed * Time.deltaTime);
 
-    // }
+// }
 
-    /*public void showHand()
+/*public void showHand()
+{
+    //cardsShown = false;
+
+    for (int i = 0; i < hand.Count; i++)
     {
-        //cardsShown = false;
 
-        for (int i = 0; i < hand.Count; i++)
-        {
-            
-            hand[i].transform.position = new Vector3(x, y, z);
-            hand[i].transform.LookAt(Camera.main.transform);
-            hand[i].transform.Rotate(0, 180, 0);
-            x += 10;
-        }
+        hand[i].transform.position = new Vector3(x, y, z);
+        hand[i].transform.LookAt(Camera.main.transform);
+        hand[i].transform.Rotate(0, 180, 0);
+        x += 10;
+    }
 
-        /*if (counter == hand.Count - 1)
-        {
-            cardsShown = true;
-            //x = -20;
-        }*/
+    /*if (counter == hand.Count - 1)
+    {
+        cardsShown = true;
+        //x = -20;
+    }*/
 
-    
-}
+
+
