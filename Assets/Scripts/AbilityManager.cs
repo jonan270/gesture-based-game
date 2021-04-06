@@ -9,8 +9,15 @@ public class AbilityManager : MonoBehaviour
     private List<Character> turnBasedEffected;
     private Hexmap map;
 
+
+    [SerializeField] private PhotonView photonView;
+
     void Start()
     {
+        if(photonView == null)
+        {
+            Debug.LogError("Missing photonView reference!");
+        }
         map = FindObjectOfType<Hexmap>();
         ManagerInstance = this;
     }
@@ -25,28 +32,28 @@ public class AbilityManager : MonoBehaviour
     [PunRPC]
     void RPC_AffectHealth(int x, int y, int amount)
     {
-        map.hexTiles[x, y].occupant.ModifyHealth(amount);
+        map.map[x, y].occupant.ModifyHealth(amount);
     }
 
 
     [PunRPC]
     void RPC_ApplyTurnBased(int x, int y)
     {
-        Character occupant = map.hexTiles[x, y].occupant;
+        Character occupant = map.map[x, y].occupant;
         occupant.turnBasedEffect.ApplyTurnBased(occupant);
     }
 
     [PunRPC]
     void RPC_SetTurnBased(int x, int y, int hMod, float aMod, float maxMod, int turns)
     {
-        map.hexTiles[x, y].occupant.AddTurnBasedEffect(hMod, aMod, maxMod, turns);
+        map.map[x, y].occupant.AddTurnBasedEffect(hMod, aMod, maxMod, turns);
     }
 
     public void TurnBasedTick(Character character)
     {
         if(character.turnBasedEffect && character.turnBasedEffect.isActive)
         {
-            GetComponent<PhotonView>().RPC("RPC_ApplyTurnBased", RpcTarget.All, character.CurrentTile.tileIndex.x,
+            photonView.RPC("RPC_ApplyTurnBased", RpcTarget.All, character.CurrentTile.tileIndex.x,
                 character.CurrentTile.tileIndex.y);
         }
     }
@@ -64,14 +71,22 @@ public class AbilityManager : MonoBehaviour
         //Character target = map.hexTiles[x, y].occupant;
         //int bonusAttackDmg = 5;
         //int damage = attacker.CompareEnemyElement(target.Element, attacker.attackValue, bonusAttackDmg);
-        GetComponent<PhotonView>().RPC("RPC_AffectHealth", RpcTarget.Others, x, y, -damage);
+        photonView.RPC("RPC_AffectHealth", RpcTarget.Others, x, y, -damage);
+    }
+    public void DamageCharacter(int x, int y, ElementState attackerState)
+    {
+        //Character attacker = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+        //Character target = map.hexTiles[x, y].occupant;
+        //int bonusAttackDmg = 5;
+        //int damage = attacker.CompareEnemyElement(target.Element, attacker.attackValue, bonusAttackDmg);
+        photonView.RPC("RPC_AffectHealth", RpcTarget.Others, x, y, 0);
     }
 
     public void HealCharacter(int x, int y, int amount)
     {
         //GetComponent<PhotonView>().RPC("RPC_AffectHealth", RpcTarget.Others, x, y,
         //    PlayerManager.Instance.selectedCharacter.GetComponent<Character>().attackValue);
-        map.hexTiles[x, y].occupant.ModifyHealth(amount);
+        map.map[x, y].occupant.ModifyHealth(amount);
     }
 
     public void ActivateTurnBasedAbility(Character character, int hMod, float aMod, float maxMod, int turns)
@@ -82,7 +97,7 @@ public class AbilityManager : MonoBehaviour
         //GetComponent<PhotonView>().RPC("RPC_DamageCharacter", RpcTarget.All, character.CurrentTile.tileIndex.x,
         //    character.CurrentTile.tileIndex.x, 20);
 
-        GetComponent<PhotonView>().RPC("RPC_SetTurnBased", RpcTarget.All, character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y,
+        photonView.RPC("RPC_SetTurnBased", RpcTarget.All, character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y,
             hMod, aMod, maxMod, turns);
     }
 

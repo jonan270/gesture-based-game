@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class AreaEffect : MonoBehaviour
 {
-    public ElementState TrapElement{get; set;} // Effects may have an element. For example Water traps deal extra damage to Fire characters
-    public int healthModifier; // Healthmodifier adds or removes health from the character
-    public bool isActivated = false; // Is this effect active in the game?
+    /// <summary>
+    /// Effects may have an element. For example Water traps deal extra damage to Fire characters
+    /// </summary>
+    public ElementState TrapElement{get; private set;}
+    /// <summary>
+    /// Healthmodifier adds or removes health from the character
+    /// </summary>
+    public int healthModifier;
+    /// <summary>
+    /// Is this effect active in the game?
+    /// </summary>
+    public bool isActivated = false;
     
     /// <summary>
     /// Set values of the effect
