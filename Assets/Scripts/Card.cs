@@ -16,25 +16,12 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
 
     public Image gesture;
 
-
-    //public bool cardShown;
-
-   // public GameObject prefabHoriz;
-   // public GameObject prefabCir;
-   // public GameObject prefabVert;
-
     public void setText(string desc, string name)
     {
         description.SetText(desc);
         nameText.SetText(name);
     }
 
-    public void resetText()
-    {
-
-        description.SetText(" . ");
-        nameText.SetText(" . ");
-    }
 
     public Vector3 cardPosition()
     {

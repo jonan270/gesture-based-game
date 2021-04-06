@@ -10,25 +10,17 @@ public class HandCards : MonoBehaviour
     [SerializeField]
     List<GameObject> cardPrefabs = new List<GameObject>();
 
-    private static int maxCardsOnHand = 3;
+    private static int maxCardsOnHand = 5;
 
-    public Vector3 positionOne;
-    public Vector3 positionTwo;
-    public Vector3 positionThree;
+    public Vector3 startingPosition = new Vector3( 18f, 0f, 3f );
 
     private float counter = 0f;
 
-    private float CardX; //Position for card to spawn on
-    private float CardY;
-    private float CardZ;
 
     private string description;
 
     void Start()
     {
-        CardX = 18f;
-        CardY = 0f;
-        CardZ = 3f;
         description = "";
 
     }
@@ -40,19 +32,14 @@ public class HandCards : MonoBehaviour
     }
 
 
-    private GameObject GenerateNewCard(float x, float y, float z)
+    private GameObject GenerateNewCard(Vector3 vec)
     {
-        //if (cardsOnHand.Count <= 3) 
 
         int prefabIndex = UnityEngine.Random.Range(0, 3);
 
-        GameObject ob = Instantiate(cardPrefabs[prefabIndex], new Vector3(x, y, z), Quaternion.Euler(90f, 0f, 0f)); // Lerp?
+        GameObject ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.Euler(90f, 0f, 0f)); // Lerp?
 
         ob.transform.parent = this.transform;
-
-        // ob.transform.position = Vector3.Lerp(ob.transform.position, new Vector3(), counter);
-
-        //UpdateCardsPosition();
 
         return ob;
     }
@@ -62,12 +49,11 @@ public class HandCards : MonoBehaviour
     {
         int size = PlayerManager.Instance.CountCharacters();
 
-        if (size > cardsOnHand.Count && cardsOnHand.Count < maxCardsOnHand) //We have more characters than cards on field, and not more than 5 cards => add more cards to hand
+        if (size > cardsOnHand.Count) //We have more characters than cards on field => add more cards to hand
         {
 
-            cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ));
+            cardsOnHand.Add(GenerateNewCard(startingPosition));
 
-            //CardX += 5f;
         }
 
     }
@@ -83,12 +69,6 @@ public class HandCards : MonoBehaviour
             cardsOnHand.Remove(card);
         }
 
-
-        //Update all cards positions
-        //UpdateCardsPosition(removedCardPos);
-
-        //Replace card
-        //cardsOnHand.Add(GenerateNewCard(CardX, CardY, CardZ)); //Set new card to old cards position
     }
 
     private void UpdateCardsPosition()
@@ -100,12 +80,11 @@ public class HandCards : MonoBehaviour
 
         cardEndPositions[0] = new Vector3(5f, 0f, -3f);
         cardEndPositions[1] = new Vector3(10f, 0f, -3f);
-        cardEndPositions[2] = new Vector3(16f, 0f, -3f);
+        cardEndPositions[2] = new Vector3(17f, 0f, -3f);
         //cardEndPositions.Add(new Vector3(18f, 0f, -3f));
 
         for (int i = 0; i < cardsOnHand.Count; i++)
         {
-
             if (cardsOnHand[i].transform.position != cardEndPositions[i])
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
 

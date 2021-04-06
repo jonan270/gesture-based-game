@@ -76,12 +76,10 @@ public class CharacterControl : MonoBehaviour
 
         hand.GetComponent<HandCards>().UpdateCardsOnHand();
 
-
-
-        //if (Input.GetMouseButtonDown(0) && hilda != null)
-        //{
-        //hilda.GetComponent<Hilda>().ModifyHealth(-10);
-        //}
+        if (Input.GetMouseButtonDown(0) && hilda != null)
+        {
+        hilda.GetComponent<Hilda>().ModifyHealth(-70);
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -130,7 +128,8 @@ public class CharacterControl : MonoBehaviour
 
     public void RemoveCharacter(GameObject ob) //If character health <= 0, destroy object
     {
-        //deck.RemoveCards(ob.GetComponent<Character>().Name);
+        PlayerManager.Instance.characters.Remove(ob.GetComponent<Character>());
+
         PhotonNetwork.Destroy(ob);
     }
 
