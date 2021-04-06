@@ -16,6 +16,8 @@ public class CharacterSelector : MonoBehaviour
 
     private GameObject selectedCharacter;
 
+    public bool IsHandFree { get { return !hasTarget; } }
+
     private bool hasTarget = false;
 
     private Vector3 originalPosition, originalScale;
