@@ -152,12 +152,19 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             //Own player: send data to others
             stream.SendNext(currentHealth);
+            //current tile index
+            stream.SendNext(CurrentTile.tileIndex.x);
+            stream.SendNext(CurrentTile.tileIndex.y);
         }
         else
         {
             //Network player, receive data
             currentHealth = (float)stream.ReceiveNext();
             ModifyHealth(0); //updates healthbar 
+            //current tile index
+            int x = (int)stream.ReceiveNext();
+            int y = (int)stream.ReceiveNext();
+            CurrentTile = Hexmap.Instance.map[x, y];
         }
     }
 }
