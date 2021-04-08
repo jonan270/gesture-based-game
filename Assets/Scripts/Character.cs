@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.Events;
 //[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 /// <summary>
 /// Element of character or tile, found in Character.cs
@@ -23,6 +24,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public float maxHealth = 100;
 
     public int attackValue;
+    public List<TurnBasedEffect> turnBasedEffects;
+    //public TurnBasedEffect turnBasedEffect;
     public string Name;
     protected bool isAlive = true;
 
@@ -34,7 +37,12 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     //public AbilityManager abilityManager;
 
+    public UnityEvent deathEvent;
+
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
+
+    public float attackMultiplier = 1f; // Decimalbaserade
+    public float defenceMultiplier = 1f;
 
     //public string descriptionTextCard1;
     //public string descriptionTextCard2;
@@ -48,7 +56,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         currentHealth = maxHealth;
         isAlive = true;
-        
+        //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
     }
 
     //private void OnEnable()
@@ -65,38 +73,52 @@ public abstract class Character : MonoBehaviour, IPunObservable
         ActionCompleted
     }
 
+    public void AddTurnBasedEffect(float hMod, float aMod, float maxMod, int turns)
+    {
+        //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        //Debug.Log(turnBasedEffect);
+        TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
+        newEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        turnBasedEffects.Add(newEffect);
+    }
+
     public bool canDoAction()
     {
         return CurrentState != CharacterState.ActionCompleted;
     }
 
     /// <summary>
-    /// Compares attacking hero element vs hero being attacked
+    /// Compares attacking hero element vs the hero being attacked
     /// </summary>
     /// <param name="enemyElement">Element of the enemy</param>
-    /// <param name="bonusDamage">How much extra damage is added</param>
+    /// <param name="baseDamage">Base damage of the ability / auto attack</param>
+    /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied, default value is 1</param>
     /// <returns></returns>
-    public int CompareEnemyElement(ElementState enemyElement, int bonusDamage)
+    public float CompareEnemyElement(ElementState enemyElement, float baseDamage, float bonusDamageMultiplier = 1f)
     {
         if (enemyElement == StrongAgainst)
         {
-            Debug.Log("strong");
-            return attackValue += bonusDamage;
+            Debug.Log("attack is strong against enemy character");
+            // Basedamage
+            return baseDamage *= bonusDamageMultiplier * attackMultiplier;
             
         }
-        else if(enemyElement == WeakAgainst)
-        {
-            Debug.Log("weak");
-            return attackValue -= bonusDamage;
-        }
-        return attackValue;
+        //else if(enemyElement == WeakAgainst)
+        //{
+        //    Debug.Log("weak");
+        //    return baseDamage -= bonusDamage;
+        //}
+        return baseDamage * attackMultiplier;
     }
 
     public void SetState(CharacterState state) {
         CurrentState = state;
     }
 
-    public bool IsAlive //�r det en funktion f�r att kolla om karakt�ren lever eller f�r att f� veta hur mycke liv finns kvar
+    /// <summary>
+    /// Returns true if the character is still alive
+    /// </summary>
+    public bool IsAlive
     {
         get { return isAlive; }
     }
@@ -105,9 +127,12 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// Modifies health and updates the healthbar
     /// </summary>
     /// <param name="amount">Positive value heals and negative value deals damage</param>
-    public void ModifyHealth(int amount)
+    public void ModifyHealth(float amount)
     {
-        currentHealth += amount;
+        if (amount < 0)
+            currentHealth += amount / defenceMultiplier;
+        else
+            currentHealth += amount;
 
         float currentHealthPct = currentHealth / maxHealth; //Calculate current health percentage
 
@@ -115,12 +140,18 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
         if(currentHealth <= 0)
         {
-            isAlive = false;
+            Die();
         }
     }
 
-    public void UpdateAll()
+    /// <summary>
+    /// Called when character dies
+    /// </summary>
+    private void Die()
     {
+        Debug.Log(gameObject.name + " is now dead");
+        isAlive = false;
+        deathEvent.Invoke();
 
     }
 
@@ -130,12 +161,19 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             //Own player: send data to others
             stream.SendNext(currentHealth);
+            //current tile index
+            stream.SendNext(CurrentTile.tileIndex.x);
+            stream.SendNext(CurrentTile.tileIndex.y);
         }
         else
         {
             //Network player, receive data
             currentHealth = (float)stream.ReceiveNext();
             ModifyHealth(0); //updates healthbar 
+            //current tile index
+            int x = (int)stream.ReceiveNext();
+            int y = (int)stream.ReceiveNext();
+            CurrentTile = Hexmap.Instance.map[x, y];
         }
     }
 }

@@ -30,7 +30,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "EndTurn",
+                    "name": "EnterPress",
                     "type": "Button",
                     "id": "c8de2907-eddc-4949-b0b0-437f45e54acd",
                     "expectedControlType": "Button",
@@ -49,6 +49,14 @@
                     "name": "Select2",
                     "type": "Button",
                     "id": "3e96d4bb-a64c-4d60-a15f-4788f0eaee9f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CircleF1",
+                    "type": "Button",
+                    "id": "126b8337-384e-46e6-a1a2-59e6561a0cba",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -139,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and mouse",
-                    "action": "EndTurn",
+                    "action": "EnterPress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -162,6 +170,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "81b00bfa-8932-44cb-86b5-13ad017dc54a",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and mouse",
+                    "action": "CircleF1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

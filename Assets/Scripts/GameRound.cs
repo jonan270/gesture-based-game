@@ -41,10 +41,12 @@ public class GameRound : MonoBehaviourPun
     //player makes an action with either tool 
 
     /// <summary>
-    /// After an action has completed, check if the player can do any other moves otherwise end turn
+    /// After an action has completed sets the player to idle and check if the player can do any other moves otherwise end turn
     /// </summary>
     public void OnActionTaken()
     {
+        PlayerManager.Instance.selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.ActionCompleted); //TODO change to a function call instead 
+        PlayerManager.Instance.selectedCharacter = null;
         PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
 
         bool roundComplete = PlayerManager.Instance.HasAllCharacterDoneSomething();

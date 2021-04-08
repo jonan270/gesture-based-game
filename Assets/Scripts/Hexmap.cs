@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
  * Hexmap generates and keeps track of all generated map tiles.
@@ -15,36 +13,42 @@ using Photon.Pun;
 
 public class Hexmap : MonoBehaviour
 {
-    private InputMaster controls;
-    //public PathDraw lineRenderer;
+    /// <summary>
+    /// Instance of the hexmap, singleton
+    /// </summary>
+    public static Hexmap Instance { get; private set; }
 
     // Map size in terms of hexes
     public const int width = 20;
     public const int height = 20;
-    
-    // Hextiles is an array containing all gameobjects at index [x,y]
-    public Hextile[,] hexTiles = new Hextile[width,height];
 
-    // Each tile is a hexPrefab
-    public Hextile hexPrefab;
+    /// <summary>
+    /// 2D array containing all gameobjects at index [x,y]
+    /// </summary>
+    public Hextile[,] map = new Hextile[width,height];
 
-    // Offset values
+    /// <summary>
+    /// tile prefab
+    /// </summary>
+    [SerializeField] private Hextile hexPrefab;
+
+    // Offset values betwen tiles
     private const float xoff = 0.8f;
     private const float zoff = 0.46f;
 
     // Spawn
     private int master_count = 0;
 
-    PhotonView photonView;
+    [SerializeField] private PhotonView photonView;
 
     // Start by generating tiles and making a randomized map-config
     void Awake()
     {
-        photonView = GetComponent<PhotonView>();
         if (photonView == null)
             Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
+        Instance = this;
     }
 
     /// <summary>
@@ -80,7 +84,7 @@ public class Hexmap : MonoBehaviour
             else
                 element = ElementState.Wind;
 
-            affectRadius(randX, randY, randR, element);
+            affectRadius(randX, randY, randR, element, false);
         }
 
         //synka nya mapen med andra 
@@ -97,22 +101,39 @@ public class Hexmap : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                //TODO: if lobby function, removed buffered target
-                AreaEffect areaEffect = hexTiles[x, y].areaEffect;
-                photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated
-                    ,areaEffect.TrapElement, areaEffect.healthModifier, hexTiles[x, y].isOccupied);
+                UpdateTile(x, y);
+                //AreaEffect areaEffect = map[x, y].areaEffect;
+                //photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, areaEffect.isActivated,
+                //    areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied);
             }
         }
     }
 
-    [PunRPC]
-    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive)
+    /// <summary>
+    /// Synchronize a single tile at [x,y] over network 
+    /// </summary>
+    /// <param name="x">index x</param>
+    /// <param name="y">index y</param>
+    /// <param name="tileElement">tile element</param>
+    /// <param name="isTrapActive">does the tile have an active trap</param>
+    /// <param name="trapElement">element of the trap</param>
+    /// <param name="trapModifier">power modifier of the trap, positive values heal, negative deal damage</param>
+    /// <param name="isCharActive">is there an active character on the tile</param>
+    private void UpdateTile(int x, int y)
     {
-        hexTiles[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive);
+        AreaEffect areaEffect = map[x, y].areaEffect;
+        photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, areaEffect.isActivated,
+            areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied);
+    }
+
+    [PunRPC]
+    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive)
+    {
+        map[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive);
     }
 
     /// <summary>
-    /// Syncs occupation status over network
+    /// Syncs occupation status of tile at [x,y] over network
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
@@ -122,47 +143,68 @@ public class Hexmap : MonoBehaviour
     {
         if(isOccupied)
         {
-            hexTiles[x, y].SetOccupant(character);
+            map[x, y].SetOccupant(character);
         }
         else
         {
-            hexTiles[x, y].RemoveOccupant();
+            map[x, y].RemoveOccupant();
         }
-        photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, hexTiles[x, y].areaEffect.isActivated
-                    , hexTiles[x, y].areaEffect.TrapElement, hexTiles[x, y].areaEffect.healthModifier, hexTiles[x, y].isOccupied);
+        UpdateTile(x, y);
+        //photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, map[x, y].areaEffect.isActivated
+        //            , map[x, y].areaEffect.TrapElement, map[x, y].areaEffect.healthModifier, map[x, y].isOccupied);
     }
 
 
     /// <summary>
-    /// Change the element type of a single tile
+    /// Change the element type of a single tile 
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    /// <param name="element"></param>
-    private void ChangeTileElement(int x, int y, ElementState element)
+    /// <param name="element">synchronize over network, default is to sync</param>
+    private void ChangeTileElement(int x, int y, ElementState element, bool synchronize = true)
     {
-        if(CheckValid(x,y))
-            hexTiles[x,y].makeType(element);
+        if (CheckValid(x, y))
+        {
+            map[x, y].makeType(element);
+            if (synchronize)
+                UpdateTile(x, y);
+            //{
+            //    photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, map[x, y].areaEffect.isActivated
+            //    , map[x, y].areaEffect.TrapElement, map[x, y].areaEffect.healthModifier, map[x, y].isOccupied);
+            //}
+        }
     }
 
-    
-    public void ChangeEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, int healthMod = 0) 
+    /// <summary>
+    /// Adds or remove an effect on tile at [x,y]
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="setEffect"></param>
+    /// <param name="element"></param>
+    /// <param name="healthMod"></param>
+    public void ChangeEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, float healthMod = 0) 
     {
         if(CheckValid(x,y)) 
         {
             if(setEffect){
-                hexTiles[x, y].AddEffect(element, healthMod);
+                map[x, y].AddEffect(element, healthMod);
             }
             else {
-                hexTiles[x,y].RemoveEffect();
+                map[x,y].RemoveEffect();
             }
-            AreaEffect areaEffect = hexTiles[x, y].areaEffect;
-            photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, hexTiles[x, y].tileType, areaEffect.isActivated, areaEffect.TrapElement, areaEffect.healthModifier);
-
+            UpdateTile(x, y);
+            //AreaEffect areaEffect = map[x, y].areaEffect;
+            //photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, areaEffect.isActivated, areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied);
         }
     }
 
+    /// <summary>
     /// Check if the given index is within bounds of map
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private bool CheckValid(int x, int y) 
     {
         return (x >= 0 && x < width && y >= 0 && y < height);
@@ -174,16 +216,16 @@ public class Hexmap : MonoBehaviour
         Hextile tile = null;
         if(master && CheckValid(master_count + 3, 0))
         {
-            tile = hexTiles[master_count + 3, 0];
+            tile = map[master_count + 3, 0];
             master_count+=4;
-            return hexTiles[master_count + 3, 0];
+            return map[master_count + 3, 0];
         }
         else if(!master && CheckValid(master_count + 3, height - 1))
         {
             // else return non master position
-            tile = hexTiles[master_count + 3, height - 1];
+            tile = map[master_count + 3, height - 1];
             master_count += 4;
-            return hexTiles[master_count + 3, height - 1];
+            return map[master_count + 3, height - 1];
         }
         return tile;
     }
@@ -203,8 +245,8 @@ public class Hexmap : MonoBehaviour
                 instantiated.transform.localScale = Vector3.one;
                 instantiated.transform.parent = transform;
                 //Hextile tile = instantiated.GetComponent<Hextile>();
-                hexTiles[x, z] = instantiated;
-                hexTiles[x, z].SetTileIndex(new Vector2Int(x, z));
+                map[x, z] = instantiated;
+                map[x, z].SetTileIndex(new Vector2Int(x, z));
                 //photonView.RPC("RPC_AddTile", RpcTarget.AllBuffered, instantiated, x, z);
             }
             // Only offsett odd rows
@@ -224,7 +266,7 @@ public class Hexmap : MonoBehaviour
     //
     // Should be changed some day. Preferably before 21:00.
     // TODO: Redo the entire thing? (Atleast it works as intended I guess.)
-    private void affectRadius(int xCord, int yCord, int radius, ElementState element)
+    public void affectRadius(int xCord, int yCord, int radius, ElementState element, bool sync = true)
     {
         if (radius >= 1)
         {
@@ -254,7 +296,7 @@ public class Hexmap : MonoBehaviour
                 {
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        ChangeTileElement(xCord + xi, yCord + yi, element);
+                        ChangeTileElement(xCord + xi, yCord + yi, element, sync);
                     }
                     symmetric = false;
                 }
@@ -264,13 +306,13 @@ public class Hexmap : MonoBehaviour
                     if (xCord % 2 != 0)
                         correction = 1;
                     if (radius == 1) // If radius is 1 top-center tile must be made implicitly
-                        ChangeTileElement(xCord + xi, yCord + 1 - correction, element);
+                        ChangeTileElement(xCord + xi, yCord + 1 - correction, element, sync);
                     for (int yi = -range; yi <= range; yi++)
                     {
-                        ChangeTileElement(xCord + xi, yCord + yi - correction, element);
+                        ChangeTileElement(xCord + xi, yCord + yi - correction, element, sync);
                         if (yi > 0)
                         {
-                            ChangeTileElement(xCord + xi, yCord + yi + 1 - correction, element);
+                            ChangeTileElement(xCord + xi, yCord + yi + 1 - correction, element, sync);
                         }
                     }
                     symmetric = true;
@@ -279,6 +321,6 @@ public class Hexmap : MonoBehaviour
         }
         //Radius = 0, just affect 1 tile
         else if(radius == 0)
-            ChangeTileElement(xCord, yCord, element);
+            ChangeTileElement(xCord, yCord, element, sync);
     }
 }

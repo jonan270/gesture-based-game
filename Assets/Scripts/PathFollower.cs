@@ -47,7 +47,7 @@ public class PathFollower : MonoBehaviour
         map = FindObjectOfType<Hexmap>();
         abilities = FindObjectOfType<AbilityManager>();
 
-        //Adds the pathCreator as a listner to this event
+        //Adds the pathCreator as a listener to this event
         movingComplete.AddListener(FindObjectOfType<PathCreator>().OnReachedEnd);
 
     }
@@ -105,11 +105,12 @@ public class PathFollower : MonoBehaviour
         // If we encounter an enemy along the path, deal damage and stop
         else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
         {
-            // Nu är vi på path[index].tileIndex
-            // Vill hämta occupant från map.hexTiles[path[index].tileIndex.x, path[index].tileIndex.y];
-            Debug.Log("KARATE");
-            abilities.DamageEnemy(path[index].tileIndex.x, path[index].tileIndex.y);
-            // character.ListAbilityData[0].OnHit(, character);
+            Character target = path[index].occupant;
+
+            //int bonusAttackDmg = 5;
+            float damage = character.CompareEnemyElement(target.Element, character.attackValue);
+            Debug.Log(character.name + " auto attacks " + target.name + " damaging it for " + damage + " health");
+            abilities.DamageCharacter(target, damage);
             ReachedEnd();
         }
 
@@ -117,7 +118,6 @@ public class PathFollower : MonoBehaviour
         else
         {
             //Debug.Log("Is it occupied? " + path[index].isOccupied);
-
             startTarget = transform.position;
             pathTarget = path[index].Position;
 
@@ -132,6 +132,7 @@ public class PathFollower : MonoBehaviour
             index++;
         }
     }
+
     /// <summary>
     /// Raised when the character has reached end of its path
     /// </summary>

@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bce9bba6b6b68d448ab998f091c53c2, type: 3}
-  m_Name: RoA
+  m_Script: {fileID: 11500000, guid: c2618d25c7b9a4b4cabd3cff41684d59, type: 3}
+  m_Name: BjornBerserk
   m_EditorClassIdentifier: 
-  abilityName: Ring of Attack
-  abilityDescription: Hilda will conjure an Attack boost for her teammates.
-  gemsCost: 10
-  powerValue: 10
+  abilityName: 
+  abilityDescription: 
+  gemsCost: 0
+  powerValue: 0
   targetType: 0
   abilityElement: 0
-  numberOfTurns: 3
-  gestureType: 0
-  effectPrefab: {fileID: 0}
+  numberOfTurns: 0
+  gestureType: 1
+  effectPrefab: {fileID: 2579707679223848377, guid: 48e476056fa986f4db39b9cd28d5f98e,
+    type: 3}

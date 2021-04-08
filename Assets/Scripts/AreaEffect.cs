@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class AreaEffect : MonoBehaviour
 {
-    public ElementState TrapElement{get; set;} // Effects may have an element. For example Water traps deal extra damage to Fire characters
-    public int healthModifier; // Healthmodifier adds or removes health from the character
-    public bool isActivated = false; // Is this effect active in the game?
+    /// <summary>
+    /// Effects may have an element. For example Water traps deal extra damage to Fire characters
+    /// </summary>
+    public ElementState TrapElement{get; private set;}
+    /// <summary>
+    /// Healthmodifier adds or removes health from the character
+    /// </summary>
+    public float healthModifier;
+    /// <summary>
+    /// Is this effect active in the game?
+    /// </summary>
+    public bool isActivated = false;
     
     /// <summary>
     /// Set values of the effect
     /// </summary>
     /// <param name="eState"></param>
     /// <param name="hMod"></param>
-    public void SetEffect(ElementState eState, int hMod)
+    public void SetEffect(ElementState eState, float hMod)
     {
         isActivated = true;
         TrapElement = eState;
@@ -34,13 +43,13 @@ public class AreaEffect : MonoBehaviour
     /// </summary>
     /// <param name="character"></param>
     /// <returns></returns>
-    public int ApplyEffect(Character character)
+    public float ApplyEffect(Character character)
     {
         // TODO: Check for element types.
 
         // Check that health does not exceed maxhealth.
         if (healthModifier + character.currentHealth > character.maxHealth)
-            return (int) character.maxHealth;
+            return character.maxHealth;
         else
             return healthModifier;
     }
