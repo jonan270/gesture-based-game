@@ -27,11 +27,14 @@ public class HandCards : MonoBehaviour
 
     void Update()
     {
+        UpdateCardsOnHand();
         UpdateCardsPosition();
         //setTextHand();
     }
 
-
+    /// <summary>
+    /// Creates a new card 
+    /// </summary>
     private GameObject GenerateNewCard(Vector3 vec)
     {
 
@@ -44,7 +47,9 @@ public class HandCards : MonoBehaviour
         return ob;
     }
 
-
+    /// <summary>
+    /// Updates the card on hand if missing card (Depends on number of characters in game)
+    /// </summary>
     public void UpdateCardsOnHand()
     {
         int size = PlayerManager.Instance.CountCharacters();
@@ -58,6 +63,9 @@ public class HandCards : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Removes card on hand
+    /// </summary>
     private void RemoveCardOnHand(GameObject card)
     {
 
@@ -71,6 +79,9 @@ public class HandCards : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Type of target ability, found in AbilityData.cs
+    /// </summary>
     private void UpdateCardsPosition()
     {
         counter += Time.deltaTime;
@@ -94,8 +105,6 @@ public class HandCards : MonoBehaviour
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
                 cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
             }
-
-
         }
         counter = 0f;
         //var v3Pos = new Vector3(0.1f, 0.25f, 5f);
@@ -108,9 +117,16 @@ public class HandCards : MonoBehaviour
 
         gestureString = gesture + "Card(Clone)";
 
-        GameObject ob = GameObject.Find(gestureString);
+        foreach (GameObject card in cardsOnHand)
+        {
+            if (card.name == gestureString)
+            {
+                RemoveCardOnHand(card);
+                //AbilityManager.ManagerInstance.ActivateAbilityFromGesture();
+                break;
+            }
+        }
 
-        RemoveCardOnHand(ob);
         //Activate ability from ability manager
     }
 
