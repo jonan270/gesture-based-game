@@ -37,7 +37,7 @@ public class HandCards : MonoBehaviour
 
         int prefabIndex = UnityEngine.Random.Range(0, 3);
 
-        GameObject ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.Euler(90f, 0f, 0f)); // Lerp?
+        GameObject ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.Euler(0f, 0f, 0f)); // Lerp?
 
         ob.transform.parent = this.transform;
 
@@ -58,7 +58,7 @@ public class HandCards : MonoBehaviour
 
     }
 
-    public void RemoveCardOnHand(GameObject card)
+    private void RemoveCardOnHand(GameObject card)
     {
 
         Vector3 removedCardPos = card.GetComponent<Card>().cardPosition();
@@ -78,18 +78,40 @@ public class HandCards : MonoBehaviour
 
         Vector3[] cardEndPositions = new Vector3[3];
 
-        cardEndPositions[0] = new Vector3(5f, 0f, -3f);
+        /*cardEndPositions[0] = new Vector3(5f, 0f, -3f);
         cardEndPositions[1] = new Vector3(10f, 0f, -3f);
-        cardEndPositions[2] = new Vector3(17f, 0f, -3f);
+        cardEndPositions[2] = new Vector3(17f, 0f, -3f);*/
         //cardEndPositions.Add(new Vector3(18f, 0f, -3f));
+        //float distanceFromCamera = camera.nearClipPlane; // Change this value if you want
+        cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.8f, 7));
+        cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.5f, 7));
+        cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.2f, 7));
 
         for (int i = 0; i < cardsOnHand.Count; i++)
         {
             if (cardsOnHand[i].transform.position != cardEndPositions[i])
+            {
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
+                cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
+            }
+
 
         }
         counter = 0f;
+        //var v3Pos = new Vector3(0.1f, 0.25f, 5f);
+        //cardsOnHand[0].transform.position = Camera.main.ViewportToWorldPoint(v3Pos);
+    }
+
+    public void checkGesture(string gesture)
+    {
+        string gestureString = "";
+
+        gestureString = gesture + "Card(Clone)";
+
+        GameObject ob = GameObject.Find(gestureString);
+
+        RemoveCardOnHand(ob);
+        //Activate ability from ability manager
     }
 
     public void setTextHand(bool textValue)

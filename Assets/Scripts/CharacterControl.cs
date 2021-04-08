@@ -89,7 +89,7 @@ public class CharacterControl : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100))
             {
                 Debug.Log(hit.transform.gameObject);
-                hand.GetComponent<HandCards>().RemoveCardOnHand(hit.transform.parent.gameObject);
+                hand.GetComponent<HandCards>().checkGesture("Circle");
             }
         }
 
