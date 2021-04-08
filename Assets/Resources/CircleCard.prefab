@@ -49,6 +49,7 @@ MonoBehaviour:
   nameText: {fileID: 4755337698155951618}
   costGemstones: {fileID: 3329559340640713339}
   gesture: {fileID: 5325379024264557517}
+  gestureType: 1
 --- !u!1 &1987288564263583838
 GameObject:
   m_ObjectHideFlags: 0

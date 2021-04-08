@@ -17,11 +17,10 @@ public class HandCards : MonoBehaviour
     private float counter = 0f;
 
 
-    private string description;
+    private string description = "";
 
     void Start()
     {
-        description = "";
 
     }
 
@@ -29,7 +28,7 @@ public class HandCards : MonoBehaviour
     {
         UpdateCardsOnHand();
         UpdateCardsPosition();
-        //setTextHand();
+
     }
 
     /// <summary>
@@ -68,9 +67,6 @@ public class HandCards : MonoBehaviour
     /// </summary>
     private void RemoveCardOnHand(GameObject card)
     {
-
-        Vector3 removedCardPos = card.GetComponent<Card>().cardPosition();
-
         if (card != null)
         {
             Destroy(card);
@@ -80,7 +76,7 @@ public class HandCards : MonoBehaviour
     }
 
     /// <summary>
-    /// Type of target ability, found in AbilityData.cs
+    /// Updates positions for cards on hand
     /// </summary>
     private void UpdateCardsPosition()
     {
@@ -92,11 +88,10 @@ public class HandCards : MonoBehaviour
         /*cardEndPositions[0] = new Vector3(5f, 0f, -3f);
         cardEndPositions[1] = new Vector3(10f, 0f, -3f);
         cardEndPositions[2] = new Vector3(17f, 0f, -3f);*/
-        //cardEndPositions.Add(new Vector3(18f, 0f, -3f));
-        //float distanceFromCamera = camera.nearClipPlane; // Change this value if you want
-        cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.8f, 7));
-        cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.5f, 7));
-        cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.2f, 7));
+
+        cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.2f, 6.5f));
+        cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.5f, 6.5f));
+        cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.8f, 6.5f));
 
         for (int i = 0; i < cardsOnHand.Count; i++)
         {
@@ -107,95 +102,71 @@ public class HandCards : MonoBehaviour
             }
         }
         counter = 0f;
-        //var v3Pos = new Vector3(0.1f, 0.25f, 5f);
-        //cardsOnHand[0].transform.position = Camera.main.ViewportToWorldPoint(v3Pos);
     }
 
-    public void checkGesture(string gesture)
+    /// <summary>
+    /// Gets which gesture has been done, removes card and activates ability depending on gesture.
+    /// </summary>
+    public void activateCard(GestureType gesture)
     {
-        string gestureString = "";
-
-        gestureString = gesture + "Card(Clone)";
-
         foreach (GameObject card in cardsOnHand)
         {
-            if (card.name == gestureString)
+            if (card.GetComponent<Card>().gestureType == gesture)
             {
                 RemoveCardOnHand(card);
-                //AbilityManager.ManagerInstance.ActivateAbilityFromGesture();
+                AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gesture, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
                 break;
             }
         }
-
-        //Activate ability from ability manager
     }
 
+    /// <summary>
+    /// Sets text on card. Used in CharacterSelector script in funcs ReleaseCharacter() and PickupCharacter()
+    /// </summary>
     public void setTextHand(bool textValue)
     {
-        if (textValue == true)
+        if (PlayerManager.Instance.selectedCharacter != null)
         {
-            //GameObject ob = PlayerManager.Instance.selectedCharacter;
+            GameObject ob = PlayerManager.Instance.selectedCharacter;
 
-            for (int i = 0; i < cardsOnHand.Count; i++)
+            if (textValue == true)
             {
-                if (cardsOnHand[i].name == "CircleCard(Clone)")
+                for (int i = 0; i < cardsOnHand.Count; i++)
                 {
-                    description = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().ListAbilityData[0].abilityDescription;
-                   
-                }
-                else if (cardsOnHand[i].name == "HorizCard(Clone)")
-                {
-                    description = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().ListAbilityData[1].abilityDescription;
+                    if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.circle)
+                    {
+                        description = ob.GetComponent<Character>().ListAbilityData[1].abilityDescription;
 
-                }
-                else if (cardsOnHand[i].name == "VertCard(Clone)")
-                {
-                    description = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().ListAbilityData[2].abilityDescription;
-                }
+                    }
+                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.horizontalline)
+                    {
+                        description = ob.GetComponent<Character>().ListAbilityData[2].abilityDescription;
 
-                cardsOnHand[i].GetComponent<Card>().setText(description, PlayerManager.Instance.selectedCharacter.GetComponent<Character>().Name);
+                    }
+                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.verticalline)
+                    {
+                        description = ob.GetComponent<Character>().ListAbilityData[3].abilityDescription;
+                    }
+
+                    cardsOnHand[i].GetComponent<Card>().setText(description, ob.GetComponent<Character>().Name);
+                }
             }
-        }
-        else if(textValue == false)
-        {
-            for (int i = 0; i < cardsOnHand.Count; i++)
+            else
             {
-                cardsOnHand[i].GetComponent<Card>().setText("  ", "  ");
+                for (int i = 0; i < cardsOnHand.Count; i++)
+                {
+                    cardsOnHand[i].GetComponent<Card>().setText("  ", "  ");
 
+                }
             }
         }
             
         
 
     }
+
 }
-    //private void Update()  // Not working, not being called??? Would be used to get hand of cards into scene
-    // {
-    //if(!cardsShown)
-    //showHand(speed * Time.deltaTime);
 
-//hand[counter].transform.position = Vector3.Lerp(hand[counter].transform.position, new Vector3(x, y, z), speed * Time.deltaTime);
-
-// }
-
-/*public void showHand()
-{
-    //cardsShown = false;
-
-    for (int i = 0; i < hand.Count; i++)
-    {
-
-        hand[i].transform.position = new Vector3(x, y, z);
-        hand[i].transform.LookAt(Camera.main.transform);
-        hand[i].transform.Rotate(0, 180, 0);
-        x += 10;
-    }
-
-    /*if (counter == hand.Count - 1)
-    {
-        cardsShown = true;
-        //x = -20;
-    }*/
 
 
 

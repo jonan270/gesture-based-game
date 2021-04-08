@@ -221,4 +221,9 @@ public class PlayerManager : MonoBehaviour
         }
         return true;
     }
+
+    public int CountCharacters()
+    {
+        return characters.Count;
+    }
 }

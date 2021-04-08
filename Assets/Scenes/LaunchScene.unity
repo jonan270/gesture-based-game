@@ -1140,7 +1140,7 @@ MonoBehaviour:
   controlPanel: {fileID: 1253329369}
   feedbackText: {fileID: 668114169}
   maxPlayersPerRoom: 1
-  scene: {fileID: 102900000, guid: 9cd3a8b163d237c40bff5f6b7117e6aa, type: 3}
+  scene: {fileID: 102900000, guid: d6a38868a9a05fe45aef7ff568c05992, type: 3}
 --- !u!4 &1682338280
 Transform:
   m_ObjectHideFlags: 0

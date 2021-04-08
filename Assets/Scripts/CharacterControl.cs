@@ -22,8 +22,6 @@ public class CharacterControl : MonoBehaviour
     [SerializeField]
     public List<GameObject> listOfCharacters = new List<GameObject>();
 
-    private string[] gestureTypes = { "Circle", "Triangle", "Square" };
-
     private string doneGesture;
 
    // [SerializeField]
@@ -68,7 +66,7 @@ public class CharacterControl : MonoBehaviour
         listOfCharacters.Add(bjorn);
         listOfCharacters.Add(freyr);
 
-
+        bjorn.GetComponent<Bjorn>().ModifyHealth(-70);
     }
 
     void Update()
@@ -78,7 +76,7 @@ public class CharacterControl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && hilda != null)
         {
-        hilda.GetComponent<Hilda>().ModifyHealth(-70);
+        //hilda.GetComponent<Hilda>().ModifyHealth(-70);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -88,8 +86,7 @@ public class CharacterControl : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log(hit.transform.gameObject);
-                hand.GetComponent<HandCards>().checkGesture("Circle");
+                hand.GetComponent<HandCards>().activateCard(GestureType.circle);
             }
         }
 
