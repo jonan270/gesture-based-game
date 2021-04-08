@@ -91,6 +91,11 @@ public class NetworkPlayerSpawner : MonoBehaviourPunCallbacks
         {
             Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
         }
+
+        //Removes all enemey character references
+        PlayerManager.Instance.enemyCharacters.Clear();
     }
+
+
 
 }

@@ -33,7 +33,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject selectedCharacter;
 
-    public List<Character> characters;
+    public List<Character> characters, enemyCharacters;
 
     public PlayerStateEvent toolChangedEvent;
 
@@ -47,6 +47,7 @@ public class PlayerManager : MonoBehaviour
     {
         Instance = this;
         characters = new List<Character>();
+        enemyCharacters = new List<Character>();
         arrow.SetActive(false);
     }
 
@@ -220,5 +221,34 @@ public class PlayerManager : MonoBehaviour
             
         }
         return true;
+    }
+
+    /// <summary>
+    /// Returns an enemy character at pos [x,y], null if no character is at [x,y]. Assumes all characters in the list are alive
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    public Character GetEnemyCharacterAt(int x , int y)
+    {
+        foreach(Character character in enemyCharacters)
+        {
+            int posx = character.CurrentTile.tileIndex.x;
+            int posy = character.CurrentTile.tileIndex.y;
+
+            if (posx == x && posy == y)
+                return character;
+        }
+        return null;
+    }
+
+    public void UpdateFriendlyCharacterList()
+    {
+        for(int i = characters.Count - 1; i > 0; --i)
+        {
+            if (!characters[i].IsAlive)
+                characters.Remove(characters[i]);
+        }
+        Debug.LogError("Updating friendly list, there are now " + characters.Count + " characters left");
     }
 }
