@@ -22,6 +22,8 @@ public class GameRound : MonoBehaviourPun
     /// </summary>
     void BeginTurn()
     {
+        FindEnemyCharacters();
+
         if (myTurn)
         {
             PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
@@ -33,7 +35,22 @@ public class GameRound : MonoBehaviourPun
         Debug.LogError("Player state is " + PlayerManager.Instance.PlayerState);
 
     }
-
+    /// <summary>
+    /// Updates the list of enemy characters in the scene 
+    /// </summary>
+    private void FindEnemyCharacters()
+    {
+        PlayerManager.Instance.enemyCharacters.Clear();
+        var allcharacters = FindObjectsOfType<Character>();
+        foreach (var character in allcharacters)
+        {
+            if (!character.GetComponent<PhotonView>().IsMine)
+            {
+                PlayerManager.Instance.enemyCharacters.Add(character);
+            }
+        }
+        Debug.LogError("Found " + PlayerManager.Instance.enemyCharacters.Count + " enemies in the scene");
+    }
     //Wait till player has selected character
 
     //Player selects a character and chooses which tool to use, either brush or wand for gestures

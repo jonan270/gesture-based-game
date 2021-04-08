@@ -14,10 +14,8 @@ public enum GestureType
 {
     none, //default
     circle,
-    cross,
     horizontalline,
     verticalline,
-    square,
     s
 };
 
@@ -25,6 +23,8 @@ public class GestureTracker : MonoBehaviour
 {
     
     public GameObject LeftHand, RightHand, visualAid;
+
+    private CharacterSelector lCShand, rCShand;
 
     public float closeDistance = 0.5f;
     private float TimeSinceGuess = 0.0f;
@@ -75,57 +75,68 @@ public class GestureTracker : MonoBehaviour
 
     void Update()
     {
-        TimeSinceGuess += Time.deltaTime;
-
-        //Check wether or not the back buttons are pressed
-        bool stateLeft = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.LeftHand);
-        bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand);
-        bool leftReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.LeftHand);
-        bool rightReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand);
-
-        //TODO:
-        //Check fallback
-
-        //Reset spawn point after releasing button  (so that a gesture can be started at the same place as last one)
-        if (leftReleased)
+        if (PlayerManager.Instance.PlayerState == PlayerState.makeGesture)
         {
-            oldSpawnPositionLeft = Vector3.zero;
-        }
-        if (rightReleased)
-        {
-            oldSpawnPositionRight = Vector3.zero;
-        }
+            //TimeSinceGuess += Time.deltaTime;
 
-        //Left hand
-        handPositionLeft = LeftHand.transform.position;
-        float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
+            //Check wether or not the back buttons are pressed
+            bool stateLeft = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.LeftHand) && lCShand.IsHandFree;
+            bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand) && rCShand.IsHandFree;
+            bool leftReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.LeftHand);
+            bool rightReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand);
 
-        if (stateLeft && distance >= closeDistance * closeDistance)
-        {
-            InstantiateGesturePosition(handPositionLeft, ref oldSpawnPositionLeft);
-        }
+            //TODO:
+            //Check fallback
 
-        //Right hand
-        handPositionRight = RightHand.transform.position;
-        distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
 
-        if (stateRight && distance >= closeDistance * closeDistance)
-        {
-            InstantiateGesturePosition(handPositionRight, ref oldSpawnPositionRight);           
-        }
-        UpdateGesturePositions(Time.deltaTime);
 
-        //Update gesture guess every 0.1s
-        if(TimeSinceGuess >= 0.1f)
-        {
-            TransformToPoints();
-            GuessGesture();
-            TimeSinceGuess = 0.0f;
-        }
+            //Left hand
+            handPositionLeft = LeftHand.transform.position;
+            float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
 
-        if (SteamVR_Actions.default_GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
-        {
-            AddGesture();
+            if (stateLeft && distance >= closeDistance * closeDistance)
+            {
+                InstantiateGesturePosition(handPositionLeft, ref oldSpawnPositionLeft);
+            }
+
+            //Right hand
+            handPositionRight = RightHand.transform.position;
+            distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
+
+            if (stateRight && distance >= closeDistance * closeDistance)
+            {
+                InstantiateGesturePosition(handPositionRight, ref oldSpawnPositionRight);
+            }
+
+
+            UpdateGesturePositions(Time.deltaTime);
+
+            ////Update gesture guess every 0.1s
+            //if(TimeSinceGuess >= 0.1f)
+            //{
+            //    TransformToPoints();
+            //    GuessGesture();
+            //    TimeSinceGuess = 0.0f;
+            //}
+
+            //Reset spawn point after releasing button  (so that a gesture can be started at the same place as last one)
+            if (leftReleased)
+            {
+                oldSpawnPositionLeft = Vector3.zero;
+                GuessGesture();
+            }
+            if (rightReleased)
+            {
+                oldSpawnPositionRight = Vector3.zero;
+                GuessGesture();
+
+            }
+
+            //saves a gesture, used only in development
+            if (SteamVR_Actions.default_GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
+            {
+                AddGesture();
+            }
         }
     }
     /// <summary>
@@ -180,6 +191,8 @@ public class GestureTracker : MonoBehaviour
     /// </summary>
     void GuessGesture()
     {
+        TransformToPoints();
+
         if (points.Count > 1) //Single point can not be a gesture.
         {
             Gesture candidate = new Gesture(points.ToArray());
@@ -191,14 +204,14 @@ public class GestureTracker : MonoBehaviour
             if (gestureResult.Score >= 0.85f)
             {
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
-                //AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+                AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
                 //TODO: add guess gesture on button release instead of every 0.1s also check so that we are in gesture drawing state!
             }
             else
             {
                 gest = GestureType.none;
+                Debug.LogError("No gesture was recognized try again");
             }
-            Debug.Log(gest);
         }
     }
 
