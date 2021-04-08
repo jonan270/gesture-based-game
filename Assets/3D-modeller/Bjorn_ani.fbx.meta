@@ -1,14 +1,17 @@
 fileFormatVersion: 2
-guid: aba524d27c7257d4faeab8967208be26
+guid: a223cc8bef99ae34eb74c775da5e3222
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: -8784495967346654746
-    second: ArmatureBody|Die_Freyr
+      74: -119408000145563963
+    second: Armature|Die_Bjorn
   - first:
-      74: 8153318593332620819
-    second: ArmatureBody|Run_Freyr
+      74: -6100672196902962788
+    second: Armature|Idle_Bjorn
+  - first:
+      74: 6088424167408313596
+    second: Armature|Run_Bjorn
   externalObjects: {}
   materials:
     materialImportMode: 2

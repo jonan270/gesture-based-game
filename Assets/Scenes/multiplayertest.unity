@@ -358,6 +358,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4780641490868156331, guid: d7825691e87349149966c8772b389224,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4860302380031582868, guid: d7825691e87349149966c8772b389224,
         type: 3}
       propertyPath: lineRenderer
