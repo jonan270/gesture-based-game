@@ -11,7 +11,7 @@ public class AreaEffect : MonoBehaviour
     /// <summary>
     /// Healthmodifier adds or removes health from the character
     /// </summary>
-    public int healthModifier;
+    public float healthModifier;
     /// <summary>
     /// Is this effect active in the game?
     /// </summary>
@@ -22,7 +22,7 @@ public class AreaEffect : MonoBehaviour
     /// </summary>
     /// <param name="eState"></param>
     /// <param name="hMod"></param>
-    public void SetEffect(ElementState eState, int hMod)
+    public void SetEffect(ElementState eState, float hMod)
     {
         isActivated = true;
         TrapElement = eState;
@@ -43,13 +43,13 @@ public class AreaEffect : MonoBehaviour
     /// </summary>
     /// <param name="character"></param>
     /// <returns></returns>
-    public int ApplyEffect(Character character)
+    public float ApplyEffect(Character character)
     {
         // TODO: Check for element types.
 
         // Check that health does not exceed maxhealth.
         if (healthModifier + character.currentHealth > character.maxHealth)
-            return (int) character.maxHealth;
+            return character.maxHealth;
         else
             return healthModifier;
     }

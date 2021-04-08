@@ -92,7 +92,7 @@ public class Hextile : MonoBehaviourPun
     /// <param name="trapElement">new state</param>
     /// <param name="trapModifier">new state</param>
     /// <param name="isCharActive">new state</param>
-    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive)
+    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive)
     {
         if(tileType != tileElement)
         {
@@ -133,7 +133,7 @@ public class Hextile : MonoBehaviourPun
     /// <summary>
     /// Adds an effect to this tile
     /// </summary>
-    public void AddEffect(ElementState state, int healthMod)
+    public void AddEffect(ElementState state, float healthMod)
     {
         spinTile();
         trapPrefab.SetActive(true);

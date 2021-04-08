@@ -21,7 +21,7 @@ public abstract class AbilityData : ScriptableObject
     /// <summary>
     /// Amount of damage or healing this ability does, displayed on card
     /// </summary>
-    public int powerValue;
+    public float powerValue;
     /// <summary>
     /// What type of ability this is, single, multi, ground, displayed on card
     /// </summary>
@@ -45,7 +45,7 @@ public abstract class AbilityData : ScriptableObject
     /// <summary>
     /// Bonues damage or healing this ability does depending on element types etc, can be displayed on card
     /// </summary>
-    public static int bonusPowerValue = 5;
+    public float bonusPowerMultiplier = 5;
     /// <summary>
     /// Effect of this ability
     /// </summary>

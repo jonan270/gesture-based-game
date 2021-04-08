@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class TurnBasedEffect : MonoBehaviour
 {
-    public bool isActive = false;
-
-    public int healthMod;
+    public float healthMod;
     public float maxHealthMod;
     public float attackMod;
 
-    private int turnCount;
+    public int turnCount;
 
 
-    public void setTurnBased(Character character, int hMod, float aMod, float maxMod, int turns)
+    public void setTurnBased(Character character, float hMod, float aMod, float maxMod, int turns)
     {
-        isActive = true;
+        //isActive = true;
         healthMod = hMod;
         attackMod = aMod;
         maxHealthMod = maxMod;
@@ -24,32 +22,32 @@ public class TurnBasedEffect : MonoBehaviour
         character.attackValue *= (int)attackMod;
         character.maxHealth *= maxHealthMod;
         character.currentHealth *= maxHealthMod;
+
         ApplyTurnBased(character); // Activate effect right away
     }
 
     public void ApplyTurnBased(Character character)
     {
-        if(isActive)
-        {
-            if (turnCount > 0)
-            {
-                Debug.Log("Turn based effect doing turn based things on " + character.name);
-                Debug.Log("Current health: " + character.currentHealth + ", Max health: " + character.maxHealth);
-                character.ModifyHealth(healthMod);
-                turnCount--;
-            }
-            else
-            {
-                RemoveTurnBased(character);
-            }
-        }
+
+        Debug.Log("Turn based effect doing turn based things on " + character.name);
+        Debug.Log("Current health: " + character.currentHealth + ", Max health: " + character.maxHealth);
+        character.ModifyHealth(healthMod);
+        turnCount--;
+    }
+
+    public bool IsActive()
+    {
+        if (turnCount > 0)
+            return true;
+        else
+            return false;
     }
 
     private void RemoveTurnBased(Character character)
     {
         character.attackValue /= (int)attackMod;
         character.currentHealth /= maxHealthMod;
-        isActive = false;
+        
         //healthMod = 0;
         //attackMod = 1;
         //maxHealthMod = 1;

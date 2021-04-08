@@ -32,11 +32,11 @@ public class Heal : AbilityData
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
-    private int CalculateBonusHeal(Character target)
+    private float CalculateBonusHeal(Character target)
     {
-        int bonus = 0;
+        float bonus = 0;
         if (target.CurrentTile.tileType == abilityElement)
-            bonus = bonusPowerValue;
+            bonus = bonusPowerMultiplier;
 
         return bonus;
     }

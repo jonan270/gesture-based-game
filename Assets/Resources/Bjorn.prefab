@@ -53,7 +53,7 @@ MonoBehaviour:
   currentHealth: 100
   maxHealth: 100
   attackValue: 15
-  turnBasedEffect: {fileID: 0}
+  turnBasedEffects: []
   Name: Bjorn
   Element: 0
   StrongAgainst: 1
@@ -64,6 +64,8 @@ MonoBehaviour:
       m_Calls: []
   ListAbilityData:
   - {fileID: 11400000, guid: 77f1bf158c7f36f4193405bbbe49b99f, type: 2}
+  attackMultiplier: 1
+  defenceMultiplier: 1
 --- !u!114 &5341129425386056602
 MonoBehaviour:
   m_ObjectHideFlags: 0

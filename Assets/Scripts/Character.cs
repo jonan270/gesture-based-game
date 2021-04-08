@@ -24,8 +24,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public float maxHealth = 100;
 
     public int attackValue;
-    //public List<TurnBasedEffect> turnBasedEffects;
-    public TurnBasedEffect turnBasedEffect;
+    public List<TurnBasedEffect> turnBasedEffects;
+    //public TurnBasedEffect turnBasedEffect;
     public string Name;
     protected bool isAlive = true;
 
@@ -41,6 +41,9 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
+    public float attackMultiplier = 1f; // Decimalbaserade
+    public float defenceMultiplier = 1f;
+
     //public string descriptionTextCard1;
     //public string descriptionTextCard2;
     //public string descriptionTextCard3;
@@ -53,7 +56,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         currentHealth = maxHealth;
         isAlive = true;
-        turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
+        //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
     }
 
     //private void OnEnable()
@@ -70,11 +73,13 @@ public abstract class Character : MonoBehaviour, IPunObservable
         ActionCompleted
     }
 
-    public void AddTurnBasedEffect(int hMod, float aMod, float maxMod, int turns)
+    public void AddTurnBasedEffect(float hMod, float aMod, float maxMod, int turns)
     {
         //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
-        Debug.Log(turnBasedEffect);
-        turnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        //Debug.Log(turnBasedEffect);
+        TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
+        newEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        turnBasedEffects.Add(newEffect);
     }
 
     public bool canDoAction()
@@ -87,14 +92,15 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// </summary>
     /// <param name="enemyElement">Element of the enemy</param>
     /// <param name="baseDamage">Base damage of the ability / auto attack</param>
-    /// <param name="bonusDamage">How much extra damage is added</param>
+    /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied, default value is 1</param>
     /// <returns></returns>
-    public int CompareEnemyElement(ElementState enemyElement, int baseDamage, int bonusDamage)
+    public float CompareEnemyElement(ElementState enemyElement, float baseDamage, float bonusDamageMultiplier = 1f)
     {
         if (enemyElement == StrongAgainst)
         {
             Debug.Log("attack is strong against enemy character");
-            return baseDamage += bonusDamage;
+            // Basedamage
+            return baseDamage *= bonusDamageMultiplier * attackMultiplier;
             
         }
         //else if(enemyElement == WeakAgainst)
@@ -102,7 +108,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         //    Debug.Log("weak");
         //    return baseDamage -= bonusDamage;
         //}
-        return baseDamage;
+        return baseDamage * attackMultiplier;
     }
 
     public void SetState(CharacterState state) {
@@ -121,9 +127,12 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// Modifies health and updates the healthbar
     /// </summary>
     /// <param name="amount">Positive value heals and negative value deals damage</param>
-    public void ModifyHealth(int amount)
+    public void ModifyHealth(float amount)
     {
-        currentHealth += amount;
+        if (amount < 0)
+            currentHealth += amount / defenceMultiplier;
+        else
+            currentHealth += amount;
 
         float currentHealthPct = currentHealth / maxHealth; //Calculate current health percentage
 

@@ -20,4 +20,5 @@ MonoBehaviour:
   abilityElement: 0
   numberOfTurns: 0
   gestureType: 1
-  effectPrefab: {fileID: 0}
+  effectPrefab: {fileID: 2579707679223848377, guid: 48e476056fa986f4db39b9cd28d5f98e,
+    type: 3}
