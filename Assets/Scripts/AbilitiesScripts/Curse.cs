@@ -5,20 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Abilities/Curse")]
 public class Curse : AbilityData
 {
-    public override void OnHit(GameObject target, GameObject attacker)
-    {
-        //GameObject.
-            Vector3 center = target.GetComponent<Hextile>().Position;
-            float radius = 3;
+    /// <summary>
+    /// how large area around the middle tile should this ability affect
+    /// </summary>
+    public int tileRadius = 2;
 
-            //Collider[] hitColliders = Physics.OverlapSphere(center, radius);
-            foreach (Collider col in Physics.OverlapSphere(center, radius))
-            {
-                if (col.tag == "Hextile")
-                {
-                    col.gameObject.GetComponent<Hextile>().makeType(ElementState.Fire);
-                }
-            }
-        
+    public override void ActivateAbility()
+    {
+        Debug.Log("Waiting for a tile to be selected");
+        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.chooseTile);
+        PlayerManager.Instance.SubscribeToSelectTargetTile(OnSelectedTile);
     }
+
+    private void OnSelectedTile(Hextile tile)
+    {
+        Debug.Log("Does something to the tile with index: " + tile.tileIndex);
+        Hexmap map = FindObjectOfType<Hexmap>();
+        map.affectRadius(tile.tileIndex.x, tile.tileIndex.y, tileRadius, abilityElement);
+        PlayerManager.Instance.UnsubscribeFromSelectTargetTile(OnSelectedTile);
+        AbilityCompleted();
+    }
+
 }

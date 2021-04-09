@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4860302380031582869}
   - component: {fileID: 4860302380031582868}
-  - component: {fileID: -4780641490868156331}
+  - component: {fileID: 5880822470485243624}
   m_Layer: 0
   m_Name: Hexmap
   m_TagString: Untagged
@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexPrefab: {fileID: 1156072231798157232, guid: 794548858c0a1fa41bcbb708eedd5177,
     type: 3}
---- !u!114 &-4780641490868156331
+  photonView: {fileID: 5880822470485243624}
+--- !u!114 &5880822470485243624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,6 +66,6 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 0
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0

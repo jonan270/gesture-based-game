@@ -19,41 +19,56 @@ public class Hextile : MonoBehaviourPun
      * tileType can be: "grass", "dessert", "water" or "woods".
      * 
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-    //public string tileType;
 
+    /// <summary>
+    /// Element type of this tile
+    /// </summary>
     public ElementState tileType;
-    public AreaEffect areaEffect; // Could for example be a trap
-    public bool isOccupied; // Is the hextile occupied by a character?
+    /// <summary>
+    /// Area effect on this tile, can be a trap or health potion for example
+    /// </summary>
+    public AreaEffect areaEffect;
+
+    /// <summary>
+    /// Returns true if this tile is occupied by a character
+    /// </summary>
+    public bool isOccupied;
+    /// <summary>
+    /// reference the occupant on this tile
+    /// </summary>
     public Character occupant;
 
-    public GameObject trap;
+    /// <summary>
+    /// trap prefab to use
+    /// </summary>
+    public GameObject trapPrefab;
 
 
-    // Should the tile be rotating?
-    public bool spin;
+    /// <summary>
+    /// Should the tile be rotating
+    /// </summary>
+    [SerializeField] private bool spin;
 
     // The angle of the tile during rotation.
     private int angleCount = -180;
 
     [Header("Materials")]
     // Materials for the tilebase of different types
-    [SerializeField]
-    private Material matgrass;
-    [SerializeField]
-    private Material matdessert;
-    [SerializeField]
-    private Material matwater;
-    [SerializeField]
-    private Material matwoods;
+    [SerializeField] private Material matgrass;
+    [SerializeField] private Material matdessert;
+    [SerializeField] private Material matwater;
+    [SerializeField] private Material matwoods;
 
     [Header("Type Graphics")]
-    public GameObject tile;
-    public GameObject forest;
-    public GameObject dessert;
-    public GameObject water;
-    public GameObject grass;
+    [SerializeField] private GameObject tile;
+    [SerializeField] private GameObject forest;
+    [SerializeField] private GameObject desert;
+    [SerializeField] private GameObject water;
+    [SerializeField] private GameObject grass;
 
-
+    /// <summary>
+    /// index [x,y] of this tile in the map
+    /// </summary>
     public Vector2Int tileIndex = new Vector2Int(-1, -1);
 
     // Awake runs before start
@@ -69,7 +84,15 @@ public class Hextile : MonoBehaviourPun
             rotateHex();
     }
 
-    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive)
+    /// <summary>
+    /// Synchronizes a tile over network, called from hexmap.cs
+    /// </summary>
+    /// <param name="tileElement">new state</param>
+    /// <param name="isTrapActive">new state</param>
+    /// <param name="trapElement">new state</param>
+    /// <param name="trapModifier">new state</param>
+    /// <param name="isCharActive">new state</param>
+    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive)
     {
         if(tileType != tileElement)
         {
@@ -77,17 +100,13 @@ public class Hextile : MonoBehaviourPun
         }
 
         //Synchronize traps 
-        if(!areaEffect.isActivated && isTrapActive)
-        {
+        if (!areaEffect.isActivated && isTrapActive)
             AddEffect(trapElement, trapModifier);
-        }
-        else if(areaEffect.isActivated && !isTrapActive)
+        else if (areaEffect.isActivated && !isTrapActive)
             RemoveEffect();
 
         if (isCharActive)
-        {
             isOccupied = true;
-        }
         else
             RemoveOccupant();
     }
@@ -114,10 +133,10 @@ public class Hextile : MonoBehaviourPun
     /// <summary>
     /// Adds an effect to this tile
     /// </summary>
-    public void AddEffect(ElementState state, int healthMod)
+    public void AddEffect(ElementState state, float healthMod)
     {
         spinTile();
-        trap.SetActive(true);
+        trapPrefab.SetActive(true);
         areaEffect.SetEffect(state, healthMod);
     }
 
@@ -127,7 +146,7 @@ public class Hextile : MonoBehaviourPun
     public void RemoveEffect()
     {
         spinTile();
-        trap.SetActive(false);
+        trapPrefab.SetActive(false);
         areaEffect.Remove();
     }
 
@@ -150,7 +169,9 @@ public class Hextile : MonoBehaviourPun
         isOccupied = false;
         occupant = null;
     }
-
+    /// <summary>
+    /// Randomize element type of this tile
+    /// </summary>
     private void randomizeType()
     {
         int randT = Random.Range(0, 4);
@@ -168,56 +189,81 @@ public class Hextile : MonoBehaviourPun
         makeType(state);
     }
 
-    /// Takes argument of type string to convert tileType and rendering material
+    /// <summary>
+    /// Creates a element type on this tile and activates correct material and graphics
+    /// </summary>
+    /// <param name="type">type of element to set this tile to</param>
     public void makeType(ElementState type)
     {
-        if(type == ElementState.Wind)
+        switch(type)
         {
-            tileType = ElementState.Wind;
-            tile.GetComponent<MeshRenderer>().material = matgrass;
-            ResetTiles();
-            grass.SetActive(true);
-        }
-        else if(type == ElementState.Fire)
-        {
-            tileType = ElementState.Fire;
-            tile.GetComponent<MeshRenderer>().material = matdessert;
-            ResetTiles();
-            dessert.SetActive(true);
-        }
-        else if(type == ElementState.Water)
-        {
-            tileType = ElementState.Water;
-            tile.GetComponent<MeshRenderer>().material = matwater;
-            ResetTiles();
-            water.SetActive(true);
-        }
-        else if (type == ElementState.Earth)
-        {
-            tileType = ElementState.Earth;
-            tile.GetComponent<MeshRenderer>().material = matwoods;
-            ResetTiles();
-            forest.SetActive(true);
+            case ElementState.Wind:
+                {
+                    tileType = ElementState.Wind;
+                    tile.GetComponent<MeshRenderer>().material = matgrass;
+                    ResetTile();
+                    grass.SetActive(true);
+                    break;
+                }
+            case ElementState.Fire:
+                {
+                    tileType = ElementState.Fire;
+                    tile.GetComponent<MeshRenderer>().material = matdessert;
+                    ResetTile();
+                    desert.SetActive(true);
+                    break;
+                }
+            case ElementState.Water:
+                {
+                    tileType = ElementState.Water;
+                    tile.GetComponent<MeshRenderer>().material = matwater;
+                    ResetTile();
+                    water.SetActive(true);
+                    break;
+                }
+            case ElementState.Earth:
+                {
+                    tileType = ElementState.Earth;
+                    tile.GetComponent<MeshRenderer>().material = matwoods;
+                    ResetTile();
+                    forest.SetActive(true);
+                    break;
+                }
+            default:
+                {
+                    tileType = ElementState.None;
+                    ResetTile();
+                    tile.GetComponent<MeshRenderer>().material = matgrass;
+                    break;
+                }
         }
         spinTile();
     }
 
-    private void ResetTiles() 
+    /// <summary>
+    /// Turns of all graphics on this tile to its original state
+    /// </summary>
+    private void ResetTile() 
     {
         forest.SetActive(false);
         water.SetActive(false);
         grass.SetActive(false);
-        dessert.SetActive(false);
-        trap.SetActive(false);
-    }
+        desert.SetActive(false);
+        trapPrefab.SetActive(false);
 
+    }
+    /// <summary>
     /// Get the position of a tile
+    /// </summary>
     public Vector3 Position {
         get { return transform.position; }
     }
-
-    public void SetTileIndex(Vector2Int pos)
+    /// <summary>
+    /// Sets the index of this tile
+    /// </summary>
+    /// <param name="index"></param>
+    public void SetTileIndex(Vector2Int index)
     {
-        tileIndex = pos;
+        tileIndex = index;
     }
 }

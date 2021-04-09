@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bce9bba6b6b68d448ab998f091c53c2, type: 3}
   m_Name: RoA
   m_EditorClassIdentifier: 
-  abilityName: RoA
+  abilityName: Ring of Attack
   abilityDescription: Hilda will conjure an Attack boost for her teammates.
   gemsCost: 10
-  amount: 10
-  targType: 1
-  numberOfTurns: 1
-  IsFinished: 0
-  gestureType: 
+  powerValue: 10
+  targetType: 0
+  abilityElement: 0
+  numberOfTurns: 3
+  gestureType: 0
   effectPrefab: {fileID: 0}

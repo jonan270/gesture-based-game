@@ -22,8 +22,6 @@ public class CharacterControl : MonoBehaviour
     [SerializeField]
     public List<GameObject> listOfCharacters = new List<GameObject>();
 
-    private string[] gestureTypes = { "Circle", "Triangle", "Square" };
-
     private string doneGesture;
 
    // [SerializeField]
@@ -68,17 +66,17 @@ public class CharacterControl : MonoBehaviour
         listOfCharacters.Add(bjorn);
         listOfCharacters.Add(freyr);
 
-
+        bjorn.GetComponent<Bjorn>().ModifyHealth(-70);
     }
 
     void Update()
     {
 
-        hand.GetComponent<HandCards>().UpdateCardsOnHand();
+        //hand.GetComponent<HandCards>().UpdateCardsOnHand();
 
         if (Input.GetMouseButtonDown(0) && hilda != null)
         {
-        hilda.GetComponent<Hilda>().ModifyHealth(-70);
+        //hilda.GetComponent<Hilda>().ModifyHealth(-70);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -88,8 +86,7 @@ public class CharacterControl : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log(hit.transform.gameObject);
-                hand.GetComponent<HandCards>().RemoveCardOnHand(hit.transform.parent.gameObject);
+                hand.GetComponent<HandCards>().activateCard(GestureType.circle);
             }
         }
 
@@ -120,6 +117,7 @@ public class CharacterControl : MonoBehaviour
 
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.GetComponent<Character>().CurrentTile = spawnTile;
+        spawnTile.SetOccupant(obj.GetComponent<Character>()); // Set occupant in tile class
         
         
 

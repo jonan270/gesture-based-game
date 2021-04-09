@@ -16,6 +16,12 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
 
     public Image gesture;
 
+    public GestureType gestureType;
+
+    private Color alphaColor;
+    public bool fadeOut;
+    private float counter = 1.0f;
+
     public void setText(string desc, string name)
     {
         description.SetText(desc);
@@ -23,7 +29,7 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     }
 
 
-    public Vector3 cardPosition()
+public Vector3 cardPosition()
     {
         return this.transform.position;
     }

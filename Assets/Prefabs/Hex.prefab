@@ -66,7 +66,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileType: 0
   areaEffect: {fileID: 8763146127276830377}
-  trap: {fileID: 6703905411691400829}
+  isOccupied: 0
+  occupant: {fileID: 0}
+  trapPrefab: {fileID: 6703905411691400829}
   spin: 0
   matgrass: {fileID: 2100000, guid: a86ce661c5145d74b8625cccb52123d4, type: 2}
   matdessert: {fileID: 2100000, guid: d95b6b4505a19bb49bd9e425b09c76ad, type: 2}
@@ -74,7 +76,7 @@ MonoBehaviour:
   matwoods: {fileID: 2100000, guid: 0d8f4f3dedfced941b5eaf7ff2b15a15, type: 2}
   tile: {fileID: 6500502421328710784}
   forest: {fileID: 3891669443144831739}
-  dessert: {fileID: 7229900117214556373}
+  desert: {fileID: 7229900117214556373}
   water: {fileID: 568501116889539641}
   grass: {fileID: 2854313132208572085}
   tileIndex: {x: -1, y: -1}
@@ -742,7 +744,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9024fb434e646cb4aa42ec1740ff4df6,
         type: 3}
       propertyPath: m_Name
-      value: dessert
+      value: desert
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9024fb434e646cb4aa42ec1740ff4df6,
         type: 3}
