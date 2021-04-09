@@ -22,7 +22,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     [SerializeField] protected float maxHealth = 100;
 
     public float MaxHealth { get { return maxHealth; } }
-    public float CurrentHealth { get { return CurrentHealth; } }
+    public float CurrentHealth { get { return currentHealth; } }
 
 
     /// <summary>
