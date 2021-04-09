@@ -21,8 +21,9 @@ public class Heal : AbilityData
     /// <param name="target"></param>
     private void OnSelectedCharacter(Character target)
     {
-        Debug.Log("Healing " + target.name);
-        target.ModifyHealth(powerValue + CalculateBonusHeal(PlayerManager.Instance.selectedCharacter.GetComponent<Character>()));
+        float totalHeal = powerValue + CalculateBonusHeal(PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+        Debug.Log("Healing " + target.name + " for " + totalHeal + " amount of health");
+        target.ModifyHealth(totalHeal);
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);        
         AbilityCompleted();
     }
@@ -34,10 +35,10 @@ public class Heal : AbilityData
     /// <returns></returns>
     private float CalculateBonusHeal(Character target)
     {
-        float bonus = 0;
+        float bonus = 1f;
         if (target.CurrentTile.tileType == abilityElement)
             bonus = bonusPowerMultiplier;
 
-        return bonus;
+        return powerValue * (1-bonus);
     }
 }

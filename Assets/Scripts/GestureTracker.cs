@@ -75,11 +75,12 @@ public class GestureTracker : MonoBehaviour
 
     void Update()
     {
+        //If we are not trying to make a gesture dont do anything
         if (PlayerManager.Instance.PlayerState == PlayerState.makeGesture)
         {
             //TimeSinceGuess += Time.deltaTime;
 
-            //Check wether or not the back buttons are pressed
+            //Check wether or not the back buttons are pressed and that hand is free and not holding anything
             bool stateLeft = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.LeftHand) && lCShand.IsHandFree;
             bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand) && rCShand.IsHandFree;
             bool leftReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.LeftHand);

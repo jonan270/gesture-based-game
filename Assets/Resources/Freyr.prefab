@@ -103,12 +103,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 345039690021744265}
-  currentHealth: 100
+  currentHealth: 0
   maxHealth: 100
-  attackValue: 15
   turnBasedEffects: []
   Name: Freyr
-  Element: 2
   StrongAgainst: 4
   WeakAgainst: 1
   CurrentState: 0

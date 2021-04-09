@@ -43,9 +43,16 @@ public class PlayerManager : MonoBehaviour
     public delegate void SelectTargetTileHandler(Hextile hextile);
     private SelectTargetTileHandler tileTargetHandler;
 
+    private PhotonView photonView;
+
     private void Awake()
     {
         Instance = this;
+        photonView = GetComponent<PhotonView>();
+        if(photonView == null)
+        {
+            Debug.LogError("MISSING PHOTONVIEW COMPONENT");
+        }
         characters = new List<Character>();
         enemyCharacters = new List<Character>();
         arrow.SetActive(false);
@@ -178,23 +185,17 @@ public class PlayerManager : MonoBehaviour
             tileTargetHandler -= e;
     }
 
-    //public void foo()
-    //{
-    //    Debug.Log("Finding the character");
-    //    target = characters[0];
-    //    Debug.Log("Invoking the function");
-    //    targetHandler.Invoke(target);
-
-    //}
-
     /// <summary>
     /// Reset 
     /// </summary>
     public void OnEndTurn()
     {
+        UpdateCharacterLists();
+        RPC_UpdateCharacterList();
+
         foreach(Character character in characters)
         {
-            character.CurrentState = Character.CharacterState.CanDoAction;
+            character.SetState(Character.CharacterState.CanDoAction);
         }
     }
 
@@ -216,7 +217,7 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (Character character in characters)
         {
-            if (character.CurrentState == Character.CharacterState.CanDoAction)
+            if (character.CanDoAction())
                 return false;
             
         }
@@ -224,14 +225,24 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns an enemy character at pos [x,y], null if no character is at [x,y]. Assumes all characters in the list are alive
+    /// Returns a character at pos [x,y], null if no character is at [x,y]. Assumes all characters in the list are alive
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public Character GetEnemyCharacterAt(int x , int y)
+    public Character GetCharacterAt(int x , int y)
     {
+        //Looks for enemycharacter
         foreach(Character character in enemyCharacters)
+        {
+            int posx = character.CurrentTile.tileIndex.x;
+            int posy = character.CurrentTile.tileIndex.y;
+
+            if (posx == x && posy == y)
+                return character;
+        }
+        //looks for friendly character
+        foreach (Character character in characters)
         {
             int posx = character.CurrentTile.tileIndex.x;
             int posy = character.CurrentTile.tileIndex.y;
@@ -241,14 +252,59 @@ public class PlayerManager : MonoBehaviour
         }
         return null;
     }
-
-    public void UpdateFriendlyCharacterList()
+    /// <summary>
+    /// Updates local character lists
+    /// </summary>
+    public void UpdateCharacterLists()
     {
-        for(int i = characters.Count - 1; i > 0; --i)
+        UpdateFriendlyCharacterList();
+        UpdateEnemyCharacterList();
+    }
+    /// <summary>
+    /// Makes an RPC call so that the other player updates their character lists
+    /// </summary>
+    public void RPC_UpdateCharacterList()
+    {
+        photonView.RPC("RPC_UpdateList", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_UpdateList()
+    {
+        UpdateCharacterLists();
+    }
+    /// <summary>
+    /// Updates internal list of friendly characters in the scene
+    /// </summary>
+    private void UpdateFriendlyCharacterList()
+    {
+        characters.Clear();
+        var allcharacters = FindObjectsOfType<Character>();
+        //Debug.Log("Found " + allcharacters.Length + " characters in scene when looking for friendly");
+        foreach (var character in allcharacters)
         {
-            if (!characters[i].IsAlive)
-                characters.Remove(characters[i]);
+            if (character.GetComponent<PhotonView>().IsMine && character.IsAlive)
+            {
+                characters.Add(character);
+            }
         }
-        Debug.LogError("Updating friendly list, there are now " + characters.Count + " characters left");
+        Debug.LogError("Updating friendly list, there are now " + characters.Count + " friendly characters in the scene");
+    }
+
+    /// <summary>
+    /// Updates the list of enemy characters in the scene 
+    /// </summary>
+    private void UpdateEnemyCharacterList()
+    {
+        enemyCharacters.Clear();
+        var allcharacters = FindObjectsOfType<Character>();
+        //Debug.Log("Found " + allcharacters.Length + " characters in scene when looking for enemies");
+        foreach (var character in allcharacters)
+        {
+            if (!character.GetComponent<PhotonView>().IsMine && character.IsAlive)
+            {
+                enemyCharacters.Add(character);
+            }
+        }
+        Debug.LogError("Updating enemy list, there are now  " + enemyCharacters.Count + " enemies in the scene");
     }
 }

@@ -6,122 +6,78 @@ using Photon.Pun;
 
 public class CharacterControl : MonoBehaviour
 {
-    [SerializeField] public static GameObject SelectedCharacter;
-    [SerializeField]
-    private GameObject hildaPrefab;
-    [SerializeField]
-    private GameObject bjornPrefab;
+    [Header("Character Prefabs")]
+    [SerializeField] private GameObject hildaPrefab;
+    [SerializeField] private GameObject bjornPrefab;
     [SerializeField] private GameObject freyrPrefab;
-    [SerializeField]
-    private Hexmap hexMap;
+
+    [Header("Other prefabs")]
+    [SerializeField] private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
-    [SerializeField]
-    private GameObject deckPrefab;
-    [SerializeField]
-    private GameObject handPrefab;
-    [SerializeField]
-    public List<GameObject> listOfCharacters = new List<GameObject>();
+    [SerializeField] private GameObject deckPrefab;
+    [SerializeField] private GameObject handPrefab;
 
-    private string[] gestureTypes = { "Circle", "Triangle", "Square" };
-
-    private string doneGesture;
-
-   // [SerializeField]
-    //public AbilityManager abilityManager;
-
-    //private HandCards hand;
-    //private Deck deck;
-
-    //public Ability[] bjornAbilities;
-    //public Ability[] hildaAbilities;
-
-    int round = 0;
-
+    
     private GameObject hilda, bjorn,freyr, deck, hand;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         deck = Instantiate(deckPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
-        //deckPrefab = new Deck(); //Create specific deck for player
-        //var prefab = Resources.Load("Deck");
-        //deck = SpawnDeck(deckPrefab);
 
+    }
+    private void Start()
+    {
         //Call function createCharacter()
         hilda = SpawnCharacter(hildaPrefab);
         bjorn = SpawnCharacter(bjornPrefab);
         freyr = SpawnCharacter(freyrPrefab);
-		
+
         //Show hand of currently available cards
 
         PlayerManager.Instance.characters.Add(hilda.GetComponent<Character>());
         PlayerManager.Instance.characters.Add(bjorn.GetComponent<Character>());
         PlayerManager.Instance.characters.Add(freyr.GetComponent<Character>());
-
-
-        listOfCharacters.Add(hilda);
-        listOfCharacters.Add(bjorn);
-        listOfCharacters.Add(freyr);
-
-        //Select character
-
-        //Text on cards in hand shows. Text includes information about abilities
-
-        //Character performs gesture -> certain card is activated
-
-        //We know now what ability should be performed
+        PlayerManager.Instance.RPC_UpdateCharacterList();
+        PlayerManager.Instance.UpdateCharacterLists();
 
     }
-
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) && hilda != null)
-        {
-            hilda.GetComponent<Hilda>().ModifyHealth(-10);
-           
-          
-        }
 
-        if (round == 0)
-        {
-            deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
-            List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
+        //if (round == 0)
+        //{
+        //    deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
+        //    List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
 
-            hand.GetComponent<HandCards>().setHand(drawnCards);
-            //hand.GetComponent<HandCards>().showHand();
+        //    hand.GetComponent<HandCards>().setHand(drawnCards);
+        //    //hand.GetComponent<HandCards>().showHand();
 
-            round++;
+        //    round++;
 
-        }
+        //}
 
-        if (hilda != null)
-        {
-            if (!hilda.GetComponent<Hilda>().IsAlive)
-            {
-                Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
-                RemoveCharacter(hilda); // Try removing character and its cards
-            }
-        }
-
-        if(SelectedCharacter != null)
-        {
-            Debug.Log("select char from CC" + SelectedCharacter.name);
-        }
+        //if (hilda != null)
+        //{
+        //    if (!hilda.GetComponent<Hilda>().IsAlive)
+        //    {
+        //        Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
+        //        RemoveCharacter(hilda); // Try removing character and its cards
+        //    }
+        //}
     }
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
-
-        //TODO: spawn character at each side
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
-        Debug.LogError("Spawn Tile " + spawnTile.Position);
-
-
+        Debug.LogError("Spawn Tile " + spawnTile.tileIndex);
+        
+        //Rotates character toward the other player
         Vector3 rotation = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
-
+        //Instantiate over network
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.GetComponent<Character>().CurrentTile = spawnTile;
         spawnTile.SetOccupant(obj.GetComponent<Character>()); // Set occupant in tile class
@@ -136,10 +92,4 @@ public class CharacterControl : MonoBehaviour
         //deck.RemoveCards(ob.GetComponent<Character>().Name);
         PhotonNetwork.Destroy(ob);
     }
-
-
-
-    
-
-  
 }

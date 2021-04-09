@@ -119,7 +119,7 @@ public class Hexmap : MonoBehaviour
     /// <param name="trapElement">element of the trap</param>
     /// <param name="trapModifier">power modifier of the trap, positive values heal, negative deal damage</param>
     /// <param name="isCharActive">is there an active character on the tile</param>
-    private void UpdateTile(int x, int y)
+    public void UpdateTile(int x, int y)
     {
         AreaEffect areaEffect = map[x, y].areaEffect;
         photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, areaEffect.isActivated,
@@ -217,15 +217,13 @@ public class Hexmap : MonoBehaviour
         if(master && CheckValid(master_count + 3, 0))
         {
             tile = map[master_count + 3, 0];
-            master_count+=4;
-            return map[master_count + 3, 0];
+            master_count += 4;
         }
         else if(!master && CheckValid(master_count + 3, height - 1))
         {
             // else return non master position
             tile = map[master_count + 3, height - 1];
             master_count += 4;
-            return map[master_count + 3, height - 1];
         }
         return tile;
     }

@@ -29,7 +29,6 @@ public class TurnBasedEffect : MonoBehaviour
 
         character.attackMultiplier *= attackMod;
         character.defenceMultiplier *= defMod;
-        //character.currentHealth *= defMod;
 
         ApplyTurnBased(character); // Activate effect right away
     }
@@ -39,7 +38,7 @@ public class TurnBasedEffect : MonoBehaviour
         if (IsActive())
         {
             Debug.Log("Turn based effect doing turn based things on " + character.name);
-            Debug.Log("Current health: " + character.currentHealth + ", Defensemultiplier: " + character.defenceMultiplier);
+            Debug.Log("Current health: " + character.CurrentHealth + ", Defensemultiplier: " + character.defenceMultiplier);
             character.ModifyHealth(healthMod);
             turnCount--;
         }
@@ -57,7 +56,7 @@ public class TurnBasedEffect : MonoBehaviour
 
     private void RemoveTurnBased(Character character)
     {
-        character.attackValue /= attackMod;
-        character.currentHealth /= defMod;
+        character.attackMultiplier /= attackMod;
+        character.defenceMultiplier /= defMod;
     }
 }

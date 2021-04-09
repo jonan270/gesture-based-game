@@ -50,12 +50,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 7662512763961458166}
-  currentHealth: 100
+  currentHealth: 0
   maxHealth: 100
-  attackValue: 15
   turnBasedEffects: []
   Name: Bjorn
-  Element: 0
   StrongAgainst: 1
   WeakAgainst: 2
   CurrentState: 0
