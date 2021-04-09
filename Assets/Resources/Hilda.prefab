@@ -50,12 +50,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 4169893381193743170}
-  currentHealth: 100
+  currentHealth: 0
   maxHealth: 100
-  attackValue: 15
   turnBasedEffects: []
   Name: Hilda
-  Element: 1
   StrongAgainst: 2
   WeakAgainst: 3
   CurrentState: 0

@@ -21,12 +21,16 @@ public abstract class Character : MonoBehaviour, IPunObservable
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float maxHealth = 100;
 
+    public float MaxHealth { get { return maxHealth; } }
+    public float CurrentHealth { get { return CurrentHealth; } }
+
+
     /// <summary>
     /// Amount of damage this character does with a normal basic attack
     /// </summary>
     public float BasicAttackValue { get; protected set; }
-    //public List<TurnBasedEffect> turnBasedEffects;
-    public TurnBasedEffect turnBasedEffect;
+    public List<TurnBasedEffect> turnBasedEffects;
+    //public TurnBasedEffect turnBasedEffect;
     public string Name;
 
     /// <summary>
@@ -68,7 +72,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         currentHealth = maxHealth;
         IsAlive = true;
-        turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
+        //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
         deathEvent.AddListener(PlayerManager.Instance.UpdateCharacterLists);
         deathEvent.AddListener(PlayerManager.Instance.RPC_UpdateCharacterList);
         photonView = GetComponent<PhotonView>();
@@ -121,21 +125,22 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <returns></returns>
     public float CompareElement(Character target, float baseDamage, float bonusDamageMultiplier)
     {
-        if (StrongAgainst == target.element)
+        if (StrongAgainst == target.Element)
         {
             Debug.Log("attack is strong against enemy character");
             return baseDamage * (1 - bonusDamageMultiplier);
         }
         return 0; //No bonus damage 
-    }    
+    }
     /// <summary>
     /// Compares attacking hero element vs the hero being attacked, returns bonus damage if attacker is strong against target
     /// </summary>
     /// <param name="tile">Tile to compare to</param>
     /// <param name="baseDamage">Base damage of the ability / auto attack</param>
     /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied</param>
-    public float CompateElement(Hextile tile, float baseDamage, float bonusDamageMultiplier) {
-        if(Element == tile.tileType)
+    public float CompareElement(Hextile tile, float baseDamage, float bonusDamageMultiplier)
+    {
+        if (Element == tile.tileType)
         {
             Debug.Log("Attacker stands in a tile and recives bonus damage");
             return baseDamage * (1 - bonusDamageMultiplier);
@@ -164,7 +169,6 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <param name="amount">Positive value heals and negative value deals damage</param>
     public void ModifyHealth(float amount)
     {
-        currentHealth += amount;
         if (amount < 0) //takes damage
             currentHealth += amount / defenceMultiplier;
         else //being healed

@@ -82,11 +82,7 @@ public class AbilityManager : MonoBehaviour
     [PunRPC]
     void RPC_SetTurnBased(int x, int y, float hMod, float aMod, float dMod, int turns)
     {
-        Character target;
-        if(map.map[x,y].occupant)
-            target = map.map[x, y].occupant;
-        else
-            target = PlayerManager.Instance.GetEnemyCharacterAt(x, y);
+        Character target = PlayerManager.Instance.GetCharacterAt(x, y);
 
         Debug.Log("Setting on " + target.name);
         turnBasedEffectedCharIndex.Add(new Vector2Int(x, y)); // Add to list of effected characters
