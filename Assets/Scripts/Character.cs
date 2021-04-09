@@ -128,7 +128,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         if (StrongAgainst == target.Element)
         {
             Debug.Log("attack is strong against enemy character");
-            return baseDamage * (1 - bonusDamageMultiplier);
+            return baseDamage * (bonusDamageMultiplier - 1);
         }
         return 0; //No bonus damage 
     }
@@ -143,7 +143,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         if (Element == tile.tileType)
         {
             Debug.Log("Attacker stands in a tile and recives bonus damage");
-            return baseDamage * (1 - bonusDamageMultiplier);
+            return baseDamage * (bonusDamageMultiplier - 1);
         }
         return 0;
     }

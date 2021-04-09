@@ -69,7 +69,7 @@ public abstract class AbilityData : ScriptableObject
         }
         //notify gameround that an action has been completed
         var gameRound = FindObjectOfType<GameRound>();
-        gameRound.OnActionTaken();
+        gameRound.ActionTaken();
     }
 }
 
