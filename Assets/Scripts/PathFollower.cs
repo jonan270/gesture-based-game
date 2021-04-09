@@ -35,7 +35,7 @@ public class PathFollower : MonoBehaviour
     private Vector3 pathTarget;
     private Vector3 startTarget;
     private Hexmap map;
-    private AbilityManager abilities;
+    //private AbilityManager abilities;
 
     /// <summary>
     /// reference to attached character script
@@ -45,7 +45,7 @@ public class PathFollower : MonoBehaviour
     private void Start() {
         character = GetComponent<Character>();
         map = FindObjectOfType<Hexmap>();
-        abilities = FindObjectOfType<AbilityManager>();
+        //abilities = FindObjectOfType<AbilityManager>();
 
         //Adds the pathCreator as a listener to this event
         movingComplete.AddListener(FindObjectOfType<PathCreator>().OnReachedEnd);
@@ -105,11 +105,11 @@ public class PathFollower : MonoBehaviour
         // If we encounter an enemy along the path, deal damage and stop
         else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
         {
-            Character target = PlayerManager.Instance.GetCharacterAt(path[index].tileIndex.x, path[index].tileIndex.y);
-            int bonusAttackDmg = 5;
-            int damage = character.CompareEnemyElement(target.Element, character.BasicAttackValue, bonusAttackDmg);
-            Debug.LogError(character.name + " auto attacks " + target.name + " damaging it for " + damage + " health");
-            abilities.DamageCharacter(target, damage);
+            Character target = PlayerManager.Instance.GetEnemyCharacterAt(path[index].tileIndex.x, path[index].tileIndex.y);
+            //float bonusAttackDmg = 5; 
+            //float damage = character.CompareEnemyElement(target.CurrentTile.tileType, character.attackValue);
+            //Debug.LogError(character.name + " auto attacks " + target.name + " damaging it for " + damage/target.defenceMultiplier + " health");
+            AbilityManager.ManagerInstance.DamageCharacter(target, character.CalculateAutoAttack(target));
             ReachedEnd();
         }
 

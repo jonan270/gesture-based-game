@@ -127,7 +127,7 @@ public class Hexmap : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, int trapModifier, bool isCharActive)
+    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive)
     {
         map[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive);
     }
@@ -183,7 +183,7 @@ public class Hexmap : MonoBehaviour
     /// <param name="setEffect"></param>
     /// <param name="element"></param>
     /// <param name="healthMod"></param>
-    public void ChangeEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, int healthMod = 0) 
+    public void ChangeEffect(int x, int y, bool setEffect, ElementState element = ElementState.None, float healthMod = 0) 
     {
         if(CheckValid(x,y)) 
         {

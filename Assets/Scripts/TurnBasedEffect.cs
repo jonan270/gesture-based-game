@@ -4,54 +4,60 @@ using UnityEngine;
 
 public class TurnBasedEffect : MonoBehaviour
 {
-    public bool isActive = false;
-
-    public int healthMod;
-    public float maxHealthMod;
+    public float healthMod;
+    public float defMod;
     public float attackMod;
 
-    private int turnCount;
+    public int turnCount;
 
 
-    public void setTurnBased(Character character, int hMod, float aMod, float maxMod, int turns)
+    /// <summary>
+    /// Set the turn based effect onto character
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="hMod"></param>
+    /// <param name="aMod"></param>
+    /// <param name="dMod"></param>
+    /// <param name="turns"></param>
+    public void setTurnBased(Character character, float hMod, float aMod, float dMod, int turns)
     {
-        isActive = true;
+        //isActive = true;
         healthMod = hMod;
         attackMod = aMod;
-        maxHealthMod = maxMod;
+        defMod = dMod;
         turnCount = turns;
 
-        character.basicAttackValue *= (int)attackMod;
-        character.maxHealth *= maxHealthMod;
-        character.currentHealth *= maxHealthMod;
+        character.attackMultiplier *= attackMod;
+        character.defenceMultiplier *= defMod;
+        //character.currentHealth *= defMod;
+
         ApplyTurnBased(character); // Activate effect right away
     }
 
     public void ApplyTurnBased(Character character)
     {
-        if(isActive)
+        if (IsActive())
         {
-            if (turnCount > 0)
-            {
-                Debug.Log("Turn based effect doing turn based things on " + character.name);
-                Debug.Log("Current health: " + character.currentHealth + ", Max health: " + character.maxHealth);
-                character.ModifyHealth(healthMod);
-                turnCount--;
-            }
-            else
-            {
-                RemoveTurnBased(character);
-            }
+            Debug.Log("Turn based effect doing turn based things on " + character.name);
+            Debug.Log("Current health: " + character.currentHealth + ", Defensemultiplier: " + character.defenceMultiplier);
+            character.ModifyHealth(healthMod);
+            turnCount--;
         }
+        else
+            RemoveTurnBased(character);
+    }
+
+    public bool IsActive()
+    {
+        if (turnCount > 0)
+            return true;
+        else
+            return false;
     }
 
     private void RemoveTurnBased(Character character)
     {
-        character.basicAttackValue /= (int)attackMod;
-        character.currentHealth /= maxHealthMod;
-        isActive = false;
-        //healthMod = 0;
-        //attackMod = 1;
-        //maxHealthMod = 1;
+        character.attackValue /= attackMod;
+        character.currentHealth /= defMod;
     }
 }

@@ -20,4 +20,6 @@ MonoBehaviour:
   abilityElement: 0
   numberOfTurns: 0
   gestureType: 1
-  effectPrefab: {fileID: 0}
+  bonusPowerMultiplier: 5
+  effectPrefab: {fileID: 3623707158366433361, guid: 922714024a591834493b814b6e7af47a,
+    type: 3}

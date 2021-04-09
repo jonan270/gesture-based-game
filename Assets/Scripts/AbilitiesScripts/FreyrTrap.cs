@@ -23,7 +23,7 @@ public class FreyrTrap : AbilityData
         AbilityCompleted();
     }
 
-    private int CalculateBonusDamage(Hextile tile)
+    private float CalculateBonusDamage(Hextile tile)
     {
         if (tile.tileType == abilityElement)
             return -powerValue * 2;

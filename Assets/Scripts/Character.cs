@@ -24,7 +24,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <summary>
     /// Amount of damage this character does with a normal basic attack
     /// </summary>
-    public int BasicAttackValue { get; protected set; }
+    public float BasicAttackValue { get; protected set; }
     //public List<TurnBasedEffect> turnBasedEffects;
     public TurnBasedEffect turnBasedEffect;
     public string Name;
@@ -60,6 +60,9 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
     protected PhotonView photonView;
+    
+    public float attackMultiplier = 1f; // Decimalbaserade
+    public float defenceMultiplier = 1f;
 
     protected virtual void Start()
     {
@@ -83,11 +86,21 @@ public abstract class Character : MonoBehaviour, IPunObservable
         ActionCompleted
     }
 
-    public void AddTurnBasedEffect(int hMod, float aMod, float maxMod, int turns)
+
+    /// <summary>
+    /// Adds a turnbased effect on this character
+    /// </summary>
+    /// <param name="hMod">How health is effected each turn</param>
+    /// <param name="aMod">How much the characters attackvalue is multiplied by the effect</param>
+    /// <param name="dMod">How much the characters defence value is multiplied by the effect</param>
+    /// <param name="turns">How many turns is the effect active?</param>
+    public void AddTurnBasedEffect(float hMod, float aMod, float dMod, int turns)
     {
         //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
-        Debug.Log(turnBasedEffect);
-        turnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        //Debug.Log(turnBasedEffect);
+        TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
+        newEffect.setTurnBased(this, hMod, aMod, dMod, turns);
+        turnBasedEffects.Add(newEffect);
     }
 
     /// <summary>
@@ -100,27 +113,43 @@ public abstract class Character : MonoBehaviour, IPunObservable
     }
 
     /// <summary>
-    /// Compares attacking hero element vs the hero being attacked
+    /// Compares attacking hero element vs the hero being attacked, returns bonus damage if attacker is strong against target
     /// </summary>
-    /// <param name="enemyElement">Element of the enemy</param>
+    /// <param name="target">Character being attacked</param>
     /// <param name="baseDamage">Base damage of the ability / auto attack</param>
-    /// <param name="bonusDamage">How much extra damage is added</param>
+    /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied</param>
     /// <returns></returns>
-    public int CompareEnemyElement(ElementState enemyElement, int baseDamage, int bonusDamage)
+    public float CompareElement(Character target, float baseDamage, float bonusDamageMultiplier)
     {
-        if (enemyElement == StrongAgainst)
+        if (StrongAgainst == target.element)
         {
             Debug.Log("attack is strong against enemy character");
-            return baseDamage += bonusDamage;
-            
+            return baseDamage * (1 - bonusDamageMultiplier);
         }
-        //else if(enemyElement == WeakAgainst)
-        //{
-        //    Debug.Log("weak");
-        //    return baseDamage -= bonusDamage;
-        //}
-        return baseDamage;
+        return 0; //No bonus damage 
+    }    
+    /// <summary>
+    /// Compares attacking hero element vs the hero being attacked, returns bonus damage if attacker is strong against target
+    /// </summary>
+    /// <param name="tile">Tile to compare to</param>
+    /// <param name="baseDamage">Base damage of the ability / auto attack</param>
+    /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied</param>
+    public float CompateElement(Hextile tile, float baseDamage, float bonusDamageMultiplier) {
+        if(Element == tile.tileType)
+        {
+            Debug.Log("Attacker stands in a tile and recives bonus damage");
+            return baseDamage * (1 - bonusDamageMultiplier);
+        }
+        return 0;
     }
+
+    public float CalculateAutoAttack(Character enemy)
+    {
+        float damage = BasicAttackValue * attackMultiplier + CompareElement(CurrentTile, BasicAttackValue, 2f);
+        Debug.LogError(name + " auto attacks " + enemy.name + " damaging it for " + damage / enemy.defenceMultiplier + " health");
+        return damage;
+    }
+    
     /// <summary>
     /// Sets new state for the character
     /// </summary>
@@ -133,9 +162,14 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// Modifies health and updates the healthbar
     /// </summary>
     /// <param name="amount">Positive value heals and negative value deals damage</param>
-    public void ModifyHealth(int amount)
+    public void ModifyHealth(float amount)
     {
         currentHealth += amount;
+        if (amount < 0) //takes damage
+            currentHealth += amount / defenceMultiplier;
+        else //being healed
+            currentHealth += amount;
+
         if (currentHealth > maxHealth)
             currentHealth = maxHealth;
 
