@@ -14,7 +14,7 @@ public class BjornBerserk : AbilityData
         // Multiply attack by 2, divide health by 2, active for 3 turns
         //me.AddTurnBasedEffect(0, 2f, 0.5f, 3);
         AbilityManager.ManagerInstance.ActivateTurnBasedAbility(me, 0, 2f, 0.5f, 3);
-        AbilityManager.ManagerInstance.DamageCharacter(me.CurrentTile.tileIndex.x, me.CurrentTile.tileIndex.y);
+        //AbilityManager.ManagerInstance.DamageCharacter(me.CurrentTile.tileIndex.x, me.CurrentTile.tileIndex.y);
         //AbilityCompleted();
     }
 }

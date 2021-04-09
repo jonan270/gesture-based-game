@@ -43,14 +43,14 @@ public class AreaEffect : MonoBehaviour
     /// </summary>
     /// <param name="character"></param>
     /// <returns></returns>
-    public int ApplyEffect(Character character)
-    {
-        // TODO: Check for element types.
+    //public int ApplyEffect(Character character)
+    //{
+    //    // TODO: Check for element types.
 
-        // Check that health does not exceed maxhealth.
-        if (healthModifier + character.currentHealth > character.maxHealth)
-            return (int) character.maxHealth;
-        else
-            return healthModifier;
-    }
+    //    // Check that health does not exceed maxhealth.
+    //    //if (healthModifier + character.currentHealth > character.maxHealth)
+    //    //    return (int) character.maxHealth;
+    //    //else
+    //        return healthModifier;
+    //}
 }

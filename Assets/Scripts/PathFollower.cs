@@ -84,7 +84,7 @@ public class PathFollower : MonoBehaviour
             // Check for traps and effects
             if (character.CurrentTile.areaEffect.isActivated)
             {
-                character.ModifyHealth(character.CurrentTile.areaEffect.ApplyEffect(character));
+                character.ModifyHealth(character.CurrentTile.areaEffect.healthModifier);
                 var index = character.CurrentTile.tileIndex;
                 FindObjectOfType<Hexmap>().ChangeEffect(index.x, index.y, false);
             }
@@ -105,9 +105,9 @@ public class PathFollower : MonoBehaviour
         // If we encounter an enemy along the path, deal damage and stop
         else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
         {
-            Character target = PlayerManager.Instance.GetEnemyCharacterAt(path[index].tileIndex.x, path[index].tileIndex.y);
+            Character target = PlayerManager.Instance.GetCharacterAt(path[index].tileIndex.x, path[index].tileIndex.y);
             int bonusAttackDmg = 5;
-            int damage = character.CompareEnemyElement(target.Element, character.attackValue, bonusAttackDmg);
+            int damage = character.CompareEnemyElement(target.Element, character.BasicAttackValue, bonusAttackDmg);
             Debug.LogError(character.name + " auto attacks " + target.name + " damaging it for " + damage + " health");
             abilities.DamageCharacter(target, damage);
             ReachedEnd();

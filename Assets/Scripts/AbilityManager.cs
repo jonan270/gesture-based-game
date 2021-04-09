@@ -32,7 +32,11 @@ public class AbilityManager : MonoBehaviour
     [PunRPC]
     void RPC_AffectHealth(int x, int y, int amount)
     {
-        map.map[x, y].occupant.ModifyHealth(amount);
+        Character target = PlayerManager.Instance.GetCharacterAt(x, y);
+        //Debug.LogError("character " + map.map[x, y].occupant.name + " takes " + amount + " damage");
+        //map.map[x, y].occupant.ModifyHealth(amount);
+        Debug.LogError("character " + target.name + " takes " + amount + " damage");
+        target.ModifyHealth(amount);
     }
 
 
@@ -67,10 +71,6 @@ public class AbilityManager : MonoBehaviour
     {
         int x = target.CurrentTile.tileIndex.x;
         int y = target.CurrentTile.tileIndex.y;
-        //Character attacker = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
-        //Character target = map.hexTiles[x, y].occupant;
-        //int bonusAttackDmg = 5;
-        //int damage = attacker.CompareEnemyElement(target.Element, attacker.attackValue, bonusAttackDmg);
         photonView.RPC("RPC_AffectHealth", RpcTarget.Others, x, y, -damage);
     }
     public void DamageCharacter(int x, int y, ElementState attackerState)

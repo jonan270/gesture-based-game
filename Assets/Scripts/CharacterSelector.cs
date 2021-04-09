@@ -93,7 +93,7 @@ public class CharacterSelector : MonoBehaviour
                 GameObject obj = collider.transform.root.gameObject;
                 Character character = obj.GetComponent<Character>();
                 //we interacted with an available character and it is ours
-                if (obj != null && character != null  && character.canDoAction() && obj.GetComponent<PhotonView>().IsMine)
+                if (obj != null && character != null  && character.CanDoAction() && obj.GetComponent<PhotonView>().IsMine)
                 {
                     PickupCharacter(obj);
                 }

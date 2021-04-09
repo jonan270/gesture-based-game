@@ -21,7 +21,7 @@ public class TurnBasedEffect : MonoBehaviour
         maxHealthMod = maxMod;
         turnCount = turns;
 
-        character.attackValue *= (int)attackMod;
+        character.basicAttackValue *= (int)attackMod;
         character.maxHealth *= maxHealthMod;
         character.currentHealth *= maxHealthMod;
         ApplyTurnBased(character); // Activate effect right away
@@ -47,7 +47,7 @@ public class TurnBasedEffect : MonoBehaviour
 
     private void RemoveTurnBased(Character character)
     {
-        character.attackValue /= (int)attackMod;
+        character.basicAttackValue /= (int)attackMod;
         character.currentHealth /= maxHealthMod;
         isActive = false;
         //healthMod = 0;
