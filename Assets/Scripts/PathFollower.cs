@@ -95,20 +95,22 @@ public class PathFollower : MonoBehaviour
     /// Get the next point on the path
     /// </summary>
     private void GetNextPoint() {
+        
 
         // If we are at the end of the path stop movement
         if (index == path.Count)
         {
             ReachedEnd();
+            return;
         }
+        // Check next point against current.
+        CheckTileDefense(character.Element, character.CurrentTile, path[index]);
+
 
         // If we encounter an enemy along the path, deal damage and stop
-        else if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
+        if (path[index].isOccupied && !path[index].occupant) // If occupant is null it exists on the other players side
         {
             Character target = PlayerManager.Instance.GetEnemyCharacterAt(path[index].tileIndex.x, path[index].tileIndex.y);
-            //float bonusAttackDmg = 5; 
-            //float damage = character.CompareEnemyElement(target.CurrentTile.tileType, character.attackValue);
-            //Debug.LogError(character.name + " auto attacks " + target.name + " damaging it for " + damage/target.defenceMultiplier + " health");
             AbilityManager.ManagerInstance.DamageCharacter(target, character.CalculateAutoAttack(target));
             ReachedEnd();
         }
@@ -116,6 +118,7 @@ public class PathFollower : MonoBehaviour
         // Else move
         else
         {
+
             //Debug.Log("Is it occupied? " + path[index].isOccupied);
             startTarget = transform.position;
             pathTarget = path[index].Position;
@@ -127,9 +130,26 @@ public class PathFollower : MonoBehaviour
             map.SetOccupation(character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y, false, character); // Old tile is no longer occupied
             character.CurrentTile = path[index];
             map.SetOccupation(character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y, true, character); // New tile is occupied
-
             index++;
         }
+    }
+
+    private void CheckTileDefense(ElementState charElement, Hextile current, Hextile next)
+    {
+        //Debug.Log("Old tile: " + path[index - 1].tileType + "  " + character.Element + ", New tile: " + character.CurrentTile.tileType + "  " + character.Element);
+        // If oldtile was bad, new tile is good, add bonus
+        if (current.tileType != charElement && next.tileType == charElement)
+        {
+            Debug.Log(character.name + " is in its prefered element.");
+            // + CalculateElement() .. 
+        }
+        // If oldtile was good, new tile is not, remove bonus
+        else if (current.tileType == charElement && next.tileType != charElement)
+        {
+            Debug.Log(character.name + " is no longer in its prefered element.");
+            // - CalculateElement() ..
+        }
+        // If same tiletype, do nothing.
     }
 
     /// <summary>
