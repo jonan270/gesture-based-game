@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
@@ -9,7 +8,7 @@ using Photon.Pun;
  * functions for modifying that specific tile
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-public class Hextile : MonoBehaviourPun
+public class Hextile : MonoBehaviour
 {
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * 
@@ -42,8 +41,7 @@ public class Hextile : MonoBehaviourPun
     /// trap prefab to use
     /// </summary>
     public GameObject trapPrefab;
-
-
+    
     /// <summary>
     /// Should the tile be rotating
     /// </summary>
@@ -58,6 +56,7 @@ public class Hextile : MonoBehaviourPun
     [SerializeField] private Material matdessert;
     [SerializeField] private Material matwater;
     [SerializeField] private Material matwoods;
+    [SerializeField] private Material highlight;
 
     [Header("Type Graphics")]
     [SerializeField] private GameObject tile;
@@ -66,6 +65,8 @@ public class Hextile : MonoBehaviourPun
     [SerializeField] private GameObject water;
     [SerializeField] private GameObject grass;
 
+    private bool selected = false;
+    private Material previousMaterial;
     /// <summary>
     /// index [x,y] of this tile in the map
     /// </summary>
@@ -82,6 +83,46 @@ public class Hextile : MonoBehaviourPun
     {
         if (spin)
             rotateHex();
+    }
+
+    public void OnSelectedTile(Hextile newtile = null)
+    {
+        if (selected)
+            return;
+
+        previousMaterial = tile.GetComponent<MeshRenderer>().material;
+        tile.GetComponent<MeshRenderer>().material = highlight;
+        FindObjectOfType<GameRound>().OnActionTaken.AddListener(DeselectTile);
+
+
+        if (tileType == ElementState.Water)
+            water.SetActive(false);
+
+        selected = true;
+    }
+
+    public void DeselectTile()
+    {
+        tile.GetComponent<MeshRenderer>().material = getMaterial(tileType);
+
+        if (tileType == ElementState.Water)
+            water.SetActive(true);
+        selected = false;
+        FindObjectOfType<GameRound>().OnActionTaken.RemoveListener(DeselectTile);
+    }
+
+    private Material getMaterial(ElementState state)
+    {
+        if (state == ElementState.Wind)
+            return matgrass;
+        else if (state == ElementState.Fire)
+            return matdessert;
+        else if (state == ElementState.Water)
+            return matwater;
+        else if (state == ElementState.Earth)
+            return matwoods;
+        else
+            return matgrass;
     }
 
     /// <summary>

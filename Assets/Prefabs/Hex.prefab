@@ -74,6 +74,7 @@ MonoBehaviour:
   matdessert: {fileID: 2100000, guid: d95b6b4505a19bb49bd9e425b09c76ad, type: 2}
   matwater: {fileID: 2100000, guid: 6d298a106917afb4ead311d9ec87a627, type: 2}
   matwoods: {fileID: 2100000, guid: 0d8f4f3dedfced941b5eaf7ff2b15a15, type: 2}
+  highlight: {fileID: 2100000, guid: 4789ab79e4bae7549b1a3f5ef2d09bec, type: 2}
   tile: {fileID: 6500502421328710784}
   forest: {fileID: 3891669443144831739}
   desert: {fileID: 7229900117214556373}
@@ -549,6 +550,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: trap
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b3504f88c6f903e4d9fdeab21a257cc8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3870028601608863054, guid: b3504f88c6f903e4d9fdeab21a257cc8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -756,11 +762,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d95b6b4505a19bb49bd9e425b09c76ad, type: 2}
+    - target: {fileID: 5201435390226485010, guid: 9024fb434e646cb4aa42ec1740ff4df6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6841003676236821729, guid: 9024fb434e646cb4aa42ec1740ff4df6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0d8f4f3dedfced941b5eaf7ff2b15a15, type: 2}
+    - target: {fileID: 7664350322595879513, guid: 9024fb434e646cb4aa42ec1740ff4df6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7773140421187758894, guid: 9024fb434e646cb4aa42ec1740ff4df6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8424073627695423409, guid: 9024fb434e646cb4aa42ec1740ff4df6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

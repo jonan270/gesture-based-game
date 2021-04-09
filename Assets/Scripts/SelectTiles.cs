@@ -61,6 +61,7 @@ public class SelectTiles : MonoBehaviour
             {
                 tilesSelected.Add(currentObject);
                 pathCreator.AddTile(currentObject);
+                currentObject.OnSelectedTile();
             }
             //Add a check if the hex is adjacent to the last hex here.
             //hit.collider.enabled = false; //This solution is terrible, fix something else

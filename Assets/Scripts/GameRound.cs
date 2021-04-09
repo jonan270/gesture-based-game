@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using UnityEngine.Events;
 /*
  Controls the game flow in one round
  */
@@ -11,6 +11,8 @@ public class GameRound : MonoBehaviourPun
     private int turnCounter = -1;
 
     private bool myTurn = true;
+
+    public UnityEvent OnActionTaken;
 
     private void Start()
     {
@@ -43,8 +45,9 @@ public class GameRound : MonoBehaviourPun
     /// <summary>
     /// After an action has completed sets the player to idle and check if the player can do any other moves otherwise end turn
     /// </summary>
-    public void OnActionTaken()
+    public void ActionTaken()
     {
+        OnActionTaken.Invoke();
         PlayerManager.Instance.selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.ActionCompleted); //TODO change to a function call instead 
         PlayerManager.Instance.selectedCharacter = null;
         PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
