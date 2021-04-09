@@ -39,6 +39,6 @@ public class Heal : AbilityData
         if (target.CurrentTile.tileType == abilityElement)
             bonus = bonusPowerMultiplier;
 
-        return powerValue * (1-bonus);
+        return powerValue * (bonus - 1);
     }
 }

@@ -106,6 +106,8 @@ public class PlayerManager : MonoBehaviour
                 Hextile tile = obj.GetComponent<Hextile>();
                 if (tile != null) //if we find a tile
                 {
+                    tile.OnSelectedTile();
+                    
                     arrow.SetActive(true);
                     arrow.transform.position = obj.transform.position + new Vector3(0, 0.5f, 0); //TODO: add material to tile currently hover over
                     if (Input.GetMouseButtonDown(0)) //when the player presses left mouse btn invoke function
@@ -124,7 +126,6 @@ public class PlayerManager : MonoBehaviour
                 arrow.SetActive(false);
             }
         }
-
     }
 
     /// <summary>

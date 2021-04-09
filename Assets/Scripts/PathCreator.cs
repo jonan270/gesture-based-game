@@ -69,6 +69,7 @@ public class PathCreator : MonoBehaviour
     /// <param name="obj"></param>
     public void OnReachedEnd(GameObject obj)
     {
+        Debug.Log(obj.name + " recieved path complete");
         isBusy = false;
         pathdrawer.ClearPath();
         actionTaken.Invoke();
