@@ -5,34 +5,46 @@ using UnityEngine;
 public class TurnBasedEffect : MonoBehaviour
 {
     public float healthMod;
-    public float maxHealthMod;
+    public float defMod;
     public float attackMod;
 
     public int turnCount;
 
 
-    public void setTurnBased(Character character, float hMod, float aMod, float maxMod, int turns)
+    /// <summary>
+    /// Set the turn based effect onto character
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="hMod"></param>
+    /// <param name="aMod"></param>
+    /// <param name="dMod"></param>
+    /// <param name="turns"></param>
+    public void setTurnBased(Character character, float hMod, float aMod, float dMod, int turns)
     {
         //isActive = true;
         healthMod = hMod;
         attackMod = aMod;
-        maxHealthMod = maxMod;
+        defMod = dMod;
         turnCount = turns;
 
-        character.attackValue *= (int)attackMod;
-        character.maxHealth *= maxHealthMod;
-        character.currentHealth *= maxHealthMod;
+        character.attackMultiplier *= attackMod;
+        character.defenceMultiplier *= defMod;
+        //character.currentHealth *= defMod;
 
         ApplyTurnBased(character); // Activate effect right away
     }
 
     public void ApplyTurnBased(Character character)
     {
-
-        Debug.Log("Turn based effect doing turn based things on " + character.name);
-        Debug.Log("Current health: " + character.currentHealth + ", Max health: " + character.maxHealth);
-        character.ModifyHealth(healthMod);
-        turnCount--;
+        if (IsActive())
+        {
+            Debug.Log("Turn based effect doing turn based things on " + character.name);
+            Debug.Log("Current health: " + character.currentHealth + ", Defensemultiplier: " + character.defenceMultiplier);
+            character.ModifyHealth(healthMod);
+            turnCount--;
+        }
+        else
+            RemoveTurnBased(character);
     }
 
     public bool IsActive()
@@ -45,11 +57,7 @@ public class TurnBasedEffect : MonoBehaviour
 
     private void RemoveTurnBased(Character character)
     {
-        character.attackValue /= (int)attackMod;
-        character.currentHealth /= maxHealthMod;
-        
-        //healthMod = 0;
-        //attackMod = 1;
-        //maxHealthMod = 1;
+        character.attackValue /= attackMod;
+        character.currentHealth /= defMod;
     }
 }

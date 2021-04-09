@@ -18,7 +18,10 @@ public class Fireball : AbilityData
     /// <param name="target"></param>
     private void OnSelectedCharacter(Character target)
     {
-        float damage = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().CompareEnemyElement(target.Element, powerValue, bonusPowerMultiplier);
+        //float damage = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().CompareEnemyElement(target.Element, powerValue, bonusPowerMultiplier);
+        Character me = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+        float damage = powerValue * me.CompareEnemyElement(target.Element, me.Element);
+
         Debug.Log("Cast a fireball at " + target.name + " damaging it for " + damage + " health");
         //target.ModifyHealth(damage);
         AbilityManager.ManagerInstance.DamageCharacter(target, damage);

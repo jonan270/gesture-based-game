@@ -94,7 +94,7 @@ public class Hextile : MonoBehaviourPun
     /// <param name="isCharActive">new state</param>
     public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive)
     {
-        if(tileType != tileElement)
+        if (tileType != tileElement)
         {
             makeType(tileElement);
         }
@@ -195,7 +195,9 @@ public class Hextile : MonoBehaviourPun
     /// <param name="type">type of element to set this tile to</param>
     public void makeType(ElementState type)
     {
-        switch(type)
+        if(type != tileType)
+            spinTile();
+        switch (type)
         {
             case ElementState.Wind:
                 {
@@ -237,7 +239,6 @@ public class Hextile : MonoBehaviourPun
                     break;
                 }
         }
-        spinTile();
     }
 
     /// <summary>

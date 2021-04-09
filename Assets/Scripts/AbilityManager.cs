@@ -6,6 +6,7 @@ using Photon.Pun;
 public class AbilityManager : MonoBehaviour
 {
     public static AbilityManager ManagerInstance { get; private set; }
+    public List<Vector2Int> turnBasedEffectedCharIndex; // Tile index for each character effected by a turnbased effect.
     private Hexmap map;
 
 
@@ -49,18 +50,43 @@ public class AbilityManager : MonoBehaviour
     }
 
     /// <summary>
+    /// kallas på när en ny runda har börjat
+    /// </summary>
+    public void ApplyTurnBasedEffects()
+    {
+        //loopar igenom listan av affected characters
+        
+        //alla karaktärer som tillhör sig själv 
+        //applicera effekten igen 
+        //tex. modify health eller w/e
+    }
+    
+    
+    
+    
+    
+    
+    /// <summary>
     /// See ActivateTurnBasedAbility()
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="hMod"></param>
     /// <param name="aMod"></param>
-    /// <param name="maxMod"></param>
+    /// <param name="dMod"></param>
     /// <param name="turns"></param>
     [PunRPC]
-    void RPC_SetTurnBased(int x, int y, float hMod, float aMod, float maxMod, int turns)
+    void RPC_SetTurnBased(int x, int y, float hMod, float aMod, float dMod, int turns)
     {
-        map.map[x, y].occupant.AddTurnBasedEffect(hMod, aMod, maxMod, turns);
+        Character target;
+        if(map.map[x,y].occupant)
+            target = map.map[x, y].occupant;
+        else
+            target = PlayerManager.Instance.GetEnemyCharacterAt(x, y);
+
+        Debug.Log("Setting on " + target.name);
+        turnBasedEffectedCharIndex.Add(new Vector2Int(x, y)); // Add to list of effected characters
+        target.AddTurnBasedEffect(hMod, aMod, dMod, turns);
     }
 
     /// <summary>
@@ -72,18 +98,16 @@ public class AbilityManager : MonoBehaviour
     /// <param name="character"></param>
     /// <param name="hMod"></param>
     /// <param name="aMod"></param>
-    /// <param name="maxMod"></param>
+    /// <param name="dMod"></param>
     /// <param name="turns"></param>
-    public void ActivateTurnBasedAbility(Character character, int hMod, float aMod, float maxMod, int turns)
+    public void ActivateTurnBasedAbility(Character character, float hMod, float aMod, float dMod, int turns)
     {
-        //Debug.Log(character.CurrentTile.tileIndex.x + character.CurrentTile.tileIndex.y + hMod + aMod + maxMod + turns);
-        //GetComponent<PhotonView>().RPC("RPC_test", RpcTarget.All);
-
+        Debug.Log("Activating turnbased ability on " + character.name + " for " + turns + " turns");
         //GetComponent<PhotonView>().RPC("RPC_DamageCharacter", RpcTarget.All, character.CurrentTile.tileIndex.x,
         //    character.CurrentTile.tileIndex.x, 20);
 
         photonView.RPC("RPC_SetTurnBased", RpcTarget.All, character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y,
-            hMod, aMod, maxMod, turns);
+            hMod, aMod, dMod, turns);
     }
 
     /// <summary>
@@ -114,13 +138,13 @@ public class AbilityManager : MonoBehaviour
         //int damage = attacker.CompareEnemyElement(target.Element, attacker.attackValue, bonusAttackDmg);
         photonView.RPC("RPC_AffectHealth", RpcTarget.Others, x, y, -damage);
     }
-    public void DamageCharacter(int x, int y, ElementState attackerState)
+    public void DamageCharacter(int x, int y, float damage)
     {
         //Character attacker = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
         //Character target = map.hexTiles[x, y].occupant;
         //int bonusAttackDmg = 5;
         //int damage = attacker.CompareEnemyElement(target.Element, attacker.attackValue, bonusAttackDmg);
-        photonView.RPC("RPC_AffectHealth", RpcTarget.Others, x, y, 0);
+        photonView.RPC("RPC_AffectHealth", RpcTarget.Others, x, y, -damage);
     }
 
 

@@ -23,7 +23,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     //[SerializeField]
     public float maxHealth = 100;
 
-    public int attackValue;
+    public float attackValue;
     public List<TurnBasedEffect> turnBasedEffects;
     //public TurnBasedEffect turnBasedEffect;
     public string Name;
@@ -73,12 +73,20 @@ public abstract class Character : MonoBehaviour, IPunObservable
         ActionCompleted
     }
 
-    public void AddTurnBasedEffect(float hMod, float aMod, float maxMod, int turns)
+
+    /// <summary>
+    /// Adds a turnbased effect on this character
+    /// </summary>
+    /// <param name="hMod">How health is effected each turn</param>
+    /// <param name="aMod">How much the characters attackvalue is multiplied by the effect</param>
+    /// <param name="dMod">How much the characters defence value is multiplied by the effect</param>
+    /// <param name="turns">How many turns is the effect active?</param>
+    public void AddTurnBasedEffect(float hMod, float aMod, float dMod, int turns)
     {
         //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
         //Debug.Log(turnBasedEffect);
         TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
-        newEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        newEffect.setTurnBased(this, hMod, aMod, dMod, turns);
         turnBasedEffects.Add(newEffect);
     }
 
@@ -94,21 +102,33 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <param name="baseDamage">Base damage of the ability / auto attack</param>
     /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied, default value is 1</param>
     /// <returns></returns>
-    public float CompareEnemyElement(ElementState enemyElement, float baseDamage, float bonusDamageMultiplier = 1f)
+    public float CompareEnemyElement(ElementState enemyElement, ElementState friendlyElement, float bonusDamageMultiplier = 1f)
     {
-        if (enemyElement == StrongAgainst)
+        float multiplier = 1f;
+        if (Element == friendlyElement)
         {
             Debug.Log("attack is strong against enemy character");
+            multiplier *= 2;
             // Basedamage
-            return baseDamage *= bonusDamageMultiplier * attackMultiplier;
-            
+            //return baseDamage *= bonusDamageMultiplier * attackMultiplier;
+
         }
+        return multiplier;
+        //if (enemyElement == StrongAgainst && Element == friendlyElement)
+
         //else if(enemyElement == WeakAgainst)
         //{
         //    Debug.Log("weak");
         //    return baseDamage -= bonusDamage;
         //}
-        return baseDamage * attackMultiplier;
+        //return baseDamage * attackMultiplier;
+    }
+
+    public float CalculateAutoAttack(Character enemy)
+    {
+        float damage = attackValue * attackMultiplier * CompareEnemyElement(enemy.Element, CurrentTile.tileType);
+        Debug.LogError(name + " auto attacks " + enemy.name + " damaging it for " + damage / enemy.defenceMultiplier + " health");
+        return damage;
     }
 
     public void SetState(CharacterState state) {
