@@ -14,7 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Wilma_sprint_2.unity
     guid: aa1b4173d9a101e4faa8136340390011
-  - enabled: 0
+  - enabled: 1
+    path: Assets/AnimationScene.unity
+    guid: 5970026bb06e82c43953baa5ff89a5f3
+  - enabled: 1
     path: Assets/Andreas_sprint_2.unity
     guid: e09f46be886d7a74aba6c122560e4dd6
   - enabled: 0
@@ -23,7 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EnemyInteractions.unity
     guid: fd2a59c428f3126418d777106ad997da
-  - enabled: 1
+  - enabled: 0
     path: Assets/Wilma_Sprint_3.unity
     guid: 9cd3a8b163d237c40bff5f6b7117e6aa
   m_configObjects:
