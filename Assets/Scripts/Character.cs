@@ -128,7 +128,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         if (StrongAgainst == target.Element)
         {
             Debug.Log("attack is strong against enemy character");
-            return baseDamage * (1 - bonusDamageMultiplier);
+            return baseDamage * (bonusDamageMultiplier - 1);
         }
         return 0; //No bonus damage 
     }
@@ -143,7 +143,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         if (Element == tile.tileType)
         {
             Debug.Log("Attacker stands in a tile and recives bonus damage");
-            return baseDamage * (1 - bonusDamageMultiplier);
+            return baseDamage * (bonusDamageMultiplier - 1);
         }
         return 0;
     }
@@ -213,6 +213,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             //Own player: send data to 
             stream.SendNext(currentHealth); //health
+            stream.SendNext(defenceMultiplier);
             //current tile index
             stream.SendNext(CurrentTile.tileIndex.x);
             stream.SendNext(CurrentTile.tileIndex.y);
@@ -221,6 +222,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             //Network player, receive data
             currentHealth = (float)stream.ReceiveNext(); //health
+            defenceMultiplier = (float)stream.ReceiveNext(); // Defence multiplier
             ModifyHealth(0); //updates healthbar 
             //current tile index
             int x = (int)stream.ReceiveNext();
