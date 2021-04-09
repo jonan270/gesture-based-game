@@ -76,7 +76,7 @@ public class CharacterControl : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && hilda != null)
         {
-        //hilda.GetComponent<Hilda>().ModifyHealth(-70);
+            hilda.GetComponent<Hilda>().ModifyHealth(-70);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -86,7 +86,7 @@ public class CharacterControl : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                hand.GetComponent<HandCards>().activateCard(GestureType.circle);
+                //hand.GetComponent<HandCards>().activateCard(GestureType.circle);
             }
         }
 

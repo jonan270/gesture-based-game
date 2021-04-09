@@ -18,10 +18,10 @@ public class CharacterAniController : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown("1"))
+       /* if (Input.GetKeyDown("1"))
         {
             anim.Play("Die");
-        }
+        }*/
         /*
         if(Input.GetKeyDown("1"))
         {
@@ -38,5 +38,10 @@ public class CharacterAniController : MonoBehaviour
             anim.Play("Armature_H|NarutoRun_Hilda");
         }
         */
+    }
+
+    public void DieAnimation()
+    {
+
     }
 }

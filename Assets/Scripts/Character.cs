@@ -15,6 +15,8 @@ public enum ElementState
 
 public abstract class Character : MonoBehaviour, IPunObservable
 {
+    public Animator anim;
+
     public HealthBar healthBar;
     public Hextile CurrentTile { get; set; }
 
@@ -56,6 +58,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         currentHealth = maxHealth;
         isAlive = true;
+        anim = GetComponent<Animator>();
         //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
     }
 
@@ -149,10 +152,22 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// </summary>
     private void Die()
     {
-        Debug.Log(gameObject.name + " is now dead");
-        isAlive = false;
-        deathEvent.Invoke();
+        StartCoroutine(waiter());
         // Sätta en key? Allmän animations Key??
+
+    }
+
+    IEnumerator waiter()
+    {
+
+        Debug.Log(gameObject.name + " is now dead");
+        anim.Play("Die");
+
+        yield return new WaitForSeconds(4);
+
+        isAlive = false;
+
+        deathEvent.Invoke();
 
     }
 
