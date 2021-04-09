@@ -10,7 +10,7 @@ public class HandCards : MonoBehaviour
     [SerializeField]
     List<GameObject> cardPrefabs = new List<GameObject>();
 
-    private static int maxCardsOnHand = 5;
+    private static int maxCardsOnHand = 4;
 
     public Vector3 startingPosition = new Vector3( 18f, 0f, 3f );
 
@@ -39,7 +39,7 @@ public class HandCards : MonoBehaviour
 
         int prefabIndex = UnityEngine.Random.Range(0, 3);
 
-        GameObject ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.Euler(0f, 0f, 0f)); // Lerp?
+        GameObject ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.Euler(90f, 0f, 0f)); // Lerp?
 
         ob.transform.parent = this.transform;
 
@@ -53,7 +53,7 @@ public class HandCards : MonoBehaviour
     {
         int size = PlayerManager.Instance.CountCharacters();
 
-        if (size > cardsOnHand.Count) //We have more characters than cards on field => add more cards to hand
+        if (cardsOnHand.Count < maxCardsOnHand && size > cardsOnHand.Count)
         {
 
             cardsOnHand.Add(GenerateNewCard(startingPosition));
@@ -83,15 +83,20 @@ public class HandCards : MonoBehaviour
         counter += Time.deltaTime;
         //Move cards to the left hand side
 
-        Vector3[] cardEndPositions = new Vector3[3];
+        Vector3[] cardEndPositions = new Vector3[5];
 
-        /*cardEndPositions[0] = new Vector3(5f, 0f, -3f);
+        /*cardEndPositions[0] = new Vector3(5f, 0f, -3f); // Cards on the ground
         cardEndPositions[1] = new Vector3(10f, 0f, -3f);
         cardEndPositions[2] = new Vector3(17f, 0f, -3f);*/
 
-        cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.2f, 6.5f));
-        cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.5f, 6.5f));
-        cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.8f, 6.5f));
+        cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.1f, 4f)); //Cards on the screen, follows the camera
+        cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.35f, 4f));
+        cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.6f, 4f));
+        cardEndPositions[3] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.85f, 4f));
+
+        /*cardEndPositions[0] = new Vector3(2f, 3.3f, -2f); //Cards on the screen, stays on one spot
+        cardEndPositions[1] = new Vector3(2f, 5.9f, -1.5f);
+        cardEndPositions[2] = new Vector3(2f, 7.9f, -1f);*/
 
         for (int i = 0; i < cardsOnHand.Count; i++)
         {
