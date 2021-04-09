@@ -5,6 +5,7 @@ using UnityEngine;
 // Testar att trigga dödsanimationen på hilda...
 public class CharacterAniController : MonoBehaviour
 {
+    //public animationKey;
     public Animator anim; 
 
     // Start is called before the first frame update
@@ -16,6 +17,12 @@ public class CharacterAniController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown("1"))
+        {
+            anim.Play("Die");
+        }
+        /*
         if(Input.GetKeyDown("1"))
         {
             anim.Play("Armature_H|Die_Hilda");
@@ -30,5 +37,6 @@ public class CharacterAniController : MonoBehaviour
         {
             anim.Play("Armature_H|NarutoRun_Hilda");
         }
+        */
     }
 }

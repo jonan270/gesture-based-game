@@ -196,6 +196,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 505768376, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -233,6 +237,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 410460279390455026, guid: c92dc016d669f3e4caf4b3456d00bc8f,
         type: 3}
+    - target: {fileID: 5880822471299760721, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9064357652239677604, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: m_RootOrder
@@ -337,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcf52a2cf673c44bbbb7a68ae00d14c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 0}
 --- !u!1001 &501642202
 PrefabInstance:
   m_ObjectHideFlags: 0

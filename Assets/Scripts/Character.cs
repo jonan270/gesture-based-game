@@ -152,6 +152,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         Debug.Log(gameObject.name + " is now dead");
         isAlive = false;
         deathEvent.Invoke();
+        // Sätta en key? Allmän animations Key??
 
     }
 
