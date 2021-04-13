@@ -141,11 +141,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
-      propertyPath: actionTaken.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ActionTaken
-      objectReference: {fileID: 0}
-    - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
       propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1821828241}

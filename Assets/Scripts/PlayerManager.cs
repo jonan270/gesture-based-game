@@ -81,15 +81,19 @@ public class PlayerManager : MonoBehaviour
                 {
                     arrow.SetActive(true);
                     arrow.transform.position = obj.transform.position + new Vector3(0, 2.5f, 0);
+                    obj.GetComponent<Outline>().enabled = true;
                     if (Input.GetMouseButtonDown(0)) //when the player presses left mouse btn invoke function
                     {
                         arrow.SetActive(false);
+                        DeselectCharacters();
                         characterTargetHandler.Invoke(obj.GetComponent<Character>());
                     }
                 }
                 else
                 {
                     arrow.SetActive(false);
+                    DeselectCharacters();
+
                 }
             }
         }
@@ -307,5 +311,15 @@ public class PlayerManager : MonoBehaviour
             }
         }
         Debug.LogError("Updating enemy list, there are now  " + enemyCharacters.Count + " enemies in the scene");
+    }
+    
+    private void DeselectCharacters()
+    {
+        var allcharacters = FindObjectsOfType<Character>();
+
+        foreach (var character in allcharacters)
+        {
+            character.GetComponent<Outline>().enabled = false;
+        }
     }
 }
