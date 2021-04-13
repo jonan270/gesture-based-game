@@ -93,6 +93,7 @@ public class Hextile : MonoBehaviour
         previousMaterial = tile.GetComponent<MeshRenderer>().material;
         tile.GetComponent<MeshRenderer>().material = highlight;
         FindObjectOfType<GameRound>().OnActionTaken.AddListener(DeselectTile);
+        GetComponent<Outline>().enabled = true;
 
 
         if (tileType == ElementState.Water)
@@ -108,6 +109,7 @@ public class Hextile : MonoBehaviour
         if (tileType == ElementState.Water)
             water.SetActive(true);
         selected = false;
+        GetComponent<Outline>().enabled = false;
         FindObjectOfType<GameRound>().OnActionTaken.RemoveListener(DeselectTile);
     }
 
