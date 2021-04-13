@@ -27,8 +27,13 @@ public class GameRound : MonoBehaviourPun
         if (myTurn)
         {
             PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
+            FindObjectOfType<TurnInfo>().OnMyTurn();
             //Gems are given
             //Draw new cards
+        }
+        else
+        {
+            FindObjectOfType<TurnInfo>().OpponentsTurn();
         }
 
         Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
