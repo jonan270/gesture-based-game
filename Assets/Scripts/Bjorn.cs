@@ -31,5 +31,11 @@ public class Bjorn : Character
     {
         IsAlive = status;
     }
+
+    //public void BerserkShow(bool show)
+    //{
+    //    GameObject effect = GameObject.Find("BerserkSkull");
+    //    effect.SetActive(show);
+    //}
 }
 

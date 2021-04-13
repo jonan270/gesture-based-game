@@ -154,7 +154,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public float CalculateAutoAttack(Character enemy)
     {
         float damage = BasicAttackValue * attackMultiplier + CompareElement(CurrentTile, BasicAttackValue, 2f);
-        Debug.LogError(name + " auto attacks " + enemy.name + " damaging it for " + damage / enemy.defenceMultiplier + " health");
+        //Debug.LogError(name + " auto attacks " + enemy.name + " damaging it for " + damage / enemy.defenceMultiplier + " health");
         return damage;
     }
     
@@ -171,9 +171,14 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// </summary>
     /// <param name="amount">Positive value heals and negative value deals damage</param>
     public void ModifyHealth(float amount)
-    {
-        if (amount < 0) //takes damage
+    {   
+        // Takes damage
+        if (amount < 0)
+        {
+            Debug.Log(name + " takes " + amount / defenceMultiplier + " amount of damage");
             currentHealth += amount / defenceMultiplier;
+        }
+
         else //being healed
             currentHealth += amount;
 

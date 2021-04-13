@@ -52,6 +52,16 @@ public abstract class AbilityData : ScriptableObject
     public GameObject effectPrefab; //Would be used for animate/effect for ability
 
     /// <summary>
+    /// Is the ability turnbased?
+    /// </summary>
+    public bool isTurnbased = false;
+
+    /// <summary>
+    /// Instantiated prefab to use as visual effect
+    /// </summary>
+    private GameObject visualEffect;
+
+    /// <summary>
     /// Wrapper function for all abilities, logic is implemented in subclass
     /// </summary>
     public abstract void ActivateAbility();
@@ -70,6 +80,25 @@ public abstract class AbilityData : ScriptableObject
         //notify gameround that an action has been completed
         var gameRound = FindObjectOfType<GameRound>();
         gameRound.ActionTaken();
+    }
+
+    public void visualizeAbility(bool show)
+    {
+        Character abilityUser = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+        Transform parent = abilityUser.transform;
+        if(visualEffect != null && !show)
+        {
+            Destroy(visualEffect);
+        }
+        else
+        {
+            visualEffect = Instantiate(effectPrefab, parent.position, Quaternion.identity);
+            visualEffect.transform.localScale = parent.localScale;
+
+            visualEffect.transform.SetParent(parent, true);
+            visualEffect.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+
     }
 }
 

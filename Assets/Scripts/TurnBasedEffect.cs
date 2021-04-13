@@ -33,6 +33,10 @@ public class TurnBasedEffect : MonoBehaviour
         ApplyTurnBased(character); // Activate effect right away
     }
 
+    /// <summary>
+    /// Apply the turnbased effect on a character
+    /// </summary>
+    /// <param name="character">character to apply effect on</param>
     public void ApplyTurnBased(Character character)
     {
         if (IsActive())
@@ -46,6 +50,10 @@ public class TurnBasedEffect : MonoBehaviour
             RemoveTurnBased(character);
     }
 
+    /// <summary>
+    /// Check if this effect should be active
+    /// </summary>
+    /// <returns></returns>
     public bool IsActive()
     {
         if (turnCount > 0)
@@ -54,9 +62,21 @@ public class TurnBasedEffect : MonoBehaviour
             return false;
     }
 
+    /// <summary>
+    /// Remove this turnbased effect. TODO: Maybe rework to remove a specific turnbased ability? Works for now.
+    /// </summary>
+    /// <param name="character"> character to remove turnbased effect from </param>
     private void RemoveTurnBased(Character character)
     {
         character.attackMultiplier /= attackMod;
         character.defenceMultiplier /= defMod;
+        foreach(var ability in character.ListAbilityData)
+        {
+            if(ability.isTurnbased)
+            {
+                ability.visualizeAbility(false);
+                break; // Break after first found
+            }
+        }
     }
 }

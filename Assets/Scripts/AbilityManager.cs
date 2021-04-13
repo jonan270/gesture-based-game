@@ -6,7 +6,7 @@ using Photon.Pun;
 public class AbilityManager : MonoBehaviour
 {
     public static AbilityManager ManagerInstance { get; private set; }
-    public List<Vector2Int> turnBasedEffectedCharIndex; // Tile index for each character effected by a turnbased effect.
+    public List<Character> turnBasedEffected; // characters effected by a turnbased effect.
     private Hexmap map;
 
 
@@ -65,11 +65,6 @@ public class AbilityManager : MonoBehaviour
         //tex. modify health eller w/e
     }
     
-    
-    
-    
-    
-    
     /// <summary>
     /// See ActivateTurnBasedAbility()
     /// </summary>
@@ -85,7 +80,7 @@ public class AbilityManager : MonoBehaviour
         Character target = PlayerManager.Instance.GetCharacterAt(x, y);
 
         Debug.Log("Setting on " + target.name);
-        turnBasedEffectedCharIndex.Add(new Vector2Int(x, y)); // Add to list of effected characters
+        turnBasedEffected.Add(target); // Add to list of effected characters
         target.AddTurnBasedEffect(hMod, aMod, dMod, turns);
     }
 
