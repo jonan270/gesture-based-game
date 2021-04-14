@@ -81,7 +81,12 @@ public abstract class Character : MonoBehaviour, IPunObservable
         photonView = GetComponent<PhotonView>();
         if(photonView == null)
             Debug.LogError("MISSING PHOTONVIEW COMPONENT");
-        
+
+        if(photonView.IsMine)
+        {
+            GetComponentInChildren<Light>().enabled = true;
+        }
+
     }
 
     public enum CharacterState
@@ -164,6 +169,15 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <param name="state">new state</param>
     public void SetState(CharacterState state) {
         CurrentState = state;
+
+        if(CurrentState == CharacterState.CanDoAction)
+        {
+            GetComponentInChildren<Light>().enabled = true;
+        }
+        else if (CurrentState == CharacterState.ActionCompleted)
+        {
+            GetComponentInChildren<Light>().enabled = false;
+        }
     }
 
     /// <summary>
