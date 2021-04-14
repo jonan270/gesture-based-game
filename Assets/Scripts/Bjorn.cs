@@ -16,6 +16,7 @@ public class Bjorn : Character
         WeakAgainst = ElementState.Wind;
         Name = "Bjorn";
         BasicAttackValue = 20;
+        //activeEffect = ListAbilityData[0].effectPrefab;
         //MaterialType = Resources.Load("Materials/waterMat.mat", typeof(Material)) as Material;
         /*descriptionTextCard1 = "Bjorn will go berserk";
         descriptionTextCard2 = "Björn will drink mead and ...";

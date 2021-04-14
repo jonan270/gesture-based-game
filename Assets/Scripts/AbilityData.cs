@@ -59,7 +59,7 @@ public abstract class AbilityData : ScriptableObject
     /// <summary>
     /// Instantiated prefab to use as visual effect
     /// </summary>
-    private GameObject visualEffect;
+    //private GameObject visualEffect;
 
     /// <summary>
     /// Wrapper function for all abilities, logic is implemented in subclass
@@ -82,24 +82,24 @@ public abstract class AbilityData : ScriptableObject
         gameRound.ActionTaken();
     }
 
-    public void visualizeAbility(bool show)
-    {
-        Character abilityUser = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
-        Transform parent = abilityUser.transform;
-        if(visualEffect != null && !show)
-        {
-            Destroy(visualEffect);
-        }
-        else
-        {
-            visualEffect = Instantiate(effectPrefab, parent.position, Quaternion.identity);
-            visualEffect.transform.localScale = parent.localScale;
+    //public void visualizeAbility(bool show)
+    //{
+    //    Character abilityUser = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+    //    Transform parent = abilityUser.transform;
+    //    if(visualEffect != null && !show)
+    //    {
+    //        Destroy(visualEffect);
+    //    }
+    //    else
+    //    {
+    //        visualEffect = Instantiate(effectPrefab, parent.position, Quaternion.identity);
+    //        visualEffect.transform.localScale = parent.localScale;
 
-            visualEffect.transform.SetParent(parent, true);
-            visualEffect.transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
+    //        visualEffect.transform.SetParent(parent, true);
+    //        visualEffect.transform.localEulerAngles = new Vector3(0, 0, 0);
+    //    }
 
-    }
+    //}
 }
 
 /// <summary>

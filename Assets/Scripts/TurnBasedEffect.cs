@@ -10,6 +10,8 @@ public class TurnBasedEffect : MonoBehaviour
 
     public int turnCount;
 
+    //[SerializeField]
+    public GameObject visualEffect;
 
     /// <summary>
     /// Set the turn based effect onto character
@@ -21,6 +23,7 @@ public class TurnBasedEffect : MonoBehaviour
     /// <param name="turns"></param>
     public void setTurnBased(Character character, float hMod, float aMod, float dMod, int turns)
     {
+        //visualEffect = character.ListAbilityData[0].effectPrefab;
         //isActive = true;
         healthMod = hMod;
         attackMod = aMod;
@@ -30,6 +33,8 @@ public class TurnBasedEffect : MonoBehaviour
         character.attackMultiplier *= attackMod;
         character.defenceMultiplier *= defMod;
 
+
+        visualizeAbility(character, true);
         ApplyTurnBased(character); // Activate effect right away
     }
 
@@ -70,13 +75,26 @@ public class TurnBasedEffect : MonoBehaviour
     {
         character.attackMultiplier /= attackMod;
         character.defenceMultiplier /= defMod;
-        foreach(var ability in character.ListAbilityData)
+
+        visualizeAbility(character, false);
+    }
+
+    public void visualizeAbility(Character target, bool show)
+    {
+        //Character abilityUser = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+        Transform parent = target.transform;
+        if (visualEffect != null && !show)
         {
-            if(ability.isTurnbased)
-            {
-                ability.visualizeAbility(false);
-                break; // Break after first found
-            }
+            Destroy(visualEffect);
         }
+        else
+        {
+            visualEffect = Instantiate(visualEffect, parent.position, Quaternion.identity);
+            visualEffect.transform.localScale = parent.localScale;
+
+            visualEffect.transform.SetParent(parent, true);
+            visualEffect.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+
     }
 }

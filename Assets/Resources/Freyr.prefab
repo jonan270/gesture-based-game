@@ -117,6 +117,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 39621f3b0a05aa54ba34d885ce5544f9, type: 2}
   attackMultiplier: 1
   defenceMultiplier: 1
+  activeEffect: {fileID: 0}
 --- !u!114 &4638374529834447028
 MonoBehaviour:
   m_ObjectHideFlags: 0

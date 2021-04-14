@@ -67,6 +67,7 @@ MonoBehaviour:
   - {fileID: 0}
   attackMultiplier: 1
   defenceMultiplier: 1
+  activeEffect: {fileID: 0}
 --- !u!114 &2634129342243103366
 MonoBehaviour:
   m_ObjectHideFlags: 0

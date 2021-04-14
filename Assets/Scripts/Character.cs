@@ -68,6 +68,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public float attackMultiplier = 1f; // Decimalbaserade
     public float defenceMultiplier = 1f;
 
+    public GameObject activeEffect;
+
     private void Awake()
     {
         IsAlive = true;
@@ -106,6 +108,10 @@ public abstract class Character : MonoBehaviour, IPunObservable
         //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
         //Debug.Log(turnBasedEffect);
         TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
+        //GameObject effect = ListAbilityData[0].effectPrefab;
+        //activeEffect = ListAbilityData[0].effectPrefab;
+        newEffect.visualEffect = activeEffect;
+        //newEffect.visualEffect = effectPrefab;
         newEffect.setTurnBased(this, hMod, aMod, dMod, turns);
         turnBasedEffects.Add(newEffect);
     }

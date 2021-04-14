@@ -81,6 +81,8 @@ public class AbilityManager : MonoBehaviour
 
         Debug.Log("Setting on " + target.name);
         turnBasedEffected.Add(target); // Add to list of effected characters
+        target.activeEffect = target.ListAbilityData[0].effectPrefab;
+        //GameObject visualEffect = target.ListAbilityData[0].effectPrefab;
         target.AddTurnBasedEffect(hMod, aMod, dMod, turns);
     }
 
