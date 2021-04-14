@@ -56,16 +56,19 @@ public class SelectTiles : MonoBehaviour
             laserPositions[1] = hit.point;
             rightLine.SetPositions(laserPositions);
             Hextile currentObject = hit.collider.gameObject.GetComponent<Hextile>();
-            if ((tilesSelected.Count == 0 && areTilesAdjacent(currentObject, currentCharacter.CurrentTile)) || (tilesSelected.Count != 0 && 
-                !tilesSelected.Contains(currentObject) && areTilesAdjacent(currentObject, tilesSelected.Last())))
+            if (currentObject.occupant == null)
             {
-                tilesSelected.Add(currentObject);
-                pathCreator.AddTile(currentObject);
-                currentObject.OnSelectedTile();
+                if ((tilesSelected.Count == 0 && areTilesAdjacent(currentObject, currentCharacter.CurrentTile)) || (tilesSelected.Count != 0 &&
+                    !tilesSelected.Contains(currentObject) && areTilesAdjacent(currentObject, tilesSelected.Last())))
+                {
+                    tilesSelected.Add(currentObject);
+                    pathCreator.AddTile(currentObject);
+                    currentObject.OnSelectedTile();
+                }
+                //Add a check if the hex is adjacent to the last hex here.
+                //hit.collider.enabled = false; //This solution is terrible, fix something else
+                Debug.Log("woooo");
             }
-            //Add a check if the hex is adjacent to the last hex here.
-            //hit.collider.enabled = false; //This solution is terrible, fix something else
-            Debug.Log("woooo");
         }
     }
 
