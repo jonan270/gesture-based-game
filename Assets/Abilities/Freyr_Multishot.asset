@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eece58000c347ee4d9a58887a6837333, type: 3}
   m_Name: Freyr_Multishot
   m_EditorClassIdentifier: 
-  abilityName: 
-  abilityDescription: 
-  gemsCost: 0
-  powerValue: 0
+  abilityName: Multishot
+  abilityDescription: 'Shoots multiple arrows damaging them for '
+  gemsCost: 10
+  powerValue: 25
   targetType: 0
   abilityElement: 0
   numberOfTurns: 0
-  gestureType: 0
-  bonusPowerMultiplier: 5
+  gestureType: 4
+  bonusPowerMultiplier: 1.5
   effectPrefab: {fileID: 0}
   attackRange: 0
-  cleaveRange: 0
+  cleaveRange: 6
