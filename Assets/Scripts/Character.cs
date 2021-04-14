@@ -29,7 +29,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public string Name;
     protected bool isAlive = true;
 
-    //public Material MaterialType;
+    [SerializeField] public Material MaterialType;
     public ElementState Element;
     public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
 

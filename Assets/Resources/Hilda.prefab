@@ -55,6 +55,7 @@ MonoBehaviour:
   attackValue: 15
   turnBasedEffects: []
   Name: Hilda
+  MaterialType: {fileID: 2100000, guid: d95b6b4505a19bb49bd9e425b09c76ad, type: 2}
   Element: 1
   StrongAgainst: 2
   WeakAgainst: 3

@@ -14,23 +14,12 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI costGemstones;
 
+    [SerializeField] public GameObject model;
+    [SerializeField] public GameObject model2;
+
     public Image gesture;
 
     public GestureType gestureType;
-
-    private Color alphaColor;
-    public bool fadeOut;
-    private float counter = 1.0f;
-
-    float duration = 0f;
-
-    void Update()
-    {
-        if(gestureType == GestureType.circle)
-        {
-            DrawCircle();
-        }
-    }
 
     public void setText(string desc, string name)
     {
@@ -42,15 +31,6 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     public Vector3 cardPosition()
     {
         return this.transform.position;
-    }
-
-    void DrawCircle()
-    {
-    }
-
-    void DrawLine()
-    {
-
     }
 
 

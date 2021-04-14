@@ -318,6 +318,12 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4860302379219277357, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: gemstonePilePrefab
+      value: 
+      objectReference: {fileID: 7898530235048873090, guid: e785227a268405948ae28d1a5482287d,
+        type: 3}
     - target: {fileID: 5493727571529236796, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: deckPrefab

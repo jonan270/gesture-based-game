@@ -7,27 +7,33 @@ public class GemstonePile : MonoBehaviour
     public Hextile gemTile;
 
     public int amountGems;
-
+    [SerializeField]
     public GameObject prefabLargePile;
+    [SerializeField]
     public GameObject prefabSmallPile;
 
     void Start()
     {
-        amountGems = Random.Range(1, 10);
-
-        if(amountGems < 5)
-        {
-            Instantiate(prefabSmallPile, gemTile.Position, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(prefabLargePile, gemTile.Position, Quaternion.identity);
-        }
+        
     }
 
     public void removeGemstonePile(GameObject ob)
     {
         if(ob != null)
             Destroy(ob);
+    }
+
+    public void setSize(int amGems)
+    {
+        amountGems = amGems;
+
+        if (amountGems <= 5)
+        {
+            prefabSmallPile.SetActive(true);
+        }
+        else if (amountGems > 5)
+            prefabLargePile.SetActive(true);
+
+        
     }
 }

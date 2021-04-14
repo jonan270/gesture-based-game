@@ -55,6 +55,7 @@ MonoBehaviour:
   attackValue: 15
   turnBasedEffects: []
   Name: Bjorn
+  MaterialType: {fileID: 2100000, guid: dab6838ffd70bc041be43eefa4298fa7, type: 2}
   Element: 0
   StrongAgainst: 1
   WeakAgainst: 2

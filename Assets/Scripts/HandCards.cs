@@ -158,8 +158,11 @@ public class HandCards : MonoBehaviour
                         description = ob.GetComponent<Character>().ListAbilityData[3].abilityDescription;
                     }
 
-                    cardsOnHand[i].GetComponent<Card>().setText(description, ob.GetComponent<Character>().Name);
-                   
+                    cardsOnHand[i].GetComponent<Card>().setText(description, ob.GetComponent<Character>().Name); //Set text on card
+                    cardsOnHand[i].GetComponent<Card>().model.SetActive(true);
+                    cardsOnHand[i].GetComponent<Card>().model2.SetActive(false);
+                    cardsOnHand[i].GetComponent<Card>().model.GetComponent<MeshRenderer>().material = ob.GetComponent<Character>().MaterialType; //Set material on card
+
                 }
             }
             else
@@ -167,7 +170,9 @@ public class HandCards : MonoBehaviour
                 for (int i = 0; i < cardsOnHand.Count; i++)
                 {
                     cardsOnHand[i].GetComponent<Card>().setText("  ", "  ");
-                    
+                    cardsOnHand[i].GetComponent<Card>().model2.SetActive(true);
+                    cardsOnHand[i].GetComponent<Card>().model.SetActive(false);
+
 
                 }
             }
