@@ -28,6 +28,10 @@ public class GameRound : MonoBehaviourPun
         {
             PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
             FindObjectOfType<TurnInfo>().OnMyTurn();
+            foreach (Character character in PlayerManager.Instance.friendlyCharacters)
+            {
+                character.SetState(Character.CharacterState.CanDoAction);
+            }
             //Gems are given
             //Draw new cards
         }
