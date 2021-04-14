@@ -33,7 +33,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject selectedCharacter;
 
-    public List<Character> characters, enemyCharacters;
+    public List<Character> friendlyCharacters, enemyCharacters;
 
     public PlayerStateEvent toolChangedEvent;
 
@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour
         {
             Debug.LogError("MISSING PHOTONVIEW COMPONENT");
         }
-        characters = new List<Character>();
+        friendlyCharacters = new List<Character>();
         enemyCharacters = new List<Character>();
         arrow.SetActive(false);
     }
@@ -197,11 +197,6 @@ public class PlayerManager : MonoBehaviour
     {
         UpdateCharacterLists();
         RPC_UpdateCharacterList();
-
-        foreach(Character character in characters)
-        {
-            character.SetState(Character.CharacterState.CanDoAction);
-        }
     }
 
     /// <summary>
@@ -220,7 +215,7 @@ public class PlayerManager : MonoBehaviour
     /// <returns></returns>
     public bool HasAllCharacterDoneSomething()
     {
-        foreach (Character character in characters)
+        foreach (Character character in friendlyCharacters)
         {
             if (character.CanDoAction())
                 return false;
@@ -247,7 +242,7 @@ public class PlayerManager : MonoBehaviour
                 return character;
         }
         //looks for friendly character
-        foreach (Character character in characters)
+        foreach (Character character in friendlyCharacters)
         {
             int posx = character.CurrentTile.tileIndex.x;
             int posy = character.CurrentTile.tileIndex.y;
@@ -282,17 +277,17 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     private void UpdateFriendlyCharacterList()
     {
-        characters.Clear();
+        friendlyCharacters.Clear();
         var allcharacters = FindObjectsOfType<Character>();
         //Debug.Log("Found " + allcharacters.Length + " characters in scene when looking for friendly");
         foreach (var character in allcharacters)
         {
             if (character.GetComponent<PhotonView>().IsMine && character.IsAlive)
             {
-                characters.Add(character);
+                friendlyCharacters.Add(character);
             }
         }
-        Debug.LogError("Updating friendly list, there are now " + characters.Count + " friendly characters in the scene");
+        Debug.LogError("Updating friendly list, there are now " + friendlyCharacters.Count + " friendly characters in the scene");
     }
 
     /// <summary>

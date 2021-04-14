@@ -37,9 +37,9 @@ public class CharacterControl : MonoBehaviour
 
         //Show hand of currently available cards
 
-        PlayerManager.Instance.characters.Add(hilda.GetComponent<Character>());
-        PlayerManager.Instance.characters.Add(bjorn.GetComponent<Character>());
-        PlayerManager.Instance.characters.Add(freyr.GetComponent<Character>());
+        PlayerManager.Instance.friendlyCharacters.Add(hilda.GetComponent<Character>());
+        PlayerManager.Instance.friendlyCharacters.Add(bjorn.GetComponent<Character>());
+        PlayerManager.Instance.friendlyCharacters.Add(freyr.GetComponent<Character>());
         PlayerManager.Instance.RPC_UpdateCharacterList();
         PlayerManager.Instance.UpdateCharacterLists();
 
