@@ -71,7 +71,7 @@ public class TurnBasedEffect : MonoBehaviour
     /// Remove this turnbased effect. TODO: Maybe rework to remove a specific turnbased ability? Works for now.
     /// </summary>
     /// <param name="character"> character to remove turnbased effect from </param>
-    private void RemoveTurnBased(Character character)
+    public void RemoveTurnBased(Character character)
     {
         character.attackMultiplier /= attackMod;
         character.defenceMultiplier /= defMod;
@@ -85,6 +85,7 @@ public class TurnBasedEffect : MonoBehaviour
         Transform parent = target.transform;
         if (visualEffect != null && !show)
         {
+            target.activeEffect = null;
             Destroy(visualEffect);
         }
         else

@@ -39,17 +39,27 @@ public class AbilityManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Network RPC to apply all turnbased effects to all characters at a specific tile
+    /// </summary>
+    /// <param name="x"> x index of character tile </param>
+    /// <param name="y"> y index of character tile </param>
     [PunRPC]
     void RPC_ApplyTurnBased(int x, int y)
     {
-        //Character occupant = map.hexTiles[x, y].occupant;
-        //occupant.turnBasedEffect.ApplyTurnBased(occupant);
-        foreach (var effect in map.map[x, y].occupant.turnBasedEffects)
+        Character target = PlayerManager.Instance.GetCharacterAt(x, y);
+        if(target) // Safety check
         {
-            if (effect.IsActive())
-                effect.ApplyTurnBased(map.map[x, y].occupant);
-            else
-                map.map[x, y].occupant.turnBasedEffects.Remove(effect);
+            foreach (var effect in target.turnBasedEffects)
+            {
+                if (effect.IsActive())
+                    effect.ApplyTurnBased(target);
+                else
+                {
+                    effect.RemoveTurnBased(target);
+                    target.turnBasedEffects.Remove(effect);
+                }
+            }
         }
     }
 
@@ -59,7 +69,10 @@ public class AbilityManager : MonoBehaviour
     public void ApplyTurnBasedEffects()
     {
         //loopar igenom listan av affected characters
-        
+        foreach(var character in turnBasedEffected)
+        {
+            TurnBasedTick(character);
+        }
         //alla karaktärer som tillhör sig själv 
         //applicera effekten igen 
         //tex. modify health eller w/e
@@ -75,13 +88,16 @@ public class AbilityManager : MonoBehaviour
     /// <param name="dMod"></param>
     /// <param name="turns"></param>
     [PunRPC]
-    void RPC_SetTurnBased(int x, int y, float hMod, float aMod, float dMod, int turns)
+    void RPC_SetTurnBased(int x, int y, float hMod, float aMod, float dMod, int turns, int userX, int userY)
     {
         Character target = PlayerManager.Instance.GetCharacterAt(x, y);
+        Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
 
         Debug.Log("Setting on " + target.name);
         turnBasedEffected.Add(target); // Add to list of effected characters
-        target.activeEffect = target.ListAbilityData[0].effectPrefab;
+
+        target.activeEffect = user.ListAbilityData[0].effectPrefab; // Turnbased abilities should be placed in slot 0
+
         //GameObject visualEffect = target.ListAbilityData[0].effectPrefab;
         target.AddTurnBasedEffect(hMod, aMod, dMod, turns);
     }
@@ -97,14 +113,28 @@ public class AbilityManager : MonoBehaviour
     /// <param name="aMod"></param>
     /// <param name="dMod"></param>
     /// <param name="turns"></param>
-    public void ActivateTurnBasedAbility(Character character, float hMod, float aMod, float dMod, int turns)
+    public void ActivateTurnBasedAbility(Character character, float hMod, float aMod, float dMod, int turns, Character user = null)
     {
         Debug.Log("Activating turnbased ability on " + character.name + " for " + turns + " turns");
         //GetComponent<PhotonView>().RPC("RPC_DamageCharacter", RpcTarget.All, character.CurrentTile.tileIndex.x,
         //    character.CurrentTile.tileIndex.x, 20);
+        int targetX = character.CurrentTile.tileIndex.x;
+        int targetY = character.CurrentTile.tileIndex.y;
+        int userX;
+        int userY;
 
+        if (!user)
+        {
+           userX = targetX;
+           userY = targetY;
+        }
+        else
+        {
+            userX = user.CurrentTile.tileIndex.x;
+            userY = user.CurrentTile.tileIndex.y;
+        }
         photonView.RPC("RPC_SetTurnBased", RpcTarget.All, character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y,
-            hMod, aMod, dMod, turns);
+            hMod, aMod, dMod, turns, userX, userY);
     }
 
     /// <summary>

@@ -27,6 +27,7 @@ public class GameRound : MonoBehaviourPun
         if (myTurn)
         {
             PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
+            AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
             //Gems are given
             //Draw new cards
         }
