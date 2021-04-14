@@ -38,6 +38,29 @@ public class AbilityManager : MonoBehaviour
         target.ModifyHealth(amount);
     }
 
+    [PunRPC]
+    void RPC_CastProjectile(int userX, int userY, int targetX, int targetY)
+    {
+        Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
+        Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
+
+        //Transform parent = target.transform;
+        Debug.Log("User: " + user);
+        GameObject projectile = user.ListAbilityData[2].effectPrefab;
+
+        GameObject visualEffect = Instantiate(projectile, user.transform.position, Quaternion.identity);
+        visualEffect.transform.localScale = user.transform.localScale;
+
+        //visualEffect.transform.SetParent(parent, true);
+        visualEffect.transform.localEulerAngles = new Vector3(0, 0, 0);
+    }
+
+    public void CastProjectile(Character user, Character target)
+    {
+        photonView.RPC("RPC_CastProjectile", RpcTarget.All, user.CurrentTile.tileIndex.x, user.CurrentTile.tileIndex.y,
+            target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y);
+    }
+
 
     /// <summary>
     /// Network RPC to apply all turnbased effects to all characters at a specific tile

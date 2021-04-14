@@ -61,9 +61,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ListAbilityData:
-  - {fileID: 11400000, guid: 75f40b345263ee747a59db981511c27a, type: 2}
   - {fileID: 11400000, guid: 6c3f4ae27cef4e74cbb7b434fb2f1697, type: 2}
   - {fileID: 11400000, guid: 16b3adc47a22c154fb84e23d877c9c08, type: 2}
+  - {fileID: 11400000, guid: 1db2b9b419bd4fe4587c754d1e8c22e7, type: 2}
   - {fileID: 0}
   attackMultiplier: 1
   defenceMultiplier: 1

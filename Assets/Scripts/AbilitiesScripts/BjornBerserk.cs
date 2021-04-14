@@ -24,9 +24,9 @@ public class BjornBerserk : AbilityData
         Character target = PlayerManager.Instance.GetCharacterAt(x, y);
         //target.activeEffect = effectPrefab;
 
-        AbilityManager.ManagerInstance.ActivateTurnBasedAbility(target, -10f, 2f, 0.5f, 3); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Debug.Log("Starting");
-        Debug.Log(me.turnBasedEffects[0].attackMod);
+        AbilityManager.ManagerInstance.ActivateTurnBasedAbility(target, 0f, 2f, 0.5f, 3);
+        //Debug.Log("Starting");
+        //Debug.Log(me.turnBasedEffects[0].attackMod);
         
         AbilityCompleted();
     }
