@@ -53,7 +53,7 @@ public class HandCards : MonoBehaviour
     {
         int size = PlayerManager.Instance.CountCharacters();
 
-        if (cardsOnHand.Count < maxCardsOnHand && size > cardsOnHand.Count)
+        if (cardsOnHand.Count < maxCardsOnHand || size > cardsOnHand.Count)
         {
 
             cardsOnHand.Add(GenerateNewCard(startingPosition));
@@ -118,8 +118,13 @@ public class HandCards : MonoBehaviour
         {
             if (card.GetComponent<Card>().gestureType == gesture)
             {
+                //card.GetComponent<ParticleSystem>().
                 RemoveCardOnHand(card);
+                //setTextHand(false);
+               // PlayerManager.Instance.PlayerState = PlayerState.makeGesture;
+                
                 AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gesture, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+
                 break;
             }
         }
@@ -154,6 +159,7 @@ public class HandCards : MonoBehaviour
                     }
 
                     cardsOnHand[i].GetComponent<Card>().setText(description, ob.GetComponent<Character>().Name);
+                   
                 }
             }
             else
@@ -161,6 +167,7 @@ public class HandCards : MonoBehaviour
                 for (int i = 0; i < cardsOnHand.Count; i++)
                 {
                     cardsOnHand[i].GetComponent<Card>().setText("  ", "  ");
+                    
 
                 }
             }

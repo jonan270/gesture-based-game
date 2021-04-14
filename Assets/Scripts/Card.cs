@@ -22,6 +22,16 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     public bool fadeOut;
     private float counter = 1.0f;
 
+    float duration = 0f;
+
+    void Update()
+    {
+        if(gestureType == GestureType.circle)
+        {
+            DrawCircle();
+        }
+    }
+
     public void setText(string desc, string name)
     {
         description.SetText(desc);
@@ -29,9 +39,18 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     }
 
 
-public Vector3 cardPosition()
+    public Vector3 cardPosition()
     {
         return this.transform.position;
+    }
+
+    void DrawCircle()
+    {
+    }
+
+    void DrawLine()
+    {
+
     }
 
 

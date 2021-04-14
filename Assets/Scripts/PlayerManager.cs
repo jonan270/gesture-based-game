@@ -57,7 +57,12 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
             ChangeTool(PlayerState.makeGesture);
 
-
+        if(PlayerState == PlayerState.makeGesture)
+        {
+            // Do gesture
+            // If correct, gesture tracker does not return "none": Call HandCards function activateCard(typeOfGesture). Set selectedCharacter = null
+            // IF not correct, gesture tracker returns "none": Do again
+        }
         //raycast from mouse to find a character: TODO: move this function to the hands instead and raycast from the wand for example. 
         if(PlayerState == PlayerState.chooseFriendlyCharacter || PlayerState == PlayerState.chooseEnemyCharacter)
         {

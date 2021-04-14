@@ -113,7 +113,6 @@ public class PathFollower : MonoBehaviour
             abilities.DamageCharacter(target, damage);
             ReachedEnd();
         }
-
         // Else move
         else
         {
