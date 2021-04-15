@@ -17,6 +17,12 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     [SerializeField] public GameObject model;
     [SerializeField] public GameObject model2;
 
+    [SerializeField] public GameObject fireSymbol;
+    [SerializeField] public GameObject waterSymbol;
+    [SerializeField] public GameObject earthSymbol;
+
+
+
     public Image gesture;
 
     public GestureType gestureType;

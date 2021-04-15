@@ -41,8 +41,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
-    public float attackMultiplier = 1f; // Decimalbaserade
-    public float defenceMultiplier = 1f;
+    public float attackMultiplier; // Decimalbaserade
+    public float defenceMultiplier;
 
     //public string descriptionTextCard1;
     //public string descriptionTextCard2;
@@ -54,15 +54,17 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     protected virtual void Start()
     {
+        attackMultiplier = 1f;
+        defenceMultiplier = 1f;
         currentHealth = maxHealth;
         isAlive = true;
         //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
     }
 
-    //private void OnEnable()
-    //{
-    //    isAlive = true;
-    //}
+   void Update()
+    {
+        checkTileElement();
+    }
 
     public enum CharacterState
     {
@@ -153,6 +155,25 @@ public abstract class Character : MonoBehaviour, IPunObservable
         isAlive = false;
         deathEvent.Invoke();
 
+    }
+
+    /// <summary>
+    /// Always called. Affects the characters' attack power based on currentTile
+    /// </summary>
+    private void checkTileElement()
+    {
+        if(CurrentTile.tileType == Element)
+        {
+            attackMultiplier = 1.1f;
+            defenceMultiplier = 1.1f;
+
+        }
+        else if(CurrentTile.tileType == WeakAgainst)
+        {
+            attackMultiplier = 0.9f;
+            defenceMultiplier = 0.9f;
+        }
+ 
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

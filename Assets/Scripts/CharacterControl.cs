@@ -66,7 +66,7 @@ public class CharacterControl : MonoBehaviour
         listOfCharacters.Add(bjorn);
         listOfCharacters.Add(freyr);
 
-        bjorn.GetComponent<Bjorn>().ModifyHealth(-70);
+        //bjorn.GetComponent<Bjorn>().ModifyHealth(-70);
     }
 
     void Update()
@@ -79,16 +79,11 @@ public class CharacterControl : MonoBehaviour
         //hilda.GetComponent<Hilda>().ModifyHealth(-70);
         }
 
-        if (Input.GetMouseButtonDown(0))
+       /* if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100))
-            {
                 hand.GetComponent<HandCards>().activateCard(GestureType.circle);
-            }
-        }
+            
+        }*/
 
             if (hilda != null)
             {

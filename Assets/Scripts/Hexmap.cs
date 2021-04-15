@@ -327,7 +327,9 @@ public class Hexmap : MonoBehaviour
             ChangeTileElement(xCord, yCord, element, sync);
     }
 
-    public void generateGemstones()
+    
+
+   /* public void generateGemstones()
     {
 
         int randomXPos = 0;
@@ -349,5 +351,7 @@ public class Hexmap : MonoBehaviour
             
         }
 
-    }
+    }*/
+
+    
 }

@@ -121,7 +121,7 @@ public class CharacterSelector : MonoBehaviour
         CopyTransform(selectedCharacter.transform);
         PlayerManager.Instance.selectedCharacter = selectedCharacter;
 
-        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setTextHand(true);
+        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(true);
 
         Debug.Log("Selected character in hand is " + selectedCharacter.name);
         Debug.Log("Selected character in player manager is " + PlayerManager.Instance.selectedCharacter.name);
@@ -153,7 +153,7 @@ public class CharacterSelector : MonoBehaviour
         if (selectedCharacter == null)
             return;
 
-        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setTextHand(false);
+        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(false);
 
         selectedCharacter.transform.position = originalPosition;
         selectedCharacter.transform.rotation = originalRotation;

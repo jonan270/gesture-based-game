@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2618d25c7b9a4b4cabd3cff41684d59, type: 3}
   m_Name: BjornBerserk
   m_EditorClassIdentifier: 
-  abilityName: 
-  abilityDescription: 
+  abilityName: Berserk
+  abilityDescription: "Bj\xF6rn aktiverar sin Berserk och blir starkare."
   gemsCost: 0
   powerValue: 0
   targetType: 0
   abilityElement: 0
   numberOfTurns: 0
   gestureType: 1
+  bonusPowerMultiplier: 5
   effectPrefab: {fileID: 2579707679223848377, guid: 48e476056fa986f4db39b9cd28d5f98e,
     type: 3}

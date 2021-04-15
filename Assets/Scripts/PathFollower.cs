@@ -139,6 +139,7 @@ public class PathFollower : MonoBehaviour
     {
         moving = false;
         index = 0;
+        
         transform.eulerAngles = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
         movingComplete.Invoke(gameObject);
     }
