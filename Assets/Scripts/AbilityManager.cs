@@ -7,8 +7,18 @@ public class AbilityManager : MonoBehaviour
 {
     public static AbilityManager ManagerInstance { get; private set; }
     public List<Character> turnBasedEffected; // characters effected by a turnbased effect.
+
     private Hexmap map;
 
+    private GameObject projectileObj;
+    private bool travelling = false;
+
+    [SerializeField]
+    private float speed = 100f;
+    private float startTime;
+    private float journeyLength;
+    private Vector3 startTarget;
+    private Vector3 endTarget;
 
     [SerializeField] private PhotonView photonView;
 
@@ -20,6 +30,12 @@ public class AbilityManager : MonoBehaviour
         }
         map = FindObjectOfType<Hexmap>();
         ManagerInstance = this;
+    }
+
+    void Update()
+    {
+        if (travelling)
+            LerpProjectile();
     }
 
     /// <summary>
@@ -44,15 +60,41 @@ public class AbilityManager : MonoBehaviour
         Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
         Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
 
+        startTarget = user.transform.position;
+        endTarget = target.transform.position;
+
         //Transform parent = target.transform;
         Debug.Log("User: " + user);
-        GameObject projectile = user.ListAbilityData[2].effectPrefab;
+        GameObject projectile = user.ListAbilityData[2].effectPrefab; // TODO: Find a better way to find projectiles?
 
-        GameObject visualEffect = Instantiate(projectile, user.transform.position, Quaternion.identity);
-        visualEffect.transform.localScale = user.transform.localScale;
+        projectileObj = Instantiate(projectile, user.transform.position, Quaternion.identity);
+        projectileObj.transform.localScale = user.transform.localScale;
+
+        startTime = Time.time;
 
         //visualEffect.transform.SetParent(parent, true);
-        visualEffect.transform.localEulerAngles = new Vector3(0, 0, 0);
+        projectileObj.transform.localEulerAngles = new Vector3(0, 0, 0);
+        //LerpProjectile(projectileObj, user.transform.position, target.transform.position);
+        travelling = true;
+    }
+
+    private void LerpProjectile()
+    {
+        journeyLength = Vector3.Distance(startTarget, endTarget);
+        Debug.Log("journeyLength is: " + journeyLength);
+        //projectileObj.transform.position = to;
+        float distanceCovered = (Time.time - startTime) * speed;
+        Debug.Log("distanceCovered is: " + distanceCovered);
+        float fraction = speed * distanceCovered / journeyLength;
+
+        Debug.Log("Fraction is: " + fraction);
+
+        projectileObj.transform.position = Vector3.Lerp(startTarget, endTarget, fraction);
+        if (fraction > 0.99)
+        {
+            travelling = false;
+            Destroy(projectileObj);
+        }
     }
 
     public void CastProjectile(Character user, Character target)
@@ -236,15 +278,6 @@ public class AbilityManager : MonoBehaviour
             }
         }
     }
-
-    void Update()
-    {
-        //if next round
-        //calculateBuffs();
-        //Check if card has been chosen
-        
-    }
-
 }
 
     //Maybe do abilities like this: https://answers.unity.com/questions/1727492/spells-and-abilities-system.html
