@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
+using Valve.VR;
 
 [System.Serializable]
 public class PlayerStateEvent : UnityEvent<PlayerState>
@@ -39,9 +40,9 @@ public class PlayerManager : MonoBehaviour
 
 
     public delegate void SelectTargetCharacterHandler(Character character);
-    private SelectTargetCharacterHandler characterTargetHandler;
+    public SelectTargetCharacterHandler characterTargetHandler;
     public delegate void SelectTargetTileHandler(Hextile hextile);
-    private SelectTargetTileHandler tileTargetHandler;
+    public SelectTargetTileHandler tileTargetHandler;
 
     private PhotonView photonView;
 
@@ -60,9 +61,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K) || SteamVR_Actions.default_SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.drawPath);
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) || SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.makeGesture);
 
 
@@ -205,6 +206,9 @@ public class PlayerManager : MonoBehaviour
     /// <param name="state"></param>
     public void OnPlayerStateChanged(PlayerState state)
     {
+        if(PlayerState == PlayerState.drawPath || PlayerState == PlayerState.makeGesture)
+            toolChangedEvent.Invoke(state);
+
         PlayerState = state;
         Debug.Log("Player state changed to " + PlayerState);
         //do other things
@@ -308,7 +312,7 @@ public class PlayerManager : MonoBehaviour
         Debug.LogError("Updating enemy list, there are now  " + enemyCharacters.Count + " enemies in the scene");
     }
     
-    private void DeselectCharacters()
+    public void DeselectCharacters()
     {
         var allcharacters = FindObjectsOfType<Character>();
 
