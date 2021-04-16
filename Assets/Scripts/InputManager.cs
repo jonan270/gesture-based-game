@@ -33,11 +33,8 @@ public class InputManager : MonoBehaviour
         controls.Player.CircleF1.performed += ctx => RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.circle);
 
         controls.Player.Spacebutton.performed += ctx => map.randomizeHexmap(1000, 3);
-        controls.Player.DrawPath.performed += ctx => addShit();
         controls.Player.EnterPress.performed += ctx => SpawnTrap();
-
-        controls.Player.Select1.performed += ctx => addShit();
-        controls.Player.Select2.performed += ctx => addOtherShit();
+        
 
     }
     private void Update()
@@ -46,37 +43,6 @@ public class InputManager : MonoBehaviour
             RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.s);
         if (Input.GetKeyDown(KeyCode.F3))
             RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.horizontalline);
-    }
-
-    private void addShit() 
-    {
-        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.selectedCharacter != null)
-        {
-            creator.AddTile(map.map[0, 0]);
-            creator.AddTile(map.map[1, 1]);
-            creator.AddTile(map.map[2, 2]);
-            creator.AddTile(map.map[3, 4]);
-            creator.AddTile(map.map[3, 5]);
-            creator.AddTile(map.map[4, 4]);
-
-            creator.FinishPath(PlayerManager.Instance.selectedCharacter);
-
-        }
-    }
-
-    private void addOtherShit() 
-    {
-        if (PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.selectedCharacter != null)
-        {
-            creator.AddTile(map.map[5, 0]);
-            creator.AddTile(map.map[6, 1]);
-            creator.AddTile(map.map[7, 2]);
-            creator.AddTile(map.map[8, 3]);
-            creator.AddTile(map.map[9, 4]);
-            creator.AddTile(map.map[10, 5]);
-
-            creator.FinishPath(PlayerManager.Instance.selectedCharacter);
-        }
     }
 
     private void RunAbility(Character character, GestureType type)

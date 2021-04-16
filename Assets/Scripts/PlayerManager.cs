@@ -61,76 +61,11 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K) || SteamVR_Actions.default_SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.Any))
+        if (Input.GetKeyDown(KeyCode.Alpha1) || SteamVR_Actions.default_SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.drawPath);
-        if (Input.GetKeyDown(KeyCode.L) || SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
+        if (    SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.makeGesture);
 
-
-        //raycast from mouse to find a character: TODO: move this function to the hands instead and raycast from the wand for example. 
-        if(PlayerState == PlayerState.chooseFriendlyCharacter || PlayerState == PlayerState.chooseEnemyCharacter)
-        {
-            Camera camera = FindObjectOfType<Camera>();
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit)) //raycast into the world
-            {
-                GameObject obj = hit.transform.gameObject;
-                bool targetFriendly = PlayerState == PlayerState.chooseFriendlyCharacter;
-                PhotonView pv = obj.GetComponent<PhotonView>();
-                if (pv != null && (pv.IsMine == targetFriendly)) //if we find a character 
-                {
-                    arrow.SetActive(true);
-                    arrow.transform.position = obj.transform.position + new Vector3(0, 2.5f, 0);
-                    obj.GetComponent<Outline>().enabled = true;
-                    if (Input.GetMouseButtonDown(0)) //when the player presses left mouse btn invoke function
-                    {
-                        arrow.SetActive(false);
-                        DeselectCharacters();
-                        characterTargetHandler.Invoke(obj.GetComponent<Character>());
-                    }
-                }
-                else
-                {
-                    arrow.SetActive(false);
-                    DeselectCharacters();
-
-                }
-            }
-        }
-        //raycast from mouse to find a tile: TODO: move this function to the hands instead and raycast from the wand for example. 
-        if (PlayerState == PlayerState.chooseTile)
-        {
-            Camera camera = FindObjectOfType<Camera>();
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit)) //raycast into the world
-            {
-                GameObject obj = hit.transform.gameObject;
-
-                Hextile tile = obj.GetComponent<Hextile>();
-                if (tile != null) //if we find a tile
-                {
-                    tile.OnSelectedTile();
-                    
-                    arrow.SetActive(true);
-                    arrow.transform.position = obj.transform.position + new Vector3(0, 0.5f, 0); //TODO: add material to tile currently hover over
-                    if (Input.GetMouseButtonDown(0)) //when the player presses left mouse btn invoke function
-                    {
-                        arrow.SetActive(false);
-                        tileTargetHandler.Invoke(tile);
-                    }
-                }
-                else
-                {
-                    arrow.SetActive(false);
-                }
-            }
-            else
-            {
-                arrow.SetActive(false);
-            }
-        }
     }
 
     /// <summary>

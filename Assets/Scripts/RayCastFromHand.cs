@@ -59,20 +59,45 @@ public class RayCastFromHand : MonoBehaviour
                 UIText.Instance.SetActive(true);
                 UIText.Instance.DisplayText("Draw a path for the character");
 
-                if(SteamVR_Actions.default_GrabPinch.GetState(characterSelector.source))
-                    ScanForTiles();
-            }
-            //We realease the button and finish our drawing
-            if (PlayerState == PlayerState.drawPath && SteamVR_Actions.default_GrabPinch.GetStateUp(characterSelector.source))
-            {
-                if (tilesSelected.Count > 1)
+                if (SteamVR.active)
                 {
-                    pathCreator.FinishPath(selectedCharacter.gameObject);
-                    tilesSelected.Clear();
-                    UIText.Instance.SetActive(false);
-                    Debug.Log("Released he should walk now");
+                    if (SteamVR_Actions.default_GrabPinch.GetState(characterSelector.source))
+                        ScanForTiles();
+
                 }
-                StopRayCast();
+                else
+                {
+                    if (Input.GetMouseButton(0))
+                        ScanForTiles();
+
+                }
+            }
+            //We release the button and finish our drawing
+            if (PlayerState == PlayerState.drawPath)
+            {
+                bool doit = false;
+                if (SteamVR.active)
+                {
+                    if (SteamVR_Actions.default_GrabPinch.GetStateUp(characterSelector.source))
+                        doit = true;
+                }
+                else
+                {
+                    if (Input.GetMouseButtonUp(0))
+                        doit = true;
+                }
+                if (doit)
+                {
+                    if (tilesSelected.Count > 1)
+                    {
+                        pathCreator.FinishPath(selectedCharacter.gameObject);
+                        tilesSelected.Clear();
+                        UIText.Instance.SetActive(false);
+                        Debug.Log("Released he should walk now");
+                        StopRayCast();
+
+                    }
+                }
             }
         }
     }
