@@ -7,7 +7,7 @@ using Valve.VR;
 public class SelectTiles : MonoBehaviour
 {
     public GameObject leftHand, rightHand;
-    public Character currentCharacter;
+    public Character currentCharacter { get { return PlayerManager.Instance.selectedCharacter.GetComponent<Character>(); } }
     public LineRenderer leftLine, rightLine;
     public Transform hexTiles;
     public List<Hextile> tilesSelected;
@@ -22,18 +22,18 @@ public class SelectTiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand))
+        if (PlayerManager.Instance.PlayerState == PlayerState.drawPath && SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand))
         {
             scanForTiles();
             rightLine.enabled = true;
         }
-        if (SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand))
+        //När man släpper knappen
+        if (PlayerManager.Instance.PlayerState == PlayerState.drawPath && SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand))
         {
-            //This is where the final list will be sent to the manager, but for now it will just be reset.
+           
             rightLine.enabled = false;
             pathCreator.FinishPath(currentCharacter.gameObject);
             tilesSelected.Clear();
-            //resetTiles();
         }
     }
 
@@ -51,23 +51,26 @@ public class SelectTiles : MonoBehaviour
         Vector3[] laserPositions = new Vector3[2] { rightHand.transform.position, rightHand.transform.position + (rotation * 5.0f) };
         //Debug.Log(rightHand.transform.forward + " " + rotation);
         //TODO: Add canceling of path drawing
-        if (Physics.Raycast(handRay, out hit, Mathf.Infinity) && hit.collider.gameObject.transform.IsChildOf(hexTiles))
+        if (Physics.Raycast(handRay, out hit, Mathf.Infinity))
         {
-            laserPositions[1] = hit.point;
+            laserPositions[1] = hit.point; //end position of laser pointer
             rightLine.SetPositions(laserPositions);
             Hextile currentObject = hit.collider.gameObject.GetComponent<Hextile>();
-            if (currentObject.occupant == null)
+            if (currentObject != null)
             {
-                if ((tilesSelected.Count == 0 && areTilesAdjacent(currentObject, currentCharacter.CurrentTile)) || (tilesSelected.Count != 0 &&
-                    !tilesSelected.Contains(currentObject) && areTilesAdjacent(currentObject, tilesSelected.Last())))
+                if (currentObject.occupant == null) //if there is a friendly character in the tile , we cant go there we can however go on a tile where enemy character is
                 {
-                    tilesSelected.Add(currentObject);
-                    pathCreator.AddTile(currentObject);
-                    currentObject.OnSelectedTile();
+                    if ((tilesSelected.Count == 0 && areTilesAdjacent(currentObject, currentCharacter.CurrentTile)) || (tilesSelected.Count != 0 &&
+                        !tilesSelected.Contains(currentObject) && areTilesAdjacent(currentObject, tilesSelected.Last())))
+                    {
+                        tilesSelected.Add(currentObject);
+                        pathCreator.AddTile(currentObject);
+                        currentObject.OnSelectedTile();
+                    }
+                    //Add a check if the hex is adjacent to the last hex here.
+                    //hit.collider.enabled = false; //This solution is terrible, fix something else
+                    Debug.Log("woooo");
                 }
-                //Add a check if the hex is adjacent to the last hex here.
-                //hit.collider.enabled = false; //This solution is terrible, fix something else
-                Debug.Log("woooo");
             }
         }
     }
