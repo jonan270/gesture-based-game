@@ -57,7 +57,6 @@ MonoBehaviour:
   turnBasedEffects: []
   Name: Hilda
   MaterialType: {fileID: 2100000, guid: e9242745e840c2b4cb784a53a5d1add9, type: 2}
-  Element: 1
   StrongAgainst: 2
   WeakAgainst: 3
   CurrentState: 0
