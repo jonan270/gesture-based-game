@@ -26,8 +26,6 @@ public enum PlayerState
 /// </summary>
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject arrow;
-
     public static PlayerManager Instance { get; private set; }
 
     public PlayerState PlayerState { get; private set; }
@@ -56,7 +54,6 @@ public class PlayerManager : MonoBehaviour
         }
         friendlyCharacters = new List<Character>();
         enemyCharacters = new List<Character>();
-        arrow.SetActive(false);
     }
 
     private void Update()
