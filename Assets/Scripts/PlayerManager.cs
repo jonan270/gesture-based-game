@@ -48,7 +48,7 @@ public class PlayerManager : MonoBehaviour
     {
         Instance = this;
         photonView = GetComponent<PhotonView>();
-        if(photonView == null)
+        if (photonView == null)
         {
             Debug.LogError("MISSING PHOTONVIEW COMPONENT");
         }
@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) || SteamVR_Actions.default_SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.drawPath);
-        if (    SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
+        if (SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.makeGesture);
 
     }
@@ -78,7 +78,7 @@ public class PlayerManager : MonoBehaviour
     /// <param name="state"></param>
     private void ChangeTool(PlayerState state)
     {
-        if(HoldingCharacter)
+        if (HoldingCharacter)
         {
             OnPlayerStateChanged(state);
             toolChangedEvent.Invoke(PlayerState);
@@ -138,7 +138,7 @@ public class PlayerManager : MonoBehaviour
     /// <param name="state"></param>
     public void OnPlayerStateChanged(PlayerState state)
     {
-        if(PlayerState == PlayerState.drawPath || PlayerState == PlayerState.makeGesture)
+        if (PlayerState == PlayerState.drawPath || PlayerState == PlayerState.makeGesture)
             toolChangedEvent.Invoke(state);
 
         PlayerState = state;
@@ -155,7 +155,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (character.CanDoAction())
                 return false;
-            
+
         }
         return true;
     }
@@ -166,10 +166,10 @@ public class PlayerManager : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public Character GetCharacterAt(int x , int y)
+    public Character GetCharacterAt(int x, int y)
     {
         //Looks for enemycharacter
-        foreach(Character character in enemyCharacters)
+        foreach (Character character in enemyCharacters)
         {
             int posx = character.CurrentTile.tileIndex.x;
             int posy = character.CurrentTile.tileIndex.y;
@@ -243,7 +243,7 @@ public class PlayerManager : MonoBehaviour
         }
         Debug.LogError("Updating enemy list, there are now  " + enemyCharacters.Count + " enemies in the scene");
     }
-    
+
     public void DeselectCharacters()
     {
         var allcharacters = FindObjectsOfType<Character>();
@@ -252,6 +252,8 @@ public class PlayerManager : MonoBehaviour
         {
             character.GetComponent<Outline>().enabled = false;
         }
+
+    }
     public int CountCharacters()
     {
         return friendlyCharacters.Count;

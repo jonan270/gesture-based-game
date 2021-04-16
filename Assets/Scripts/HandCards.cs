@@ -87,14 +87,16 @@ public class HandCards : MonoBehaviour
 
         Vector3[] cardEndPositions = new Vector3[5];
 
-        /*cardEndPositions[0] = new Vector3(5f, 0f, -3f); // Cards on the ground
-        cardEndPositions[1] = new Vector3(10f, 0f, -3f);
-        cardEndPositions[2] = new Vector3(17f, 0f, -3f);*/
+        cardEndPositions[0] = new Vector3(1.5f, 0f, -1f); // Cards on the ground
+        cardEndPositions[1] = new Vector3(3.0f, 0f, -1f);
+        cardEndPositions[2] = new Vector3(4.5f, 0f, -1f);
+        cardEndPositions[3] = new Vector3(6.0f, 0f, -1f);
 
-        cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.12f, 4f)); //Cards on the screen, follows the camera
-        cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.37f, 4f));
-        cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.62f, 4f));
-        cardEndPositions[3] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.87f, 4f));
+
+        //cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.12f, 4f)); //Cards on the screen, follows the camera
+        //cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.37f, 4f));
+        //cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.62f, 4f));
+        //cardEndPositions[3] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.87f, 4f));
 
         /*cardEndPositions[0] = new Vector3(2f, 3.3f, -2f); //Cards on the screen, stays on one spot
         cardEndPositions[1] = new Vector3(2f, 5.9f, -1.5f);

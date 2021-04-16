@@ -50,7 +50,7 @@ public class Hexmap : MonoBehaviour
     void Awake()
     {
         scaleoffset = hexPrefab.transform.lossyScale.x;
-        Debug.LogError(scaleoffset + " sacle offset");
+        Debug.LogError(scaleoffset + " scale offset");
         xoff *= scaleoffset;
         zoff *= scaleoffset;
         Debug.LogError("xoff: " + xoff + " zoff: " + zoff + " sacle offset");

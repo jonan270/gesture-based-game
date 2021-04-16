@@ -166,7 +166,6 @@ public class CharacterSelector : MonoBehaviour
         hasTarget = false;
         otherHand.OnReleasedCharacter();
         selectedCharacter = null;
-        PlayerManager.Instance.selectedCharacter = null;
     }
 
     public void OnReleasedCharacter()

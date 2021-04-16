@@ -39,7 +39,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public bool IsAlive { get; protected set; }
 
 
-    [SerializeField] private Material MaterialType;
+    public Material MaterialType;
 
     /// <summary>
     /// Element of this character

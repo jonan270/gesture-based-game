@@ -26,7 +26,7 @@ public class CharacterControl : MonoBehaviour
     {
         
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        deck = Instantiate(deckPrefab, new Vector3(18, 0, 3), Quaternion.identity);
+        deck = Instantiate(deckPrefab, new Vector3(10, 0, 3), Quaternion.identity);
 
 
 
@@ -65,10 +65,4 @@ public class CharacterControl : MonoBehaviour
         return obj;
     }
 
-    public void RemoveCharacter(GameObject ob) //If character health <= 0, destroy object
-    {
-        PlayerManager.Instance.characters.Remove(ob.GetComponent<Character>());
-
-        PhotonNetwork.Destroy(ob);
-    }
 }
