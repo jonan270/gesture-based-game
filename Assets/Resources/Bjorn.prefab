@@ -56,6 +56,8 @@ MonoBehaviour:
   maxHealth: 100
   turnBasedEffects: []
   Name: Bjorn
+  MaterialType: {fileID: 2100000, guid: dab6838ffd70bc041be43eefa4298fa7, type: 2}
+  Element: 3
   StrongAgainst: 1
   WeakAgainst: 2
   CurrentState: 0
@@ -63,8 +65,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ListAbilityData:
+  - {fileID: 11400000, guid: 75f40b345263ee747a59db981511c27a, type: 2}
   - {fileID: 11400000, guid: 77f1bf158c7f36f4193405bbbe49b99f, type: 2}
-  - {fileID: 11400000, guid: 417aabbbe6890ee44a94829e2e0b8546, type: 2}
+  - {fileID: 11400000, guid: 1db2b9b419bd4fe4587c754d1e8c22e7, type: 2}
+  - {fileID: 11400000, guid: 1db2b9b419bd4fe4587c754d1e8c22e7, type: 2}
   attackMultiplier: 1
   defenceMultiplier: 1
   activeEffect: {fileID: 0}
@@ -264,6 +268,95 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.042973567, y: 0.025901375, z: 0.06363324}
   m_Center: {x: 0, y: 0.0018512816, z: 0.031795222}
+--- !u!1001 &471761365709848228
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7662512763961458170}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.704
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c1f3a83e38516904d83c472bfe71686b,
+        type: 3}
+      propertyPath: m_Name
+      value: waterdrop
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c1f3a83e38516904d83c472bfe71686b, type: 3}
 --- !u!1001 &2921753204222076082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274,6 +367,11 @@ PrefabInstance:
     - target: {fileID: 4817323064337816204, guid: 5e7be3bdaf0fb1a42a63598bb377be7d,
         type: 3}
       propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817323065204906310, guid: 5e7be3bdaf0fb1a42a63598bb377be7d,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4817323065204906312, guid: 5e7be3bdaf0fb1a42a63598bb377be7d,

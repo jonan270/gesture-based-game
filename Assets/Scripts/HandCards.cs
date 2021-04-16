@@ -5,68 +5,212 @@ using UnityEngine;
 public class HandCards : MonoBehaviour
 {
 
-    public float speed = 1.0f;
-    private Transform target;
+    public List<GameObject> cardsOnHand = new List<GameObject>();
 
-    public List<GameObject> hand;
+    [SerializeField]
+    List<GameObject> cardPrefabs = new List<GameObject>();
 
-    public bool cardsShown = false;
+    private static int maxCardsOnHand = 4;
 
-    int counter = 0;
-    int x = -20; //Initial positions for cards
-    int y = 5;
-    int z = 15;
+    public Vector3 startingPosition = new Vector3( 18f, 0f, 3f );
 
-    public void setHand(List<GameObject> h)
+    private float counter = 0f;
+
+    private GameObject ob;
+
+
+    private string description = "";
+
+    void Start()
     {
-        hand = h;
+       
     }
 
-    /*public HandCards(List<GameObject> h)
-     {
-         hand = h;
-     }
-
-     public void showHand() //Puts the cards to use in round on the spelplan
-     {
-         for (int i = 0; i < hand.Count; i++)
-         {
-             //target = hand[i].transform;
-             //transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-
-             hand[i].transform.position = new Vector3(x, y, z);
-             x += 10;
-         }
-     }*/
-
-
-
-    //private void Update()  // Not working, not being called??? Would be used to get hand of cards into scene
-    // {
-    //if(!cardsShown)
-    //showHand(speed * Time.deltaTime);
-
-    //hand[counter].transform.position = Vector3.Lerp(hand[counter].transform.position, new Vector3(x, y, z), speed * Time.deltaTime);
-
-    // }
-
-    public void showHand()
+    void Update()
     {
-        //cardsShown = false;
+        UpdateCardsOnHand();
+        UpdateCardsPosition();
 
-        for (int i = 0; i < hand.Count; i++)
+    }
+
+    /// <summary>
+    /// Creates a new card 
+    /// </summary>
+    private GameObject GenerateNewCard(Vector3 vec)
+    {
+
+        int prefabIndex = UnityEngine.Random.Range(0, 3);
+
+        GameObject ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.Euler(90f, 0f, 0f)); // Lerp?
+
+        ob.transform.parent = this.transform;
+
+        return ob;
+    }
+
+    /// <summary>
+    /// Updates the card on hand if missing card (Depends on number of characters in game)
+    /// </summary>
+    public void UpdateCardsOnHand()
+    {
+        int size = PlayerManager.Instance.CountCharacters();
+
+        if (cardsOnHand.Count < maxCardsOnHand || size > cardsOnHand.Count)
         {
-            
-            hand[i].transform.position = new Vector3(x, y, z);
-           
-            x += 10;
+
+            cardsOnHand.Add(GenerateNewCard(startingPosition));
+
         }
 
-        /*if (counter == hand.Count - 1)
+    }
+
+    /// <summary>
+    /// Removes card on hand
+    /// </summary>
+    private void RemoveCardOnHand(GameObject card)
+    {
+        if (card != null)
         {
-            cardsShown = true;
-            //x = -20;
-        }*/
+            Destroy(card);
+            cardsOnHand.Remove(card);
+        }
 
     }
+
+    /// <summary>
+    /// Updates positions for cards on hand
+    /// </summary>
+    private void UpdateCardsPosition()
+    {
+        counter += Time.deltaTime;
+        //Move cards to the left hand side
+
+        Vector3[] cardEndPositions = new Vector3[5];
+
+        /*cardEndPositions[0] = new Vector3(5f, 0f, -3f); // Cards on the ground
+        cardEndPositions[1] = new Vector3(10f, 0f, -3f);
+        cardEndPositions[2] = new Vector3(17f, 0f, -3f);*/
+
+        cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.12f, 4f)); //Cards on the screen, follows the camera
+        cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.37f, 4f));
+        cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.62f, 4f));
+        cardEndPositions[3] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.87f, 4f));
+
+        /*cardEndPositions[0] = new Vector3(2f, 3.3f, -2f); //Cards on the screen, stays on one spot
+        cardEndPositions[1] = new Vector3(2f, 5.9f, -1.5f);
+        cardEndPositions[2] = new Vector3(2f, 7.9f, -1f);*/
+
+        for (int i = 0; i < cardsOnHand.Count; i++)
+        {
+            if (cardsOnHand[i].transform.position != cardEndPositions[i])
+            {
+                cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
+                cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
+            }
+        }
+        counter = 0f;
+    }
+
+    /// <summary>
+    /// Gets which gesture has been done, removes card and activates ability depending on gesture.
+    /// </summary>
+    public void activateCard(GestureType gesture)
+    {
+        foreach (GameObject card in cardsOnHand)
+        {
+            if (card.GetComponent<Card>().gestureType == gesture)
+            {
+
+                RemoveCardOnHand(card);
+
+               // PlayerManager.Instance.PlayerState = PlayerState.makeGesture;
+                
+                AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gesture, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets text on card. Used in CharacterSelector script in funcs ReleaseCharacter() and PickupCharacter()
+    /// </summary>
+    public void setCardType(bool textValue)
+    {
+        if (PlayerManager.Instance.selectedCharacter != null)
+        {
+            ob = PlayerManager.Instance.selectedCharacter;
+
+            if (textValue == true)
+            {
+                for (int i = 0; i < cardsOnHand.Count; i++)
+                {
+                    if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.circle)
+                    {
+                        description = ob.GetComponent<Character>().ListAbilityData[1].abilityDescription;
+
+                    }
+                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.horizontalline)
+                    {
+                        description = ob.GetComponent<Character>().ListAbilityData[2].abilityDescription;
+
+                    }
+                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.verticalline)
+                    {
+                        description = ob.GetComponent<Character>().ListAbilityData[3].abilityDescription;
+                    }
+
+                    setElementSymbol(cardsOnHand[i]);
+
+                    cardsOnHand[i].GetComponent<Card>().setText(description, ob.GetComponent<Character>().Name); //Set text on card
+                    cardsOnHand[i].GetComponent<Card>().model.SetActive(true);
+                    cardsOnHand[i].GetComponent<Card>().model2.SetActive(false);
+                    cardsOnHand[i].GetComponent<Card>().model.GetComponent<MeshRenderer>().material = ob.GetComponent<Character>().MaterialType; //Set material on card
+
+                }
+            }
+            else //if textValue==false
+            {
+                for (int i = 0; i < cardsOnHand.Count; i++)
+                {
+                    resetCard(cardsOnHand[i]);
+
+                }
+            }
+        }
+    }
+
+    public void setElementSymbol(GameObject card)
+    {
+        if (ob.GetComponent<Character>().Element == ElementState.Fire)
+        {
+            card.GetComponent<Card>().fireSymbol.SetActive(true);
+
+        }else if (ob.GetComponent<Character>().Element == ElementState.Earth)
+        {
+            card.GetComponent<Card>().earthSymbol.SetActive(true);
+        }else if (ob.GetComponent<Character>().Element == ElementState.Water)
+        {
+            card.GetComponent<Card>().waterSymbol.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Resets card info
+    /// </summary>
+    public void resetCard(GameObject card)
+    {
+        card.GetComponent<Card>().setText("  ", "  ");
+        card.GetComponent<Card>().model2.SetActive(true);
+        card.GetComponent<Card>().model.SetActive(false);
+        card.GetComponent<Card>().fireSymbol.SetActive(false);
+        card.GetComponent<Card>().waterSymbol.SetActive(false);
+        card.GetComponent<Card>().earthSymbol.SetActive(false);
+
+    }
+
 }
+
+
+
+

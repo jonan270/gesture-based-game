@@ -19,13 +19,16 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private GameObject handPrefab;
 
     
-    private GameObject hilda, bjorn,freyr, deck, hand;
+    private GameObject hilda, bjorn, freyr, deck, hand;
 
     // Start is called before the first frame update
     void Awake()
     {
-        deck = Instantiate(deckPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        deck = Instantiate(deckPrefab, new Vector3(18, 0, 3), Quaternion.identity);
+
+
 
 
     }
@@ -45,31 +48,6 @@ public class CharacterControl : MonoBehaviour
         PlayerManager.Instance.UpdateCharacterLists();
 
     }
-    void Update()
-    {
-
-
-        //if (round == 0)
-        //{
-        //    deck.GetComponent<Deck>().Shuffle(); //Must shuffle in order to get different cards each round
-        //    List<GameObject> drawnCards = deck.GetComponent<Deck>().Draw(); //Draws the cards from deck
-
-        //    hand.GetComponent<HandCards>().setHand(drawnCards);
-        //    //hand.GetComponent<HandCards>().showHand();
-
-        //    round++;
-
-        //}
-
-        //if (hilda != null)
-        //{
-        //    if (!hilda.GetComponent<Hilda>().IsAlive)
-        //    {
-        //        Debug.Log("REMOVING HILDA" + hilda.GetComponent<Hilda>().IsAlive);
-        //        RemoveCharacter(hilda); // Try removing character and its cards
-        //    }
-        //}
-    }
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
@@ -84,14 +62,13 @@ public class CharacterControl : MonoBehaviour
         obj.GetComponent<Character>().CurrentTile = spawnTile;
         spawnTile.SetOccupant(obj.GetComponent<Character>()); // Set occupant in tile class
         
-        deck.GetComponent<Deck>().AddCardsToDeck(obj.GetComponent<Character>()); //Add cards to deck for character
-
         return obj;
     }
 
     public void RemoveCharacter(GameObject ob) //If character health <= 0, destroy object
     {
-        //deck.RemoveCards(ob.GetComponent<Character>().Name);
+        PlayerManager.Instance.characters.Remove(ob.GetComponent<Character>());
+
         PhotonNetwork.Destroy(ob);
     }
 }

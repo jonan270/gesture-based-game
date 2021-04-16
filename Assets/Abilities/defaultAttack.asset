@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: defaultAttack
   m_EditorClassIdentifier: 
   abilityName: DefaultAttack
-  abilityDescription: 
+  abilityDescription: default attack
   gemsCost: 0
   amount: 0
   targType: 0

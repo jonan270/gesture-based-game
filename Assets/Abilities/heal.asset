@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: heal
   m_EditorClassIdentifier: 
   abilityName: Heal
-  abilityDescription: Hilda will conjure a health potion to be used on self or her
-    teammates.
+  abilityDescription: "Hilda anv\xE4nder en trolldryck f\xF6r att \xF6ka h\xE4lsan
+    hos sig sj\xE4lv eller hennes kamrater."
   gemsCost: 10
   powerValue: 30
   targetType: 0

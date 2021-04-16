@@ -252,5 +252,8 @@ public class PlayerManager : MonoBehaviour
         {
             character.GetComponent<Outline>().enabled = false;
         }
+    public int CountCharacters()
+    {
+        return friendlyCharacters.Count;
     }
 }

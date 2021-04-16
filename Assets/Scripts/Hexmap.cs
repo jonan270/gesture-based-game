@@ -32,6 +32,8 @@ public class Hexmap : MonoBehaviour
     /// </summary>
     [SerializeField] private Hextile hexPrefab;
 
+    [SerializeField] private GemstonePile gemstonePilePrefab;
+
     // Offset values betwen tiles
     float scaleoffset = 0;
     private float xoff = 0.8f;
@@ -57,6 +59,7 @@ public class Hexmap : MonoBehaviour
             Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
+        //generateGemstones();
         Instance = this;
 
 
@@ -336,4 +339,32 @@ public class Hexmap : MonoBehaviour
         else if(radius == 0)
             ChangeTileElement(xCord, yCord, element, sync);
     }
+
+    
+
+   /* public void generateGemstones()
+    {
+
+        int randomXPos = 0;
+        int randomYPos = 0;
+        int amGems = 0;
+
+        for (int i = 0; i < 5; i++)
+        {
+            randomXPos = Random.Range(0, width);
+            randomYPos = Random.Range(2, height - 2);
+
+            amGems = Random.Range(1, 10);
+
+            gemstonePilePrefab = Instantiate(gemstonePilePrefab, map[randomXPos, randomYPos].Position, Quaternion.identity);
+
+            gemstonePilePrefab.setSize(amGems);
+
+            // Set Hextile egenskap: Hextile har en GemPile på sig.
+            
+        }
+
+    }*/
+
+    
 }

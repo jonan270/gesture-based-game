@@ -12,21 +12,33 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
     //public Plane plane;
     public TextMeshProUGUI description;
     public TextMeshProUGUI nameText;
+    public TextMeshProUGUI costGemstones;
+
+    [SerializeField] public GameObject model;
+    [SerializeField] public GameObject model2;
+
+    [SerializeField] public GameObject fireSymbol;
+    [SerializeField] public GameObject waterSymbol;
+    [SerializeField] public GameObject earthSymbol;
+
+
 
     public Image gesture;
 
-    // Randomisera korten lite, 5 kort dras fram för spelaren
-    //Korten visas som i en korthög
+    public GestureType gestureType;
 
-
-    //public Ability ability1;
-
-    /*public Card(Ability ab1, Ability ab2, Ability ab3) {
-        ability1 = ab1;
-        ability2 = ab2;
-        ability3 = ab3;
+    public void setText(string desc, string name)
+    {
+        description.SetText(desc);
+        nameText.SetText(name);
     }
-    */
+
+
+    public Vector3 cardPosition()
+    {
+        return this.transform.position;
+    }
+
 
 }
 

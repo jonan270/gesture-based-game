@@ -38,6 +38,9 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// </summary>
     public bool IsAlive { get; protected set; }
 
+
+    [SerializeField] private Material MaterialType;
+
     /// <summary>
     /// Element of this character
     /// </summary>
@@ -76,6 +79,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
     }
     protected virtual void Start()
     {
+        attackMultiplier = 1f;
+        defenceMultiplier = 1f;
         currentHealth = maxHealth;
         //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
         deathEvent.AddListener(PlayerManager.Instance.UpdateCharacterLists);

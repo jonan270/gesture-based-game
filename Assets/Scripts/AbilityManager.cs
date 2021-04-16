@@ -302,6 +302,7 @@ public class AbilityManager : MonoBehaviour
             if (ability.gestureType == type)
             {
                 ability.ActivateAbility();
+                Debug.Log("Ability activated is: " + ability.abilityName);
                 break; // If ability was found, stop searching
             }
         }
