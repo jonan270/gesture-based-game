@@ -13,12 +13,19 @@ public class AbilityManager : MonoBehaviour
     private GameObject projectileObj;
     private bool travelling = false;
 
+    // ** Projectiles like fireball ***
     [SerializeField]
-    private float speed = 100f;
-    private float startTime;
-    private float journeyLength;
+    private float speed = 100f; // Serialized variable to control speed of projectiles
+    private float startTime; // At what time does the projectile start travelling?
+    private float journeyLength; // Length of journey for projectile
+
+    // Lerp between start and end
     private Vector3 startTarget;
     private Vector3 endTarget;
+
+    private float projectileDamage;
+    private Character projectileTarget;
+    // ********************************
 
     [SerializeField] private PhotonView photonView;
 
@@ -54,17 +61,27 @@ public class AbilityManager : MonoBehaviour
         target.ModifyHealth(amount);
     }
 
+
+    /// <summary>
+    /// Network function for casting a projectile at target
+    /// </summary>
+    /// <param name="userX"> X position of ability user </param>
+    /// <param name="userY"> Y position of ability user </param>
+    /// <param name="targetX"> X position of ability target </param>
+    /// <param name="targetY"> Y position of ability target </param>
+    /// <param name="hitDamage"> Damage to apply when projectile connects </param>
     [PunRPC]
-    void RPC_CastProjectile(int userX, int userY, int targetX, int targetY)
+    void RPC_CastProjectile(int userX, int userY, int targetX, int targetY, float hitDamage)
     {
         Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
+        projectileTarget = target;
+
         Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
 
         startTarget = user.transform.position;
         endTarget = target.transform.position;
 
-        //Transform parent = target.transform;
-        Debug.Log("User: " + user);
+        //Debug.Log("User: " + user);
         GameObject projectile = user.ListAbilityData[2].effectPrefab; // TODO: Find a better way to find projectiles?
 
         projectileObj = Instantiate(projectile, user.transform.position, Quaternion.identity);
@@ -75,32 +92,43 @@ public class AbilityManager : MonoBehaviour
         //visualEffect.transform.SetParent(parent, true);
         projectileObj.transform.localEulerAngles = new Vector3(0, 0, 0);
         //LerpProjectile(projectileObj, user.transform.position, target.transform.position);
+        projectileDamage = hitDamage;
         travelling = true;
     }
 
+    /// <summary>
+    /// Lerp projectile
+    /// </summary>
     private void LerpProjectile()
     {
         journeyLength = Vector3.Distance(startTarget, endTarget);
-        Debug.Log("journeyLength is: " + journeyLength);
+        //Debug.Log("journeyLength is: " + journeyLength);
         //projectileObj.transform.position = to;
         float distanceCovered = (Time.time - startTime) * speed;
-        Debug.Log("distanceCovered is: " + distanceCovered);
+        //Debug.Log("distanceCovered is: " + distanceCovered);
         float fraction = speed * distanceCovered / journeyLength;
 
-        Debug.Log("Fraction is: " + fraction);
+        //Debug.Log("Fraction is: " + fraction);
 
         projectileObj.transform.position = Vector3.Lerp(startTarget, endTarget, fraction);
         if (fraction > 0.99)
         {
+            DamageCharacter(projectileTarget, projectileDamage);
             travelling = false;
             Destroy(projectileObj);
         }
     }
 
-    public void CastProjectile(Character user, Character target)
+    /// <summary>
+    /// Call this outside class to cast a projectile
+    /// </summary>
+    /// <param name="user"> Character that uses ability </param>
+    /// <param name="target"> Character that gets hit by ability </param>
+    /// <param name="hitDamage"> Damage to apply </param>
+    public void CastProjectile(Character user, Character target, float hitDamage)
     {
         photonView.RPC("RPC_CastProjectile", RpcTarget.All, user.CurrentTile.tileIndex.x, user.CurrentTile.tileIndex.y,
-            target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y);
+            target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y, hitDamage);
     }
 
 
@@ -158,7 +186,7 @@ public class AbilityManager : MonoBehaviour
         Character target = PlayerManager.Instance.GetCharacterAt(x, y);
         Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
 
-        Debug.Log("Setting on " + target.name);
+        Debug.Log("Setting ability from" + user.name + " on " + target.name);
         turnBasedEffected.Add(target); // Add to list of effected characters
 
         target.activeEffect = user.ListAbilityData[0].effectPrefab; // Turnbased abilities should be placed in slot 0

@@ -139,7 +139,6 @@ public class Hextile : MonoBehaviour
         {
             makeType(tileElement);
         }
-
         //Synchronize traps 
         if (!areaEffect.isActivated && isTrapActive)
             AddEffect(trapElement, trapModifier);

@@ -32,11 +32,11 @@ public class Fireball : AbilityData
         float bonusDamage = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().CompareElement(target, powerValue, bonusPowerMultiplier);
         float damage = bonusDamage + powerValue;
 
-        AbilityManager.ManagerInstance.CastProjectile(me, target);
+        AbilityManager.ManagerInstance.CastProjectile(me, target, damage);
 
-        Debug.Log("Cast a fireball at " + target.name + " damaging it for " + damage + " health");
+        //Debug.Log("Cast a fireball at " + target.name + " damaging it for " + damage + " health");
         //target.ModifyHealth(damage);
-        AbilityManager.ManagerInstance.DamageCharacter(target, damage);
+        //AbilityManager.ManagerInstance.DamageCharacter(target, damage);
         
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);
         AbilityCompleted();

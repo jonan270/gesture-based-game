@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Poison
   abilityDescription: 
-  gesture: 1
   gemsCost: 10
-  amount: 5
-  targType: 0
+  powerValue: 20
+  targetType: 0
+  abilityElement: 0
   numberOfTurns: 3
-  IsFinished: 0
-  effectPrefab: {fileID: 170850, guid: 8e13c6e5a21aeea4db3c25ef0e529308, type: 3}
+  gestureType: 2
+  bonusPowerMultiplier: 5
+  effectPrefab: {fileID: 5022505173894880066, guid: bf4f95211c555f44ba162a0c8c82a517,
+    type: 3}
+  isTurnbased: 0

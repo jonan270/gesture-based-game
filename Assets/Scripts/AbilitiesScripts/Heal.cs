@@ -21,7 +21,10 @@ public class Heal : AbilityData
     /// <param name="target"></param>
     private void OnSelectedCharacter(Character target)
     {
-        float totalHeal = powerValue + CalculateBonusHeal(PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+        Character me = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+
+        float totalHeal = powerValue + CalculateBonusHeal(me);
+
         Debug.Log("Healing " + target.name + " for " + totalHeal + " amount of health");
         target.ModifyHealth(totalHeal);
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);        
@@ -29,7 +32,7 @@ public class Heal : AbilityData
     }
 
     /// <summary>
-    /// Bonus heal if target stands in a tile with the same element as this ability has. eg FireHealAbility and FireTile = bonus heal
+    /// Bonus heal if user stands in a tile with the same element as this ability has. eg FireHealAbility and FireTile = bonus heal
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
