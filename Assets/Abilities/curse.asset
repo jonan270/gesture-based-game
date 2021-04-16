@@ -20,7 +20,8 @@ MonoBehaviour:
   targetType: 1
   abilityElement: 1
   numberOfTurns: 0
-  gestureType: 4
+  gestureType: 3
   bonusPowerMultiplier: 5
   effectPrefab: {fileID: 0}
+  isTurnbased: 0
   tileRadius: 2

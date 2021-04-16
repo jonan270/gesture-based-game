@@ -149,17 +149,17 @@ public class HandCards : MonoBehaviour
                 {
                     if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.circle)
                     {
-                        description = ob.GetComponent<Character>().ListAbilityData[1].abilityDescription;
+                        description = ob.GetComponent<Character>().ListAbilityData[0].abilityDescription;
 
                     }
                     else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.horizontalline)
                     {
-                        description = ob.GetComponent<Character>().ListAbilityData[2].abilityDescription;
+                        description = ob.GetComponent<Character>().ListAbilityData[1].abilityDescription;
 
                     }
                     else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.verticalline)
                     {
-                        description = ob.GetComponent<Character>().ListAbilityData[3].abilityDescription;
+                        description = ob.GetComponent<Character>().ListAbilityData[2].abilityDescription;
                     }
 
                     setElementSymbol(cardsOnHand[i]);

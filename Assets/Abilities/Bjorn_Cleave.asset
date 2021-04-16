@@ -19,8 +19,9 @@ MonoBehaviour:
   targetType: 1
   abilityElement: 2
   numberOfTurns: 0
-  gestureType: 4
+  gestureType: 3
   bonusPowerMultiplier: 2
   effectPrefab: {fileID: 0}
+  isTurnbased: 0
   attackRange: 0
   cleaveRange: 2

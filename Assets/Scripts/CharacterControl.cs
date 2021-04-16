@@ -26,7 +26,7 @@ public class CharacterControl : MonoBehaviour
     {
         
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        deck = Instantiate(deckPrefab, new Vector3(10, 0, 3), Quaternion.identity);
+        deck = Instantiate(deckPrefab, new Vector3(9, 0, 0), Quaternion.identity);
 
 
 

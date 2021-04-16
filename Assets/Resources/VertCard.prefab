@@ -5408,7 +5408,7 @@ MonoBehaviour:
   waterSymbol: {fileID: 6769294181935530192}
   earthSymbol: {fileID: 1701088090148692609}
   gesture: {fileID: 7008848253955759646}
-  gestureType: 4
+  gestureType: 3
 --- !u!23 &6991932446411780472
 MeshRenderer:
   m_ObjectHideFlags: 0

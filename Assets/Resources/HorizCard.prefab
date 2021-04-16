@@ -531,7 +531,7 @@ MonoBehaviour:
   waterSymbol: {fileID: 2844433295105774468}
   earthSymbol: {fileID: 7929918373009993143}
   gesture: {fileID: 168570074721248201}
-  gestureType: 3
+  gestureType: 2
 --- !u!1 &7426655158370399636
 GameObject:
   m_ObjectHideFlags: 0
