@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 using Photon.Realtime;
 using Photon.Pun;
-
+using Valve.VR;
 public class GameLauncher : MonoBehaviourPunCallbacks
 {
     [Tooltip("The Ui Panel to let the user enter name, connect and play")]
@@ -43,6 +43,13 @@ public class GameLauncher : MonoBehaviourPunCallbacks
     {
         //feedbackText.SetActive(false);
         controlPanel.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (SteamVR_Actions.default_GrabPinch.GetStateDown(SteamVR_Input_Sources.Any)) {
+            Connect();
+        }
     }
 
     /// <summary>
