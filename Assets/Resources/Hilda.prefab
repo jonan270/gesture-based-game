@@ -124,7 +124,7 @@ MonoBehaviour:
   movingComplete:
     m_PersistentCalls:
       m_Calls: []
-  speed: 3
+  speed: 6
 --- !u!54 &2974195771333001750
 Rigidbody:
   m_ObjectHideFlags: 0
