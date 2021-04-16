@@ -6,6 +6,7 @@ using Photon.Pun;
 
 public class CharacterControl : MonoBehaviour
 {
+    public float modellScale = 1.0f;
     [Header("Character Prefabs")]
     [SerializeField] private GameObject hildaPrefab;
     [SerializeField] private GameObject bjornPrefab;
@@ -79,6 +80,7 @@ public class CharacterControl : MonoBehaviour
         Vector3 rotation = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
         //Instantiate over network
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
+        obj.transform.localScale *= modellScale;
         obj.GetComponent<Character>().CurrentTile = spawnTile;
         spawnTile.SetOccupant(obj.GetComponent<Character>()); // Set occupant in tile class
         

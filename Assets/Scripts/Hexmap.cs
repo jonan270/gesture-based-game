@@ -19,8 +19,8 @@ public class Hexmap : MonoBehaviour
     public static Hexmap Instance { get; private set; }
 
     // Map size in terms of hexes
-    public const int width = 20;
-    public const int height = 20;
+    public const int width = 10;
+    public const int height = 10;
 
     /// <summary>
     /// 2D array containing all gameobjects at index [x,y]
@@ -33,22 +33,33 @@ public class Hexmap : MonoBehaviour
     [SerializeField] private Hextile hexPrefab;
 
     // Offset values betwen tiles
-    private const float xoff = 0.8f;
-    private const float zoff = 0.46f;
+    float scaleoffset = 0;
+    private float xoff = 0.8f;
+    private float zoff = 0.46f;
 
     // Spawn
     private int master_count = 0;
 
     [SerializeField] private PhotonView photonView;
 
+    private int distbetweencharspawn = width / 3 - 1;
+
     // Start by generating tiles and making a randomized map-config
     void Awake()
     {
+        scaleoffset = hexPrefab.transform.lossyScale.x;
+        Debug.LogError(scaleoffset + " sacle offset");
+        xoff *= scaleoffset;
+        zoff *= scaleoffset;
+        Debug.LogError("xoff: " + xoff + " zoff: " + zoff + " sacle offset");
+
         if (photonView == null)
             Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
         Instance = this;
+
+
     }
 
     /// <summary>
@@ -214,16 +225,20 @@ public class Hexmap : MonoBehaviour
     {
         // retunera fr�n hosts tiles yo
         Hextile tile = null;
-        if(master && CheckValid(master_count + 3, 0))
+        if (master && CheckValid(master_count + distbetweencharspawn, 0))
         {
-            tile = map[master_count + 3, 0];
-            master_count += 4;
+            tile = map[master_count + distbetweencharspawn, 0];
+            master_count += distbetweencharspawn;
         }
-        else if(!master && CheckValid(master_count + 3, height - 1))
+        else if (!master && CheckValid(master_count + distbetweencharspawn, height - 1))
         {
             // else return non master position
-            tile = map[master_count + 3, height - 1];
-            master_count += 4;
+            tile = map[master_count + distbetweencharspawn, height - 1];
+            master_count += distbetweencharspawn;
+        }
+        else
+        {
+            tile = map[0, 0];
         }
         return tile;
     }
@@ -239,8 +254,8 @@ public class Hexmap : MonoBehaviour
             for (int z = 0; z < height; z++)
             {
                 // Instantiate and add to array
-                Hextile instantiated = Instantiate(hexPrefab, new Vector3(x * xoff, 0, 2 * zoff * z + zSwitch), Quaternion.identity);
-                instantiated.transform.localScale = Vector3.one;
+                Hextile instantiated = Instantiate(hexPrefab, new Vector3(x * xoff , 0, 2 * zoff  * z + zSwitch), Quaternion.identity);
+                //instantiated.transform.localScale = Vector3.one;
                 instantiated.transform.parent = transform;
                 //Hextile tile = instantiated.GetComponent<Hextile>();
                 map[x, z] = instantiated;
