@@ -5,7 +5,7 @@ using UnityEngine;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
 using PDollarGestureRecognizer;
-
+using TMPro;
 //Types of gestures, names must match the gesture name in /Gestures/...xml
 /// <summary>
 /// Gesture Type represents the type of gesture a user makes. Found in GestureTracker.cs
@@ -24,7 +24,9 @@ public class GestureTracker : MonoBehaviour
     
     public GameObject LeftHand, RightHand, visualAid;
 
-    private CharacterSelector lCShand, rCShand;
+    public TextMeshProUGUI uitext;
+
+    [SerializeField] private CharacterSelector lCShand, rCShand;
 
     public float closeDistance = 0.5f;
     private float TimeSinceGuess = 0.0f;
@@ -79,7 +81,8 @@ public class GestureTracker : MonoBehaviour
         if (PlayerManager.Instance.PlayerState == PlayerState.makeGesture)
         {
             //TimeSinceGuess += Time.deltaTime;
-
+            uitext.enabled = true;
+            uitext.text = "Make a gesture";
             //Check wether or not the back buttons are pressed and that hand is free and not holding anything
             bool stateLeft = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.LeftHand) && lCShand.IsHandFree;
             bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand) && rCShand.IsHandFree;
@@ -133,11 +136,12 @@ public class GestureTracker : MonoBehaviour
 
             }
 
-            //saves a gesture, used only in development
-            if (SteamVR_Actions.default_GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
-            {
-                AddGesture();
-            }
+            ////saves a gesture, used only in development
+            //if (SteamVR_Actions.default_GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
+            //{
+            //    AddGesture();
+            //    uitext.text = " Save a new gesture ";
+            //}
         }
     }
     /// <summary>
@@ -171,6 +175,15 @@ public class GestureTracker : MonoBehaviour
         }
     }
 
+    void RemoveGesturePositions()
+    {
+        foreach (var gp in gesturePositions)
+            Destroy(gp.obj);
+
+        gesturePositions.Clear();
+        points.Clear();
+    }
+
     /// <summary>
     /// Turn GesturePositions into Points for the gesture recognition.
     /// </summary>
@@ -192,6 +205,8 @@ public class GestureTracker : MonoBehaviour
     /// </summary>
     void GuessGesture()
     {
+        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
+        
         TransformToPoints();
 
         if (points.Count > 1) //Single point can not be a gesture.
@@ -204,16 +219,26 @@ public class GestureTracker : MonoBehaviour
             GestureType gest;
             if (gestureResult.Score >= 0.85f)
             {
+                PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
                 AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+                uitext.text = "Gesture recognized as \n " + gest.ToString();
+                uitext.enabled = false;
                 //TODO: add guess gesture on button release instead of every 0.1s also check so that we are in gesture drawing state!
             }
             else
             {
                 gest = GestureType.none;
                 Debug.LogError("No gesture was recognized try again");
+                uitext.text = "No gesture recognized try again";
+                //PlayerManager.Instance.OnPlayerStateChanged(PlayerState.makeGesture);
+                PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
+
+
             }
         }
+
+        RemoveGesturePositions();
     }
 
     /// <summary>
