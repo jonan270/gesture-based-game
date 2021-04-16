@@ -164,14 +164,14 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         if(CurrentTile.tileType == Element)
         {
-            attackMultiplier = 1.1f;
-            defenceMultiplier = 1.1f;
+            attackMultiplier *= 1.1f;
+            defenceMultiplier *= 1.1f;
 
         }
         else if(CurrentTile.tileType == WeakAgainst)
         {
-            attackMultiplier = 0.9f;
-            defenceMultiplier = 0.9f;
+            attackMultiplier *= 0.9f;
+            defenceMultiplier *= 0.9f;
         }
  
     }
