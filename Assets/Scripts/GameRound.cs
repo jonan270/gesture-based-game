@@ -32,6 +32,7 @@ public class GameRound : MonoBehaviourPun
             {
                 character.SetState(Character.CharacterState.CanDoAction);
             }
+            AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
             //Gems are given
             //Draw new cards
         }
@@ -100,14 +101,15 @@ public class GameRound : MonoBehaviourPun
         ++turnCounter;
         myTurn = false;
 
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient) // Player 1
         {
+            // Turnbased effects should be applied to all characters at the end of player 1 turn
             if (turnCounter % 2 == 0)
             {
                 myTurn = true;
             }
         }
-        else
+        else // Player 2
         {
             if (turnCounter % 2 != 0)
             {

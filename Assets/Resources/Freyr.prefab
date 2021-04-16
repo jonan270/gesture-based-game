@@ -209,10 +209,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ListAbilityData:
+  - {fileID: 11400000, guid: 51689c35bc4bda547adfcb42cb9ad9fa, type: 2}
   - {fileID: 11400000, guid: 39621f3b0a05aa54ba34d885ce5544f9, type: 2}
   - {fileID: 11400000, guid: 25186bbdc6fce1444bddc7ddc397e16c, type: 2}
   attackMultiplier: 1
   defenceMultiplier: 1
+  activeEffect: {fileID: 0}
 --- !u!114 &4638374529834447028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +479,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 035d9ad91dc3b214cbba5f1fa3c54a3b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f5f9257605fe1e4a9378a529329c3dc, type: 2}
     - target: {fileID: 919132149155446097, guid: 035d9ad91dc3b214cbba5f1fa3c54a3b,
         type: 3}
       propertyPath: m_Name

@@ -68,6 +68,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public float attackMultiplier = 1f; // Decimalbaserade
     public float defenceMultiplier = 1f;
 
+    public GameObject activeEffect;
+
     private void Awake()
     {
         IsAlive = true;
@@ -111,6 +113,10 @@ public abstract class Character : MonoBehaviour, IPunObservable
         //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
         //Debug.Log(turnBasedEffect);
         TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
+        //GameObject effect = ListAbilityData[0].effectPrefab;
+        //activeEffect = ListAbilityData[0].effectPrefab;
+        newEffect.visualEffect = activeEffect;
+        //newEffect.visualEffect = effectPrefab;
         newEffect.setTurnBased(this, hMod, aMod, dMod, turns);
         turnBasedEffects.Add(newEffect);
     }
@@ -159,7 +165,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     public float CalculateAutoAttack(Character enemy)
     {
         float damage = BasicAttackValue * attackMultiplier + CompareElement(CurrentTile, BasicAttackValue, 2f);
-        Debug.LogError(name + " auto attacks " + enemy.name + " damaging it for " + damage / enemy.defenceMultiplier + " health");
+        //Debug.LogError(name + " auto attacks " + enemy.name + " damaging it for " + damage / enemy.defenceMultiplier + " health");
         return damage;
     }
     
@@ -185,9 +191,14 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// </summary>
     /// <param name="amount">Positive value heals and negative value deals damage</param>
     public void ModifyHealth(float amount)
-    {
-        if (amount < 0) //takes damage
+    {   
+        // Takes damage
+        if (amount < 0)
+        {
+            Debug.Log(name + " takes " + amount / defenceMultiplier + " amount of damage");
             currentHealth += amount / defenceMultiplier;
+        }
+
         else //being healed
             currentHealth += amount;
 
@@ -230,6 +241,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             //Own player: send data to 
             stream.SendNext(currentHealth); //health
+            stream.SendNext(defenceMultiplier);
             //current tile index
             stream.SendNext(CurrentTile.tileIndex.x);
             stream.SendNext(CurrentTile.tileIndex.y);
@@ -238,6 +250,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             //Network player, receive data
             currentHealth = (float)stream.ReceiveNext(); //health
+            defenceMultiplier = (float)stream.ReceiveNext(); // Defence multiplier
             ModifyHealth(0); //updates healthbar 
             //current tile index
             int x = (int)stream.ReceiveNext();

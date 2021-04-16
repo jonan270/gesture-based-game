@@ -11,7 +11,21 @@ public class Poison : AbilityData
     //}
     public override void ActivateAbility()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        Debug.Log("Waiting for player to select a target");
+        PlayerManager.Instance.SubscribeToSelectTargetCharacter(OnSelectedCharacter);
+        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.chooseEnemyCharacter);
+    }
+
+    private void OnSelectedCharacter(Character target)
+    {
+        Character me = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+
+        Debug.Log("doing " + -powerValue + " in damage");
+        AbilityManager.ManagerInstance.ActivateTurnBasedAbility(target, -powerValue, 1f, 1f, 3, me);
+
+        PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);
+        AbilityCompleted();
     }
 
 }
