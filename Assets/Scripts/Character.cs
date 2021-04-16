@@ -91,7 +91,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     public enum CharacterState
     {
-        CanDoAction,
+        CanDoAction,PickedUp,
         LookAtCard, // "Idle" mode, Character standing still
         Walk, //walking mode
         AttackMode, // Attack mode, Character is about to perform an attack
@@ -174,7 +174,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             GetComponentInChildren<Light>().enabled = true;
         }
-        else if (CurrentState == CharacterState.ActionCompleted)
+        else if (CurrentState == CharacterState.ActionCompleted || CurrentState == CharacterState.PickedUp)
         {
             GetComponentInChildren<Light>().enabled = false;
         }

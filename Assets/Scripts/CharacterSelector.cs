@@ -40,7 +40,7 @@ public class CharacterSelector : MonoBehaviour
             //Check for button release
             if (SteamVR.active) //check if we are in VR or not
             {
-                if (!SteamVR_Actions.default_GrabGrip.GetState(source)) //is VR button released
+                if (!SteamVR_Actions.default_GrabPinch.GetState(source)) //is VR button released
                     ReleaseCharacter();
             }
             else
@@ -87,7 +87,7 @@ public class CharacterSelector : MonoBehaviour
         if (hasTarget)
             return;
         //TODO: check player state can pickup
-        if (Input.GetKey(KeyCode.F) || SteamVR_Actions.default_GrabGrip.GetState(source)) {
+        if (Input.GetKey(KeyCode.F) || SteamVR_Actions.default_GrabPinch.GetState(source)) {
             if (CanPickUp())
             {
                 GameObject obj = collider.transform.root.gameObject;
@@ -110,7 +110,8 @@ public class CharacterSelector : MonoBehaviour
     /// <returns></returns>
     private bool CanPickUp()
     {
-        return PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.PlayerState != PlayerState.characterWalking;
+        //return PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.PlayerState != PlayerState.characterWalking;
+        return PlayerManager.Instance.PlayerState == PlayerState.idle;
     }
     /// <summary>
     /// Pickup the character 
@@ -121,6 +122,7 @@ public class CharacterSelector : MonoBehaviour
         selectedCharacter = character;
         hasTarget = true;
         CopyTransform(selectedCharacter.transform);
+        character.GetComponent<Character>().SetState(Character.CharacterState.PickedUp);
         PlayerManager.Instance.selectedCharacter = selectedCharacter;
         Debug.Log("Selected character in hand is " + selectedCharacter.name);
         Debug.Log("Selected character in player manager is " + PlayerManager.Instance.selectedCharacter.name);
@@ -150,7 +152,9 @@ public class CharacterSelector : MonoBehaviour
     public void ReleaseCharacter()
     {
         if (selectedCharacter == null)
-            return; 
+            return;
+
+        selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.CanDoAction);
 
         selectedCharacter.transform.position = originalPosition;
         selectedCharacter.transform.rotation = originalRotation;
