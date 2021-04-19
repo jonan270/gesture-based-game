@@ -157,14 +157,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f66ce81ffc7b84abf6adc61b395466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 2912654047852143688}
+  anim: {fileID: 0}
   healthBar: {fileID: 345039690021744265}
-  currentHealth: 100
+  currentHealth: 0
   maxHealth: 100
-  attackValue: 15
   turnBasedEffects: []
   Name: Freyr
-  Element: 2
+  MaterialType: {fileID: 2100000, guid: f0fe5e81c15133a48a833840a00695f2, type: 2}
   StrongAgainst: 4
   WeakAgainst: 1
   CurrentState: 0
@@ -173,8 +172,11 @@ MonoBehaviour:
       m_Calls: []
   ListAbilityData:
   - {fileID: 11400000, guid: 39621f3b0a05aa54ba34d885ce5544f9, type: 2}
+  - {fileID: 11400000, guid: 51689c35bc4bda547adfcb42cb9ad9fa, type: 2}
+  - {fileID: 11400000, guid: 25186bbdc6fce1444bddc7ddc397e16c, type: 2}
   attackMultiplier: 1
   defenceMultiplier: 1
+  activeEffect: {fileID: 0}
 --- !u!114 &1773165691403320168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,37 +217,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &2807933164081163714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5606746154155815176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60f66ce81ffc7b84abf6adc61b395466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBar: {fileID: 345039690021744265}
-  currentHealth: 0
-  maxHealth: 100
-  turnBasedEffects: []
-  Name: Freyr
-  MaterialType: {fileID: 2100000, guid: f0fe5e81c15133a48a833840a00695f2, type: 2}
-  StrongAgainst: 4
-  WeakAgainst: 1
-  CurrentState: 0
-  deathEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  ListAbilityData:
-  - {fileID: 11400000, guid: 39621f3b0a05aa54ba34d885ce5544f9, type: 2}
-  - {fileID: 11400000, guid: 51689c35bc4bda547adfcb42cb9ad9fa, type: 2}
-  - {fileID: 11400000, guid: 25186bbdc6fce1444bddc7ddc397e16c, type: 2}
-  attackMultiplier: 1
-  defenceMultiplier: 1
-  activeEffect: {fileID: 0}
 --- !u!114 &4638374529834447028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,12 +605,6 @@ PrefabInstance:
 --- !u!4 &9118663037197844018 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3feec2e6ac7d99445b865556e0024480,
-    type: 3}
-  m_PrefabInstance: {fileID: 8719328166697769433}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2912654047852143688 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 3feec2e6ac7d99445b865556e0024480,
     type: 3}
   m_PrefabInstance: {fileID: 8719328166697769433}
   m_PrefabAsset: {fileID: 0}
