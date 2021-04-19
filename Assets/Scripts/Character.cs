@@ -115,15 +115,29 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <param name="turns">How many turns is the effect active?</param>
     public void AddTurnBasedEffect(float hMod, float aMod, float dMod, int turns)
     {
-        //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
-        //Debug.Log(turnBasedEffect);
         TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
-        //GameObject effect = ListAbilityData[0].effectPrefab;
-        //activeEffect = ListAbilityData[0].effectPrefab;
         newEffect.visualEffect = activeEffect;
-        //newEffect.visualEffect = effectPrefab;
         newEffect.setTurnBased(this, hMod, aMod, dMod, turns);
         turnBasedEffects.Add(newEffect);
+    }
+
+    /// <summary>
+    /// Finds the effectPrefab of the ability of a certain GestureType
+    /// </summary>
+    /// <param name="type">Type of gesture</param>
+    /// <returns></returns>
+    public GameObject GetEffectFromGesture(GestureType type)
+    {
+        foreach(var ability in ListAbilityData)
+        {
+            if(ability.gestureType == type)
+            {
+                return ability.effectPrefab;
+            }
+        }
+        //Below should never happen
+        Debug.Log("ABILITY OF TYPE " + type + " IS MISSING ON" + name);
+        return null;
     }
 
     /// <summary>

@@ -10,7 +10,6 @@ public class TurnBasedEffect : MonoBehaviour
 
     public int turnCount;
 
-    //[SerializeField]
     public GameObject visualEffect;
 
     /// <summary>
