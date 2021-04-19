@@ -6,25 +6,37 @@ public class cardDrawing : MonoBehaviour
 {
     //GameObject ob;
     // Update is called once per frame
+    ParticleSystem ps;
     void Start()
     {
         //ob = GameObject.Find("HandCards(Clone)");
-
+        ps = GetComponent<ParticleSystem>();
     }
     void Update()
     {
 
-        if (PlayerManager.Instance.selectedCharacter == null)
-        {
-            //ob.GetComponent<HandCards>().setTextHand(false);
-            this.gameObject.GetComponent<ParticleSystem>().enableEmission = false;
+        //if (PlayerManager.Instance.selectedCharacter == null)
+        //{
+        //    //ob.GetComponent<HandCards>().setTextHand(false);
+        //    ps.Stop();
             
-        }
-         else if (PlayerManager.Instance.selectedCharacter != null) {
+        //}
+        // else if (PlayerManager.Instance.selectedCharacter != null) {
 
-            //ob.GetComponent<HandCards>().setTextHand(true);
-            this.gameObject.GetComponent<ParticleSystem>().enableEmission = true;
+        //    //ob.GetComponent<HandCards>().setTextHand(true);
+        //    ps.Play();
                 
-        }
+        //}
+    }
+
+    public void OnPickup()
+    {
+        ps.Play();
+    }
+
+    public void OnDropCharacter()
+    {
+        ps.Stop();
+
     }
 }
