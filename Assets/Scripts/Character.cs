@@ -15,6 +15,8 @@ public enum ElementState
 
 public abstract class Character : MonoBehaviour, IPunObservable
 {
+    public Animator anim;
+
     public HealthBar healthBar;
     public Hextile CurrentTile { get; set; }
 
@@ -82,6 +84,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         attackMultiplier = 1f;
         defenceMultiplier = 1f;
         currentHealth = maxHealth;
+        anim = GetComponent<Animator>();
         //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
         deathEvent.AddListener(PlayerManager.Instance.UpdateCharacterLists);
         deathEvent.AddListener(PlayerManager.Instance.RPC_UpdateCharacterList);
@@ -225,11 +228,21 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// </summary>
     private void Die()
     {
+        StartCoroutine(waiter());
+        // S�tta en key? Allm�n animations Key??
+
+    }
+
+    IEnumerator waiter()
+    {
+
         Debug.Log(gameObject.name + " is now dead");
         IsAlive = false;
         CurrentTile.RemoveOccupant(); //updates tile for self
         Hexmap.Instance.UpdateTile(CurrentTile.tileIndex.x, CurrentTile.tileIndex.y); //synchronize this tile over network
         RPC_Cant_Handle_Inheritance(); //synchronize alive status over network
+        anim.Play("Die");
+        yield return new WaitForSeconds(4);
         deathEvent.Invoke();
         PhotonNetwork.Destroy(gameObject);
     }
