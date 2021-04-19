@@ -59,6 +59,7 @@ public class PathFollower : MonoBehaviour
         if(points.Count > 0) {
             path = points;
             moving = true;
+            character.SetState(Character.CharacterState.Walking);
             GetNextPoint();
         }
     }
@@ -97,8 +98,8 @@ public class PathFollower : MonoBehaviour
     private void GetNextPoint() {
         
 
-        // If we are at the end of the path stop movement
-        if (index == path.Count)
+        // If we are at the end of the path or character died on the way stop moving
+        if (index == path.Count || !character.IsAlive)
         {
             ReachedEnd();
             return;

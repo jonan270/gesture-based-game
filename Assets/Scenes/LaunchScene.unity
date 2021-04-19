@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 0babd5c43fc29134fa2d9b3e4bb7a862, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.2080656, g: 0.17250714, b: 0.24772197, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1208,8 +1208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlPanel: {fileID: 1253329369}
   feedbackText: {fileID: 668114169}
-  maxPlayersPerRoom: 2
-  scene: {fileID: 102900000, guid: d6a38868a9a05fe45aef7ff568c05992, type: 3}
+  maxPlayersPerRoom: 1
+  scene: {fileID: 102900000, guid: 5970026bb06e82c43953baa5ff89a5f3, type: 3}
 --- !u!4 &1682338280
 Transform:
   m_ObjectHideFlags: 0

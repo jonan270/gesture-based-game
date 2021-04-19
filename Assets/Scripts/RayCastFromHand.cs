@@ -59,18 +59,7 @@ public class RayCastFromHand : MonoBehaviour
                 UIText.Instance.SetActive(true);
                 UIText.Instance.DisplayText("Draw a path for the character");
 
-                if (SteamVR.active)
-                {
-                    if (SteamVR_Actions.default_GrabPinch.GetState(characterSelector.source))
-                        ScanForTiles();
-
-                }
-                else
-                {
-                    if (Input.GetMouseButton(0))
-                        ScanForTiles();
-
-                }
+                ScanForTiles();
             }
             //We release the button and finish our drawing
             if (PlayerState == PlayerState.drawPath)
@@ -257,13 +246,21 @@ public class RayCastFromHand : MonoBehaviour
                 HitSomething(hit);
                 if (currentTile.occupant == null) //if there is a friendly character in the tile , we cant go there we can however go on a tile where enemy character is
                 {
-                    //(tilesSelected.Count == 0 && AreTilesAdjacent(currentTile, selectedCharacter.CurrentTile)) || 
-                    if ((tilesSelected.Count > 0 && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
+                    if (SteamVR.active) //using vr controller
                     {
-                        //Debug.Log("Adding tile to list");
-                        tilesSelected.Add(currentTile);
-                        pathCreator.AddTile(currentTile);
-                        currentTile.OnSelectedTile();
+                        if (SteamVR_Actions.default_GrabPinch.GetState(characterSelector.source))
+                        {
+                            TryAddTile(currentTile);
+                        }
+
+                    }
+                    else //fallback using mouse + keyboard
+                    {
+                        if (Input.GetMouseButton(0))
+                        {
+                            TryAddTile(currentTile);
+                        }
+
                     }
                 }
             }
@@ -277,6 +274,16 @@ public class RayCastFromHand : MonoBehaviour
             DidNotHit();
         }
 
+    }
+    private void TryAddTile(Hextile currentTile)
+    {
+        if ((tilesSelected.Count > 0 && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
+        {
+            //Debug.Log("Adding tile to list");
+            tilesSelected.Add(currentTile);
+            pathCreator.AddTile(currentTile);
+            currentTile.OnSelectedTile();
+        }
     }
     /// <summary>
     /// Stops rendering the laser

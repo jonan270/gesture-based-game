@@ -58,7 +58,13 @@ public class GameRound : MonoBehaviourPun
     public void ActionTaken()
     {
         OnActionTaken.Invoke();
-        PlayerManager.Instance.selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.ActionCompleted); //TODO change to a function call instead 
+        var tmp = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+        if (tmp.IsAlive)
+            tmp.SetState(Character.CharacterState.ActionCompleted);
+            //PlayerManager.Instance.selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.ActionCompleted); //TODO change to a function call instead 
+        else
+            tmp.SetState(Character.CharacterState.Dead);
+
         PlayerManager.Instance.selectedCharacter = null;
         PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
 

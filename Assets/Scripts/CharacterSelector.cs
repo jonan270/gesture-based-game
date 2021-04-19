@@ -125,6 +125,11 @@ public class CharacterSelector : MonoBehaviour
         character.GetComponent<Character>().SetState(Character.CharacterState.PickedUp);
         PlayerManager.Instance.selectedCharacter = selectedCharacter;
 
+        var cards = FindObjectsOfType<cardDrawing>();
+        foreach(var card in cards)
+        {
+            card.OnPickup();
+        }
         GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(true);
 
         Debug.Log("Selected character in hand is " + selectedCharacter.name);
@@ -166,6 +171,12 @@ public class CharacterSelector : MonoBehaviour
         hasTarget = false;
         otherHand.OnReleasedCharacter();
         selectedCharacter = null;
+
+        var cards = FindObjectsOfType<cardDrawing>();
+        foreach (var card in cards)
+        {
+            card.OnDropCharacter();
+        }
     }
 
     public void OnReleasedCharacter()

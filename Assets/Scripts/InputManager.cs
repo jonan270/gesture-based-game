@@ -13,6 +13,12 @@ public class InputManager : MonoBehaviour
     private PathCreator creator;
     private AbilityManager abilitymanager;
 
+    private HandCards cardManager;
+
+    private void Start()
+    {
+        cardManager = FindObjectOfType<HandCards>();
+    }
 
     private void OnEnable()
     {
@@ -40,7 +46,7 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.F2))
-            RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.s);
+            RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.verticalline);
         if (Input.GetKeyDown(KeyCode.F3))
             RunAbility(PlayerManager.Instance.selectedCharacter.GetComponent<Character>(), GestureType.horizontalline);
     }
@@ -50,7 +56,8 @@ public class InputManager : MonoBehaviour
         if (PlayerManager.Instance.PlayerState == PlayerState.idle)
         {
             Debug.Log("Running ability " + type + " of: " + character.name);
-            abilitymanager.ActivateAbilityFromGesture(type, character);
+            //abilitymanager.ActivateAbilityFromGesture(type, character);
+            cardManager.activateCard(type);
         }
     }
 

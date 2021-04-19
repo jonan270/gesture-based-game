@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Andreas_sprint_2.unity
     guid: e09f46be886d7a74aba6c122560e4dd6
   - enabled: 0
+    path: Assets/Scenes/Trapimplementation.unity
+    guid: 5a1bdc5d72440c8429e7591dce126a40
+  - enabled: 0
     path: Assets/Scenes/GamePlayScene.unity
     guid: 26213481b34874b4b964f0f50a0d7595
   - enabled: 0
