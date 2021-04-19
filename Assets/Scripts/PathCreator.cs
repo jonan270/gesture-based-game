@@ -48,7 +48,7 @@ public class PathCreator : MonoBehaviour
             return;
         
         tiles.Add(h);
-        pathdrawer.DrawPath(CreatePointsFromTiles());        
+        //pathdrawer.DrawPath(CreatePointsFromTiles());        
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public class PathCreator : MonoBehaviour
     {
         Debug.Log(obj.name + " recieved path complete");
         isBusy = false;
-        pathdrawer.ClearPath();
+        //pathdrawer.ClearPath();
         actionTaken.Invoke();
     }
 
