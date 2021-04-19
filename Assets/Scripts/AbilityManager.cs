@@ -71,7 +71,7 @@ public class AbilityManager : MonoBehaviour
     /// <param name="targetY"> Y position of ability target </param>
     /// <param name="hitDamage"> Damage to apply when projectile connects </param>
     [PunRPC]
-    void RPC_CastProjectile(int userX, int userY, int targetX, int targetY, float hitDamage)
+    void RPC_CastProjectile(int userX, int userY, int targetX, int targetY, float hitDamage, GestureType type)
     {
         Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
         projectileTarget = target;
@@ -81,17 +81,14 @@ public class AbilityManager : MonoBehaviour
         startTarget = user.transform.position;
         endTarget = target.transform.position;
 
-        //Debug.Log("User: " + user);
-        GameObject projectile = user.ListAbilityData[2].effectPrefab; // TODO: Find a better way to find projectiles?
+        GameObject projectile = user.GetEffectFromGesture(type);
 
         projectileObj = Instantiate(projectile, user.transform.position, Quaternion.identity);
         projectileObj.transform.localScale = user.transform.localScale;
 
         startTime = Time.time;
 
-        //visualEffect.transform.SetParent(parent, true);
         projectileObj.transform.localEulerAngles = new Vector3(0, 0, 0);
-        //LerpProjectile(projectileObj, user.transform.position, target.transform.position);
         projectileDamage = hitDamage;
         travelling = true;
     }
@@ -125,10 +122,10 @@ public class AbilityManager : MonoBehaviour
     /// <param name="user"> Character that uses ability </param>
     /// <param name="target"> Character that gets hit by ability </param>
     /// <param name="hitDamage"> Damage to apply </param>
-    public void CastProjectile(Character user, Character target, float hitDamage)
+    public void CastProjectile(Character user, Character target, float hitDamage, GestureType type)
     {
         photonView.RPC("RPC_CastProjectile", RpcTarget.All, user.CurrentTile.tileIndex.x, user.CurrentTile.tileIndex.y,
-            target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y, hitDamage);
+            target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y, hitDamage, type);
     }
 
 
@@ -181,7 +178,7 @@ public class AbilityManager : MonoBehaviour
     /// <param name="dMod"></param>
     /// <param name="turns"></param>
     [PunRPC]
-    void RPC_SetTurnBased(int x, int y, float hMod, float aMod, float dMod, int turns, int userX, int userY)
+    void RPC_SetTurnBased(int x, int y, float hMod, float aMod, float dMod, int turns, int userX, int userY, GestureType type)
     {
         Character target = PlayerManager.Instance.GetCharacterAt(x, y);
         Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
@@ -189,7 +186,9 @@ public class AbilityManager : MonoBehaviour
         Debug.Log("Setting ability from" + user.name + " on " + target.name);
         turnBasedEffected.Add(target); // Add to list of effected characters
 
-        target.activeEffect = user.ListAbilityData[0].effectPrefab; // Turnbased abilities should be placed in slot 0
+        //target.activeEffect = user.ListAbilityData[0].effectPrefab; // Turnbased abilities should be placed in slot 0 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        target.activeEffect = user.GetEffectFromGesture(type);
+
 
         //GameObject visualEffect = target.ListAbilityData[0].effectPrefab;
         target.AddTurnBasedEffect(hMod, aMod, dMod, turns);
@@ -206,7 +205,7 @@ public class AbilityManager : MonoBehaviour
     /// <param name="aMod"></param>
     /// <param name="dMod"></param>
     /// <param name="turns"></param>
-    public void ActivateTurnBasedAbility(Character character, float hMod, float aMod, float dMod, int turns, Character user = null)
+    public void ActivateTurnBasedAbility(Character character, float hMod, float aMod, float dMod, int turns, GestureType type, Character user = null)
     {
         Debug.Log("Activating turnbased ability on " + character.name + " for " + turns + " turns");
         //GetComponent<PhotonView>().RPC("RPC_DamageCharacter", RpcTarget.All, character.CurrentTile.tileIndex.x,
@@ -227,7 +226,7 @@ public class AbilityManager : MonoBehaviour
             userY = user.CurrentTile.tileIndex.y;
         }
         photonView.RPC("RPC_SetTurnBased", RpcTarget.All, character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y,
-            hMod, aMod, dMod, turns, userX, userY);
+            hMod, aMod, dMod, turns, userX, userY, type);
     }
 
     /// <summary>

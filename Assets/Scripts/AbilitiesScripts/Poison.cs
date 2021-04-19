@@ -22,7 +22,7 @@ public class Poison : AbilityData
         Character me = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
 
         Debug.Log("doing " + -powerValue + " in damage");
-        AbilityManager.ManagerInstance.ActivateTurnBasedAbility(target, -powerValue, 1f, 1f, 3, me);
+        AbilityManager.ManagerInstance.ActivateTurnBasedAbility(target, -powerValue, 1f, 1f, 3, gestureType, me);
 
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);
         AbilityCompleted();
