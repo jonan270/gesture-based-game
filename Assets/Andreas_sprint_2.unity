@@ -160,6 +160,11 @@ PrefabInstance:
       propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 780440161}
+    - target: {fileID: 3020906554333233814, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3150955693383690804, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: m_Camera

@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0f7b8d207e884a4daecbe4803ecb22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
+  anim: {fileID: 8037956389714878528}
   healthBar: {fileID: 4169893381193743170}
   currentHealth: 0
   maxHealth: 100
@@ -161,6 +161,19 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!65 &672812962194795768
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089876101768339977}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02855362, y: 0.030615037, z: 0.044427715}
+  m_Center: {x: 0.00077395834, y: 0.00773614, z: 0.036964845}
 --- !u!1 &8199910047062045052
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,6 +389,18 @@ PrefabInstance:
 --- !u!4 &4137860739777215034 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7d95d6628920d64d8fbc8b5ec7a5247,
+    type: 3}
+  m_PrefabInstance: {fileID: 4532339856747650513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8037956389714878528 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: e7d95d6628920d64d8fbc8b5ec7a5247,
+    type: 3}
+  m_PrefabInstance: {fileID: 4532339856747650513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2089876101768339977 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6636440890234421288, guid: e7d95d6628920d64d8fbc8b5ec7a5247,
     type: 3}
   m_PrefabInstance: {fileID: 4532339856747650513}
   m_PrefabAsset: {fileID: 0}

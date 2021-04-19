@@ -211,6 +211,7 @@ public class Hextile : MonoBehaviour
     {
         isOccupied = false;
         occupant = null;
+        //Debug.LogError("Set tile: " + tileIndex.x + " , " + tileIndex.y + " occupant is " + isOccupied + " occupant is " + occupant);
     }
     /// <summary>
     /// Randomize element type of this tile

@@ -84,7 +84,6 @@ public abstract class Character : MonoBehaviour, IPunObservable
         attackMultiplier = 1f;
         defenceMultiplier = 1f;
         currentHealth = maxHealth;
-        anim = GetComponent<Animator>();
         //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
         deathEvent.AddListener(PlayerManager.Instance.UpdateCharacterLists);
         deathEvent.AddListener(PlayerManager.Instance.RPC_UpdateCharacterList);
@@ -101,11 +100,11 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     public enum CharacterState
     {
-        CanDoAction,PickedUp,
-        LookAtCard, // "Idle" mode, Character standing still
-        Walk, //walking mode
-        AttackMode, // Attack mode, Character is about to perform an attack
-        ActionCompleted
+        CanDoAction, //idle 
+        PickedUp, //playr is holding character
+        Dead, //character has died
+        Walking, //character is walking
+        ActionCompleted //idle
     }
 
 
@@ -188,10 +187,20 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             GetComponentInChildren<Light>().enabled = true;
         }
-        else if (CurrentState == CharacterState.ActionCompleted || CurrentState == CharacterState.PickedUp)
+        if (CurrentState == CharacterState.ActionCompleted || CurrentState == CharacterState.PickedUp)
         {
             GetComponentInChildren<Light>().enabled = false;
         }
+        if(CurrentState == CharacterState.CanDoAction || CurrentState == CharacterState.ActionCompleted)
+        {
+            anim.Play("Idle");
+        }
+        if (CurrentState == CharacterState.Walking)
+            anim.Play("Run");
+        if (CurrentState == CharacterState.Dead)
+            anim.Play("Die");
+
+        //Debug.Log(name + " state is " + CurrentState);
     }
 
     /// <summary>
@@ -241,7 +250,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         CurrentTile.RemoveOccupant(); //updates tile for self
         Hexmap.Instance.UpdateTile(CurrentTile.tileIndex.x, CurrentTile.tileIndex.y); //synchronize this tile over network
         RPC_Cant_Handle_Inheritance(); //synchronize alive status over network
-        anim.Play("Die");
+        //anim.Play("Die");
         yield return new WaitForSeconds(4);
         deathEvent.Invoke();
         PhotonNetwork.Destroy(gameObject);
