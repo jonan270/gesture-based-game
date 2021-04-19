@@ -27,6 +27,9 @@ public class Heal : AbilityData
 
         Debug.Log("Healing " + target.name + " for " + totalHeal + " amount of health");
         target.ModifyHealth(totalHeal);
+
+        AbilityManager.ManagerInstance.ApplyParticlesOnce(me, target);
+
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);        
         AbilityCompleted();
     }
