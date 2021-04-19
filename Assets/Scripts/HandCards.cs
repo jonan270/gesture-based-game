@@ -132,6 +132,8 @@ public class HandCards : MonoBehaviour
                 break;
             }
         }
+
+        UIText.Instance.DisplayText("No card for that ability!");
     }
 
     /// <summary>

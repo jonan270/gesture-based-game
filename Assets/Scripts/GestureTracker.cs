@@ -221,7 +221,9 @@ public class GestureTracker : MonoBehaviour
             {
                 PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
-                AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+                FindObjectOfType<HandCards>().activateCard(gest);
+                //AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
+
                 uitext.text = "Gesture recognized as \n " + gest.ToString();
                 uitext.enabled = false;
                 //TODO: add guess gesture on button release instead of every 0.1s also check so that we are in gesture drawing state!
