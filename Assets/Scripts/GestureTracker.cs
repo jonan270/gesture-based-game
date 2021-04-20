@@ -24,6 +24,7 @@ public class GestureTracker : MonoBehaviour
     public AudioClip correctGesture, wrongGesture;
     [SerializeField] private AudioSource audioSource;
 
+    public Transform leftSpawnPoint, rightSpawnPoint;
     public GameObject LeftHand, RightHand, visualAid;
     
     [SerializeField] private CharacterSelector lCShand, rCShand;
@@ -96,7 +97,7 @@ public class GestureTracker : MonoBehaviour
 
 
             //Left hand
-            handPositionLeft = LeftHand.transform.position;
+            handPositionLeft = leftSpawnPoint.position;
             float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
 
             if (stateLeft && distance >= closeDistance * closeDistance)
