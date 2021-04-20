@@ -36,7 +36,7 @@ public class RayCastFromHand : MonoBehaviour
             //Choosing a character
             if (PlayerState == PlayerState.chooseFriendlyCharacter || PlayerState == PlayerState.chooseEnemyCharacter)
             {
-                UIText.Instance.SetActive(true);
+                //UIText.Instance.SetActive(true);
 
                 if (PlayerState == PlayerState.chooseFriendlyCharacter)
                     UIText.Instance.DisplayText("Choose friendly character");
@@ -48,7 +48,7 @@ public class RayCastFromHand : MonoBehaviour
             //Single tile for an ability
             if (PlayerState == PlayerState.chooseTile)
             {
-                UIText.Instance.SetActive(true);
+                //UIText.Instance.SetActive(true);
 
                 UIText.Instance.DisplayText("Find a tile");
                 GetTile2();
@@ -56,7 +56,7 @@ public class RayCastFromHand : MonoBehaviour
             //Drawing a path for a character
             if(PlayerState == PlayerState.drawPath)
             {
-                UIText.Instance.SetActive(true);
+                //UIText.Instance.SetActive(true);
                 UIText.Instance.DisplayText("Draw a path for the character");
 
                 ScanForTiles();
@@ -81,7 +81,7 @@ public class RayCastFromHand : MonoBehaviour
                     {
                         pathCreator.FinishPath(selectedCharacter.gameObject);
                         tilesSelected.Clear();
-                        UIText.Instance.SetActive(false);
+                        //UIText.Instance.SetActive(false);
                         Debug.Log("Released he should walk now");
                         StopRayCast();
 
@@ -138,7 +138,7 @@ public class RayCastFromHand : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) || SteamVR_Actions.default_GrabPinch.GetStateDown(characterSelector.source)) //when the player presses left mouse btn invoke function
                 {
                     PlayerManager.Instance.tileTargetHandler.Invoke(tile);
-                    UIText.Instance.SetActive(false);
+                    //UIText.Instance.SetActive(false);
                     StopRayCast();
                 }
             }
@@ -187,7 +187,7 @@ public class RayCastFromHand : MonoBehaviour
         if (Input.GetMouseButtonDown(0) || SteamVR_Actions.default_GrabPinch.GetStateDown(characterSelector.source)) //when the player presses left mouse btn invoke function
         {
             PlayerManager.Instance.tileTargetHandler.Invoke(singleTile);
-            UIText.Instance.SetActive(false);
+            //UIText.Instance.SetActive(false);
             StopRayCast();
         }
     }
@@ -211,7 +211,7 @@ public class RayCastFromHand : MonoBehaviour
                 {
                     PlayerManager.Instance.DeselectCharacters();
                     PlayerManager.Instance.characterTargetHandler.Invoke(obj.GetComponent<Character>());
-                    UIText.Instance.SetActive(false);
+                    //UIText.Instance.SetActive(false);
                     StopRayCast();
                 }
 

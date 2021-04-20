@@ -129,7 +129,7 @@ public class HandCards : MonoBehaviour
                 
                 AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gesture, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
 
-                break;
+                return;
             }
         }
 
