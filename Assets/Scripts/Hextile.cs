@@ -90,24 +90,24 @@ public class Hextile : MonoBehaviour
         if (selected)
             return;
 
-        previousMaterial = tile.GetComponent<MeshRenderer>().material;
-        tile.GetComponent<MeshRenderer>().material = highlight;
+        //previousMaterial = tile.GetComponent<MeshRenderer>().material;
+        //tile.GetComponent<MeshRenderer>().material = highlight;
         FindObjectOfType<GameRound>().OnActionTaken.AddListener(DeselectTile);
         GetComponent<Outline>().enabled = true;
 
 
-        if (tileType == ElementState.Water)
-            water.SetActive(false);
+        //if (tileType == ElementState.Water)
+        //    water.SetActive(false);
 
         selected = true;
     }
 
     public void DeselectTile()
     {
-        tile.GetComponent<MeshRenderer>().material = getMaterial(tileType);
+        //tile.GetComponent<MeshRenderer>().material = getMaterial(tileType);
 
-        if (tileType == ElementState.Water)
-            water.SetActive(true);
+        //if (tileType == ElementState.Water)
+        //    water.SetActive(true);
         selected = false;
         GetComponent<Outline>().enabled = false;
         FindObjectOfType<GameRound>().OnActionTaken.RemoveListener(DeselectTile);
