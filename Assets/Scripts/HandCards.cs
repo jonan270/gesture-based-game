@@ -1,6 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class HandCards : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class HandCards : MonoBehaviour
 
     public Vector3 startingPosition = new Vector3( 18f, 0f, 3f );
 
+    private Vector3[] cardEndPositions;
+
+    private Vector3[] cardEndPositionsNotMaster;
+
     private float counter = 0f;
 
     private GameObject ob;
@@ -23,8 +28,10 @@ public class HandCards : MonoBehaviour
 
     void Start()
     {
-       
-    }
+        cardEndPositions = new Vector3[maxCardsOnHand];
+        cardEndPositionsNotMaster = new Vector3[maxCardsOnHand];
+
+}
 
     void Update()
     {
@@ -85,13 +92,9 @@ public class HandCards : MonoBehaviour
         counter += Time.deltaTime;
         //Move cards to the left hand side
 
-        Vector3[] cardEndPositions = new Vector3[5];
+        //Vector3[] cardEndPositions = new Vector3[5];
 
-        cardEndPositions[0] = new Vector3(1.5f, 0f, -1f); // Cards on the ground
-        cardEndPositions[1] = new Vector3(3.0f, 0f, -1f);
-        cardEndPositions[2] = new Vector3(4.5f, 0f, -1f);
-        cardEndPositions[3] = new Vector3(6.0f, 0f, -1f);
-
+        cardEndPositions = GetCardPosition(PhotonNetwork.IsMasterClient);
 
         //cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.12f, 4f)); //Cards on the screen, follows the camera
         //cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.37f, 4f));
@@ -211,6 +214,31 @@ public class HandCards : MonoBehaviour
         card.GetComponent<Card>().waterSymbol.SetActive(false);
         card.GetComponent<Card>().earthSymbol.SetActive(false);
 
+    }
+
+    public Vector3[] GetCardPosition(bool master)
+    {
+        // retunera fr�n hosts tiles yo
+       
+        if (master)
+        {
+            cardEndPositions[0] = new Vector3(1.5f, 0f, -1f); // Cards on the ground
+            cardEndPositions[1] = new Vector3(3.0f, 0f, -1f);
+            cardEndPositions[2] = new Vector3(4.5f, 0f, -1f);
+            cardEndPositions[3] = new Vector3(6.0f, 0f, -1f);
+
+        }
+        else if (!master)
+        {
+            cardEndPositions[0] = new Vector3(1.5f, 0f, 9f); // Cards on the ground
+            cardEndPositions[1] = new Vector3(3.0f, 0f, 9f);
+            cardEndPositions[2] = new Vector3(4.5f, 0f, 9f);
+            cardEndPositions[3] = new Vector3(6.0f, 0f, 9f);
+        }
+        else
+        {
+        }
+        return cardEndPositions;
     }
 
 }

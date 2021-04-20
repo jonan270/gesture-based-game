@@ -32,6 +32,11 @@ public class CharacterControl : MonoBehaviour
 
 
     }
+
+    void Update()
+    {
+        //hand.GetComponent<HandCards>().GetCardPosition(PhotonNetwork.IsMasterClient);
+    }
     private void Start()
     {
         //Call function createCharacter()
@@ -47,11 +52,16 @@ public class CharacterControl : MonoBehaviour
         PlayerManager.Instance.RPC_UpdateCharacterList();
         PlayerManager.Instance.UpdateCharacterLists();
 
+        
+
     }
+
+
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
+        
         Debug.LogError("Spawn Tile " + spawnTile.tileIndex);
         
         //Rotates character toward the other player
