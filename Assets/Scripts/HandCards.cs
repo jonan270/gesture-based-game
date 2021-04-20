@@ -1,6 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class HandCards : MonoBehaviour
 {
@@ -12,12 +13,11 @@ public class HandCards : MonoBehaviour
 
     private static int maxCardsOnHand = 4;
 
-    public Vector3 startingPosition = new Vector3( 18f, 0f, 3f );
+    public Vector3 startingPosition = new Vector3( 8.5f, 0f, 0.5f );
 
     private float counter = 0f;
 
     private GameObject ob;
-
 
     private string description = "";
 
@@ -87,10 +87,10 @@ public class HandCards : MonoBehaviour
 
         Vector3[] cardEndPositions = new Vector3[5];
 
-        cardEndPositions[0] = new Vector3(1.5f, 0f, -1f); // Cards on the ground
-        cardEndPositions[1] = new Vector3(3.0f, 0f, -1f);
-        cardEndPositions[2] = new Vector3(4.5f, 0f, -1f);
-        cardEndPositions[3] = new Vector3(6.0f, 0f, -1f);
+        cardEndPositions[0] = new Vector3(1.5f, 1f, -1.5f); // Cards on the ground
+        cardEndPositions[1] = new Vector3(3.0f, 1f, -1.5f);
+        cardEndPositions[2] = new Vector3(4.5f, 1f, -1.5f);
+        cardEndPositions[3] = new Vector3(6.0f, 1f, -1.5f);
 
 
         //cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.12f, 4f)); //Cards on the screen, follows the camera
@@ -107,7 +107,7 @@ public class HandCards : MonoBehaviour
             if (cardsOnHand[i].transform.position != cardEndPositions[i])
             {
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
-                cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
+                //cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
             }
         }
         counter = 0f;
@@ -209,7 +209,33 @@ public class HandCards : MonoBehaviour
         card.GetComponent<Card>().waterSymbol.SetActive(false);
         card.GetComponent<Card>().earthSymbol.SetActive(false);
 
+        //card.GetComponent<ParticleSystem>().enableEmission = false;
+
     }
+
+    //Funktion som kollar if master, se GetSpawnPosition
+
+   /* public Hextile GetSpawnPosition(bool master)
+    {
+        // retunera fr�n hosts tiles yo
+        Hextile tile = null;
+        if (master && CheckValid(master_count + distbetweencharspawn, 0))
+        {
+            tile = map[master_count + distbetweencharspawn, 0];
+            master_count += distbetweencharspawn;
+        }
+        else if (!master && CheckValid(master_count + distbetweencharspawn, height - 1))
+        {
+            // else return non master position
+            tile = map[master_count + distbetweencharspawn, height - 1];
+            master_count += distbetweencharspawn;
+        }
+        else
+        {
+            tile = map[0, 0];
+        }
+        return tile;
+    }*/
 
 }
 

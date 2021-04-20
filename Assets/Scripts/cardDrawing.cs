@@ -8,7 +8,7 @@ public class cardDrawing : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        //ob = GameObject.Find("HandCards(Clone)");
+        
 
     }
     void Update()

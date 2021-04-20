@@ -48,7 +48,8 @@ MonoBehaviour:
   - {fileID: 1486855066833753038, guid: 5dee205538c4d3a46b04e6ad1aee7fda, type: 3}
   - {fileID: 7223665546738302293, guid: 55aa9bff0a66ca440a96d4e068264a96, type: 3}
   - {fileID: 8198906921351081332, guid: 2dcac7b89cb0b2d49ba3edd6ba7cc0bc, type: 3}
-  prefabTri: {fileID: 0}
-  prefabCir: {fileID: 0}
-  prefabSq: {fileID: 0}
-  cardsShown: 0
+  startingPosition: {x: 8.5, y: 0, z: 0.5}
+  deckPrefab: {fileID: 4897451762834160154, guid: e8ba2902007ddd64d8e3f6111d9392d7,
+    type: 3}
+  handPrefab: {fileID: 4897451762834160154, guid: e8ba2902007ddd64d8e3f6111d9392d7,
+    type: 3}

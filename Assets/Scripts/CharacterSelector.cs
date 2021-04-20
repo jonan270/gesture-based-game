@@ -23,10 +23,14 @@ public class CharacterSelector : MonoBehaviour
     private Vector3 originalPosition, originalScale;
     private Quaternion originalRotation;
 
+    private GameObject handcards;
+
     private void Start()
     {
         if(hand == null) 
-            hand = transform;   
+            hand = transform;
+
+        handcards = GameObject.Find("HandCards(Clone)");
     }
 
 
@@ -125,7 +129,7 @@ public class CharacterSelector : MonoBehaviour
         character.GetComponent<Character>().SetState(Character.CharacterState.PickedUp);
         PlayerManager.Instance.selectedCharacter = selectedCharacter;
 
-        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(true);
+        handcards.GetComponent<HandCards>().setCardType(true);
 
         Debug.Log("Selected character in hand is " + selectedCharacter.name);
         Debug.Log("Selected character in player manager is " + PlayerManager.Instance.selectedCharacter.name);
@@ -158,7 +162,7 @@ public class CharacterSelector : MonoBehaviour
             return;
 
         selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.CanDoAction);
-        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(false);
+        handcards.GetComponent<HandCards>().setCardType(false);
 
         selectedCharacter.transform.position = originalPosition;
         selectedCharacter.transform.rotation = originalRotation;
