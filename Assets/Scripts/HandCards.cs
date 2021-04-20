@@ -23,7 +23,6 @@ public class HandCards : MonoBehaviour
 
     private GameObject ob;
 
-
     private string description = "";
 
     void Start()
