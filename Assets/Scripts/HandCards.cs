@@ -107,7 +107,7 @@ public class HandCards : MonoBehaviour
             if (cardsOnHand[i].transform.position != cardEndPositions[i])
             {
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
-                cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
+                //cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
             }
         }
         counter = 0f;
