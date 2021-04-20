@@ -221,6 +221,9 @@ public class PlayerManager : MonoBehaviour
             if (character.GetComponent<PhotonView>().IsMine && character.IsAlive)
             {
                 friendlyCharacters.Add(character);
+                int x = character.CurrentTile.tileIndex.x;
+                int y = character.CurrentTile.tileIndex.y;
+                Hexmap.Instance.map[x, y].SetOccupant(character);
             }
         }
         Debug.LogError("Updating friendly list, there are now " + friendlyCharacters.Count + " friendly characters in the scene");
@@ -239,9 +242,18 @@ public class PlayerManager : MonoBehaviour
             if (!character.GetComponent<PhotonView>().IsMine && character.IsAlive)
             {
                 enemyCharacters.Add(character);
+                StartCoroutine(SyncEnemyCharacterOnMap(character));
             }
         }
         Debug.LogError("Updating enemy list, there are now  " + enemyCharacters.Count + " enemies in the scene");
+    }
+
+    private IEnumerator SyncEnemyCharacterOnMap(Character character)
+    {
+        yield return new WaitForFixedUpdate();
+        int x = character.CurrentTile.tileIndex.x;
+        int y = character.CurrentTile.tileIndex.y;
+        Hexmap.Instance.map[x, y].SetOccupant(character);
     }
 
     public void DeselectCharacters()
