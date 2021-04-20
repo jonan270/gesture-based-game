@@ -21,6 +21,9 @@ public enum GestureType
 
 public class GestureTracker : MonoBehaviour
 {
+    public AudioClip correctGesture, wrongGesture;
+    [SerializeField] private AudioSource audioSource;
+
     public GameObject LeftHand, RightHand, visualAid;
     
     [SerializeField] private CharacterSelector lCShand, rCShand;
@@ -41,6 +44,8 @@ public class GestureTracker : MonoBehaviour
     private List<Gesture> trainingSet = new List<Gesture>();
 
     public string GestureName = "";
+
+    
     
     //A class that keeps track of positions to analyze as gestures.
     [System.Serializable]
@@ -217,16 +222,25 @@ public class GestureTracker : MonoBehaviour
             {
                 PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
-                FindObjectOfType<HandCards>().activateCard(gest);
+                UIText.Instance.DisplayText("Gesture recognized as \n " + gest.ToString());
+
+                if (FindObjectOfType<HandCards>().activateCard(gest))
+                {
+                    audioSource.PlayOneShot(correctGesture);
+                }else
+                {
+                    audioSource.PlayOneShot(wrongGesture);
+                }
                 //AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
 
-                UIText.Instance.DisplayText("Gesture recognized as \n " + gest.ToString());
                 //uitext.enabled = false;
                 //TODO: add guess gesture on button release instead of every 0.1s also check so that we are in gesture drawing state!
             }
             else
             {
                 gest = GestureType.none;
+                audioSource.PlayOneShot(wrongGesture);
+
                 Debug.LogError("No gesture was recognized try again");
                 UIText.Instance.DisplayText("No gesture recognized try again");
                 //PlayerManager.Instance.OnPlayerStateChanged(PlayerState.makeGesture);

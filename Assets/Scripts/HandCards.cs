@@ -116,7 +116,7 @@ public class HandCards : MonoBehaviour
     /// <summary>
     /// Gets which gesture has been done, removes card and activates ability depending on gesture.
     /// </summary>
-    public void activateCard(GestureType gesture)
+    public bool activateCard(GestureType gesture)
     {
         foreach (GameObject card in cardsOnHand)
         {
@@ -129,11 +129,12 @@ public class HandCards : MonoBehaviour
                 
                 AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gesture, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
 
-                return;
+                return true;
             }
         }
 
         UIText.Instance.DisplayText("No card for that ability!");
+        return false;
     }
 
     /// <summary>
