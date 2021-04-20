@@ -47,8 +47,17 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (SteamVR_Actions.default_GrabPinch.GetStateDown(SteamVR_Input_Sources.Any)) {
-            Connect();
+        if (SteamVR.active)
+        {
+            if (SteamVR_Actions.default_GrabPinch.GetStateDown(SteamVR_Input_Sources.Any))
+            {
+                Connect();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+                Connect();
         }
     }
 
