@@ -9,121 +9,187 @@ using UnityEngine.Events;
 /// Element of character or tile, found in Character.cs
 /// </summary>
 public enum ElementState
-{ 
+{
     None, Fire, Earth, Water, Wind
 }
 
 public abstract class Character : MonoBehaviour, IPunObservable
 {
-    public Animator anim;
-
     public HealthBar healthBar;
     public Hextile CurrentTile { get; set; }
 
-    //[SerializeField]
-    public float currentHealth;
-    //[SerializeField]
-    public float maxHealth = 100;
+    [SerializeField] protected float currentHealth;
+    [SerializeField] protected float maxHealth = 100;
 
-    public int attackValue;
+    public float MaxHealth { get { return maxHealth; } }
+    public float CurrentHealth { get { return currentHealth; } }
+
+
+    /// <summary>
+    /// Amount of damage this character does with a normal basic attack
+    /// </summary>
+    public float BasicAttackValue { get; protected set; }
     public List<TurnBasedEffect> turnBasedEffects;
     //public TurnBasedEffect turnBasedEffect;
     public string Name;
-    protected bool isAlive = true;
 
-    //public Material MaterialType;
-    public ElementState Element;
-    public ElementState StrongAgainst, WeakAgainst; //weakagainst kanske overkill?
+    /// <summary>
+    /// Returns true if the character is still alive
+    /// </summary>
+    public bool IsAlive { get; protected set; }
 
-    public CharacterState CurrentState;
 
-    //public AbilityManager abilityManager;
+    public Material MaterialType;
 
+    /// <summary>
+    /// Element of this character
+    /// </summary>
+    public ElementState Element { get; protected set; }
+    /// <summary>
+    /// Elemen this character is stronger against
+    /// </summary>
+    public ElementState StrongAgainst;
+    /// <summary>
+    /// Element this character is weaker to
+    /// </summary>
+    public ElementState WeakAgainst;
+
+    /// <summary>
+    /// What state this character is in
+    /// </summary>
+    [SerializeField] private CharacterState CurrentState;
+
+    /// <summary>
+    /// Functions to call when this character dies
+    /// </summary>
     public UnityEvent deathEvent;
 
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
+    protected PhotonView photonView;
+
     public float attackMultiplier = 1f; // Decimalbaserade
     public float defenceMultiplier = 1f;
 
-    //public string descriptionTextCard1;
-    //public string descriptionTextCard2;
-    //public string descriptionTextCard3;
+    public GameObject activeEffect;
 
-    // public GameObject c1;
-    //public Card c2;
-    //public Card c3;
-
+    private void Awake()
+    {
+        IsAlive = true;
+    }
     protected virtual void Start()
     {
+        attackMultiplier = 1f;
+        defenceMultiplier = 1f;
         currentHealth = maxHealth;
-        isAlive = true;
-        anim = GetComponent<Animator>();
         //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
-    }
+        deathEvent.AddListener(PlayerManager.Instance.UpdateCharacterLists);
+        deathEvent.AddListener(PlayerManager.Instance.RPC_UpdateCharacterList);
+        photonView = GetComponent<PhotonView>();
+        if (photonView == null)
+            Debug.LogError("MISSING PHOTONVIEW COMPONENT");
 
-    //private void OnEnable()
-    //{
-    //    isAlive = true;
-    //}
+        if (photonView.IsMine)
+        {
+            GetComponentInChildren<Light>().enabled = true;
+        }
+
+    }
 
     public enum CharacterState
     {
-        CanDoAction,
+        CanDoAction, PickedUp,
         LookAtCard, // "Idle" mode, Character standing still
         Walk, //walking mode
         AttackMode, // Attack mode, Character is about to perform an attack
         ActionCompleted
     }
 
-    public void AddTurnBasedEffect(float hMod, float aMod, float maxMod, int turns)
+
+    /// <summary>
+    /// Adds a turnbased effect on this character
+    /// </summary>
+    /// <param name="hMod">How health is effected each turn</param>
+    /// <param name="aMod">How much the characters attackvalue is multiplied by the effect</param>
+    /// <param name="dMod">How much the characters defence value is multiplied by the effect</param>
+    /// <param name="turns">How many turns is the effect active?</param>
+    public void AddTurnBasedEffect(float hMod, float aMod, float dMod, int turns)
     {
         //turnBasedEffect = TurnBasedEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
         //Debug.Log(turnBasedEffect);
         TurnBasedEffect newEffect = gameObject.AddComponent<TurnBasedEffect>();
-        newEffect.setTurnBased(this, hMod, aMod, maxMod, turns);
+        //GameObject effect = ListAbilityData[0].effectPrefab;
+        //activeEffect = ListAbilityData[0].effectPrefab;
+        newEffect.visualEffect = activeEffect;
+        //newEffect.visualEffect = effectPrefab;
+        newEffect.setTurnBased(this, hMod, aMod, dMod, turns);
         turnBasedEffects.Add(newEffect);
     }
 
-    public bool canDoAction()
+    /// <summary>
+    /// returns true if the character has not completed an action
+    /// </summary>
+    /// <returns></returns>
+    public bool CanDoAction()
     {
         return CurrentState != CharacterState.ActionCompleted;
     }
 
     /// <summary>
-    /// Compares attacking hero element vs the hero being attacked
+    /// Compares attacking hero element vs the hero being attacked, returns bonus damage if attacker is strong against target
     /// </summary>
-    /// <param name="enemyElement">Element of the enemy</param>
+    /// <param name="target">Character being attacked</param>
     /// <param name="baseDamage">Base damage of the ability / auto attack</param>
-    /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied, default value is 1</param>
+    /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied</param>
     /// <returns></returns>
-    public float CompareEnemyElement(ElementState enemyElement, float baseDamage, float bonusDamageMultiplier = 1f)
+    public float CompareElement(Character target, float baseDamage, float bonusDamageMultiplier)
     {
-        if (enemyElement == StrongAgainst)
+        if (StrongAgainst == target.Element)
         {
             Debug.Log("attack is strong against enemy character");
-            // Basedamage
-            return baseDamage *= bonusDamageMultiplier * attackMultiplier;
-            
+            return baseDamage * (bonusDamageMultiplier - 1);
         }
-        //else if(enemyElement == WeakAgainst)
-        //{
-        //    Debug.Log("weak");
-        //    return baseDamage -= bonusDamage;
-        //}
-        return baseDamage * attackMultiplier;
+        return 0; //No bonus damage 
+    }
+    /// <summary>
+    /// Compares attacking hero element vs the hero being attacked, returns bonus damage if attacker is strong against target
+    /// </summary>
+    /// <param name="tile">Tile to compare to</param>
+    /// <param name="baseDamage">Base damage of the ability / auto attack</param>
+    /// <param name="bonusDamageMultiplier"> How much extra damage is multiplied</param>
+    public float CompareElement(Hextile tile, float baseDamage, float bonusDamageMultiplier)
+    {
+        if (Element == tile.tileType)
+        {
+            Debug.Log("Attacker stands in a tile and recives bonus damage");
+            return baseDamage * (bonusDamageMultiplier - 1);
+        }
+        return 0;
     }
 
-    public void SetState(CharacterState state) {
-        CurrentState = state;
+    public float CalculateAutoAttack(Character enemy)
+    {
+        float damage = BasicAttackValue * attackMultiplier + CompareElement(CurrentTile, BasicAttackValue, 2f);
+        //Debug.LogError(name + " auto attacks " + enemy.name + " damaging it for " + damage / enemy.defenceMultiplier + " health");
+        return damage;
     }
 
     /// <summary>
-    /// Returns true if the character is still alive
+    /// Sets new state for the character
     /// </summary>
-    public bool IsAlive
+    /// <param name="state">new state</param>
+    public void SetState(CharacterState state)
     {
-        get { return isAlive; }
+        CurrentState = state;
+
+        if (CurrentState == CharacterState.CanDoAction)
+        {
+            GetComponentInChildren<Light>().enabled = true;
+        }
+        else if (CurrentState == CharacterState.ActionCompleted || CurrentState == CharacterState.PickedUp)
+        {
+            GetComponentInChildren<Light>().enabled = false;
+        }
     }
 
     /// <summary>
@@ -132,16 +198,24 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <param name="amount">Positive value heals and negative value deals damage</param>
     public void ModifyHealth(float amount)
     {
+        // Takes damage
         if (amount < 0)
+        {
+            Debug.Log(name + " takes " + amount / defenceMultiplier + " amount of damage");
             currentHealth += amount / defenceMultiplier;
-        else
+        }
+
+        else //being healed
             currentHealth += amount;
+
+        if (currentHealth > maxHealth)
+            currentHealth = maxHealth;
 
         float currentHealthPct = currentHealth / maxHealth; //Calculate current health percentage
 
         healthBar.SetFill(currentHealthPct); //health image 
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0 && IsAlive)
         {
             Die();
         }
@@ -152,31 +226,28 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// </summary>
     private void Die()
     {
-        StartCoroutine(waiter());
-        // Sätta en key? Allmän animations Key??
-
-    }
-
-    IEnumerator waiter()
-    {
-
         Debug.Log(gameObject.name + " is now dead");
-        anim.Play("Die");
-
-        yield return new WaitForSeconds(4);
-
-        isAlive = false;
-
+        IsAlive = false;
+        CurrentTile.RemoveOccupant(); //updates tile for self
+        Hexmap.Instance.UpdateTile(CurrentTile.tileIndex.x, CurrentTile.tileIndex.y); //synchronize this tile over network
+        RPC_Cant_Handle_Inheritance(); //synchronize alive status over network
         deathEvent.Invoke();
-
+        PhotonNetwork.Destroy(gameObject);
     }
+    protected abstract void RPC_Cant_Handle_Inheritance();
 
+    /// <summary>
+    /// Synchronize parameters over the network
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="info"></param>
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            //Own player: send data to others
-            stream.SendNext(currentHealth);
+            //Own player: send data to 
+            stream.SendNext(currentHealth); //health
+            stream.SendNext(defenceMultiplier);
             //current tile index
             stream.SendNext(CurrentTile.tileIndex.x);
             stream.SendNext(CurrentTile.tileIndex.y);
@@ -184,7 +255,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
         else
         {
             //Network player, receive data
-            currentHealth = (float)stream.ReceiveNext();
+            currentHealth = (float)stream.ReceiveNext(); //health
+            defenceMultiplier = (float)stream.ReceiveNext(); // Defence multiplier
             ModifyHealth(0); //updates healthbar 
             //current tile index
             int x = (int)stream.ReceiveNext();
