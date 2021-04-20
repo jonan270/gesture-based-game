@@ -24,4 +24,4 @@ MonoBehaviour:
   bonusPowerMultiplier: 5
   effectPrefab: {fileID: 0}
   isTurnbased: 0
-  tileRadius: 2
+  tileRadius: 1
