@@ -10,7 +10,7 @@ public class AbilityManager : MonoBehaviour
 
     private Hexmap map;
 
-    private GameObject projectileObj;
+    private GameObject particleObj;
     private bool travelling = false;
 
     // ** Projectiles like fireball ***
@@ -83,14 +83,31 @@ public class AbilityManager : MonoBehaviour
 
         GameObject projectile = user.GetEffectFromGesture(type);
 
-        projectileObj = Instantiate(projectile, user.transform.position, Quaternion.identity);
-        projectileObj.transform.localScale = user.transform.localScale;
+        particleObj = Instantiate(projectile, user.transform.position, Quaternion.identity);
+        particleObj.transform.localScale = user.transform.localScale;
 
         startTime = Time.time;
 
-        projectileObj.transform.localEulerAngles = new Vector3(0, 0, 0);
+        particleObj.transform.localEulerAngles = new Vector3(0, 0, 0);
         projectileDamage = hitDamage;
         travelling = true;
+    }
+
+    [PunRPC]
+    void RPC_applyOnce(int userX, int userY, int targetX, int targetY, GestureType type)
+    {
+        Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
+        Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
+
+        GameObject effect = user.GetEffectFromGesture(type);
+        particleObj = Instantiate(effect, target.transform.position, Quaternion.identity);
+        Destroy(particleObj, 5f);
+    }
+
+    public void ApplyParticlesOnce(Character user, Character target, GestureType type)
+    {
+        photonView.RPC("RPC_applyOnce", RpcTarget.All, user.CurrentTile.tileIndex.x, user.CurrentTile.tileIndex.y,
+            target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y, type);
     }
 
     /// <summary>
@@ -107,12 +124,12 @@ public class AbilityManager : MonoBehaviour
 
         //Debug.Log("Fraction is: " + fraction);
 
-        projectileObj.transform.position = Vector3.Lerp(startTarget, endTarget, fraction);
+        particleObj.transform.position = Vector3.Lerp(startTarget, endTarget, fraction);
         if (fraction > 0.99)
         {
             DamageCharacter(projectileTarget, projectileDamage);
             travelling = false;
-            Destroy(projectileObj);
+            Destroy(particleObj);
         }
     }
 

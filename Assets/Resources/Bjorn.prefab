@@ -70,7 +70,7 @@ MonoBehaviour:
   maxHealth: 100
   turnBasedEffects: []
   Name: Bjorn
-  MaterialType: {fileID: 2100000, guid: 6d298a106917afb4ead311d9ec87a627, type: 2}
+  MaterialType: {fileID: 2100000, guid: 796fa53a818d10e41839e108a5ed8071, type: 2}
   StrongAgainst: 1
   WeakAgainst: 2
   CurrentState: 0
