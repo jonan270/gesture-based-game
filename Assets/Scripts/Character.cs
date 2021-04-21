@@ -191,7 +191,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
     }
     
     /// <summary>
-    /// Sets new state for the character
+    /// Sets new state for the character also play correct animation
     /// </summary>
     /// <param name="state">new state</param>
     public void SetState(CharacterState state) {
@@ -207,14 +207,25 @@ public abstract class Character : MonoBehaviour, IPunObservable
         }
         if(CurrentState == CharacterState.CanDoAction || CurrentState == CharacterState.ActionCompleted)
         {
-            anim.Play("Idle");
+            //anim.Play("Idle");
+            anim.SetBool("Idle", true);
+            anim.SetBool("Walking", false);
         }
         if (CurrentState == CharacterState.Walking)
-            anim.Play("Run");
-        if (CurrentState == CharacterState.Dead)
-            anim.Play("Die");
+        {
+            anim.SetBool("Walking", true);
+            anim.SetBool("Idle", false);
 
-        //Debug.Log(name + " state is " + CurrentState);
+        }
+        //anim.Play("Run");
+        if (CurrentState == CharacterState.Dead)
+        {
+            anim.SetTrigger("Dead");
+
+        }
+        //anim.Play("Die");
+
+        Debug.Log(name + " state is " + CurrentState);
     }
 
     /// <summary>
@@ -264,7 +275,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         CurrentTile.RemoveOccupant(); //updates tile for self
         Hexmap.Instance.UpdateTile(CurrentTile.tileIndex.x, CurrentTile.tileIndex.y); //synchronize this tile over network
         RPC_Cant_Handle_Inheritance(); //synchronize alive status over network
-        //anim.Play("Die");
+        SetState(CharacterState.Dead);
         yield return new WaitForSeconds(4);
         deathEvent.Invoke();
         PhotonNetwork.Destroy(gameObject);

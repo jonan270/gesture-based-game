@@ -21,11 +21,12 @@ public enum GestureType
 
 public class GestureTracker : MonoBehaviour
 {
-    
+    public AudioClip correctGesture, wrongGesture;
+    [SerializeField] private AudioSource audioSource;
+
+    public Transform leftSpawnPoint, rightSpawnPoint;
     public GameObject LeftHand, RightHand, visualAid;
-
-    public TextMeshProUGUI uitext;
-
+    
     [SerializeField] private CharacterSelector lCShand, rCShand;
 
     public float closeDistance = 0.5f;
@@ -44,6 +45,8 @@ public class GestureTracker : MonoBehaviour
     private List<Gesture> trainingSet = new List<Gesture>();
 
     public string GestureName = "";
+
+    
     
     //A class that keeps track of positions to analyze as gestures.
     [System.Serializable]
@@ -81,8 +84,7 @@ public class GestureTracker : MonoBehaviour
         if (PlayerManager.Instance.PlayerState == PlayerState.makeGesture)
         {
             //TimeSinceGuess += Time.deltaTime;
-            uitext.enabled = true;
-            uitext.text = "Make a gesture";
+            UIText.Instance.DisplayText("Make a gesture");
             //Check wether or not the back buttons are pressed and that hand is free and not holding anything
             bool stateLeft = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.LeftHand) && lCShand.IsHandFree;
             bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand) && rCShand.IsHandFree;
@@ -95,7 +97,7 @@ public class GestureTracker : MonoBehaviour
 
 
             //Left hand
-            handPositionLeft = LeftHand.transform.position;
+            handPositionLeft = leftSpawnPoint.position;
             float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
 
             if (stateLeft && distance >= closeDistance * closeDistance)
@@ -221,18 +223,27 @@ public class GestureTracker : MonoBehaviour
             {
                 PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
-                FindObjectOfType<HandCards>().activateCard(gest);
+                UIText.Instance.DisplayText("Gesture recognized as \n " + gest.ToString());
+
+                if (FindObjectOfType<HandCards>().activateCard(gest))
+                {
+                    audioSource.PlayOneShot(correctGesture);
+                }else
+                {
+                    audioSource.PlayOneShot(wrongGesture);
+                }
                 //AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
 
-                uitext.text = "Gesture recognized as \n " + gest.ToString();
-                uitext.enabled = false;
+                //uitext.enabled = false;
                 //TODO: add guess gesture on button release instead of every 0.1s also check so that we are in gesture drawing state!
             }
             else
             {
                 gest = GestureType.none;
+                audioSource.PlayOneShot(wrongGesture);
+
                 Debug.LogError("No gesture was recognized try again");
-                uitext.text = "No gesture recognized try again";
+                UIText.Instance.DisplayText("No gesture recognized try again");
                 //PlayerManager.Instance.OnPlayerStateChanged(PlayerState.makeGesture);
                 PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
 

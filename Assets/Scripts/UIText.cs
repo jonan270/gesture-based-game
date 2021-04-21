@@ -12,14 +12,26 @@ public class UIText : MonoBehaviour
         Instance = this;
     }
 
-    public void DisplayText(string _text)
+    /// <summary>
+    /// Displays the text for a set amount of seconds
+    /// </summary>
+    /// <param name="_text">text to display</param>
+    /// <param name="turnoffin">How long the msg should be visible</param>
+    public void DisplayText(string _text, float turnoffin = 5f)
     {
+        if (uiText.text == _text)
+            return;
+        StopAllCoroutines();
+        uiText.enabled = true;
         uiText.text = _text;
+        StartCoroutine(TurnOffTextIn(turnoffin));
     }
 
-    public void SetActive(bool state)
+    private IEnumerator TurnOffTextIn(float time)
     {
-        uiText.enabled = state;
+        yield return new WaitForSeconds(time);
+        uiText.text = "";
+        uiText.enabled = false;
     }
 
 

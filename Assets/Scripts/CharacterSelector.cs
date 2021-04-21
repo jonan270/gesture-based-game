@@ -12,7 +12,7 @@ public class CharacterSelector : MonoBehaviour
     [SerializeField] GameObject glove, brush, magicWand;
     
     //alias for this transform
-    private Transform hand;
+    [SerializeField] private Transform followTransform;
 
     private GameObject selectedCharacter;
 
@@ -25,8 +25,8 @@ public class CharacterSelector : MonoBehaviour
 
     private void Start()
     {
-        if(hand == null) 
-            hand = transform;   
+        if(followTransform == null) 
+            followTransform = transform;   
     }
 
 
@@ -79,7 +79,7 @@ public class CharacterSelector : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log(hand.name + " collided with " + collider.transform.root.name);
+        Debug.Log(followTransform.name + " collided with " + collider.transform.root.name);
     }
 
     void OnTriggerStay(Collider collider)
@@ -150,8 +150,8 @@ public class CharacterSelector : MonoBehaviour
     /// </summary>
     private void FollowHand()
     {
-        selectedCharacter.transform.position = hand.position;
-        selectedCharacter.transform.rotation = hand.rotation;
+        selectedCharacter.transform.position = followTransform.position;
+        selectedCharacter.transform.rotation = followTransform.rotation;
         selectedCharacter.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
     }
     /// <summary>

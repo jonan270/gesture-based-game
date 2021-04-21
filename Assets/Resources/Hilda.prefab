@@ -92,6 +92,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1187446234487540213}
   - {fileID: 4529493182429685642}
+  - {fileID: 7477795716403943369}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -174,6 +175,33 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02855362, y: 0.030615037, z: 0.044427715}
   m_Center: {x: 0.00077395834, y: 0.00773614, z: 0.036964845}
+--- !u!114 &7477795716403943369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3613983429286486144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: Idle
+  - Type: 4
+    SynchronizeType: 1
+    Name: Dead
+  - Type: 4
+    SynchronizeType: 1
+    Name: Walking
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1 &8199910047062045052
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,6 +414,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 909358f2c452dc048b27fde534c11c46, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7d95d6628920d64d8fbc8b5ec7a5247, type: 3}
+--- !u!1 &3613983429286486144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e7d95d6628920d64d8fbc8b5ec7a5247,
+    type: 3}
+  m_PrefabInstance: {fileID: 4532339856747650513}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4137860739777215034 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7d95d6628920d64d8fbc8b5ec7a5247,
