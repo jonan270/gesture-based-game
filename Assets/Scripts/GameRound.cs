@@ -19,6 +19,15 @@ public class GameRound : MonoBehaviourPun
         EndTurn();
     }
 
+    void Update()
+    {
+        if (!myTurn)
+        {
+            HandCards.HandCardsInstance.UpdateCardsOnHand();
+
+        }
+    }
+
     /// <summary>
     /// Begin a new turn, reseting some values if nessesary 
     /// </summary>
@@ -33,12 +42,14 @@ public class GameRound : MonoBehaviourPun
                 character.SetState(Character.CharacterState.CanDoAction);
             }
             AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
+            
             //Gems are given
             //Draw new cards
         }
         else
         {
             FindObjectOfType<TurnInfo>().OpponentsTurn();
+            
         }
 
         Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
@@ -124,5 +135,6 @@ public class GameRound : MonoBehaviourPun
         }
         Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter  + " starting new turn");
         BeginTurn();
+
     }
 }

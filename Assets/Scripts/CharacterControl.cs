@@ -15,18 +15,16 @@ public class CharacterControl : MonoBehaviour
     [Header("Other prefabs")]
     [SerializeField] private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
-    [SerializeField] private GameObject deckPrefab;
     [SerializeField] private GameObject handPrefab;
 
     
-    private GameObject hilda, bjorn, freyr, deck, hand;
+    private GameObject hilda, bjorn, freyr, hand;
 
     // Start is called before the first frame update
     void Awake()
     {
         
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        deck = Instantiate(deckPrefab, new Vector3(9, 0, 0), Quaternion.identity);
 
 
 
@@ -35,7 +33,14 @@ public class CharacterControl : MonoBehaviour
 
     void Update()
     {
-        //hand.GetComponent<HandCards>().GetCardPosition(PhotonNetwork.IsMasterClient);
+        if (Input.GetKey(KeyCode.T))
+            hand.GetComponent<HandCards>().activateCard(GestureType.circle);
+
+        if (Input.GetKey(KeyCode.Y))
+            hand.GetComponent<HandCards>().activateCard(GestureType.horizontalline);
+
+        if (Input.GetKey(KeyCode.U))
+            hand.GetComponent<HandCards>().activateCard(GestureType.verticalline);
     }
     private void Start()
     {
