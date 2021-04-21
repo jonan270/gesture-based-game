@@ -21,7 +21,8 @@ MonoBehaviour:
   numberOfTurns: 0
   gestureType: 3
   bonusPowerMultiplier: 1.5
-  effectPrefab: {fileID: 0}
+  effectPrefab: {fileID: 4772376561953592065, guid: d4b97a168d436894fad77972a03cff07,
+    type: 3}
   isTurnbased: 0
   attackRange: 0
   cleaveRange: 6

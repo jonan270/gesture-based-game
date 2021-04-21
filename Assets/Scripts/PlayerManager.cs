@@ -186,6 +186,7 @@ public class PlayerManager : MonoBehaviour
             if (posx == x && posy == y)
                 return character;
         }
+        Debug.Log("No character found!!!");
         return null;
     }
     /// <summary>

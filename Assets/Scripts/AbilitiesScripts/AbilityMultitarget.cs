@@ -23,6 +23,7 @@ public class AbilityMultitarget : AbilityData
 
     private void OnSelectedCharacter(Character target)
     {
+        Character me = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
         List<Character> nearbyEnemies = GetNearbyCharacters(target);
 
         float cleaveDamage = 0;
@@ -32,17 +33,19 @@ public class AbilityMultitarget : AbilityData
             cleaveDamage = powerValue / nearbyEnemies.Count;
 
         Debug.LogError(cleaveDamage);
-        foreach(var enemy in nearbyEnemies)
-        {
-            float bonusDamage = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().CompareElement(enemy, cleaveDamage, bonusPowerMultiplier);
-            float damage = bonusDamage + cleaveDamage;
+        //foreach(var enemy in nearbyEnemies)
+        //{
+        //    float bonusDamage = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().CompareElement(enemy, cleaveDamage, bonusPowerMultiplier);
+        //    float damage = bonusDamage + cleaveDamage;
 
-            Debug.LogError("Cast cleave on " + enemy.name + " damaging it for " + damage + " health");
+        //    //Debug.LogError("Cast cleave on " + enemy.name + " damaging it for " + damage + " health");
 
-            AbilityManager.ManagerInstance.DamageCharacter(enemy, damage);
+        //    //AbilityManager.ManagerInstance.DamageCharacter(enemy, damage);
+        //    AbilityManager.ManagerInstance.CastProjectile(me, target, damage, gestureType);
 
-        }
-        
+        //}
+        AbilityManager.ManagerInstance.CastProjectile(me, nearbyEnemies, cleaveDamage, gestureType);
+
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);
         AbilityCompleted();
     }
