@@ -1,9 +1,12 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class HandCards : MonoBehaviour
 {
+
+    public static HandCards HandCardsInstance { get; private set; }
 
     public List<GameObject> cardsOnHand = new List<GameObject>();
 
@@ -12,24 +15,41 @@ public class HandCards : MonoBehaviour
 
     private static int maxCardsOnHand = 4;
 
-    public Vector3 startingPosition = new Vector3( 18f, 0f, 3f );
+    public Vector3 startingPosition;
+
+    private Vector3[] cardEndPositions;
 
     private float counter = 0f;
 
     private GameObject ob;
 
+    [SerializeField] private GameObject deckPrefab;
+
+    private GameObject deck;
 
     private string description = "";
 
     void Start()
     {
-       
+        HandCardsInstance = this;
+
+        cardEndPositions = new Vector3[maxCardsOnHand];
+
+        setDeck(PhotonNetwork.IsMasterClient);
+
+        for(int i = 0; i < maxCardsOnHand; i++)
+        {
+            cardsOnHand.Add(GenerateNewCard(startingPosition));
+        }
+
+
     }
 
     void Update()
     {
-        UpdateCardsOnHand();
         UpdateCardsPosition();
+       // UpdateCardsOnHand();
+        
 
     }
 
@@ -85,13 +105,9 @@ public class HandCards : MonoBehaviour
         counter += Time.deltaTime;
         //Move cards to the left hand side
 
-        Vector3[] cardEndPositions = new Vector3[5];
+        //Vector3[] cardEndPositions = new Vector3[5];
 
-        cardEndPositions[0] = new Vector3(1.5f, 0f, -1f); // Cards on the ground
-        cardEndPositions[1] = new Vector3(3.0f, 0f, -1f);
-        cardEndPositions[2] = new Vector3(4.5f, 0f, -1f);
-        cardEndPositions[3] = new Vector3(6.0f, 0f, -1f);
-
+        cardEndPositions = GetCardPosition(PhotonNetwork.IsMasterClient);
 
         //cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.12f, 4f)); //Cards on the screen, follows the camera
         //cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.37f, 4f));
@@ -107,7 +123,7 @@ public class HandCards : MonoBehaviour
             if (cardsOnHand[i].transform.position != cardEndPositions[i])
             {
                 cardsOnHand[i].transform.position = Vector3.Lerp(cardsOnHand[i].transform.position, cardEndPositions[i], counter);
-                cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
+                //cardsOnHand[i].transform.rotation = Quaternion.Lerp(cardsOnHand[i].transform.rotation, Camera.main.transform.rotation, counter);
             }
         }
         counter = 0f;
@@ -212,6 +228,52 @@ public class HandCards : MonoBehaviour
         card.GetComponent<Card>().waterSymbol.SetActive(false);
         card.GetComponent<Card>().earthSymbol.SetActive(false);
 
+    }
+
+    public Vector3[] GetCardPosition(bool master)
+    {
+        // retunera fr�n hosts tiles yo
+       
+        if (master)
+        {
+            cardEndPositions[0] = new Vector3(1.5f, 0f, -1f); // Cards on the ground
+            cardEndPositions[1] = new Vector3(3.0f, 0f, -1f);
+            cardEndPositions[2] = new Vector3(4.5f, 0f, -1f);
+            cardEndPositions[3] = new Vector3(6.0f, 0f, -1f);
+
+            startingPosition = new Vector3(8f, 0f, 0f); //Deck position as well
+
+        }
+        else if (!master)
+        {
+            cardEndPositions[0] = new Vector3(6.0f, 0f, 9f);
+            cardEndPositions[1] = new Vector3(4.5f, 0f, 9f);
+            cardEndPositions[2] = new Vector3(3.0f, 0f, 9f);
+            cardEndPositions[3] = new Vector3(1.5f, 0f, 9f);
+            
+            
+            
+
+            startingPosition = new Vector3(-1f, 0f, 8f); //Deck position as well
+        }
+        else
+        {
+            //Set cards position to zero?
+        }
+        return cardEndPositions;
+    }
+
+    private void setDeck(bool master)
+    {
+        if (master)
+        {
+            deck = Instantiate(deckPrefab, new Vector3(8f, 0f, 0f), Quaternion.identity);
+
+        }
+        else if (!master)
+        {
+            deck = Instantiate(deckPrefab, new Vector3(-1f, 0, 8f), Quaternion.identity);
+        }
     }
 
 }

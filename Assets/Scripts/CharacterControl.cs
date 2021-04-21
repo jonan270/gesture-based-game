@@ -15,11 +15,10 @@ public class CharacterControl : MonoBehaviour
     [Header("Other prefabs")]
     [SerializeField] private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
-    [SerializeField] private GameObject deckPrefab;
     [SerializeField] private GameObject handPrefab;
 
     
-    private GameObject hilda, bjorn, freyr, deck, hand;
+    private GameObject hilda, bjorn, freyr, hand;
 
     // Start is called before the first frame update
     void Awake()

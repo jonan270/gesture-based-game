@@ -21,6 +21,15 @@ public class GameRound : MonoBehaviourPun
         EndTurn();
     }
 
+    void Update()
+    {
+        if (!myTurn)
+        {
+            HandCards.HandCardsInstance.UpdateCardsOnHand();
+
+        }
+    }
+
     /// <summary>
     /// Begin a new turn, reseting some values if nessesary 
     /// </summary>

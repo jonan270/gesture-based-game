@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -367,6 +367,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Rig
       objectReference: {fileID: 0}
+    - target: {fileID: 7370528299086981375, guid: 9da09992e77a4c540838efc136e0db31,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9da09992e77a4c540838efc136e0db31, type: 3}
 --- !u!1 &1669778734 stripped
@@ -388,7 +393,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedCharacter: {fileID: 0}
-  characters: []
+  friendlyCharacters: []
+  enemyCharacters: []
   toolChangedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -399,6 +405,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 505768376, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135831747041090745, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4442730546263637228, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: sceneViewId
@@ -416,6 +431,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 410460279390455026, guid: c92dc016d669f3e4caf4b3456d00bc8f,
         type: 3}
+    - target: {fileID: 5880822471299760721, guid: c39bb0937516d584d8e538abf4fcacfe,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 9064357652239677604, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: m_RootOrder
@@ -520,6 +540,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcf52a2cf673c44bbbb7a68ae00d14c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnBasedEffected: []
+  speed: 100
+  photonView: {fileID: 0}
 --- !u!1 &1931914311 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6608639143550981039, guid: 9da09992e77a4c540838efc136e0db31,
