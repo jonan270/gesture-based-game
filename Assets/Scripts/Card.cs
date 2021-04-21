@@ -10,35 +10,72 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
 {
     //public Image cardFront;
     //public Plane plane;
-    public TextMeshProUGUI description;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI costGemstones;
+    [SerializeField] private TextMeshProUGUI description;
+    [SerializeField] private TextMeshProUGUI nameText;
+    //public TextMeshProUGUI costGemstones;
 
-    [SerializeField] public GameObject model;
-    [SerializeField] public GameObject model2;
-
-    [SerializeField] public GameObject fireSymbol;
-    [SerializeField] public GameObject waterSymbol;
-    [SerializeField] public GameObject earthSymbol;
+    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private Material neutralMaterial;
 
 
+    [SerializeField] private GameObject fireSymbol;
+    [SerializeField] private GameObject waterSymbol;
+    [SerializeField] private GameObject earthSymbol;
 
-    public Image gesture;
+    //public Image gesture;
+
 
     public GestureType gestureType;
 
-    public void setText(string desc, string name)
+
+    private void Start()
+    {
+        ResetCard();
+    }
+
+    private void SetText(string desc, string name)
     {
         description.SetText(desc);
         nameText.SetText(name);
     }
 
 
-    public Vector3 cardPosition()
+    public Vector3 CardPosition()
     {
-        return this.transform.position;
+        return transform.position;
     }
 
+    public void SetCardData(AbilityData data, Material newMaterial)
+    {
+        SetText(data.abilityDescription, data.abilityName);
+        SetElementSymbol(data.abilityElement);
+        meshRenderer.material = newMaterial;
+    }
 
+    private void SetElementSymbol(ElementState element)
+    {
+        if (element == ElementState.Fire)
+        {
+            fireSymbol.SetActive(true);
+
+        }
+        else if (element == ElementState.Earth)
+        {
+            earthSymbol.SetActive(true);
+        }
+        else if (element == ElementState.Water)
+        {
+            waterSymbol.SetActive(true);
+        }
+    }
+
+    public void ResetCard()
+    {
+        SetText("  ", "  ");
+        fireSymbol.SetActive(false);
+        waterSymbol.SetActive(false);
+        earthSymbol.SetActive(false);
+        meshRenderer.material = neutralMaterial;
+    }
 }
 

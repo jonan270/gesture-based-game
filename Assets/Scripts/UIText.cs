@@ -7,7 +7,8 @@ public class UIText : MonoBehaviour
 {
     public static UIText Instance { get; private set; }
     [SerializeField] TextMeshProUGUI uiText;
-    private void Start()
+
+    private void Awake()
     {
         Instance = this;
     }

@@ -8,7 +8,7 @@ public class HandCards : MonoBehaviour
 
     public static HandCards HandCardsInstance { get; private set; }
 
-    public List<GameObject> cardsOnHand = new List<GameObject>();
+    public List<Card> cardsOnHand = new List<Card>();
 
     [SerializeField]
     List<GameObject> cardPrefabs = new List<GameObject>();
@@ -27,7 +27,7 @@ public class HandCards : MonoBehaviour
 
     private GameObject deck;
 
-    private string description = "";
+    //private string description = "";
 
     void Start()
     {
@@ -56,16 +56,16 @@ public class HandCards : MonoBehaviour
     /// <summary>
     /// Creates a new card 
     /// </summary>
-    private GameObject GenerateNewCard(Vector3 vec)
+    private Card GenerateNewCard(Vector3 vec)
     {
 
-        int prefabIndex = UnityEngine.Random.Range(0, 3);
+        int prefabIndex = Random.Range(0, 3);
 
-        GameObject ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.Euler(90f, 0f, 0f)); // Lerp?
+        GameObject _ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.identity); // Lerp?
 
-        ob.transform.parent = this.transform;
+        _ob.transform.parent = this.transform;
 
-        return ob;
+        return _ob.GetComponent<Card>();
     }
 
     /// <summary>
@@ -91,8 +91,8 @@ public class HandCards : MonoBehaviour
     {
         if (card != null)
         {
+            cardsOnHand.Remove(card.GetComponent<Card>());
             Destroy(card);
-            cardsOnHand.Remove(card);
         }
 
     }
@@ -134,12 +134,12 @@ public class HandCards : MonoBehaviour
     /// </summary>
     public bool activateCard(GestureType gesture)
     {
-        foreach (GameObject card in cardsOnHand)
+        foreach (var card in cardsOnHand)
         {
-            if (card.GetComponent<Card>().gestureType == gesture)
+            if (card.gestureType == gesture)
             {
 
-                RemoveCardOnHand(card);
+                RemoveCardOnHand(card.gameObject);
 
                // PlayerManager.Instance.PlayerState = PlayerState.makeGesture;
                 
@@ -160,33 +160,40 @@ public class HandCards : MonoBehaviour
     {
         if (PlayerManager.Instance.selectedCharacter != null)
         {
-            ob = PlayerManager.Instance.selectedCharacter;
+            Character selecetedCharacter = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
 
             if (textValue == true)
             {
                 for (int i = 0; i < cardsOnHand.Count; i++)
                 {
-                    if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.circle)
+                    AbilityData data;
+                    if (cardsOnHand[i].gestureType == GestureType.circle)
                     {
-                        description = ob.GetComponent<Character>().ListAbilityData[0].abilityDescription;
+                        //description = ob.GetComponent<Character>().ListAbilityData[0].abilityDescription;
+                        data = selecetedCharacter.ListAbilityData[0];
 
                     }
-                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.horizontalline)
+                    else if (cardsOnHand[i].gestureType == GestureType.horizontalline)
                     {
-                        description = ob.GetComponent<Character>().ListAbilityData[1].abilityDescription;
+                        //description = ob.GetComponent<Character>().ListAbilityData[1].abilityDescription;
+                        data = selecetedCharacter.ListAbilityData[1];
+
 
                     }
-                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.verticalline)
+                    else //(cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.verticalline)
                     {
-                        description = ob.GetComponent<Character>().ListAbilityData[2].abilityDescription;
+                        //description = ob.GetComponent<Character>().ListAbilityData[2].abilityDescription;
+                        data = selecetedCharacter.ListAbilityData[2];
+
                     }
 
-                    setElementSymbol(cardsOnHand[i]);
+                    cardsOnHand[i].SetCardData(data, selecetedCharacter.MaterialType);
+                    //cardsOnHand[i].GetComponent<Card>().SetElementSymbol(ob.GetComponent<Character>().Element);
 
-                    cardsOnHand[i].GetComponent<Card>().setText(description, ob.GetComponent<Character>().Name); //Set text on card
-                    cardsOnHand[i].GetComponent<Card>().model.SetActive(true);
-                    cardsOnHand[i].GetComponent<Card>().model2.SetActive(false);
-                    cardsOnHand[i].GetComponent<Card>().model.GetComponent<MeshRenderer>().material = ob.GetComponent<Character>().MaterialType; //Set material on card
+                    //cardsOnHand[i].GetComponent<Card>().SetText(description, ob.GetComponent<Character>().Name); //Set text on card
+                    //cardsOnHand[i].GetComponent<Card>().model.SetActive(true);
+                    //cardsOnHand[i].GetComponent<Card>().model2.SetActive(false);
+                    //cardsOnHand[i].GetComponent<Card>().model.GetComponent<MeshRenderer>().material = ob.GetComponent<Character>().MaterialType; //Set material on card
 
                 }
             }
@@ -194,41 +201,41 @@ public class HandCards : MonoBehaviour
             {
                 for (int i = 0; i < cardsOnHand.Count; i++)
                 {
-                    resetCard(cardsOnHand[i]);
+                    cardsOnHand[i].ResetCard();
 
                 }
             }
         }
     }
 
-    public void setElementSymbol(GameObject card)
-    {
-        if (ob.GetComponent<Character>().Element == ElementState.Fire)
-        {
-            card.GetComponent<Card>().fireSymbol.SetActive(true);
+    //public void setElementSymbol(GameObject card)
+    //{
+    //    if (ob.GetComponent<Character>().Element == ElementState.Fire)
+    //    {
+    //        card.GetComponent<Card>().fireSymbol.SetActive(true);
 
-        }else if (ob.GetComponent<Character>().Element == ElementState.Earth)
-        {
-            card.GetComponent<Card>().earthSymbol.SetActive(true);
-        }else if (ob.GetComponent<Character>().Element == ElementState.Water)
-        {
-            card.GetComponent<Card>().waterSymbol.SetActive(true);
-        }
-    }
+    //    }else if (ob.GetComponent<Character>().Element == ElementState.Earth)
+    //    {
+    //        card.GetComponent<Card>().earthSymbol.SetActive(true);
+    //    }else if (ob.GetComponent<Character>().Element == ElementState.Water)
+    //    {
+    //        card.GetComponent<Card>().waterSymbol.SetActive(true);
+    //    }
+    //}
 
     /// <summary>
     /// Resets card info
     /// </summary>
-    public void resetCard(GameObject card)
-    {
-        card.GetComponent<Card>().setText("  ", "  ");
-        card.GetComponent<Card>().model2.SetActive(true);
-        card.GetComponent<Card>().model.SetActive(false);
-        card.GetComponent<Card>().fireSymbol.SetActive(false);
-        card.GetComponent<Card>().waterSymbol.SetActive(false);
-        card.GetComponent<Card>().earthSymbol.SetActive(false);
+    //public void resetCard(GameObject card)
+    //{
+    //    card.GetComponent<Card>().setText("  ", "  ");
+    //    //card.GetComponent<Card>().model2.SetActive(true);
+    //    //card.GetComponent<Card>().model.SetActive(false);
+    //    card.GetComponent<Card>().fireSymbol.SetActive(false);
+    //    card.GetComponent<Card>().waterSymbol.SetActive(false);
+    //    card.GetComponent<Card>().earthSymbol.SetActive(false);
 
-    }
+    //}
 
     public Vector3[] GetCardPosition(bool master)
     {
@@ -244,22 +251,16 @@ public class HandCards : MonoBehaviour
             startingPosition = new Vector3(8f, 0f, 0f); //Deck position as well
 
         }
-        else if (!master)
+        else //if (!master)
         {
             cardEndPositions[0] = new Vector3(6.0f, 0f, 9f);
             cardEndPositions[1] = new Vector3(4.5f, 0f, 9f);
             cardEndPositions[2] = new Vector3(3.0f, 0f, 9f);
             cardEndPositions[3] = new Vector3(1.5f, 0f, 9f);
             
-            
-            
-
             startingPosition = new Vector3(-1f, 0f, 8f); //Deck position as well
         }
-        else
-        {
-            //Set cards position to zero?
-        }
+
         return cardEndPositions;
     }
 
@@ -270,7 +271,7 @@ public class HandCards : MonoBehaviour
             deck = Instantiate(deckPrefab, new Vector3(8f, 0f, 0f), Quaternion.identity);
 
         }
-        else if (!master)
+        else
         {
             deck = Instantiate(deckPrefab, new Vector3(-1f, 0, 8f), Quaternion.identity);
         }

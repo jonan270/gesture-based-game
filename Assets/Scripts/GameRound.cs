@@ -53,7 +53,7 @@ public class GameRound : MonoBehaviourPun
             UIText.Instance.DisplayText("[Opponents turn]");
         }
 
-        if (PlayerManager.Instance.friendlyCharacters.Count <= 0)
+        if (PlayerManager.Instance.friendlyCharacters.Count <= 0 && turnCounter > 0)
         {
             gameover = true;
             UIText.Instance.DisplayText("Game over: You lose!");
