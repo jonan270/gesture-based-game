@@ -15,23 +15,18 @@ public class CharacterControl : MonoBehaviour
     [Header("Other prefabs")]
     [SerializeField] private Hexmap hexMap;
     //List<GameObject> deck = new List<GameObject>();
-    [SerializeField] private GameObject deckPrefab;
     [SerializeField] private GameObject handPrefab;
 
     
-    private GameObject hilda, bjorn, freyr, deck, hand;
+    private GameObject hilda, bjorn, freyr, hand;
 
     // Start is called before the first frame update
     void Awake()
     {
-        
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         deck = Instantiate(deckPrefab, new Vector3(9, 0, 0), Quaternion.identity);
-
-
-
-
     }
+    
     private void Start()
     {
         //Call function createCharacter()
@@ -44,6 +39,13 @@ public class CharacterControl : MonoBehaviour
         PlayerManager.Instance.friendlyCharacters.Add(hilda.GetComponent<Character>());
         PlayerManager.Instance.friendlyCharacters.Add(bjorn.GetComponent<Character>());
         PlayerManager.Instance.friendlyCharacters.Add(freyr.GetComponent<Character>());
+
+        StartCoroutine(UpdateCharacters()); //Wait till next frame and update, fixed bug where 2nd player did not find enemy characters in scene
+    }
+
+    IEnumerator UpdateCharacters()
+    {
+        yield return new WaitForFixedUpdate();
         PlayerManager.Instance.RPC_UpdateCharacterList();
         PlayerManager.Instance.UpdateCharacterLists();
 
