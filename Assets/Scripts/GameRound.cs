@@ -27,39 +27,32 @@ public class GameRound : MonoBehaviourPun
     void BeginTurn()
     {
         if (gameover)
-            return;
+            return; 
+
+        if (myTurn)
+        {
+            PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
+            UIText.Instance.DisplayText("[Your turn]");
+            foreach (Character character in PlayerManager.Instance.friendlyCharacters)
+            {
+                character.SetState(Character.CharacterState.CanDoAction);
+            }
+            AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
+        }
+        else
+        {
+            UIText.Instance.DisplayText("[Opponents turn]");
+        }
 
         if (PlayerManager.Instance.friendlyCharacters.Count <= 0)
         {
             gameover = true;
-            UIText.Instance.DisplayText("Game over: You lose!",20f);
+            UIText.Instance.DisplayText("Game over: You lose!");
             photonView.RPC("RPC_GameOver", RpcTarget.Others, "Game over: You win!");
         }
-        else
-        {
-            if (myTurn)
-            {
-                PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
-                //FindObjectOfType<TurnInfo>().OnMyTurn();
-                UIText.Instance.DisplayText("[Your turn]");
-                foreach (Character character in PlayerManager.Instance.friendlyCharacters)
-                {
-                    character.SetState(Character.CharacterState.CanDoAction);
-                }
-                AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
-                                                                        //Gems are given
-                                                                        //Draw new cards
-            }
-            else
-            {
-                //FindObjectOfType<TurnInfo>().OpponentsTurn();
-                UIText.Instance.DisplayText("[Opponents turn]");
-            }
+        Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
+        Debug.LogError("Player state is " + PlayerManager.Instance.PlayerState);
 
-
-            Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
-            Debug.LogError("Player state is " + PlayerManager.Instance.PlayerState);
-        }
     }
 
     //Wait till player has selected character
@@ -113,7 +106,7 @@ public class GameRound : MonoBehaviourPun
 
     [PunRPC] private void RPC_GameOver(string msg)
     {
-        UIText.Instance.DisplayText(msg,20f);
+        UIText.Instance.DisplayText(msg);
         gameover = true;
     }
 
