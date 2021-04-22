@@ -130,7 +130,9 @@ public class CharacterSelector : MonoBehaviour
         {
             card.OnPickup();
         }
-        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(true);
+        
+        //GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(true);
+        HandCards.HandCardsInstance.setCardType(true);
 
         Debug.Log("Selected character in hand is " + selectedCharacter.name);
         Debug.Log("Selected character in player manager is " + PlayerManager.Instance.selectedCharacter.name);
@@ -163,7 +165,8 @@ public class CharacterSelector : MonoBehaviour
             return;
 
         selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.CanDoAction);
-        GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(false);
+        //GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(false);
+        HandCards.HandCardsInstance.setCardType(false);
 
         selectedCharacter.transform.position = originalPosition;
         selectedCharacter.transform.rotation = originalRotation;
