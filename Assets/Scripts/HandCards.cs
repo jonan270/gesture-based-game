@@ -171,12 +171,12 @@ public class HandCards : MonoBehaviour
                         description = ob.GetComponent<Character>().ListAbilityData[0].abilityDescription;
 
                     }
-                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.horizontalline)
+                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.verticalline)
                     {
                         description = ob.GetComponent<Character>().ListAbilityData[1].abilityDescription;
 
                     }
-                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.verticalline)
+                    else if (cardsOnHand[i].GetComponent<Card>().gestureType == GestureType.horizontalline)
                     {
                         description = ob.GetComponent<Character>().ListAbilityData[2].abilityDescription;
                     }

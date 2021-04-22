@@ -1208,7 +1208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlPanel: {fileID: 1253329369}
   feedbackText: {fileID: 668114169}
-  maxPlayersPerRoom: 1
+  maxPlayersPerRoom: 2
   scene: {fileID: 102900000, guid: bc25b3f4d7eeb054293414e307a7b0a0, type: 3}
 --- !u!4 &1682338280
 Transform:
