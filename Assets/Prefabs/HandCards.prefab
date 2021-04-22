@@ -45,9 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardsOnHand: []
   cardPrefabs:
-  - {fileID: 1486855066833753038, guid: 5dee205538c4d3a46b04e6ad1aee7fda, type: 3}
-  - {fileID: 7223665546738302293, guid: 55aa9bff0a66ca440a96d4e068264a96, type: 3}
-  - {fileID: 8198906921351081332, guid: 2dcac7b89cb0b2d49ba3edd6ba7cc0bc, type: 3}
+  - {fileID: 3234396057342957649, guid: 4c891e0458ee866498ae06efae8f98f2, type: 3}
+  - {fileID: 1030656633724675561, guid: ba41ad6832ee38845936a7be559e95d6, type: 3}
+  - {fileID: 6417157189469516128, guid: 39b4fd784e4b31f458fd99191a399e26, type: 3}
   startingPosition: {x: 18, y: 0, z: 3}
   deckPrefab: {fileID: 4897451762834160154, guid: e8ba2902007ddd64d8e3f6111d9392d7,
     type: 3}

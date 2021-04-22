@@ -220,7 +220,9 @@ public abstract class Character : MonoBehaviour, IPunObservable
         //anim.Play("Run");
         if (CurrentState == CharacterState.Dead)
         {
-            anim.SetTrigger("Dead");
+            anim.SetBool("Walking", false);
+            anim.SetBool("Idle", false);
+            anim.SetBool("Dead", true);
 
         }
         //anim.Play("Die");
@@ -276,8 +278,8 @@ public abstract class Character : MonoBehaviour, IPunObservable
         Hexmap.Instance.UpdateTile(CurrentTile.tileIndex.x, CurrentTile.tileIndex.y); //synchronize this tile over network
         RPC_Cant_Handle_Inheritance(); //synchronize alive status over network
         SetState(CharacterState.Dead);
-        yield return new WaitForSeconds(4);
         deathEvent.Invoke();
+        yield return new WaitForSeconds(4);
         PhotonNetwork.Destroy(gameObject);
     }
     protected abstract void RPC_Cant_Handle_Inheritance();
@@ -297,6 +299,10 @@ public abstract class Character : MonoBehaviour, IPunObservable
             //current tile index
             stream.SendNext(CurrentTile.tileIndex.x);
             stream.SendNext(CurrentTile.tileIndex.y);
+            stream.SendNext(anim.GetBool("Walking"));
+            stream.SendNext(anim.GetBool("Idle"));
+            stream.SendNext(anim.GetBool("Dead"));
+
         }
         else
         {
@@ -308,6 +314,11 @@ public abstract class Character : MonoBehaviour, IPunObservable
             int x = (int)stream.ReceiveNext();
             int y = (int)stream.ReceiveNext();
             CurrentTile = Hexmap.Instance.map[x, y];
+
+            anim.SetBool("Walking", (bool)stream.ReceiveNext());
+            anim.SetBool("Idle", (bool)stream.ReceiveNext());
+            anim.SetBool("Dead", (bool)stream.ReceiveNext());
+
         }
     }
 }

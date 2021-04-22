@@ -103,18 +103,18 @@ public class Deck : MonoBehaviour
 
     }
 
-    public void RemoveCards(string name) //if character dies we need to remove its cards
-    {
-        int maxDestroy = 3;
-        for (int i = 0; i < deck.Count; i++)
-        {
-            if(deck[i].GetComponent<Card>().nameText.text == name && maxDestroy > 0)
-            {
-                Destroy(deck[i]);
-                maxDestroy--;
+    //public void RemoveCards(string name) //if character dies we need to remove its cards
+    //{
+    //    int maxDestroy = 3;
+    //    for (int i = 0; i < deck.Count; i++)
+    //    {
+    //        if(deck[i].GetComponent<Card>().nameText.text == name && maxDestroy > 0)
+    //        {
+    //            Destroy(deck[i]);
+    //            maxDestroy--;
                
-            }
+    //        }
             
-        }
-    }
+    //    }
+    //}
 }

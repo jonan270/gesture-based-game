@@ -23,25 +23,10 @@ public class CharacterControl : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        
         hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-
-
-
-
+        //deck = Instantiate(deckPrefab, new Vector3(9, 0, 0), Quaternion.identity);
     }
-
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.T))
-            hand.GetComponent<HandCards>().activateCard(GestureType.circle);
-
-        if (Input.GetKey(KeyCode.Y))
-            hand.GetComponent<HandCards>().activateCard(GestureType.horizontalline);
-
-        if (Input.GetKey(KeyCode.U))
-            hand.GetComponent<HandCards>().activateCard(GestureType.verticalline);
-    }
+    
     private void Start()
     {
         //Call function createCharacter()
@@ -54,19 +39,21 @@ public class CharacterControl : MonoBehaviour
         PlayerManager.Instance.friendlyCharacters.Add(hilda.GetComponent<Character>());
         PlayerManager.Instance.friendlyCharacters.Add(bjorn.GetComponent<Character>());
         PlayerManager.Instance.friendlyCharacters.Add(freyr.GetComponent<Character>());
+
+        StartCoroutine(UpdateCharacters()); //Wait till next frame and update, fixed bug where 2nd player did not find enemy characters in scene
+    }
+
+    IEnumerator UpdateCharacters()
+    {
+        yield return new WaitForFixedUpdate();
         PlayerManager.Instance.RPC_UpdateCharacterList();
         PlayerManager.Instance.UpdateCharacterLists();
 
-        
-
     }
-
-
 
     private GameObject SpawnCharacter(GameObject prefab)
     {
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
-        
         Debug.LogError("Spawn Tile " + spawnTile.tileIndex);
         
         //Rotates character toward the other player

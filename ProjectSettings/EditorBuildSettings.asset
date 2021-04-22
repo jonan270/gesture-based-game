@@ -20,16 +20,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Trapimplementation.unity
     guid: 5a1bdc5d72440c8429e7591dce126a40
-  - enabled: 1
-    path: Assets/Wilma_sprint_4.unity
-    guid: bc25b3f4d7eeb054293414e307a7b0a0
   - enabled: 0
     path: Assets/Scenes/GamePlayScene.unity
     guid: 26213481b34874b4b964f0f50a0d7595
   - enabled: 0
     path: Assets/Scenes/EnemyInteractions.unity
     guid: fd2a59c428f3126418d777106ad997da
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Trapimplementation.unity
     guid: 5a1bdc5d72440c8429e7591dce126a40
   m_configObjects:
