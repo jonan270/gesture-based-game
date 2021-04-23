@@ -36,8 +36,6 @@ public class RayCastFromHand : MonoBehaviour
             //Choosing a character
             if (PlayerState == PlayerState.chooseFriendlyCharacter || PlayerState == PlayerState.chooseEnemyCharacter)
             {
-                //UIText.Instance.SetActive(true);
-
                 if (PlayerState == PlayerState.chooseFriendlyCharacter)
                     UIText.Instance.DisplayText("Choose friendly character");
                 else
@@ -48,15 +46,13 @@ public class RayCastFromHand : MonoBehaviour
             //Single tile for an ability
             if (PlayerState == PlayerState.chooseTile)
             {
-                //UIText.Instance.SetActive(true);
-
                 UIText.Instance.DisplayText("Find a tile");
-                GetTile2();
+
+                GetTile();
             }
             //Drawing a path for a character
             if(PlayerState == PlayerState.drawPath)
             {
-                //UIText.Instance.SetActive(true);
                 UIText.Instance.DisplayText("Draw a path for the character");
 
                 ScanForTiles();
@@ -64,32 +60,21 @@ public class RayCastFromHand : MonoBehaviour
             //We release the button and finish our drawing
             if (PlayerState == PlayerState.drawPath)
             {
-                bool doit = false;
                 if (SteamVR.active)
                 {
                     if (SteamVR_Actions.default_GrabPinch.GetStateUp(characterSelector.source))
-                        doit = true;
+                        FinishPath();
                 }
                 else
                 {
                     if (Input.GetMouseButtonUp(0))
-                        doit = true;
-                }
-                if (doit)
-                {
-                    if (tilesSelected.Count > 1)
-                    {
-                        pathCreator.FinishPath(selectedCharacter.gameObject);
-                        tilesSelected.Clear();
-                        //UIText.Instance.SetActive(false);
-                        Debug.Log("Released he should walk now");
-                        StopRayCast();
-
-                    }
+                        FinishPath();
                 }
             }
         }
     }
+
+
     /// <summary>
     /// We have a successful hit renders a cyan laser
     /// </summary>
@@ -116,45 +101,6 @@ public class RayCastFromHand : MonoBehaviour
 
     private void GetTile()
     {
-        //raycast from mouse to find a tile: TODO: move this function to the hands instead and raycast from the wand for example. 
-
-        RaycastHit hit;
-        if (Physics.Raycast(start.position, start.TransformDirection(Vector3.forward), out hit)) //raycast into the world
-        {
-            GameObject obj = hit.transform.gameObject;
-            
-            Hextile tile = obj.GetComponent<Hextile>();
-            if (tile != null) //if we find a tile
-            { 
-                if(previoustile != tile)
-                {
-                    if(previoustile != null)
-                        previoustile.DeselectTile();
-                    previoustile = tile;
-                }
-
-                tile.OnSelectedTile();
-                HitSomething(hit);
-                if (Input.GetMouseButtonDown(0) || SteamVR_Actions.default_GrabPinch.GetStateDown(characterSelector.source)) //when the player presses left mouse btn invoke function
-                {
-                    PlayerManager.Instance.tileTargetHandler.Invoke(tile);
-                    //UIText.Instance.SetActive(false);
-                    StopRayCast();
-                }
-            }
-            else
-            {
-                DidNotHit();
-            }
-        }
-        else
-        {
-            DidNotHit();
-        }
-    }
-
-    private void GetTile2()
-    {
         RaycastHit[] hits;
         hits = Physics.RaycastAll(start.position, start.TransformDirection(Vector3.forward), 100.0f);
 
@@ -166,13 +112,14 @@ public class RayCastFromHand : MonoBehaviour
             Hextile tile = obj.GetComponent<Hextile>();
             if (tile != null) //if we find a tile
             {
+                //deselect previous tile 
                 if (previoustile != tile)
                 {
                     if (previoustile != null)
                         previoustile.DeselectTile();
                     previoustile = tile;
                 }
-
+                //select new tile
                 tile.OnSelectedTile();
                 HitSomething(hit);
                 foundTile = true;
@@ -194,8 +141,7 @@ public class RayCastFromHand : MonoBehaviour
 
     private void GetCharacter()
     {
-        //raycast from mouse to find a character: TODO: move this function to the hands instead and raycast from the wand for example. 
-
+        //raycast from mouse to find a character
         RaycastHit hit;
         if (Physics.Raycast(start.position, start.TransformDirection(Vector3.forward), out hit)) //raycast into the world
         {
@@ -228,6 +174,7 @@ public class RayCastFromHand : MonoBehaviour
         }
     }
 
+
     private void ScanForTiles()
     {
         if (tilesSelected.Count == 0)
@@ -237,44 +184,37 @@ public class RayCastFromHand : MonoBehaviour
             selectedCharacter.CurrentTile.OnSelectedTile();
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(start.position, start.TransformDirection(Vector3.forward), out hit)) //raycast into the world  
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(start.position, start.TransformDirection(Vector3.forward), 100.0f);
+        bool validTile = false;
+
+        foreach (var hit in hits)
         {
             Hextile currentTile = hit.collider.gameObject.GetComponent<Hextile>();
-            if (currentTile != null) //hit a tile 
+            if (currentTile != null) //we hit a tile
             {
-                HitSomething(hit);
-                if (currentTile.occupant == null) //if there is a friendly character in the tile , we cant go there we can however go on a tile where enemy character is
+                //tile has to be empty or can be occupied by enemy character 
+                if (currentTile.occupant == null || !currentTile.occupant.photonView.IsMine)
                 {
+                    HitSomething(hit);
+                    validTile = true;
                     if (SteamVR.active) //using vr controller
                     {
                         if (SteamVR_Actions.default_GrabPinch.GetState(characterSelector.source))
-                        {
                             TryAddTile(currentTile);
-                        }
-
                     }
                     else //fallback using mouse + keyboard
                     {
                         if (Input.GetMouseButton(0))
-                        {
                             TryAddTile(currentTile);
-                        }
-
                     }
                 }
             }
-            else //hit something other than a tile
-            {
-                DidNotHit();
-            }
         }
-        else //did not hit anything
-        {
+        if (!validTile)
             DidNotHit();
-        }
-
     }
+    
     private void TryAddTile(Hextile currentTile)
     {
         if ((tilesSelected.Count > 0 && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
@@ -285,6 +225,18 @@ public class RayCastFromHand : MonoBehaviour
             currentTile.OnSelectedTile();
         }
     }
+
+    private void FinishPath()
+    {
+        if (tilesSelected.Count > 1)
+        {
+            pathCreator.FinishPath(selectedCharacter.gameObject);
+            tilesSelected.Clear();
+            Debug.Log("Released he should walk now");
+            StopRayCast();
+        }
+    }
+
     /// <summary>
     /// Stops rendering the laser
     /// </summary>

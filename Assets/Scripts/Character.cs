@@ -68,7 +68,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     public List<AbilityData> ListAbilityData = new List<AbilityData>();
 
-    protected PhotonView photonView;
+    public PhotonView photonView { get; protected set; }
     
     public float attackMultiplier = 1f; // Decimalbaserade
     public float defenceMultiplier = 1f;
