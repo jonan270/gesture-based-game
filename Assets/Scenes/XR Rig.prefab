@@ -835,11 +835,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d8d4dcfcad6dc4bbb45b79b8659008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correctGesture: {fileID: 0}
+  wrongGesture: {fileID: 0}
+  audioSource: {fileID: 0}
+  leftSpawnPoint: {fileID: 0}
+  rightSpawnPoint: {fileID: 0}
   LeftHand: {fileID: 6608639143640899222}
   RightHand: {fileID: 6608639143550981039}
   visualAid: {fileID: 8774746989568714442, guid: 596b8c2b16575f0448d4aae81b2b466d,
     type: 3}
-  uitext: {fileID: 4757337325544796349}
   lCShand: {fileID: 1953353301}
   rCShand: {fileID: 1016786279}
   closeDistance: 0.5
