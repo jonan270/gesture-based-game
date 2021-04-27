@@ -75,7 +75,7 @@ public class HandCards : MonoBehaviour
     {
         int size = PlayerManager.Instance.CountCharacters();
 
-        if (cardsOnHand.Count < maxCardsOnHand || size > cardsOnHand.Count)
+        while (cardsOnHand.Count < maxCardsOnHand && size > cardsOnHand.Count)
         {
 
             cardsOnHand.Add(GenerateNewCard(startingPosition));
@@ -253,12 +253,12 @@ public class HandCards : MonoBehaviour
         }
         else //if (!master)
         {
-            cardEndPositions[0] = new Vector3(6.0f, 0f, 9f);
-            cardEndPositions[1] = new Vector3(4.5f, 0f, 9f);
-            cardEndPositions[2] = new Vector3(3.0f, 0f, 9f);
-            cardEndPositions[3] = new Vector3(1.5f, 0f, 9f);
+            cardEndPositions[0] = new Vector3(6.0f, 0f, 10f);
+            cardEndPositions[1] = new Vector3(4.5f, 0f, 10f);
+            cardEndPositions[2] = new Vector3(3.0f, 0f, 10f);
+            cardEndPositions[3] = new Vector3(1.5f, 0f, 10f);
             
-            startingPosition = new Vector3(-1f, 0f, 8f); //Deck position as well
+            startingPosition = new Vector3(-1f, 0f, 9f); //Deck position as well
         }
 
         return cardEndPositions;
