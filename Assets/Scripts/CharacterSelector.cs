@@ -169,7 +169,7 @@ public class CharacterSelector : MonoBehaviour
 
         selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.CanDoAction);
         //GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(false);
-        HandCards.HandCardsInstance.setCardType(false);
+        //HandCards.HandCardsInstance.setCardType(false);
 
         selectedCharacter.transform.position = originalPosition;
         selectedCharacter.transform.rotation = originalRotation;
@@ -178,11 +178,11 @@ public class CharacterSelector : MonoBehaviour
         otherHand.OnReleasedCharacter();
         selectedCharacter = null;
 
-        var cards = FindObjectsOfType<cardDrawing>();
-        foreach (var card in cards)
-        {
-            card.OnDropCharacter();
-        }
+        //var cards = FindObjectsOfType<cardDrawing>();
+        //foreach (var card in cards)
+        //{
+        //    card.OnDropCharacter();
+        //}
     }
 
     public void OnReleasedCharacter()

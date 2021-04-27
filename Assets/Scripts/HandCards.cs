@@ -65,8 +65,8 @@ public class HandCards : MonoBehaviour
     {
 
         int prefabIndex = Random.Range(0, 3);
-
-        GameObject _ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.identity); // Lerp?
+        GameObject _ob = PhotonNetwork.Instantiate(cardPrefabs[prefabIndex].name, vec, Quaternion.identity);
+        //GameObject _ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.identity); // Lerp?
         if (!PhotonNetwork.IsMasterClient)
             _ob.transform.Rotate(0, 180, 0);
 
@@ -98,7 +98,7 @@ public class HandCards : MonoBehaviour
         if (card != null)
         {
             cardsOnHand.Remove(card.GetComponent<Card>());
-            Destroy(card);
+            PhotonNetwork.Destroy(card);
         }
 
     }
@@ -172,6 +172,8 @@ public class HandCards : MonoBehaviour
             {
                 for (int i = 0; i < cardsOnHand.Count; i++)
                 {
+                    cardsOnHand[i].ResetCard(); //pre reset quick fix to remove icon if one picks up another character
+
                     AbilityData data;
                     if (cardsOnHand[i].gestureType == GestureType.circle)
                     {
@@ -274,12 +276,15 @@ public class HandCards : MonoBehaviour
     {
         if (master)
         {
-            deck = Instantiate(deckPrefab, new Vector3(8f, 0f, 0f), Quaternion.identity);
+            deck = PhotonNetwork.Instantiate(deckPrefab.name, new Vector3(8, 0, 0), Quaternion.identity);
+            //deck = Instantiate(deckPrefab, new Vector3(8f, 0f, 0f), Quaternion.identity);
 
         }
         else
         {
-            deck = Instantiate(deckPrefab, new Vector3(-1f, 0, 8f), Quaternion.identity);
+            deck = PhotonNetwork.Instantiate(deckPrefab.name, new Vector3(-1, 0, 8), Quaternion.identity);
+            //transform.Rotate(0, 180, 0); // rotate the cards 180 degree to face thesecond player instead
+            //deck = Instantiate(deckPrefab, new Vector3(-1f, 0, 8f), Quaternion.identity);
         }
     }
 
