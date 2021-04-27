@@ -10,6 +10,7 @@ public class RayCastFromHand : MonoBehaviour
 {
     public Transform start;
     public LineRenderer lineRenderer;
+    public RayCastFromHand otherHand;
     private CharacterSelector characterSelector;
     private PathCreator pathCreator;
     [SerializeField] private List<Hextile> tilesSelected = new List<Hextile>();
@@ -241,6 +242,12 @@ public class RayCastFromHand : MonoBehaviour
     /// Stops rendering the laser
     /// </summary>
     public void StopRayCast()
+    {
+        lineRenderer.positionCount = 0;
+        otherHand.StopOtherRayCast();
+    }
+
+    public void StopOtherRayCast()
     {
         lineRenderer.positionCount = 0;
     }
