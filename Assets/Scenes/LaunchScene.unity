@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2080656, g: 0.17250714, b: 0.24772197, a: 1}
+  m_IndirectSpecularColor: {r: 0.20808072, g: 0.1725938, b: 0.24772292, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -285,11 +285,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-<<<<<<< Updated upstream
   m_Camera: {fileID: 1689637917}
-=======
-  m_Camera: {fileID: 678879719}
->>>>>>> Stashed changes
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -450,7 +446,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -783,12 +779,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22ee30e9b2b34fe38b62e48c7d79dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!20 &678879719 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2599147278860111192, guid: 0711a64ba38770942a4df9122a592eec,
-    type: 3}
-  m_PrefabInstance: {fileID: 1254105104}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &779829381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1048,16 +1038,12 @@ RectTransform:
   m_Father: {fileID: 360850304}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1000, y: 0}
-  m_SizeDelta: {x: 2560, y: 456}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 3}
+  m_SizeDelta: {x: 0, y: 456}
   m_Pivot: {x: 0.5, y: 0.5}
-<<<<<<< Updated upstream
 --- !u!1001 &1489847681
-=======
---- !u!1001 &1254105104
->>>>>>> Stashed changes
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1072,11 +1058,7 @@ PrefabInstance:
     - target: {fileID: 2599147277262812500, guid: 0711a64ba38770942a4df9122a592eec,
         type: 3}
       propertyPath: m_RootOrder
-<<<<<<< Updated upstream
       value: 5
-=======
-      value: 6
->>>>>>> Stashed changes
       objectReference: {fileID: 0}
     - target: {fileID: 2599147277262812500, guid: 0711a64ba38770942a4df9122a592eec,
         type: 3}
