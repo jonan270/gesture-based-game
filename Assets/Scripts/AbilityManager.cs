@@ -25,6 +25,9 @@ public class AbilityManager : MonoBehaviour
 
     private float projectileDamage;
     private Character projectileTarget;
+
+
+    ProjectileObj projectileObj;
     // ********************************
 
     [SerializeField] private PhotonView photonView;
@@ -41,8 +44,8 @@ public class AbilityManager : MonoBehaviour
 
     void Update()
     {
-        if (travelling)
-            LerpProjectile();
+        //if (travelling)
+        //    LerpProjectile();
     }
 
     /// <summary>
@@ -73,24 +76,45 @@ public class AbilityManager : MonoBehaviour
     [PunRPC]
     void RPC_CastProjectile(int userX, int userY, int targetX, int targetY, float hitDamage, GestureType type)
     {
-        Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
-        projectileTarget = target;
+        Debug.Log("Running RPC");
+        //Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
+        //projectileTarget = target;
 
+        //Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
+        //Vector3 userPosition = user.transform.position;
+
+        //startTarget = user.transform.position;
+        //endTarget = target.transform.position;
+
+        //GameObject projectile = user.GetEffectFromGesture(type);
+
+        //particleObj = Instantiate(projectile, user.transform.position, Quaternion.identity);
+        //particleObj.transform.localScale = user.transform.localScale;
+
+        //startTime = Time.time;
+
+        //particleObj.transform.localEulerAngles = new Vector3(0, 0, 0);
+        //projectileDamage = hitDamage;
+        //travelling = true;
+        //ProjectileObj projectile = gameObject.AddComponent(typeof(ProjectileObj)) as ProjectileObj;
+        //projectile.CreateProjectile(hitDamage, user, target, type);
+        MakeProjectile(hitDamage, userX, userY, targetX, targetY, type);
+    }
+
+    private void MakeProjectile(float hitDamage, int userX, int userY, int targetX, int targetY, GestureType type)
+    {
+        Debug.Log("Running MakeProjectile");
         Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
 
-        startTarget = user.transform.position;
-        endTarget = target.transform.position;
+        if (!user)
+            user = PlayerManager.Instance.selectedCharacter.GetComponent<Character>(); // User not found :(
 
-        GameObject projectile = user.GetEffectFromGesture(type);
+        Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
+        Debug.Log("Foundtarget " + target.name + " Founduser: " + user.name);
 
-        particleObj = Instantiate(projectile, user.transform.position, Quaternion.identity);
-        particleObj.transform.localScale = user.transform.localScale;
-
-        startTime = Time.time;
-
-        particleObj.transform.localEulerAngles = new Vector3(0, 0, 0);
-        projectileDamage = hitDamage;
-        travelling = true;
+        //Debug.Log("User: " + user.name + " Target: " + target.name);
+        ProjectileObj projectile = gameObject.AddComponent(typeof(ProjectileObj)) as ProjectileObj;
+        projectile.CreateProjectile(hitDamage, user, target, type);
     }
 
     [PunRPC]
@@ -113,36 +137,39 @@ public class AbilityManager : MonoBehaviour
     /// <summary>
     /// Lerp projectile
     /// </summary>
-    private void LerpProjectile()
-    {
-        journeyLength = Vector3.Distance(startTarget, endTarget);
-        //Debug.Log("journeyLength is: " + journeyLength);
-        //projectileObj.transform.position = to;
-        float distanceCovered = (Time.time - startTime) * speed;
-        //Debug.Log("distanceCovered is: " + distanceCovered);
-        float fraction = speed * distanceCovered / journeyLength;
+    //private void LerpProjectile()
+    //{
+    //    journeyLength = Vector3.Distance(startTarget, endTarget);
+    //    //Debug.Log("journeyLength is: " + journeyLength);
+    //    //projectileObj.transform.position = to;
+    //    float distanceCovered = (Time.time - startTime);
+    //    //Debug.Log("distanceCovered is: " + distanceCovered);
+    //    float fraction = speed * distanceCovered / journeyLength;
 
-        //Debug.Log("Fraction is: " + fraction);
+    //    Debug.Log("Fraction is: " + fraction);
 
-        particleObj.transform.position = Vector3.Lerp(startTarget, endTarget, fraction);
-        if (fraction > 0.99)
-        {
-            DamageCharacter(projectileTarget, projectileDamage);
-            travelling = false;
-            Destroy(particleObj);
-        }
-    }
+    //    particleObj.transform.position = Vector3.Lerp(startTarget, endTarget, fraction);
+    //    if (fraction > 0.99)
+    //    {
+    //        DamageCharacter(projectileTarget, projectileDamage);
+    //        travelling = false;
+    //        Destroy(particleObj);
+    //    }
+    //}
 
     /// <summary>
-    /// Call this outside class to cast a projectile
+    /// Call this outside class to cast a projectile at given targets
     /// </summary>
     /// <param name="user"> Character that uses ability </param>
     /// <param name="target"> Character that gets hit by ability </param>
     /// <param name="hitDamage"> Damage to apply </param>
-    public void CastProjectile(Character user, Character target, float hitDamage, GestureType type)
+    public void CastProjectile(Character user, List<(Character, float)> pairs, GestureType type)
     {
-        photonView.RPC("RPC_CastProjectile", RpcTarget.All, user.CurrentTile.tileIndex.x, user.CurrentTile.tileIndex.y,
-            target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y, hitDamage, type);
+        foreach(var pair in pairs)
+        {
+            photonView.RPC("RPC_CastProjectile", RpcTarget.All, user.CurrentTile.tileIndex.x, user.CurrentTile.tileIndex.y,
+                pair.Item1.CurrentTile.tileIndex.x, pair.Item1.CurrentTile.tileIndex.y, pair.Item2, type);
+        }
     }
 
 
