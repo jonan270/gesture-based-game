@@ -34,7 +34,8 @@ public class MenuScript : MonoBehaviour
                 lineRender.SetPosition(1, source.position + source.TransformDirection(Vector3.forward) * hit.distance);
             }
         }
-        else clearTarget();
+        else if(activeTarget)
+            clearTarget();
     }
 
     void clearTarget()
