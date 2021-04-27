@@ -80,7 +80,7 @@ MonoBehaviour:
   ListAbilityData:
   - {fileID: 11400000, guid: 77f1bf158c7f36f4193405bbbe49b99f, type: 2}
   - {fileID: 11400000, guid: 417aabbbe6890ee44a94829e2e0b8546, type: 2}
-  - {fileID: 11400000, guid: 1db2b9b419bd4fe4587c754d1e8c22e7, type: 2}
+  - {fileID: 11400000, guid: 023f96f59031bd54ba0ad98b23161464, type: 2}
   attackMultiplier: 1
   defenceMultiplier: 1
   activeEffect: {fileID: 0}
@@ -105,7 +105,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4341436929202328744}
   - {fileID: 8735192006050683755}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -200,7 +199,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5351179729911413343}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: -0.09, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1901824790623548607}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f74d4204526b04fbe903037fe623a9, type: 3}
+  m_Name: Viking_Raid
+  m_EditorClassIdentifier: 
+  abilityName: Viking Raid
+  abilityDescription: "V\xE4lja en tile och d\xE5 blir omr\xE5det omkring tilen,
+    med radie 2, till vatten"
+  gemsCost: 0
+  powerValue: 0
+  targetType: 1
+  abilityElement: 3
+  numberOfTurns: 0
+  gestureType: 2
+  bonusPowerMultiplier: 5
+  effectPrefab: {fileID: 0}
+  isTurnbased: 0
+  tileRadius: 1
