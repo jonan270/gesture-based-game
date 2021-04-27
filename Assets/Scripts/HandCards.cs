@@ -80,13 +80,12 @@ public class HandCards : MonoBehaviour
     /// </summary>
     public void UpdateCardsOnHand()
     {
-        int size = PlayerManager.Instance.CountCharacters();
+        int maxcardstohandout = PlayerManager.Instance.CountCharacters();
 
-        while (cardsOnHand.Count < maxCardsOnHand && size > cardsOnHand.Count)
+        while (cardsOnHand.Count < maxCardsOnHand && maxcardstohandout > 0)
         {
-
             cardsOnHand.Add(GenerateNewCard(startingPosition));
-
+            --maxcardstohandout;
         }
 
     }
