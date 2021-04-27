@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Poison
   m_EditorClassIdentifier: 
   abilityName: Poison
-  abilityDescription: 
+  abilityDescription: Poisions an enemy for serveral turns
   gemsCost: 10
   powerValue: 20
   targetType: 0

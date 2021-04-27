@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BjornBerserk
   m_EditorClassIdentifier: 
   abilityName: Berserk
-  abilityDescription: "Bj\xF6rn aktiverar sin Berserk och blir starkare."
+  abilityDescription: "Bj\xF6rn goes berserk and becomes more powerful"
   gemsCost: 0
   powerValue: 0
   targetType: 0
@@ -23,3 +23,4 @@ MonoBehaviour:
   bonusPowerMultiplier: 5
   effectPrefab: {fileID: 3623707158366433361, guid: 922714024a591834493b814b6e7af47a,
     type: 3}
+  isTurnbased: 0

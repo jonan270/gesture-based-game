@@ -79,8 +79,8 @@ MonoBehaviour:
       m_Calls: []
   ListAbilityData:
   - {fileID: 11400000, guid: 77f1bf158c7f36f4193405bbbe49b99f, type: 2}
-  - {fileID: 11400000, guid: 417aabbbe6890ee44a94829e2e0b8546, type: 2}
   - {fileID: 11400000, guid: 023f96f59031bd54ba0ad98b23161464, type: 2}
+  - {fileID: 11400000, guid: 417aabbbe6890ee44a94829e2e0b8546, type: 2}
   attackMultiplier: 1
   defenceMultiplier: 1
   activeEffect: {fileID: 0}

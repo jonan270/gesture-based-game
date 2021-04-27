@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Freyr_Multishot
   m_EditorClassIdentifier: 
   abilityName: Multishot
-  abilityDescription: 'Shoots multiple arrows damaging them for '
+  abilityDescription: 'Shoots multiple arrows damaging '
   gemsCost: 10
   powerValue: 25
   targetType: 0

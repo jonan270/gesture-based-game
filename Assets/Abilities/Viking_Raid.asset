@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Viking_Raid
   m_EditorClassIdentifier: 
   abilityName: Viking Raid
-  abilityDescription: "V\xE4lja en tile och d\xE5 blir omr\xE5det omkring tilen,
-    med radie 2, till vatten"
+  abilityDescription: Turn an area into water
   gemsCost: 0
   powerValue: 0
   targetType: 1

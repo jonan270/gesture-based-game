@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: curse
   m_EditorClassIdentifier: 
   abilityName: Curse
-  abilityDescription: "V\xE4lja en tile och d\xE5 blir omr\xE5det omkring tilen,
-    med radie 2, till \xF6ken"
+  abilityDescription: 'Turn an area with radius 1 into desert '
   gemsCost: 5
   powerValue: 0
   targetType: 1

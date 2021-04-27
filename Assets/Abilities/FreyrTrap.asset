@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4976d121965cc49abe7bb8815ce99e, type: 3}
   m_Name: FreyrTrap
   m_EditorClassIdentifier: 
-  abilityName: 
-  abilityDescription: 
+  abilityName: Trap
+  abilityDescription: Places a useless trap that everyone can see
   gemsCost: 0
-  powerValue: 30
+  powerValue: 60
   targetType: 0
   abilityElement: 0
   numberOfTurns: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bjorn_Cleave
   m_EditorClassIdentifier: 
   abilityName: Cleave
-  abilityDescription: Attack multiple nearby enemies with his sword
+  abilityDescription: Throws multiple fishes at the enemies
   gemsCost: 5
   powerValue: 50
   targetType: 1
