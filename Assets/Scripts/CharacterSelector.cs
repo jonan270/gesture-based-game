@@ -16,6 +16,9 @@ public class CharacterSelector : MonoBehaviour
 
     private GameObject selectedCharacter;
 
+    /// <summary>
+    /// returns true if the hand is not holding a character
+    /// </summary>
     public bool IsHandFree { get { return !hasTarget; } }
 
     private bool hasTarget = false;
@@ -111,7 +114,7 @@ public class CharacterSelector : MonoBehaviour
     private bool CanPickUp()
     {
         //return PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.PlayerState != PlayerState.characterWalking;
-        return PlayerManager.Instance.PlayerState == PlayerState.idle;
+        return PlayerManager.Instance.PlayerState == PlayerState.idle && otherHand.IsHandFree;
     }
     /// <summary>
     /// Pickup the character and set text on cards
