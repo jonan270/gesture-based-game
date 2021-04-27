@@ -23,10 +23,10 @@ public class Fireball : AbilityData
         float bonusDamage = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().CompareElement(target, powerValue, bonusPowerMultiplier);
         float damage = bonusDamage + powerValue;
 
-        List<Character> targetList = new List<Character>();
-        targetList.Add(target);
+        List<(Character,float)> pairList = new List<(Character, float)>();
+        pairList.Add((target,damage));
 
-        AbilityManager.ManagerInstance.CastProjectile(me, targetList, damage, gestureType);
+        AbilityManager.ManagerInstance.CastProjectile(me, pairList, gestureType);
 
         PlayerManager.Instance.UnsubscribeFromSelectTargetCharacter(OnSelectedCharacter);
         AbilityCompleted();

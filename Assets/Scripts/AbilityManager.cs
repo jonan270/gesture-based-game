@@ -80,8 +80,8 @@ public class AbilityManager : MonoBehaviour
         //Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
         //projectileTarget = target;
 
-        Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
-        Vector3 userPosition = user.transform.position;
+        //Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
+        //Vector3 userPosition = user.transform.position;
 
         //startTarget = user.transform.position;
         //endTarget = target.transform.position;
@@ -98,15 +98,16 @@ public class AbilityManager : MonoBehaviour
         //travelling = true;
         //ProjectileObj projectile = gameObject.AddComponent(typeof(ProjectileObj)) as ProjectileObj;
         //projectile.CreateProjectile(hitDamage, user, target, type);
-        MakeProjectile(hitDamage, userY, userY, targetX, targetY, type);
+        MakeProjectile(hitDamage, userX, userY, targetX, targetY, type);
     }
 
     private void MakeProjectile(float hitDamage, int userX, int userY, int targetX, int targetY, GestureType type)
     {
         Debug.Log("Running MakeProjectile");
         Character user = PlayerManager.Instance.GetCharacterAt(userX, userY);
+
         if (!user)
-            user = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
+            user = PlayerManager.Instance.selectedCharacter.GetComponent<Character>(); // User not found :(
 
         Character target = PlayerManager.Instance.GetCharacterAt(targetX, targetY);
         Debug.Log("Foundtarget " + target.name + " Founduser: " + user.name);
@@ -162,12 +163,12 @@ public class AbilityManager : MonoBehaviour
     /// <param name="user"> Character that uses ability </param>
     /// <param name="target"> Character that gets hit by ability </param>
     /// <param name="hitDamage"> Damage to apply </param>
-    public void CastProjectile(Character user, List<Character> targets, float hitDamage, GestureType type)
+    public void CastProjectile(Character user, List<(Character, float)> pairs, GestureType type)
     {
-        foreach(var target in targets)
+        foreach(var pair in pairs)
         {
             photonView.RPC("RPC_CastProjectile", RpcTarget.All, user.CurrentTile.tileIndex.x, user.CurrentTile.tileIndex.y,
-                target.CurrentTile.tileIndex.x, target.CurrentTile.tileIndex.y, hitDamage, type);
+                pair.Item1.CurrentTile.tileIndex.x, pair.Item1.CurrentTile.tileIndex.y, pair.Item2, type);
         }
     }
 
