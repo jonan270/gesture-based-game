@@ -270,7 +270,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2781511401928942893}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 100}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 0.23956443, y: 0.23956443, z: 0.23956443}
   m_Children:
   - {fileID: 6249373174745289336}
@@ -280,7 +280,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 250}
+  m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8060579834217130876
 Canvas:
@@ -468,7 +468,6 @@ GameObject:
   - component: {fileID: 4737854515022557722}
   - component: {fileID: 4757337325544796349}
   - component: {fileID: 6170304282510826753}
-  - component: {fileID: 1581722097337884953}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -550,14 +549,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 0.5
+  m_fontSizeBase: 0.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -605,19 +604,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiText: {fileID: 4757337325544796349}
---- !u!114 &1581722097337884953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6175597944126340435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1810f2298b492234892e0ed6070e33e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnText: {fileID: 4757337325544796349}
 --- !u!1 &6608639141688731944
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +769,7 @@ GameObject:
   - component: {fileID: 6608639143387091232}
   - component: {fileID: 4843234232118438338}
   - component: {fileID: 7370528299086981375}
+  - component: {fileID: 4106517356812481222}
   m_Layer: 0
   m_Name: XR Rig
   m_TagString: Untagged
@@ -835,18 +822,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d8d4dcfcad6dc4bbb45b79b8659008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctGesture: {fileID: 0}
-  wrongGesture: {fileID: 0}
-  audioSource: {fileID: 0}
-  leftSpawnPoint: {fileID: 0}
-  rightSpawnPoint: {fileID: 0}
+  correctGesture: {fileID: 8300000, guid: 44d11aabbff0f6248ad148d858a864fc, type: 3}
+  wrongGesture: {fileID: 8300000, guid: f93e8ff42244f5642b476fa759cd4b75, type: 3}
+  audioSource: {fileID: 4106517356812481222}
+  leftSpawnPoint: {fileID: 6283141269276472755}
+  rightSpawnPoint: {fileID: 8945409751796744572}
   LeftHand: {fileID: 6608639143640899222}
   RightHand: {fileID: 6608639143550981039}
   visualAid: {fileID: 8774746989568714442, guid: 596b8c2b16575f0448d4aae81b2b466d,
     type: 3}
   lCShand: {fileID: 1953353301}
   rCShand: {fileID: 1016786279}
-  closeDistance: 0.5
+  closeDistance: 0.1
   gesturePositions: []
   cam: {fileID: 6608639141688731949}
   GestureName: 
@@ -914,6 +901,102 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!82 &4106517356812481222
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6608639143387098847}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6608639143550981039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 6608639143550981038}
   lineRenderer: {fileID: 7230063219325184765}
+  otherHand: {fileID: 2284125699318160545}
   tilesSelected: []
 --- !u!1 &6608639143640899222
 GameObject:
@@ -1227,8 +1311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c5c71930ebaf624dbb8967577eba232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start: {fileID: 6608639143640899225}
+  start: {fileID: 0}
   lineRenderer: {fileID: 4444518091938608339}
+  otherHand: {fileID: 7022658054644686025}
   tilesSelected: []
 --- !u!120 &4444518091938608339
 LineRenderer:
@@ -1601,15 +1686,15 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 057574477c20401448aba7c848873712, type: 3}
---- !u!1 &6608214179258256115 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000013597184258, guid: 057574477c20401448aba7c848873712,
-    type: 3}
-  m_PrefabInstance: {fileID: 6608639141759966193}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6609225643935221601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712,
+    type: 3}
+  m_PrefabInstance: {fileID: 6608639141759966193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6608214179258256115 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000013597184258, guid: 057574477c20401448aba7c848873712,
     type: 3}
   m_PrefabInstance: {fileID: 6608639141759966193}
   m_PrefabAsset: {fileID: 0}
