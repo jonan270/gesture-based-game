@@ -28,15 +28,15 @@ public class GameRound : MonoBehaviourPun
         EndTurn();
     }
 
-    void Update()
-    {
-        if (!myTurn)
-        {
-            HandCards.HandCardsInstance.UpdateCardsOnHand();
+    //void Update()
+    //{
+    //    if (!myTurn)
+    //    {
+    //        HandCards.HandCardsInstance.UpdateCardsOnHand();
 
-        }
+    //    }
 
-    }
+    //}
 
     /// <summary>
     /// Begin a new turn, reseting some values if nessesary 
@@ -111,6 +111,8 @@ public class GameRound : MonoBehaviourPun
     {
         PlayerManager.Instance.OnPlayerStateChanged(PlayerState.waitingForMyTurn);
         PlayerManager.Instance.OnEndTurn();
+        HandCards.HandCardsInstance.UpdateCardsOnHand();
+
 
         //Logic for ending a turn, lets the other player begin their turn
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
