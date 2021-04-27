@@ -43,8 +43,8 @@ public class GameRound : MonoBehaviourPun
     /// </summary>
     void BeginTurn()
     {
-        if (gameover)
-            return; 
+        //if (gameover)
+        //    return; 
 
         if (myTurn)
         {
@@ -62,12 +62,12 @@ public class GameRound : MonoBehaviourPun
             UIText.Instance.DisplayText("[Opponents turn]");
         }
 
-        if (PlayerManager.Instance.friendlyCharacters.Count <= 0 && turnCounter > 0)
-        {
-            gameover = true;
-            UIText.Instance.DisplayText("Game over: You lose!");
-            photonView.RPC("RPC_GameOver", RpcTarget.Others, "Game over: You win!");
-        }
+        //if (PlayerManager.Instance.friendlyCharacters.Count <= 0 && turnCounter > 0)
+        //{
+        //    gameover = true;
+        //    UIText.Instance.DisplayText("Game over: You lose!");
+        //    photonView.RPC("RPC_GameOver", RpcTarget.Others, "Game over: You win!");
+        //}
         Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
         Debug.LogError("Player state is " + PlayerManager.Instance.PlayerState);
 
@@ -113,7 +113,7 @@ public class GameRound : MonoBehaviourPun
         PlayerManager.Instance.OnEndTurn();
         HandCards.HandCardsInstance.UpdateCardsOnHand();
 
-
+        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
         //Logic for ending a turn, lets the other player begin their turn
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             BeginTurn(); 
