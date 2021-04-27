@@ -8,6 +8,9 @@ public class HandCards : MonoBehaviour
 
     public static HandCards HandCardsInstance { get; private set; }
 
+    /// <summary>
+    /// list of cards player currently has
+    /// </summary>
     public List<Card> cardsOnHand = new List<Card>();
 
     [SerializeField]
@@ -37,11 +40,13 @@ public class HandCards : MonoBehaviour
 
         setDeck(PhotonNetwork.IsMasterClient);
 
+        startingPosition = deck.transform.position;
+
         for(int i = 0; i < maxCardsOnHand; i++)
         {
             cardsOnHand.Add(GenerateNewCard(startingPosition));
         }
-
+        
 
     }
 
@@ -62,6 +67,8 @@ public class HandCards : MonoBehaviour
         int prefabIndex = Random.Range(0, 3);
 
         GameObject _ob = Instantiate(cardPrefabs[prefabIndex], vec, Quaternion.identity); // Lerp?
+        if (!PhotonNetwork.IsMasterClient)
+            _ob.transform.Rotate(0, 180, 0);
 
         _ob.transform.parent = this.transform;
 
