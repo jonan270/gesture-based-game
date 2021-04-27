@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/multiplayertest.unity
     guid: c90819efa4cd7324bb2cafecfeaf7a62
   - enabled: 0
-    path: Assets/Wilma_sprint_2.unity
-    guid: aa1b4173d9a101e4faa8136340390011
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
+    path: Assets/Wilma_sprint_4.unity
+    guid: bc25b3f4d7eeb054293414e307a7b0a0
+  - enabled: 0
     path: Assets/Andreas_sprint_2.unity
     guid: e09f46be886d7a74aba6c122560e4dd6
   - enabled: 0

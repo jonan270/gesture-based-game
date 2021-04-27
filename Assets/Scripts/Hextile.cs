@@ -50,6 +50,8 @@ public class Hextile : MonoBehaviour
     // The angle of the tile during rotation.
     private int angleCount = -180;
 
+    [SerializeField] public ParticleSystem ps;
+
     [Header("Materials")]
     // Materials for the tilebase of different types
     [SerializeField] private Material matgrass;
@@ -64,6 +66,8 @@ public class Hextile : MonoBehaviour
     [SerializeField] private GameObject desert;
     [SerializeField] private GameObject water;
     [SerializeField] private GameObject grass;
+
+
 
     private bool selected = false;
     private Material previousMaterial;

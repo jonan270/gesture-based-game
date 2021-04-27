@@ -16,8 +16,15 @@ public class GameRound : MonoBehaviourPun
 
     private bool gameover = false;
 
+    [SerializeField] public GameObject button;
+
+
     private void Start()
     {
+        //button = Instantiate(button, new Vector3(-0.08f, 0f, 0.35f), Quaternion.identity);
+       // button.onClick.AddListener(EndTurn());
+
+
         EndTurn();
     }
 
@@ -28,6 +35,7 @@ public class GameRound : MonoBehaviourPun
             HandCards.HandCardsInstance.UpdateCardsOnHand();
 
         }
+
     }
 
     /// <summary>
@@ -45,6 +53,7 @@ public class GameRound : MonoBehaviourPun
             foreach (Character character in PlayerManager.Instance.friendlyCharacters)
             {
                 character.SetState(Character.CharacterState.CanDoAction);
+               // character.characterAvailable(true);
             }
             AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
         }

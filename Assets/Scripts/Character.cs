@@ -93,6 +93,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
         if(photonView.IsMine)
         {
+            //CurrentTile.ps.Play();
             GetComponentInChildren<Light>().enabled = true;
         }
 
@@ -199,10 +200,12 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
         if(CurrentState == CharacterState.CanDoAction)
         {
+           // CurrentTile.ps.Play();
             GetComponentInChildren<Light>().enabled = true;
         }
         if (CurrentState == CharacterState.ActionCompleted || CurrentState == CharacterState.PickedUp)
         {
+          //  CurrentTile.ps.Stop();
             GetComponentInChildren<Light>().enabled = false;
         }
         if(CurrentState == CharacterState.CanDoAction || CurrentState == CharacterState.ActionCompleted)
@@ -320,5 +323,13 @@ public abstract class Character : MonoBehaviour, IPunObservable
             anim.SetBool("Dead", (bool)stream.ReceiveNext());
 
         }
+    }
+
+    public void characterAvailable(bool playable)
+    {
+        if(playable)
+            CurrentTile.ps.Play();
+        else if (!playable)
+            CurrentTile.ps.Stop();
     }
 }
