@@ -82,7 +82,24 @@ public class CharacterSelector : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log(followTransform.name + " collided with " + collider.transform.root.name);
+        //Debug.Log(followTransform.name + " collided with " + collider.transform.root.name);
+        if (hasTarget || otherHand.hasTarget)
+            return;
+
+        Character character = collider.transform.root.gameObject.GetComponent<Character>();
+        if(character && character.photonView.IsMine)
+            character.GetComponent<Outline>().enabled = true;
+    }
+
+    void OnTriggerExit(Collider collider)
+    {
+        //Debug.Log(followTransform.name + " collided with " + collider.transform.root.name);
+        //if (hasTarget || otherHand.hasTarget)
+        //    return;
+
+        Character character = collider.transform.root.gameObject.GetComponent<Character>();
+        if (character && character.photonView.IsMine)
+            character.GetComponent<Outline>().enabled = false;
     }
 
     void OnTriggerStay(Collider collider)
@@ -137,8 +154,8 @@ public class CharacterSelector : MonoBehaviour
         //GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(true);
         HandCards.HandCardsInstance.setCardType(true);
 
-        Debug.Log("Selected character in hand is " + selectedCharacter.name);
-        Debug.Log("Selected character in player manager is " + PlayerManager.Instance.selectedCharacter.name);
+        //Debug.Log("Selected character in hand is " + selectedCharacter.name);
+        //Debug.Log("Selected character in player manager is " + PlayerManager.Instance.selectedCharacter.name);
     }
     /// <summary>
     /// Copy target transform
