@@ -73,7 +73,7 @@ public class GestureTracker : MonoBehaviour
     void Start()
     {
         //Load custom gestures
-        string[] filePaths = Directory.GetFiles("Assets/Gestures/", "*.xml");
+        string[] filePaths = Directory.GetFiles(Application.streamingAssetsPath + "/Gestures/", "*.xml");
         foreach (string filePath in filePaths)
             trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
     }
