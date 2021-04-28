@@ -1177,6 +1177,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1000010304998954, guid: 6def53d002137b747aec0b29551e0e25,
         type: 3}
+    - target: {fileID: 6608639141911201248, guid: 9da09992e77a4c540838efc136e0db31,
+        type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6608639141911201248, guid: 9da09992e77a4c540838efc136e0db31,
+        type: 3}
+      propertyPath: shiftSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6608639143387091232, guid: 9da09992e77a4c540838efc136e0db31,
         type: 3}
       propertyPath: leftSpawnPoint
