@@ -31,10 +31,13 @@ public class HandCards : MonoBehaviour
     private GameObject deck;
 
     //private string description = "";
-
-    void Start()
+    private void Awake()
     {
         HandCardsInstance = this;
+
+    }
+    void Start()
+    {
 
         cardEndPositions = new Vector3[maxCardsOnHand];
 

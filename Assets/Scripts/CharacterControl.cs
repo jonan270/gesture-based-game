@@ -23,7 +23,7 @@ public class CharacterControl : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        //hand = Instantiate(handPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         //deck = Instantiate(deckPrefab, new Vector3(9, 0, 0), Quaternion.identity);
     }
     

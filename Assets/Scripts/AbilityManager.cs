@@ -32,6 +32,12 @@ public class AbilityManager : MonoBehaviour
 
     [SerializeField] private PhotonView photonView;
 
+    private void Awake()
+    {
+        ManagerInstance = this;
+
+    }
+
     void Start()
     {
         if(photonView == null)
@@ -39,7 +45,6 @@ public class AbilityManager : MonoBehaviour
             Debug.LogError("Missing photonView reference!");
         }
         map = FindObjectOfType<Hexmap>();
-        ManagerInstance = this;
     }
 
     void Update()
