@@ -7,7 +7,7 @@ public class ProjectileObj : MonoBehaviour
 
     private bool travelling = false; // Is the projectile currently travelling?
 
-    private float speed = 5f; // Serialized variable to control speed of projectiles
+    private float speed = 0.5f; // Serialized variable to control speed of projectiles
     private Vector3 projectileHeight = new Vector3(0, 1f, 0);
 
     private float startTime; // At what time does the projectile start travelling?
