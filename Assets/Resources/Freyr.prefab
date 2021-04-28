@@ -93,7 +93,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!65 &549956887379087853
+--- !u!65 &5862191117222995997
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,8 +104,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.008351858, y: 0.010339449, z: 0.02227298}
-  m_Center: {x: 0.00048817668, y: -0.0010382781, z: -0.005109249}
+  m_Size: {x: 0.027839521, y: 0.034464825, z: 0.07424326}
+  m_Center: {x: 0.0016272559, y: -0.0028333345, z: 0.025}
 --- !u!1 &5606746154155815176
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +363,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2764202291422900488}
     m_Modifications:
+    - target: {fileID: 4817323065204906310, guid: 5e7be3bdaf0fb1a42a63598bb377be7d,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4817323065204906312, guid: 5e7be3bdaf0fb1a42a63598bb377be7d,
         type: 3}
       propertyPath: m_Pivot.x
@@ -507,6 +512,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3feec2e6ac7d99445b865556e0024480,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3feec2e6ac7d99445b865556e0024480,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3feec2e6ac7d99445b865556e0024480,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3feec2e6ac7d99445b865556e0024480,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -568,17 +588,17 @@ PrefabInstance:
     - target: {fileID: 2098692855058120286, guid: 3feec2e6ac7d99445b865556e0024480,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 30
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2098692855058120286, guid: 3feec2e6ac7d99445b865556e0024480,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 30
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2098692855058120286, guid: 3feec2e6ac7d99445b865556e0024480,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 30
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2098692855058120286, guid: 3feec2e6ac7d99445b865556e0024480,
         type: 3}
