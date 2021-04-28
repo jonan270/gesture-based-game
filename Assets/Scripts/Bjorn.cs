@@ -7,13 +7,19 @@ using Photon.Pun;
 
 public class Bjorn : Character
 {
-
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         Element = ElementState.Water;
         StrongAgainst = ElementState.Fire;
         WeakAgainst = ElementState.Wind;
+    } 
+    protected override void Start()
+    {
+        base.Start();
+        //Element = ElementState.Water;
+        //StrongAgainst = ElementState.Fire;
+        //WeakAgainst = ElementState.Wind;
         Name = "Bjorn";
         BasicAttackValue = 20;
         //MaterialType = Resources.Load("Materials/waterMat.mat", typeof(Material)) as Material;

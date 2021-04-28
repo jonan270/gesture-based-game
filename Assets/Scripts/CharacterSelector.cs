@@ -175,6 +175,17 @@ public class CharacterSelector : MonoBehaviour
         selectedCharacter.transform.position = followTransform.position;
         selectedCharacter.transform.rotation = followTransform.rotation;
         selectedCharacter.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        //GameObject effect = selectedCharacter.GetComponent<Character>().activeEffect;
+        Character character = selectedCharacter.GetComponent<Character>();
+
+        //if (effect)
+        //    effect.SetActive(false); // temporarily hide effect
+        foreach (var effect in character.turnBasedEffects)
+        {
+            //effect.MakeOrDestroy(character, false); // temporarily hide effect
+            effect.visualEffect.SetActive(false);
+        }
     }
     /// <summary>
     /// Releases the character back to the board, reset its transform to before pickup
@@ -183,6 +194,13 @@ public class CharacterSelector : MonoBehaviour
     {
         if (selectedCharacter == null)
             return;
+
+        Character character = selectedCharacter.GetComponent<Character>();
+        foreach (var effect in character.turnBasedEffects)
+        {
+            //effect.MakeOrDestroy(character, true); // show effect when dropping
+            effect.visualEffect.SetActive(true);
+        }
 
         selectedCharacter.GetComponent<Character>().SetState(Character.CharacterState.CanDoAction);
         //GameObject.Find("HandCards(Clone)").GetComponent<HandCards>().setCardType(false);
