@@ -18,7 +18,9 @@ public class HandCards : MonoBehaviour
 
     private static int maxCardsOnHand = 4;
 
-    public Vector3 startingPosition;
+    public Transform startPositionDeckPlayer1;
+    public Transform StartPositionDeckPlayer2;
+    private Vector3 startingPosition;
 
     private Vector3[] cardEndPositions;
 
@@ -118,14 +120,6 @@ public class HandCards : MonoBehaviour
 
         cardEndPositions = GetCardPosition(PhotonNetwork.IsMasterClient);
 
-        //cardEndPositions[0] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.12f, 4f)); //Cards on the screen, follows the camera
-        //cardEndPositions[1] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.37f, 4f));
-        //cardEndPositions[2] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.62f, 4f));
-        //cardEndPositions[3] = Camera.main.ViewportToWorldPoint(new Vector3(0.1f, 0.87f, 4f));
-
-        /*cardEndPositions[0] = new Vector3(2f, 3.3f, -2f); //Cards on the screen, stays on one spot
-        cardEndPositions[1] = new Vector3(2f, 5.9f, -1.5f);
-        cardEndPositions[2] = new Vector3(2f, 7.9f, -1f);*/
 
         for (int i = 0; i < cardsOnHand.Count; i++)
         {
@@ -199,12 +193,6 @@ public class HandCards : MonoBehaviour
                     }
 
                     cardsOnHand[i].SetCardData(data, selecetedCharacter.MaterialType);
-                    //cardsOnHand[i].GetComponent<Card>().SetElementSymbol(ob.GetComponent<Character>().Element);
-
-                    //cardsOnHand[i].GetComponent<Card>().SetText(description, ob.GetComponent<Character>().Name); //Set text on card
-                    //cardsOnHand[i].GetComponent<Card>().model.SetActive(true);
-                    //cardsOnHand[i].GetComponent<Card>().model2.SetActive(false);
-                    //cardsOnHand[i].GetComponent<Card>().model.GetComponent<MeshRenderer>().material = ob.GetComponent<Character>().MaterialType; //Set material on card
 
                 }
             }
@@ -219,47 +207,26 @@ public class HandCards : MonoBehaviour
         }
     }
 
-    //public void setElementSymbol(GameObject card)
-    //{
-    //    if (ob.GetComponent<Character>().Element == ElementState.Fire)
-    //    {
-    //        card.GetComponent<Card>().fireSymbol.SetActive(true);
-
-    //    }else if (ob.GetComponent<Character>().Element == ElementState.Earth)
-    //    {
-    //        card.GetComponent<Card>().earthSymbol.SetActive(true);
-    //    }else if (ob.GetComponent<Character>().Element == ElementState.Water)
-    //    {
-    //        card.GetComponent<Card>().waterSymbol.SetActive(true);
-    //    }
-    //}
-
+    
     /// <summary>
-    /// Resets card info
+    /// 
     /// </summary>
-    //public void resetCard(GameObject card)
-    //{
-    //    card.GetComponent<Card>().setText("  ", "  ");
-    //    //card.GetComponent<Card>().model2.SetActive(true);
-    //    //card.GetComponent<Card>().model.SetActive(false);
-    //    card.GetComponent<Card>().fireSymbol.SetActive(false);
-    //    card.GetComponent<Card>().waterSymbol.SetActive(false);
-    //    card.GetComponent<Card>().earthSymbol.SetActive(false);
-
-    //}
-
+    /// <param name="master"></param>
+    /// <returns></returns>
     public Vector3[] GetCardPosition(bool master)
     {
         // retunera fr�n hosts tiles yo
        
         if (master)
         {
-            cardEndPositions[0] = new Vector3(1.5f, 0f, -1f); // Cards on the ground
-            cardEndPositions[1] = new Vector3(3.0f, 0f, -1f);
-            cardEndPositions[2] = new Vector3(4.5f, 0f, -1f);
-            cardEndPositions[3] = new Vector3(6.0f, 0f, -1f);
+            
+            float z = -0.13f;
+            cardEndPositions[0] = new Vector3(0.15f, 0f, z); // Cards on the ground
+            cardEndPositions[1] = new Vector3(0.3f, 0f, z);
+            cardEndPositions[2] = new Vector3(0.45f, 0f, z);
+            cardEndPositions[3] = new Vector3(0.6f, 0f, z);
 
-            startingPosition = new Vector3(8f, 0f, 0f); //Deck position as well
+            //startingPosition = new Vector3(8f, 0f, 0f); //Deck position as well
 
         }
         else //if (!master)
@@ -269,7 +236,7 @@ public class HandCards : MonoBehaviour
             cardEndPositions[2] = new Vector3(3.0f, 0f, 10f);
             cardEndPositions[3] = new Vector3(1.5f, 0f, 10f);
             
-            startingPosition = new Vector3(-1f, 0f, 9f); //Deck position as well
+            //startingPosition = new Vector3(-1f, 0f, 9f); //Deck position as well
         }
 
         return cardEndPositions;
@@ -279,13 +246,13 @@ public class HandCards : MonoBehaviour
     {
         if (master)
         {
-            deck = PhotonNetwork.Instantiate(deckPrefab.name, new Vector3(8, 0, 0), Quaternion.identity);
+            deck = PhotonNetwork.Instantiate(deckPrefab.name, startPositionDeckPlayer1.position, Quaternion.identity);
             //deck = Instantiate(deckPrefab, new Vector3(8f, 0f, 0f), Quaternion.identity);
 
         }
         else
         {
-            deck = PhotonNetwork.Instantiate(deckPrefab.name, new Vector3(-1, 0, 8), Quaternion.identity);
+            deck = PhotonNetwork.Instantiate(deckPrefab.name, StartPositionDeckPlayer2.position, Quaternion.identity);
             //transform.Rotate(0, 180, 0); // rotate the cards 180 degree to face thesecond player instead
             //deck = Instantiate(deckPrefab, new Vector3(-1f, 0, 8f), Quaternion.identity);
         }
