@@ -17,7 +17,7 @@ MonoBehaviour:
   gemsCost: 10
   powerValue: 25
   targetType: 0
-  abilityElement: 0
+  abilityElement: 2
   numberOfTurns: 0
   gestureType: 3
   bonusPowerMultiplier: 1.5
