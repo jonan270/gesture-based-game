@@ -241,6 +241,16 @@ public class Hextile : MonoBehaviour
     {
         if(type != tileType)
             spinTile();
+
+        if (isOccupied && occupant)
+        {
+            // if occupant was in suboptimal tile and tile changes to optimal
+            if (type == occupant.Element && tileType != occupant.Element)
+                occupant.defenceMultiplier *= 2;
+            else if(type != occupant.Element && tileType == occupant.Element) // if occupant was in optimal and tile changes to suboptimal
+                occupant.defenceMultiplier /= 2;
+        }
+
         switch (type)
         {
             case ElementState.Wind:
@@ -283,6 +293,8 @@ public class Hextile : MonoBehaviour
                     break;
                 }
         }
+
+
     }
 
     /// <summary>

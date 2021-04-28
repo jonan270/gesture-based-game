@@ -33,7 +33,7 @@ public class TurnBasedEffect : MonoBehaviour
         character.defenceMultiplier *= defMod;
 
 
-        visualizeAbility(character, true);
+        MakeOrDestroy(character, true);
         ApplyTurnBased(character); // Activate effect right away
     }
 
@@ -75,20 +75,21 @@ public class TurnBasedEffect : MonoBehaviour
         character.attackMultiplier /= attackMod;
         character.defenceMultiplier /= defMod;
 
-        visualizeAbility(character, false);
+        MakeOrDestroy(character, false);
     }
 
-    public void visualizeAbility(Character target, bool show)
+    public void MakeOrDestroy(Character target, bool make)
     {
         //Character abilityUser = PlayerManager.Instance.selectedCharacter.GetComponent<Character>();
         Transform parent = target.transform;
-        if (visualEffect != null && !show)
+        if (visualEffect && !make)
         {
             target.activeEffect = null;
             Destroy(visualEffect);
         }
         else
         {
+            visualEffect.SetActive(true);
             visualEffect = Instantiate(visualEffect, parent.position, Quaternion.identity);
             visualEffect.transform.localScale = parent.localScale;
 

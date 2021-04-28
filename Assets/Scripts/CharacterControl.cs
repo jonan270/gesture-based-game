@@ -61,8 +61,22 @@ public class CharacterControl : MonoBehaviour
         //Instantiate over network
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.transform.localScale *= modellScale;
-        obj.GetComponent<Character>().CurrentTile = spawnTile;
+
+        Character character = obj.GetComponent<Character>();
+        character.CurrentTile = spawnTile;
+
+        Debug.Log(character.name + " is " + character.Element + ", and tile is " + spawnTile.tileType);
+        Debug.Log("True? " + (character.Element == spawnTile.tileType));
+
+        // If character spawns on prefered element, set defense to 2f
+        if (character.Element == spawnTile.tileType)
+            character.defenceMultiplier = 2f;
+        else
+            character.defenceMultiplier = 1f;
+
         spawnTile.SetOccupant(obj.GetComponent<Character>()); // Set occupant in tile class
+
+
         
         return obj;
     }

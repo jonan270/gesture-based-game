@@ -559,6 +559,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: pub_WithTak
       objectReference: {fileID: 0}
+    - target: {fileID: 3512404300832361924, guid: f6e74845efcefdf4abe3ed1fcc0dc358,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3512404300832361924, guid: f6e74845efcefdf4abe3ed1fcc0dc358,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3512404300832361924, guid: f6e74845efcefdf4abe3ed1fcc0dc358,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6391363728816549585, guid: f6e74845efcefdf4abe3ed1fcc0dc358,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c123702d1f0dca94898c90f5ecf1a431, type: 2}
     - target: {fileID: 8907205984307995002, guid: f6e74845efcefdf4abe3ed1fcc0dc358,
         type: 3}
       propertyPath: m_LocalScale.x

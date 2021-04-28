@@ -136,7 +136,7 @@ public class PathFollower : MonoBehaviour
 
     private void CheckTileDefense(ElementState charElement, Hextile current, Hextile next)
     {
-        float bonus = 1f;
+        float bonus = 2f;
 
         //Debug.Log("Old tile: " + path[index - 1].tileType + "  " + character.Element + ", New tile: " + character.CurrentTile.tileType + "  " + character.Element);
         // If oldtile was bad, new tile is good, add bonus
@@ -144,7 +144,7 @@ public class PathFollower : MonoBehaviour
         {
             //Debug.Log(character.name + " is in its prefered element. Defense bonus is: " + bonus);
             //Debug.Log("Old defense: " + character.defenceMultiplier);
-            character.defenceMultiplier += bonus;
+            character.defenceMultiplier *= bonus;
             //Debug.Log("New defense: " + character.defenceMultiplier);
             // + CalculateElement() .. 
         }
@@ -152,7 +152,7 @@ public class PathFollower : MonoBehaviour
         else if (current.tileType == charElement && next.tileType != charElement)
         {
             //Debug.Log(character.name + " is no longer in its prefered element. Bonus to remove is -" + bonus);
-            character.defenceMultiplier -= bonus;
+            character.defenceMultiplier /= bonus;
             //Debug.Log("Defense after leaving: " + character.defenceMultiplier);
             // - CalculateElement() ..
         }

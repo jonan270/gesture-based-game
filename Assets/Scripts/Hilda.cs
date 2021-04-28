@@ -7,12 +7,21 @@ using Photon.Pun;
 
 public class Hilda : Character
 {
-    protected override void Start()
+
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         Element = ElementState.Fire;
         StrongAgainst = ElementState.Earth;
         WeakAgainst = ElementState.Water;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        //Element = ElementState.Fire;
+        //StrongAgainst = ElementState.Earth;
+        //WeakAgainst = ElementState.Water;
         Name = "Hilda";
         BasicAttackValue = 15;
         //MaterialType = Resources.Load("Materials/RoseMat.mat", typeof(Material)) as Material;
