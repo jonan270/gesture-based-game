@@ -231,11 +231,13 @@ public class HandCards : MonoBehaviour
         }
         else //if (!master)
         {
-            cardEndPositions[0] = new Vector3(6.0f, 0f, 10f);
-            cardEndPositions[1] = new Vector3(4.5f, 0f, 10f);
-            cardEndPositions[2] = new Vector3(3.0f, 0f, 10f);
-            cardEndPositions[3] = new Vector3(1.5f, 0f, 10f);
-            
+            float z = 1.05f;
+            cardEndPositions[0] = new Vector3(0.15f, 0f, z); // Cards on the ground
+            cardEndPositions[1] = new Vector3(0.3f, 0f, z);
+            cardEndPositions[2] = new Vector3(0.45f, 0f, z);
+            cardEndPositions[3] = new Vector3(0.6f, 0f, z);
+
+
             //startingPosition = new Vector3(-1f, 0f, 9f); //Deck position as well
         }
 

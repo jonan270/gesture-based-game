@@ -14,8 +14,8 @@ public class CharacterControl : MonoBehaviour
 
     [Header("Other prefabs")]
     [SerializeField] private Hexmap hexMap;
-    //List<GameObject> deck = new List<GameObject>();
-    [SerializeField] private GameObject handPrefab;
+    ////List<GameObject> deck = new List<GameObject>();
+    //[SerializeField] private GameObject handPrefab;
 
     
     private GameObject hilda, bjorn, freyr, hand;
