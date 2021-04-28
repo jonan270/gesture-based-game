@@ -72,6 +72,12 @@ public class RayCastFromHand : MonoBehaviour
                         FinishPath();
                 }
             }
+
+            //Quick fix for a bug when player switches from drawing a path to making a gesture for example
+            if(PlayerState == PlayerState.makeGesture)
+            {
+                StopRayCast();
+            }
         }
     }
 
