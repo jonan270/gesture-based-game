@@ -123,7 +123,8 @@ public class GameRound : MonoBehaviourPun
         //Debug.Log("Number of players in the room " + PhotonNetwork.CurrentRoom.PlayerCount);
         //Logic for ending a turn, lets the other player begin their turn
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
-            BeginTurn(); 
+            BeginTurn();
+            myTurn = true;
         }
         else
         {
