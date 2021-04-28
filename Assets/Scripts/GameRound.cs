@@ -120,7 +120,7 @@ public class GameRound : MonoBehaviourPun
         PlayerManager.Instance.OnEndTurn();
         HandCards.HandCardsInstance.UpdateCardsOnHand();
 
-        Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
+        //Debug.Log("Number of players in the room " + PhotonNetwork.CurrentRoom.PlayerCount);
         //Logic for ending a turn, lets the other player begin their turn
         if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
             BeginTurn(); 

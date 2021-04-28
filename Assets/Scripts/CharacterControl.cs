@@ -54,7 +54,7 @@ public class CharacterControl : MonoBehaviour
     private GameObject SpawnCharacter(GameObject prefab)
     {
         Hextile spawnTile = hexMap.GetSpawnPosition(PhotonNetwork.IsMasterClient);
-        Debug.LogError("Spawn Tile " + spawnTile.tileIndex);
+        //Debug.LogError("Spawn Tile " + spawnTile.tileIndex);
         
         //Rotates character toward the other player
         Vector3 rotation = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);

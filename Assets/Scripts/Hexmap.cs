@@ -50,10 +50,10 @@ public class Hexmap : MonoBehaviour
     void Awake()
     {
         scaleoffset = hexPrefab.transform.lossyScale.x;
-        Debug.LogError(scaleoffset + " scale offset");
+        //Debug.LogError(scaleoffset + " scale offset");
         xoff *= scaleoffset;
         zoff *= scaleoffset;
-        Debug.LogError("xoff: " + xoff + " zoff: " + zoff + " sacle offset");
+        //Debug.LogError("xoff: " + xoff + " zoff: " + zoff + " sacle offset");
 
         if (photonView == null)
             Debug.LogError("Missing photonView component");
@@ -100,7 +100,7 @@ public class Hexmap : MonoBehaviour
 
             affectRadius(randX, randY, randR, element, false);
         }
-
+        Debug.Log("Randomize is complete: need to synchronize map over network");
         //synka nya mapen med andra 
         SynchronizeNetworkMap();
     }
@@ -121,6 +121,8 @@ public class Hexmap : MonoBehaviour
                 //    areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied);
             }
         }
+        Debug.LogError("Synchronization complete");
+
     }
 
     /// <summary>
