@@ -5,21 +5,12 @@ using Photon.Pun;
 
 public class Freyr : Character
 {
-
-    protected override void Awake()
-    {
-        base.Awake();
-        Element = ElementState.Earth;
-        StrongAgainst = ElementState.Wind;
-        WeakAgainst = ElementState.Fire;
-    }
-
     protected override void Start()
     {
         base.Start();
-        //Element = ElementState.Earth;
-        //StrongAgainst = ElementState.Wind;
-        //WeakAgainst = ElementState.Fire;
+        Element = ElementState.Earth;
+        StrongAgainst = ElementState.Wind;
+        WeakAgainst = ElementState.Fire;
         Name = "Freyr";
         BasicAttackValue = 15;
         //MaterialType = Resources.Load("Materials/RoseMat.mat", typeof(Material)) as Material;

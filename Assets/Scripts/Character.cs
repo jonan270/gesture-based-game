@@ -75,15 +75,14 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     public GameObject activeEffect;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         IsAlive = true;
     }
-
     protected virtual void Start()
     {
         attackMultiplier = 1f;
-        //defenceMultiplier = 1f;
+        defenceMultiplier = 1f;
         currentHealth = maxHealth;
         //turnBasedEffect = gameObject.AddComponent<TurnBasedEffect>();
         deathEvent.AddListener(PlayerManager.Instance.UpdateCharacterLists);
