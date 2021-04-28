@@ -90,11 +90,11 @@ public class GameRound : MonoBehaviourPun
             tmp.SetState(Character.CharacterState.ActionCompleted);
         //else
         //    tmp.SetState(Character.CharacterState.Dead);
-
+        HandCards.HandCardsInstance.setCardType(false);
         PlayerManager.Instance.selectedCharacter = null;
         PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
 
-        HandCards.HandCardsInstance.setCardType(false);
+        
         var cards = FindObjectsOfType<cardDrawing>();
         foreach (var card in cards)
         {
