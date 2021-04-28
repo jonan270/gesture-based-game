@@ -54,11 +54,9 @@ public class GameLauncher : MonoBehaviourPunCallbacks
                 Connect();
             }
         }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Space))
                 Connect();
-        }
+        
     }
 
     /// <summary>
