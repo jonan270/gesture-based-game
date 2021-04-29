@@ -16,7 +16,6 @@ public enum GestureType
     circle,
     horizontalline,
     verticalline,
-    s
 };
 
 public class GestureTracker : MonoBehaviour
@@ -217,9 +216,10 @@ public class GestureTracker : MonoBehaviour
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
             //TODO Display gesture result ? 
             //TODO Send confirmed gesture to rest of system. 
-            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
+            Debug.LogError(gestureResult.GestureClass + " " + gestureResult.Score);
             GestureType gest;
-            if (gestureResult.Score >= 0.85f)
+            
+            if (gestureResult.Score >= 0.6f)
             {
                 PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
