@@ -35,7 +35,7 @@ public class AbilityMultitarget : AbilityData
         else if(targetType == TargetType.multi)
             cleaveDamage = powerValue / nearbyEnemies.Count;
 
-        Debug.LogError(cleaveDamage);
+        Debug.LogError("cleave damage before calculations " + cleaveDamage);
         foreach (var enemy in nearbyEnemies)
         {
             float bonusDamage = PlayerManager.Instance.selectedCharacter.GetComponent<Character>().CompareElement(enemy, cleaveDamage, bonusPowerMultiplier);
