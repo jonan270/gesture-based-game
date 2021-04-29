@@ -65,7 +65,7 @@ public class AbilityManager : MonoBehaviour
         Character target = PlayerManager.Instance.GetCharacterAt(x, y);
         //Debug.LogError("character " + map.map[x, y].occupant.name + " takes " + amount + " damage");
         //map.map[x, y].occupant.ModifyHealth(amount);
-        Debug.LogError("character " + target.name + " takes " + amount + " damage");
+        //Debug.LogError("character " + target.name + " takes " + amount + " damage");
         target.ModifyHealth(amount);
     }
 
@@ -298,6 +298,11 @@ public class AbilityManager : MonoBehaviour
     /// <param name="damage">Amount of damage to deal, assumes finalized damage</param>
     public void DamageCharacter(Character target, float damage)
     {
+        if(target.photonView.IsMine)
+        {
+            Debug.LogError("Did not damage character its my own, the damage should come from other player");
+            return;
+        }
         int x = target.CurrentTile.tileIndex.x;
         int y = target.CurrentTile.tileIndex.y;
         photonView.RPC("RPC_AffectHealth", RpcTarget.Others, x, y, -damage);
