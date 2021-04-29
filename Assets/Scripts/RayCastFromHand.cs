@@ -58,7 +58,7 @@ public class RayCastFromHand : MonoBehaviour
             if(PlayerState == PlayerState.drawPath)
             {
                 displayTilesLeft = maxNrTilesToWalk - tilesSelected.Count + 1;
-                UIText.Instance.DisplayText("Draw a path for the character.Tiles left to walk: " + displayTilesLeft);
+                UIText.Instance.DisplayText("Draw a path for the character. \n Tiles left to walk: " + displayTilesLeft);
 
                 ScanForTiles();
             }
