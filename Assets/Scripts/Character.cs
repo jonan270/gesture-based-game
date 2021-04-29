@@ -240,7 +240,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         // Takes damage
         if (amount < 0)
         {
-            Debug.Log(name + " takes " + amount / defenceMultiplier + " amount of damage");
+            Debug.LogError(name + " takes " + amount / defenceMultiplier + " amount of damage");
             currentHealth += amount / defenceMultiplier;
         }
 
