@@ -15,7 +15,7 @@ public class RegisterButtonEvents : MonoBehaviour
     public void RegisterHover()
     {
         button.image.color = button.colors.highlightedColor;
-        Debug.Log("ayo");
+        //Debug.Log("ayo");
     }
     public void RegisterClick()
     {
@@ -24,7 +24,7 @@ public class RegisterButtonEvents : MonoBehaviour
     public void RemoveHover()
     {
         button.image.color = button.colors.normalColor;
-        Debug.Log("cya");
+        //Debug.Log("cya");
     }
 
     public void StartGame()

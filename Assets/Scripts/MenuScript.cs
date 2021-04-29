@@ -29,7 +29,8 @@ public class MenuScript : MonoBehaviour
             if (buttonEvent != null)
             {
                 buttonEvent.RegisterHover();
-                if (SteamVR_Actions.default_GrabPinch.GetStateDown(SteamVR_Input_Sources.Any)) buttonEvent.RegisterClick();
+                if (SteamVR.active && SteamVR_Actions.default_GrabPinch.GetStateDown(SteamVR_Input_Sources.Any))
+                    buttonEvent.RegisterClick();
                 lineRender.SetPosition(0, source.position);
                 lineRender.SetPosition(1, source.position + source.TransformDirection(Vector3.forward) * hit.distance);
             }
@@ -41,7 +42,8 @@ public class MenuScript : MonoBehaviour
     void clearTarget()
     {
         RegisterButtonEvents buttonEvent = activeTarget.GetComponent<RegisterButtonEvents>();
-        if (buttonEvent) buttonEvent.RemoveHover();
+        if (buttonEvent)
+            buttonEvent.RemoveHover();
         activeTarget = null;
     }
 }
