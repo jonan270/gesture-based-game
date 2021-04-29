@@ -21,6 +21,7 @@ public class RayCastFromHand : MonoBehaviour
     private Hextile previoustile;
     private Hextile singleTile;
     private static int maxNrTilesToWalk = 6;
+    private int displayTilesLeft;
     // Start is called before the first frame update
     private void Start()
     {
@@ -29,6 +30,7 @@ public class RayCastFromHand : MonoBehaviour
         cam = FindObjectOfType<Camera>();
         characterSelector = GetComponent<CharacterSelector>();
         pathCreator = FindObjectOfType<PathCreator>();
+        displayTilesLeft = 0;
     }
     // Update is called once per frame
     void LateUpdate()
@@ -55,7 +57,8 @@ public class RayCastFromHand : MonoBehaviour
             //Drawing a path for a character
             if(PlayerState == PlayerState.drawPath)
             {
-                UIText.Instance.DisplayText("Draw a path for the character");
+                displayTilesLeft = maxNrTilesToWalk - tilesSelected.Count + 1;
+                UIText.Instance.DisplayText("Draw a path for the character.Tiles left to walk: " + displayTilesLeft);
 
                 ScanForTiles();
             }
@@ -66,11 +69,21 @@ public class RayCastFromHand : MonoBehaviour
                 {
                     if (SteamVR_Actions.default_GrabPinch.GetStateUp(characterSelector.source))
                         FinishPath();
+                    else if (displayTilesLeft == 0)
+                    {
+                        FinishPath();
+                    }
                 }
                 else
                 {
                     if (Input.GetMouseButtonUp(0))
                         FinishPath();
+
+                    else if(displayTilesLeft == 0)
+                    {
+                        FinishPath();
+                    }
+
                 }
             }
 
