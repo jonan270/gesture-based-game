@@ -20,6 +20,7 @@ public class RayCastFromHand : MonoBehaviour
     private PlayerState PlayerState { get { return PlayerManager.Instance.PlayerState; } }
     private Hextile previoustile;
     private Hextile singleTile;
+    private static int maxNrTilesToWalk = 6;
     // Start is called before the first frame update
     private void Start()
     {
@@ -186,6 +187,7 @@ public class RayCastFromHand : MonoBehaviour
     {
         if (tilesSelected.Count == 0)
         {
+            
             tilesSelected.Add(selectedCharacter.CurrentTile);
             pathCreator.AddTile(selectedCharacter.CurrentTile);
             selectedCharacter.CurrentTile.OnSelectedTile();
@@ -224,9 +226,11 @@ public class RayCastFromHand : MonoBehaviour
     
     private void TryAddTile(Hextile currentTile)
     {
-        if ((tilesSelected.Count > 0 && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
+        if ((tilesSelected.Count > 0 && tilesSelected.Count <= maxNrTilesToWalk && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
         {
+
             //Debug.Log("Adding tile to list");
+            UIText.Instance.DisplayText("Tiles left to walk: " + (maxNrTilesToWalk - tilesSelected.Count));
             tilesSelected.Add(currentTile);
             pathCreator.AddTile(currentTile);
             currentTile.OnSelectedTile();
