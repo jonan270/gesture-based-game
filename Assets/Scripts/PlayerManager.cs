@@ -138,6 +138,10 @@ public class PlayerManager : MonoBehaviour
     /// <param name="state"></param>
     public void OnPlayerStateChanged(PlayerState state)
     {
+        //Todo kolla om man var i state att välja enemy, friendly eller en tile och avbryt en ability isåfall
+
+
+        //Removes tool if player changes state to something else
         if (PlayerState == PlayerState.drawPath || PlayerState == PlayerState.makeGesture)
             toolChangedEvent.Invoke(state);
 
@@ -186,7 +190,7 @@ public class PlayerManager : MonoBehaviour
             if (posx == x && posy == y)
                 return character;
         }
-        Debug.Log("No character found!!!");
+        Debug.Log("No character found at " + x + " : " + y + "!");
         return null;
     }
     /// <summary>
