@@ -62,6 +62,8 @@ public class CharacterControl : MonoBehaviour
         GameObject obj = PhotonNetwork.Instantiate(prefab.name, spawnTile.Position, Quaternion.Euler(rotation));
         obj.transform.localScale *= modellScale;
 
+        obj.GetComponent<Character>().healthBar.setColor(PhotonNetwork.IsMasterClient);
+
         Character character = obj.GetComponent<Character>();
         character.CurrentTile = spawnTile;
 
@@ -76,9 +78,8 @@ public class CharacterControl : MonoBehaviour
 
         spawnTile.SetOccupant(obj.GetComponent<Character>()); // Set occupant in tile class
 
-
-        
         return obj;
     }
+
 
 }

@@ -190,7 +190,7 @@ public class GameLauncher : MonoBehaviourPunCallbacks
             // #Critical
             // Load the Room Level. 
             //Change the scene in launch manager instead!!
-            PhotonNetwork.LoadLevel(scene.name);
+            PhotonNetwork.LoadLevel("Wilma_sprint_4");
 
         }
     }
