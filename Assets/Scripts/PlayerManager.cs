@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1) || SteamVR_Actions.default_SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.drawPath);
-        if (SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
+        if (Input.GetKeyDown(KeyCode.Alpha2) || SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
             ChangeTool(PlayerState.makeGesture);
 
     }
