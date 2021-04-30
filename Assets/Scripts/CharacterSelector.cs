@@ -66,10 +66,12 @@ public class CharacterSelector : MonoBehaviour
             {
                 case PlayerState.drawPath:                     
                     brush.SetActive(true);
+                    brush.transform.position = followTransform.position;
                     magicWand.SetActive(false);
                     break;
                 case PlayerState.makeGesture:
                     magicWand.SetActive(true);
+                    magicWand.transform.position = followTransform.position;
                     brush.SetActive(false);
                     break;
                 default:
@@ -82,16 +84,29 @@ public class CharacterSelector : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        OnEnter(collider);
+    }
+    void OnTriggerExit(Collider collider)
+    {
+        OnExit(collider);
+    }
+    void OnTriggerStay(Collider collider)
+    {
+        OnStay(collider);
+    }
+
+    public void OnEnter(Collider collider)
+    {
         //Debug.Log(followTransform.name + " collided with " + collider.transform.root.name);
         if (hasTarget || otherHand.hasTarget)
             return;
 
         Character character = collider.transform.root.gameObject.GetComponent<Character>();
-        if(character && character.photonView.IsMine)
+        if (character && character.photonView.IsMine)
             character.GetComponent<Outline>().enabled = true;
     }
 
-    void OnTriggerExit(Collider collider)
+    public void OnExit(Collider collider)
     {
         //Debug.Log(followTransform.name + " collided with " + collider.transform.root.name);
         //if (hasTarget || otherHand.hasTarget)
@@ -102,18 +117,19 @@ public class CharacterSelector : MonoBehaviour
             character.GetComponent<Outline>().enabled = false;
     }
 
-    void OnTriggerStay(Collider collider)
+    public void OnStay(Collider collider)
     {
         if (hasTarget)
             return;
         //TODO: check player state can pickup
-        if (Input.GetKey(KeyCode.F) || SteamVR_Actions.default_GrabPinch.GetState(source)) {
+        if (Input.GetKey(KeyCode.F) || SteamVR_Actions.default_GrabPinch.GetState(source))
+        {
             if (CanPickUp())
             {
                 GameObject obj = collider.transform.root.gameObject;
                 Character character = obj.GetComponent<Character>();
                 //we interacted with an available character and it is ours
-                if (obj != null && character != null  && character.CanDoAction() && obj.GetComponent<PhotonView>().IsMine)
+                if (obj != null && character != null && character.CanDoAction() && obj.GetComponent<PhotonView>().IsMine)
                 {
                     PickupCharacter(obj);
                 }
@@ -124,6 +140,7 @@ public class CharacterSelector : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Is the player in a state where we can pickup a character
     /// </summary>
