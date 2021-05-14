@@ -69,21 +69,16 @@ public class RayCastFromHand : MonoBehaviour
                 {
                     if (SteamVR_Actions.default_GrabPinch.GetStateUp(characterSelector.source))
                         FinishPath();
-                    else if (displayTilesLeft == 0)
-                    {
-                        FinishPath();
-                    }
                 }
                 else
                 {
                     if (Input.GetMouseButtonUp(0))
                         FinishPath();
+                }
 
-                    else if(displayTilesLeft == 0)
-                    {
-                        FinishPath();
-                    }
-
+                if (displayTilesLeft == 0)
+                {
+                    FinishPath();
                 }
             }
 
