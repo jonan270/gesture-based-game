@@ -65,6 +65,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 736651745781594793}
+  sideLineCharacter: {fileID: 9025201450254921989, guid: 80cdf30a7753c6742ba16f1859f04613,
+    type: 3}
   healthBar: {fileID: 7662512763961458166}
   currentHealth: 0
   maxHealth: 100
