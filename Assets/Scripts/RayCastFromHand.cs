@@ -238,7 +238,6 @@ public class RayCastFromHand : MonoBehaviour
     
     private void TryAddTile(Hextile currentTile)
     {
-        if ((tilesSelected.Count > 0 && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
         if ((tilesSelected.Count > 0 && tilesSelected.Count <= maxNrTilesToWalk && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
         {
 
