@@ -20,6 +20,8 @@ public class RayCastFromHand : MonoBehaviour
     private PlayerState PlayerState { get { return PlayerManager.Instance.PlayerState; } }
     private Hextile previoustile;
     private Hextile singleTile;
+    private static int maxNrTilesToWalk = 6;
+    private int displayTilesLeft;
     // Start is called before the first frame update
     private void Start()
     {
@@ -28,6 +30,7 @@ public class RayCastFromHand : MonoBehaviour
         cam = FindObjectOfType<Camera>();
         characterSelector = GetComponent<CharacterSelector>();
         pathCreator = FindObjectOfType<PathCreator>();
+        displayTilesLeft = 0;
     }
     // Update is called once per frame
     void LateUpdate()
@@ -54,7 +57,8 @@ public class RayCastFromHand : MonoBehaviour
             //Drawing a path for a character
             if(PlayerState == PlayerState.drawPath)
             {
-                UIText.Instance.DisplayText("Draw a path for the character");
+                displayTilesLeft = maxNrTilesToWalk - tilesSelected.Count + 1;
+                UIText.Instance.DisplayText("Draw a path for the character. \n Tiles left to walk: " + displayTilesLeft);
 
                 ScanForTiles();
             }
@@ -65,11 +69,21 @@ public class RayCastFromHand : MonoBehaviour
                 {
                     if (SteamVR_Actions.default_GrabPinch.GetStateUp(characterSelector.source))
                         FinishPath();
+                    else if (displayTilesLeft == 0)
+                    {
+                        FinishPath();
+                    }
                 }
                 else
                 {
                     if (Input.GetMouseButtonUp(0))
                         FinishPath();
+
+                    else if(displayTilesLeft == 0)
+                    {
+                        FinishPath();
+                    }
+
                 }
             }
 
@@ -225,8 +239,11 @@ public class RayCastFromHand : MonoBehaviour
     private void TryAddTile(Hextile currentTile)
     {
         if ((tilesSelected.Count > 0 && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
+        if ((tilesSelected.Count > 0 && tilesSelected.Count <= maxNrTilesToWalk && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
         {
+
             //Debug.Log("Adding tile to list");
+            UIText.Instance.DisplayText("Tiles left to walk: " + (maxNrTilesToWalk - tilesSelected.Count));
             tilesSelected.Add(currentTile);
             pathCreator.AddTile(currentTile);
             currentTile.OnSelectedTile();
