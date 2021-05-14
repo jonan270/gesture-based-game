@@ -65,6 +65,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 736651745781594793}
+  sideLineCharacter: {fileID: 9025201450254921989, guid: 80cdf30a7753c6742ba16f1859f04613,
+    type: 3}
   healthBar: {fileID: 7662512763961458166}
   currentHealth: 0
   maxHealth: 100
@@ -139,7 +141,7 @@ MonoBehaviour:
   movingComplete:
     m_PersistentCalls:
       m_Calls: []
-  speed: 1
+  speed: 0.4
 --- !u!54 &8251726781172214971
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -483,11 +485,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Healthbar Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 4817323065204906315, guid: 5e7be3bdaf0fb1a42a63598bb377be7d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e7be3bdaf0fb1a42a63598bb377be7d, type: 3}
 --- !u!224 &7662512763961458170 stripped
@@ -610,6 +607,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: c86858c6cb33a0c46a28e4905c69b61f, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7895db14d00482a4486b9750975e7532,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8879528566716807029, guid: 7895db14d00482a4486b9750975e7532,
         type: 3}
       propertyPath: m_LocalPosition.x

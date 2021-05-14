@@ -158,6 +158,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 2912654047852143688}
+  sideLineCharacter: {fileID: 1842385580131594622, guid: e58fdfa82ec18ee448387604537a6e36,
+    type: 3}
   healthBar: {fileID: 345039690021744265}
   currentHealth: 0
   maxHealth: 100
@@ -232,7 +234,7 @@ MonoBehaviour:
   movingComplete:
     m_PersistentCalls:
       m_Calls: []
-  speed: 1
+  speed: 0.4
 --- !u!54 &6314969354131490090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -620,6 +622,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 391a141dfbff9144eb9bbaac0cfd94b3, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 3feec2e6ac7d99445b865556e0024480,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3feec2e6ac7d99445b865556e0024480, type: 3}
 --- !u!4 &9118663037197844018 stripped

@@ -16,6 +16,7 @@ public enum ElementState
 public abstract class Character : MonoBehaviour, IPunObservable
 {
     public Animator anim;
+    [SerializeField] private GameObject sideLineCharacter;
 
     public HealthBar healthBar;
     public Hextile CurrentTile { get; set; }
@@ -281,6 +282,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         SetState(CharacterState.Dead);
         deathEvent.Invoke();
         yield return new WaitForSeconds(4);
+        CharacterSideline.Instance.AddSidelineCharcater(sideLineCharacter);
         PhotonNetwork.Destroy(gameObject);
     }
     protected abstract void RPC_Cant_Handle_Inheritance();
