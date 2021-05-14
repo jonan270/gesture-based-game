@@ -227,10 +227,13 @@ public class GestureTracker : MonoBehaviour
 
                 if (FindObjectOfType<HandCards>().activateCard(gest))
                 {
-                    audioSource.PlayOneShot(correctGesture);
-                }else
+                    //audioSource.PlayOneShot(correctGesture);
+                    ManagerSFX.Instance.GestureStatus(true);
+                }
+                else
                 {
-                    audioSource.PlayOneShot(wrongGesture);
+                    //audioSource.PlayOneShot(wrongGesture);
+                    ManagerSFX.Instance.GestureStatus(false);
                 }
                 //AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gest, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
 

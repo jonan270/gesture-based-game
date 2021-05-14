@@ -43,14 +43,19 @@ public class CharacterSelector : MonoBehaviour
             //Check for button release
             if (SteamVR.active) //check if we are in VR or not
             {
-                if (!SteamVR_Actions.default_GrabPinch.GetState(source)) //is VR button released
+                if (!SteamVR_Actions.default_GrabPinch.GetState(source))
+                {
+                    ManagerSFX.Instance.PlayGrabFX(false);
                     ReleaseCharacter();
+                }
             }
             else
             {
                 if (!Input.GetKey(KeyCode.F)) //is keyboard button released
+                {
+                    ManagerSFX.Instance.PlayGrabFX(false);
                     ReleaseCharacter();
-
+                }
             }
         } 
     }
@@ -156,6 +161,7 @@ public class CharacterSelector : MonoBehaviour
     /// <param name="character"></param>
     private void PickupCharacter(GameObject character)
     {
+        ManagerSFX.Instance.PlayGrabFX(true);
         selectedCharacter = character;
         hasTarget = true;
         CopyTransform(selectedCharacter.transform);
@@ -211,6 +217,7 @@ public class CharacterSelector : MonoBehaviour
     {
         if (selectedCharacter == null)
             return;
+        //ManagerSFX.Instance.PlayGrabFX(false);
 
         Character character = selectedCharacter.GetComponent<Character>();
         foreach (var effect in character.turnBasedEffects)

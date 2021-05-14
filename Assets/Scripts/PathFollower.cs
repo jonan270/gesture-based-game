@@ -57,6 +57,7 @@ public class PathFollower : MonoBehaviour
     /// <param name="points">Path to follow</param>
     public void StartMoving(List<Hextile> points) {
         if(points.Count > 0) {
+            ManagerSFX.Instance.Run(true);
             path = points;
             moving = true;
             character.SetState(Character.CharacterState.Walking);
@@ -164,10 +165,10 @@ public class PathFollower : MonoBehaviour
     /// </summary>
     private void ReachedEnd()
     {
+        ManagerSFX.Instance.Run(false);
         Debug.Log(gameObject.name + " reached end of its path");
         moving = false;
         index = 0;
-        
         transform.eulerAngles = PhotonNetwork.IsMasterClient ? Vector3.zero : new Vector3(0, 180, 0);
         movingComplete.Invoke(gameObject);
     }
