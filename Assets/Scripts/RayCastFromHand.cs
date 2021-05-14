@@ -140,6 +140,7 @@ public class RayCastFromHand : MonoBehaviour
         //raycast from mouse to find a tile: TODO: move this function to the hands instead and raycast from the wand for example. 
         if (Input.GetMouseButtonDown(0) || SteamVR_Actions.default_GrabPinch.GetStateDown(characterSelector.source)) //when the player presses left mouse btn invoke function
         {
+            ManagerSFX.Instance.PlaySelectFX();
             PlayerManager.Instance.tileTargetHandler.Invoke(singleTile);
             //UIText.Instance.SetActive(false);
             StopRayCast();
@@ -162,6 +163,7 @@ public class RayCastFromHand : MonoBehaviour
                 obj.GetComponent<Outline>().enabled = true;
                 if (Input.GetMouseButtonDown(0) || SteamVR_Actions.default_GrabPinch.GetStateDown(characterSelector.source)) //when the player presses left mouse btn invoke function
                 {
+                    ManagerSFX.Instance.PlayMagicFX();
                     PlayerManager.Instance.DeselectCharacters();
                     PlayerManager.Instance.characterTargetHandler.Invoke(obj.GetComponent<Character>());
                     //UIText.Instance.SetActive(false);
@@ -227,6 +229,7 @@ public class RayCastFromHand : MonoBehaviour
         if ((tilesSelected.Count > 0 && !tilesSelected.Contains(currentTile) && AreTilesAdjacent(currentTile, tilesSelected.Last())))
         {
             //Debug.Log("Adding tile to list");
+            ManagerSFX.Instance.PlaySelectFX();
             tilesSelected.Add(currentTile);
             pathCreator.AddTile(currentTile);
             currentTile.OnSelectedTile();
