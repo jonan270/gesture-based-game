@@ -136,13 +136,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 319406674, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 319406674, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 319406674, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.21
+      objectReference: {fileID: 0}
     - target: {fileID: 505768376, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
       propertyPath: sceneViewId
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 576187147, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 1.175
       objectReference: {fileID: 0}
     - target: {fileID: 137865366350081416, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
@@ -1049,6 +1061,21 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6608639143387091232, guid: 9da09992e77a4c540838efc136e0db31,
+        type: 3}
+      propertyPath: closeDistance
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6608639143387091232, guid: 9da09992e77a4c540838efc136e0db31,
+        type: 3}
+      propertyPath: wrongGestureMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b28128aa4cc005c4da4ae71c06a9b4e2, type: 2}
+    - target: {fileID: 6608639143387091232, guid: 9da09992e77a4c540838efc136e0db31,
+        type: 3}
+      propertyPath: correctGestureMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 93795c4ab5f2d75428eb045e021b404d, type: 2}
     - target: {fileID: 6608639143387091233, guid: 9da09992e77a4c540838efc136e0db31,
         type: 3}
       propertyPath: m_RootOrder

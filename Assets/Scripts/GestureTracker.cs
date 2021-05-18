@@ -6,6 +6,7 @@ using Valve.VR;
 using Valve.VR.InteractionSystem;
 using PDollarGestureRecognizer;
 using TMPro;
+using Photon.Pun;
 //Types of gestures, names must match the gesture name in /Gestures/...xml
 /// <summary>
 /// Gesture Type represents the type of gesture a user makes. Found in GestureTracker.cs
@@ -25,9 +26,12 @@ public class GestureTracker : MonoBehaviour
 
     public Transform leftSpawnPoint, rightSpawnPoint;
     public GameObject LeftHand, RightHand, visualAid;
+
+    [SerializeField] private Material correctGestureMaterial, wrongGestureMaterial;
     
     [SerializeField] private CharacterSelector lCShand, rCShand;
 
+    public float recognizeLimit = 0.85f;
     public float closeDistance = 0.5f;
     private float TimeSinceGuess = 0.0f;
 
@@ -63,7 +67,9 @@ public class GestureTracker : MonoBehaviour
             life -= dt;
             if (life <= 0)
             {
-                Destroy(obj);
+                if(obj != null)
+                    PhotonNetwork.Destroy(obj);
+                //Destroy(obj);
             }
         }        
     }
@@ -89,6 +95,7 @@ public class GestureTracker : MonoBehaviour
             bool stateRight = SteamVR_Actions.default_GrabPinch.GetState(SteamVR_Input_Sources.RightHand) && rCShand.IsHandFree;
             bool leftReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.LeftHand);
             bool rightReleased = SteamVR_Actions.default_GrabPinch.GetStateUp(SteamVR_Input_Sources.RightHand);
+            bool mouseReleased = Input.GetMouseButtonUp(0);
 
             //TODO:
             //Check fallback
@@ -99,9 +106,10 @@ public class GestureTracker : MonoBehaviour
             handPositionLeft = leftSpawnPoint.position;
             float distance = (oldSpawnPositionLeft - handPositionLeft).sqrMagnitude;
 
-            if (stateLeft && distance >= closeDistance * closeDistance)
+            if ((Input.GetMouseButton(0) || stateLeft) && distance >= closeDistance * closeDistance)
             {
                 InstantiateGesturePosition(handPositionLeft, ref oldSpawnPositionLeft);
+                LightweightGuess();
             }
 
             //Right hand
@@ -111,6 +119,8 @@ public class GestureTracker : MonoBehaviour
             if (stateRight && distance >= closeDistance * closeDistance)
             {
                 InstantiateGesturePosition(handPositionRight, ref oldSpawnPositionRight);
+                LightweightGuess();
+
             }
 
 
@@ -125,7 +135,7 @@ public class GestureTracker : MonoBehaviour
             //}
 
             //Reset spawn point after releasing button  (so that a gesture can be started at the same place as last one)
-            if (leftReleased)
+            if (leftReleased || mouseReleased)
             {
                 oldSpawnPositionLeft = Vector3.zero;
                 GuessGesture();
@@ -152,7 +162,10 @@ public class GestureTracker : MonoBehaviour
     /// <param name="oldPosition"></param>
     void InstantiateGesturePosition(Vector3 position, ref Vector3 oldPosition)
     {
-        var temp = Instantiate(visualAid, position, Quaternion.identity, gameObject.transform);
+        //var temp = Instantiate(visualAid, position, Quaternion.identity, gameObject.transform);
+        var temp = PhotonNetwork.Instantiate(visualAid.name, position, Quaternion.identity);
+
+        temp.transform.parent = transform;
 
         oldPosition = position;
 
@@ -179,7 +192,8 @@ public class GestureTracker : MonoBehaviour
     void RemoveGesturePositions()
     {
         foreach (var gp in gesturePositions)
-            Destroy(gp.obj);
+            PhotonNetwork.Destroy(gp.obj);
+            //Destroy(gp.obj);
 
         gesturePositions.Clear();
         points.Clear();
@@ -194,10 +208,55 @@ public class GestureTracker : MonoBehaviour
 
         foreach(GesturePosition gp in gesturePositions)
         {
-            Vector3 pos = gp.obj.transform.position;
-            pos = cam.WorldToScreenPoint(pos);
-            
-            points.Add(new Point(pos.x, pos.y, 0));
+            if (gp.obj != null)
+            {
+                Vector3 pos = gp.obj.transform.position;
+                pos = cam.WorldToScreenPoint(pos);
+
+                points.Add(new Point(pos.x, pos.y, 0));
+            }
+        }
+    }
+    /// <summary>
+    /// Change material color depending on if the gesture is correct or not
+    /// </summary>
+    /// <param name="correct"></param>
+    void ChangeGPMaterial(bool correct)
+    {
+        foreach(var gp in gesturePositions)
+        {
+            if (gp.obj != null)
+            {
+                MeshRenderer ms = gp.obj.GetComponent<MeshRenderer>();
+                ParticleSystemRenderer ps = gp.obj.GetComponent<ParticleSystemRenderer>();
+                if (ps != null && ms != null)
+                {
+                    ps.material = correct ? correctGestureMaterial : wrongGestureMaterial;
+                    ms.material = correct ? correctGestureMaterial : wrongGestureMaterial;
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// Makes a lightweight guess on the gesture and changes color accordingly
+    /// </summary>
+    void LightweightGuess()
+    {
+        TransformToPoints();
+        
+        if(points.Count > 1)
+        {
+            Gesture candidate = new Gesture(points.ToArray());
+            Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+               
+            if(gestureResult.Score >= recognizeLimit) //gesture recognized
+            {
+                ChangeGPMaterial(true);
+            }
+            else //gesture not recognized
+            {
+                ChangeGPMaterial(false);
+            }
         }
     }
 
@@ -219,7 +278,7 @@ public class GestureTracker : MonoBehaviour
             Debug.LogError(gestureResult.GestureClass + " " + gestureResult.Score);
             GestureType gest;
             
-            if (gestureResult.Score >= 0.6f)
+            if (gestureResult.Score >= recognizeLimit)
             {
                 PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
