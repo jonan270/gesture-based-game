@@ -778,9 +778,14 @@ MonoBehaviour:
   RightHand: {fileID: 6608639143550981039}
   visualAid: {fileID: 8774746989568714442, guid: 596b8c2b16575f0448d4aae81b2b466d,
     type: 3}
+  correctGestureMaterial: {fileID: 2100000, guid: 93795c4ab5f2d75428eb045e021b404d,
+    type: 2}
+  wrongGestureMaterial: {fileID: 2100000, guid: b28128aa4cc005c4da4ae71c06a9b4e2,
+    type: 2}
   lCShand: {fileID: 1953353301}
   rCShand: {fileID: 1016786279}
-  closeDistance: 0.1
+  recognizeLimit: 0.85
+  closeDistance: 0.05
   gesturePositions: []
   cam: {fileID: 6608639141688731949}
   GestureName: 
