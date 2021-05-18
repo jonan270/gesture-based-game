@@ -38,8 +38,5 @@ public class RegisterButtonEvents : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("this is where the game quits");
-        Application.Quit();
     }
-
-    
 }

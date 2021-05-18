@@ -193,10 +193,4 @@ public class GameLauncher : MonoBehaviourPunCallbacks
 
         }
     }
-
-    public void QuitGame()
-    {
-        Debug.Log("this is where the game quits");
-        Application.Quit();
-    }
 }
