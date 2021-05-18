@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5c5b47dc4bbbae24aafae485444b54ad
+guid: 3c26dc7143902a8429787685e70181a3
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -11,7 +11,7 @@ ModelImporter:
     second: ArmatureAction
   - first:
       74: 2068510342537094671
-    second: Idle_Freyer.001
+    second: Idle_Freyr
   - first:
       74: 6733509880158300302
     second: Armature_H|Armature_H|Idle|Armature_H|Idle
@@ -26,7 +26,7 @@ ModelImporter:
     second: Run_Freyr.001
   - first:
       74: -4838493363668146491
-    second: 0TPose.001
+    second: 0TPose.001 888
   - first:
       74: 7443553103235870488
     second: Run_Freyr.002
@@ -38,7 +38,7 @@ ModelImporter:
     second: Idle_Freyer
   - first:
       74: 82017551088757511
-    second: 0TPose
+    second: Run_Freyr
   - first:
       74: -8558233846618282009
     second: ArmatureBodyAction
@@ -56,7 +56,7 @@ ModelImporter:
     second: Oof_Freyr
   - first:
       74: 8017113182913014226
-    second: DefaultAttack_Freyr
+    second: Default_Attack_Freyr
   - first:
       74: 3265433930731744720
     second: Armature_KnifeAction
@@ -65,7 +65,10 @@ ModelImporter:
     second: Knife_DefaultAttack
   - first:
       74: 8153318593332620819
-    second: ArmatureBody|Run_Freyr
+    second: Run_Freyr
+  - first:
+      74: 82017551088757511
+    second: 0TPose
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -81,25 +84,73 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Idle_Freyer.001' has import animation warnings
-      that might lower retargeting quality:\n\t'Spine2' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\nClip 'Die_Freyr' has
-      import animation warnings that might lower retargeting quality:\n\t'Spine2'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
-      'Die_Freyr.001' has import animation warnings that might lower retargeting
-      quality:\n\t'Spine2' is inbetween humanoid transforms and has rotation animation
-      that will be discarded.\n\nClip 'Idle_Freyer.002' has import animation warnings
-      that might lower retargeting quality:\n\t'Spine2' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\nClip 'Idle_Freyer.003'
-      has import animation warnings that might lower retargeting quality:\n\t'Spine2'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
-      'Oof_Freyr' has import animation warnings that might lower retargeting quality:\n\t'Spine2'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
-      'DefaultAttack_Freyr' has import animation warnings that might lower retargeting
-      quality:\n\t'Spine2' is inbetween humanoid transforms and has rotation animation
-      that will be discarded.\n"
-    animationRetargetingWarnings: 
-    animationDoRetargetingWarnings: 0
+    animationImportWarnings: 
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Run_Freyr':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'ArmatureAction':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Idle_Freyer.001':\n\tLeftFoot average position error
+      1.0 mm and maximum position error 2.5 mm at time 7: 2 (54.1%) Frame 170\n\nRetargeting
+      quality report for clip 'Armature_H|Armature_H|Idle|Armature_H|Idle':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature_H|Armature_H|0TPose|Armature_H|0TPose':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Die_Freyr':\n\tLeftFoot average position error 0.3
+      mm and maximum position error 1.2 mm at time 0:13 (43.3%) Frame 13\n\tRightFoot
+      average position error 3.6 mm and maximum position error 30.2 mm at time 0:15
+      (50.0%) Frame 15\n\tLeftFoot average orientation error 0.2 deg and maximum
+      orientation error 2.1 deg at time 0:10 (33.3%) Frame 10\n\tRightFoot average
+      orientation error 0.1 deg and maximum orientation error 0.5 deg at time 0:
+      4 (13.3%) Frame 4\n\nRetargeting quality report for clip 'Run_Freyr.001':\n\tLeftFoot
+      average position error 0.4 mm and maximum position error 2.9 mm at time 0:10
+      (62.5%) Frame 10\n\tRightFoot average position error 0.4 mm and maximum position
+      error 2.9 mm at time 0: 2 (12.5%) Frame 2\n\nRetargeting quality report for
+      clip '0TPose.001':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Run_Freyr.002':\n\tLeftFoot average position error 0.4 mm and maximum position
+      error 2.9 mm at time 0:10 (62.5%) Frame 10\n\tRightFoot average position error
+      0.4 mm and maximum position error 2.9 mm at time 0: 2 (12.5%) Frame 2\n\nRetargeting
+      quality report for clip 'Die_Freyr.001':\n\tLeftFoot average position error
+      0.3 mm and maximum position error 1.2 mm at time 0:13 (43.3%) Frame 13\n\tRightFoot
+      average position error 3.6 mm and maximum position error 30.2 mm at time 0:15
+      (50.0%) Frame 15\n\tLeftFoot average orientation error 0.2 deg and maximum
+      orientation error 2.1 deg at time 0:10 (33.3%) Frame 10\n\tRightFoot average
+      orientation error 0.1 deg and maximum orientation error 0.5 deg at time 0:
+      4 (13.3%) Frame 4\n\nRetargeting quality report for clip 'Idle_Freyer':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip '0TPose':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'ArmatureBodyAction':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip '0TPose_Knife':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip
+      'Idle_Freyer.002':\n\tLeftFoot average position error 1.0 mm and maximum position
+      error 2.5 mm at time 7: 2 (54.1%) Frame 170\n\nRetargeting quality report for
+      clip 'Idle_Freyer.003':\n\tLeftFoot average position error 1.0 mm and maximum
+      position error 2.5 mm at time 7: 2 (54.1%) Frame 170\n\nRetargeting quality
+      report for clip 'Oof_Freyr':\n\tLeftFoot average position error 0.7 mm and
+      maximum position error 3.6 mm at time 4:17 (83.7%) Frame 113\n\tRightFoot average
+      position error 0.8 mm and maximum position error 9.5 mm at time 3: 0 (53.3%)
+      Frame 72\n\tLeftHand average position error 0.1 mm and maximum position error
+      3.1 mm at time 2: 2 (37.0%) Frame 50\n\tRightHand average position error 0.3
+      mm and maximum position error 4.1 mm at time 4: 5 (74.8%) Frame 101\n\tLeftFoot
+      average orientation error 1.4 deg and maximum orientation error 13.4 deg at
+      time 2:21 (51.1%) Frame 69\n\tRightFoot average orientation error 0.3 deg and
+      maximum orientation error 4.5 deg at time 2: 3 (37.8%) Frame 51\n\nRetargeting
+      quality report for clip 'DefaultAttack_Freyr':\n\tLeftFoot average position
+      error 0.4 mm and maximum position error 2.1 mm at time 1: 0 (21.8%) Frame 24\n\tRightFoot
+      average position error 0.3 mm and maximum position error 1.6 mm at time 0:20
+      (18.2%) Frame 20\n\tRightHand average position error 1.8 mm and maximum position
+      error 30.9 mm at time 1: 1 (22.7%) Frame 25\n\nRetargeting quality report for
+      clip 'Armature_KnifeAction':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'Knife_DefaultAttack':\n\tRetargeting quality is good. No significant
+      differences with original animation were found.\n\nRetargeting quality report
+      for clip 'ArmatureBody|Run_Freyr':\n\tLeftFoot average position error 0.4 mm
+      and maximum position error 2.9 mm at time 0:10 (62.5%) Frame 10\n\tRightFoot
+      average position error 0.4 mm and maximum position error 2.9 mm at time 0:
+      2 (12.5%) Frame 2\n"
+    animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
     animationCompression: 3
@@ -110,35 +161,6 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations:
-    - serializedVersion: 16
-      name: Run_Freyr
-      takeName: Run_Freyr
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 16
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 0
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 1
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: ArmatureAction
       takeName: ArmatureAction
@@ -169,7 +191,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Idle_Freyer.001
+      name: Idle_Freyr
       takeName: Idle_Freyer.001
       internalID: 0
       firstFrame: 0
@@ -198,156 +220,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature_H|Armature_H|Idle|Armature_H|Idle
-      takeName: Armature_H|Armature_H|Idle|Armature_H|Idle
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 57
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature_H|Armature_H|0TPose|Armature_H|0TPose
-      takeName: Armature_H|Armature_H|0TPose|Armature_H|0TPose
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
       name: Die_Freyr
       takeName: Die_Freyr
       internalID: 0
       firstFrame: 0
       lastFrame: 30
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Run_Freyr.001
-      takeName: Run_Freyr.001
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 16
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: 0TPose.001
-      takeName: 0TPose.001
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Run_Freyr.002
-      takeName: Run_Freyr.002
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 16
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -372,95 +249,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Die_Freyr.001
-      takeName: Die_Freyr.001
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 30
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Idle_Freyer
-      takeName: Idle_Freyer
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 314
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
       name: 0TPose
       takeName: 0TPose
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: ArmatureBodyAction
-      takeName: ArmatureBodyAction
       internalID: 0
       firstFrame: 0
       lastFrame: 1
@@ -517,64 +307,6 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Idle_Freyer.002
-      takeName: Idle_Freyer.002
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 314
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Idle_Freyer.003
-      takeName: Idle_Freyer.003
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 314
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
       name: Oof_Freyr
       takeName: Oof_Freyr
       internalID: 0
@@ -592,9 +324,9 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -604,7 +336,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: DefaultAttack_Freyr
+      name: Default_Attack_Freyr
       takeName: DefaultAttack_Freyr
       internalID: 0
       firstFrame: 0
@@ -621,38 +353,9 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature_KnifeAction
-      takeName: Armature_KnifeAction
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -679,9 +382,9 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -691,7 +394,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ArmatureBody|Run_Freyr
+      name: Run_Freyr
       takeName: ArmatureBody|Run_Freyr
       internalID: 0
       firstFrame: 0
@@ -901,34 +604,42 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
+    - boneName: Spine2
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
     skeleton:
-    - name: Freyr_NLA_nu 1(Clone)
+    - name: Freyr_NLA_nu(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Kropp
-      parentName: Freyr_NLA_nu 1(Clone)
+      parentName: Freyr_NLA_nu(Clone)
       position: {x: -0, y: 0.19842958, z: -0.026896762}
       rotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
       scale: {x: 100, y: 100, z: 100}
     - name: Knife
-      parentName: Freyr_NLA_nu 1(Clone)
+      parentName: Freyr_NLA_nu(Clone)
       position: {x: -0.00000030126597, y: -2.7211916, z: -0.0033353583}
       rotation: {x: -0.70710695, y: 0.000000009863296, z: -0.00000017845068, w: 0.7071066}
       scale: {x: 100, y: 100, z: 100}
     - name: Bow
-      parentName: Freyr_NLA_nu 1(Clone)
+      parentName: Freyr_NLA_nu(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071067, y: 5.302452e-33, z: 5.302451e-33, w: 0.7071068}
       scale: {x: 100, y: 100, z: 100}
     - name: "Test_fl\xE4rp_back"
-      parentName: Freyr_NLA_nu 1(Clone)
+      parentName: Freyr_NLA_nu(Clone)
       position: {x: -1.866349e-17, y: 0.0840528, z: -0.11374703}
       rotation: {x: -0.00000011520234, y: 0.7071067, z: 0.7071068, w: 0.00000011520232}
       scale: {x: 100, y: 100, z: 100}
     - name: ArmatureBody
-      parentName: Freyr_NLA_nu 1(Clone)
+      parentName: Freyr_NLA_nu(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071067, y: 5.302452e-33, z: 5.302451e-33, w: 0.7071068}
       scale: {x: 100, y: 100, z: 100}
@@ -1248,12 +959,12 @@ ModelImporter:
       rotation: {x: 0.00016121381, y: -0.99975073, z: 0.0076899533, w: -0.020959368}
       scale: {x: 1.0000004, y: 1.0000005, z: 1.0000004}
     - name: Halsduk_test_mirror
-      parentName: Freyr_NLA_nu 1(Clone)
+      parentName: Freyr_NLA_nu(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071067, y: -0.000000030908616, z: 0.000000030908623, w: 0.7071068}
       scale: {x: 100, y: 100, z: 100}
     - name: Armature_Knife
-      parentName: Freyr_NLA_nu 1(Clone)
+      parentName: Freyr_NLA_nu(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071067, y: 5.302452e-33, z: 5.302451e-33, w: 0.7071068}
       scale: {x: 100, y: 100, z: 100}
