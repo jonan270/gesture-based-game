@@ -107,7 +107,7 @@ public class CharacterSelector : MonoBehaviour
             return;
 
         Character character = collider.transform.root.gameObject.GetComponent<Character>();
-        if (character && character.photonView.IsMine)
+        if (character && character.photonView.IsMine && character.CanDoAction())
             character.GetComponent<Outline>().enabled = true;
     }
 
