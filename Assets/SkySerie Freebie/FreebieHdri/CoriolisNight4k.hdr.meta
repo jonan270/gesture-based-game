@@ -1,7 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/blue-health-bar.jpg.meta
+guid: 7d4690a4111baa84d815d6e97bb1ba8c
+=======
 guid: 354036e57ae357148aed267204ce73a7
 timeCreated: 1509161735
 licenseType: Store
+>>>>>>> Beta_Version:Assets/SkySerie Freebie/FreebieHdri/CoriolisNight4k.hdr.meta
 TextureImporter:
   fileIDToRecycleName:
     8900000: generatedCubemap
