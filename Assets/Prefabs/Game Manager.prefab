@@ -24,11 +24,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319406670}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0, z: 0}
+  m_LocalPosition: {x: 0.35, y: -0.5, z: -0.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9064357652239677604}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &576187143
 GameObject:
@@ -54,11 +54,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576187143}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0, z: 1}
+  m_LocalPosition: {x: 0.3, y: -0.5, z: 1.175}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9064357652239677604}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1034231228951942671
 GameObject:
@@ -930,8 +930,8 @@ Transform:
   m_Children:
   - {fileID: 4860302379219277356}
   - {fileID: 3020906554333233815}
-  - {fileID: 576187147}
   - {fileID: 319406674}
+  - {fileID: 576187147}
   - {fileID: 5087248213686707865}
   - {fileID: 1722684236006655113}
   - {fileID: 632435497812084330}
@@ -1009,7 +1009,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 2
+  sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!1001 &815625401
@@ -1078,6 +1078,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hexmap
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880822470485243624, guid: d7825691e87349149966c8772b389224,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7825691e87349149966c8772b389224, type: 3}
@@ -1337,6 +1342,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Abilitymanager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689433375720174669, guid: 42048d73b5142304fa51c79e38e70c95,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42048d73b5142304fa51c79e38e70c95, type: 3}

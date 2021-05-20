@@ -129,12 +129,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2089232132}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &217374446 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6608639141688731949, guid: 9da09992e77a4c540838efc136e0db31,
-    type: 3}
-  m_PrefabInstance: {fileID: 1802538402}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &279860263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,36 +136,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 319406674, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 319406674, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 319406674, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 505768376, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
-      propertyPath: sceneViewId
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 576187147, guid: c39bb0937516d584d8e538abf4fcacfe, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.175
-      objectReference: {fileID: 0}
-    - target: {fileID: 137865366350081416, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1135831747041090745, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 3020906554333233813, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -182,16 +146,6 @@ PrefabInstance:
       propertyPath: FinishCreatingPath.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 780440161}
-    - target: {fileID: 3020906554333233814, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3150955693383690804, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 217374446}
     - target: {fileID: 3674641176436663561, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: StartPositionDeckPlayer2
@@ -202,21 +156,6 @@ PrefabInstance:
       propertyPath: startPositionDeckPlayer1
       value: 
       objectReference: {fileID: 109967505}
-    - target: {fileID: 4442730546263637228, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5493727571529236796, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
-      propertyPath: modellScale
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5880822471299760721, guid: c39bb0937516d584d8e538abf4fcacfe,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 9064357652239677604, guid: c39bb0937516d584d8e538abf4fcacfe,
         type: 3}
       propertyPath: m_RootOrder
