@@ -1776,7 +1776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlPanel: {fileID: 1253329369}
   feedbackText: {fileID: 668114169}
-  maxPlayersPerRoom: 1
+  maxPlayersPerRoom: 2
   sceneName: Andreas_sprint_2
 --- !u!4 &1682338280
 Transform:
