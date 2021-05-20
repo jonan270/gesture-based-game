@@ -24,12 +24,12 @@ public class NetworkPlayer : MonoBehaviour
             righthand.gameObject.SetActive(false);
         }
         //Fallback if no vr headset is connected make sure we still track and update the position of the other player
-        if(!SteamVR.active)
-        {
+        //if(!SteamVR.active)
+        //{
             xrHead = GameObject.Find("Main Camera").transform;
             xrLeft = GameObject.Find("LeftHand Controller").transform;
             xrRight = GameObject.Find("RightHand Controller").transform;
-        }
+        //}
     }
 
     // Update is called once per frame
@@ -37,19 +37,19 @@ public class NetworkPlayer : MonoBehaviour
     {
         if(photonView.IsMine)
         {
-            //if we have VR headset connected track 
-            if (SteamVR.active)
-            {
-                MapPosition(head, XRNode.Head);
-                MapPosition(lefthand, XRNode.LeftHand);
-                MapPosition(righthand, XRNode.RightHand);
-            }//track ingame gameobjects
-            else
-            {
+            ////if we have VR headset connected track 
+            //if (SteamVR.active)
+            //{
+            //    MapPosition(head, XRNode.Head);
+            //    MapPosition(lefthand, XRNode.LeftHand);
+            //    MapPosition(righthand, XRNode.RightHand);
+            //}//track ingame gameobjects
+            //else
+            //{
                 MapPosition(head, xrHead);
                 MapPosition(lefthand, xrLeft);
                 MapPosition(righthand, xrRight);
-            }
+            //}
 
         }
     }
