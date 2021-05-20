@@ -198,7 +198,7 @@ public class CharacterSelector : MonoBehaviour
     /// </summary>
     private void FollowHand()
     {
-        selectedCharacter.transform.position = followTransform.position + followTransform.forward * followOffset.x;//followOffset;
+        selectedCharacter.transform.position = followTransform.position + followTransform.forward * followOffset.z;//followOffset;
         selectedCharacter.transform.rotation = followTransform.rotation;
         selectedCharacter.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
