@@ -13,7 +13,7 @@ public class CharacterSelector : MonoBehaviour
     
     //alias for this transform
     [SerializeField] private Transform followTransform;
-    //[SerializeField] private Vector3 followOffset;
+    [SerializeField] private Vector3 followOffset;
 
     private GameObject selectedCharacter;
 
@@ -60,6 +60,8 @@ public class CharacterSelector : MonoBehaviour
             }
         } 
     }
+
+    
     /// <summary>
     /// Changes tool in hand (only the hand with no character in it can have a tool)
     /// </summary>
@@ -71,13 +73,13 @@ public class CharacterSelector : MonoBehaviour
             switch (state)
             {
                 case PlayerState.drawPath:                     
-                    brush.SetActive(true);
-                    brush.transform.position = followTransform.position + followTransform.forward * 0.08f + followTransform.right * -0.027f;
+                    brush.SetActive(true);//JAG HÖR DIG 
+                    brush.transform.position = followTransform.position + followTransform.forward * followOffset.z + followTransform.right * followOffset.x;
                     magicWand.SetActive(false);
                     break;
                 case PlayerState.makeGesture:
                     magicWand.SetActive(true);
-                    magicWand.transform.position = followTransform.position + followTransform.forward * 0.08f + followTransform.right * -0.027f;
+                    magicWand.transform.position = followTransform.position + followTransform.forward * followOffset.z + followTransform.right * followOffset.x;
                     brush.SetActive(false);
                     break;
                 default:
@@ -196,7 +198,7 @@ public class CharacterSelector : MonoBehaviour
     /// </summary>
     private void FollowHand()
     {
-        selectedCharacter.transform.position = followTransform.position + followTransform.forward * 0.08f;//followOffset;
+        selectedCharacter.transform.position = followTransform.position + followTransform.forward * followOffset.x;//followOffset;
         selectedCharacter.transform.rotation = followTransform.rotation;
         selectedCharacter.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
