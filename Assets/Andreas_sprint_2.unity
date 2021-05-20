@@ -575,15 +575,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 917947723, guid: 9da09992e77a4c540838efc136e0db31, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.0294
-      objectReference: {fileID: 0}
-    - target: {fileID: 4115409812741550203, guid: 9da09992e77a4c540838efc136e0db31,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.029399998
-      objectReference: {fileID: 0}
     - target: {fileID: 6608639143387091233, guid: 9da09992e77a4c540838efc136e0db31,
         type: 3}
       propertyPath: m_RootOrder
@@ -643,26 +634,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Rig
-      objectReference: {fileID: 0}
-    - target: {fileID: 6608639143550981038, guid: 9da09992e77a4c540838efc136e0db31,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6608639143550981038, guid: 9da09992e77a4c540838efc136e0db31,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6608639143640899225, guid: 9da09992e77a4c540838efc136e0db31,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6608639143640899225, guid: 9da09992e77a4c540838efc136e0db31,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9da09992e77a4c540838efc136e0db31, type: 3}

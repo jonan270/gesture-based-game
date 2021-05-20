@@ -13,6 +13,7 @@ public class CharacterSelector : MonoBehaviour
     
     //alias for this transform
     [SerializeField] private Transform followTransform;
+    //[SerializeField] private Vector3 followOffset;
 
     private GameObject selectedCharacter;
 
@@ -71,12 +72,12 @@ public class CharacterSelector : MonoBehaviour
             {
                 case PlayerState.drawPath:                     
                     brush.SetActive(true);
-                    brush.transform.position = followTransform.position;
+                    brush.transform.position = followTransform.position + followTransform.forward * 0.08f + followTransform.right * -0.027f;
                     magicWand.SetActive(false);
                     break;
                 case PlayerState.makeGesture:
                     magicWand.SetActive(true);
-                    magicWand.transform.position = followTransform.position;
+                    magicWand.transform.position = followTransform.position + followTransform.forward * 0.08f + followTransform.right * -0.027f;
                     brush.SetActive(false);
                     break;
                 default:
@@ -195,7 +196,7 @@ public class CharacterSelector : MonoBehaviour
     /// </summary>
     private void FollowHand()
     {
-        selectedCharacter.transform.position = followTransform.position;
+        selectedCharacter.transform.position = followTransform.position + followTransform.forward * 0.08f;//followOffset;
         selectedCharacter.transform.rotation = followTransform.rotation;
         selectedCharacter.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
