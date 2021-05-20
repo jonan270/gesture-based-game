@@ -8,7 +8,7 @@ using System.Linq;
 
 public class RayCastFromHand : MonoBehaviour
 {
-    public Transform start;
+    public Transform startBrush, startWand;
     public LineRenderer lineRenderer;
     public RayCastFromHand otherHand;
     private CharacterSelector characterSelector;
@@ -95,30 +95,30 @@ public class RayCastFromHand : MonoBehaviour
     /// We have a successful hit renders a cyan laser
     /// </summary>
     /// <param name="hit"></param>
-    private void HitSomething(RaycastHit hit)
+    private void HitSomething(RaycastHit hit, Transform _start)
     {
         lineRenderer.positionCount = 2;
         lineRenderer.startColor = Color.cyan;
         lineRenderer.endColor = Color.cyan;
-        lineRenderer.SetPosition(0, start.position);
-        lineRenderer.SetPosition(1, start.position + start.TransformDirection(Vector3.forward) * hit.distance);
+        lineRenderer.SetPosition(0, _start.position);
+        lineRenderer.SetPosition(1, _start.position + _start.TransformDirection(Vector3.forward) * hit.distance);
     }
     /// <summary>
     /// Unsuccessful hit, render a red laser
     /// </summary>
-    private void DidNotHit()
+    private void DidNotHit(Transform _start)
     {
         lineRenderer.positionCount = 2;
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
-        lineRenderer.SetPosition(0, start.position);
-        lineRenderer.SetPosition(1, start.position + start.TransformDirection(Vector3.forward) * 10);
+        lineRenderer.SetPosition(0, _start.position);
+        lineRenderer.SetPosition(1, _start.position + _start.TransformDirection(Vector3.forward) * 10);
     }
 
     private void GetTile()
     {
         RaycastHit[] hits;
-        hits = Physics.RaycastAll(start.position, start.TransformDirection(Vector3.forward), 100.0f);
+        hits = Physics.RaycastAll(startWand.position, startWand.TransformDirection(Vector3.forward), 100.0f);
 
         bool foundTile = false;
         foreach(var hit in hits)
@@ -137,14 +137,14 @@ public class RayCastFromHand : MonoBehaviour
                 }
                 //select new tile
                 tile.OnSelectedTile();
-                HitSomething(hit);
+                HitSomething(hit, startWand);
                 foundTile = true;
                 singleTile = tile;
 
             }
         }
         if (!foundTile)
-            DidNotHit();
+            DidNotHit(startWand);
 
         //raycast from mouse to find a tile: TODO: move this function to the hands instead and raycast from the wand for example. 
         if (Input.GetMouseButtonDown(0) || SteamVR_Actions.default_GrabPinch.GetStateDown(characterSelector.source)) //when the player presses left mouse btn invoke function
@@ -160,7 +160,7 @@ public class RayCastFromHand : MonoBehaviour
     {
         //raycast from mouse to find a character
         RaycastHit hit;
-        if (Physics.Raycast(start.position, start.TransformDirection(Vector3.forward), out hit)) //raycast into the world
+        if (Physics.Raycast(startWand.position, startWand.TransformDirection(Vector3.forward), out hit)) //raycast into the world
         {
             GameObject obj = hit.transform.gameObject;
             bool targetFriendly = PlayerState == PlayerState.chooseFriendlyCharacter;
@@ -168,7 +168,7 @@ public class RayCastFromHand : MonoBehaviour
             if (pv != null && (pv.IsMine == targetFriendly)) //if we find a character 
             {
                 PlayerManager.Instance.DeselectCharacters(); // deselect previous (only happens if we go directly from 1 character to another, this way both characters will not be lit)
-                HitSomething(hit);
+                HitSomething(hit, startWand);
                 obj.GetComponent<Outline>().enabled = true;
                 if (Input.GetMouseButtonDown(0) || SteamVR_Actions.default_GrabPinch.GetStateDown(characterSelector.source)) //when the player presses left mouse btn invoke function
                 {
@@ -183,12 +183,12 @@ public class RayCastFromHand : MonoBehaviour
             else
             {
                 PlayerManager.Instance.DeselectCharacters();
-                DidNotHit();
+                DidNotHit(startWand);
             }
         }
         else
         {
-            DidNotHit();
+            DidNotHit(startWand);
         }
     }
 
@@ -203,7 +203,7 @@ public class RayCastFromHand : MonoBehaviour
         }
 
         RaycastHit[] hits;
-        hits = Physics.RaycastAll(start.position, start.TransformDirection(Vector3.forward), 100.0f);
+        hits = Physics.RaycastAll(startBrush.position, startBrush.TransformDirection(Vector3.forward), 100.0f);
         bool validTile = false;
 
         foreach (var hit in hits)
@@ -214,7 +214,7 @@ public class RayCastFromHand : MonoBehaviour
                 //tile has to be empty or can be occupied by enemy character 
                 if (currentTile.occupant == null || !currentTile.occupant.photonView.IsMine)
                 {
-                    HitSomething(hit);
+                    HitSomething(hit, startBrush);
                     validTile = true;
                     if (SteamVR.active) //using vr controller
                     {
@@ -230,7 +230,7 @@ public class RayCastFromHand : MonoBehaviour
             }
         }
         if (!validTile)
-            DidNotHit();
+            DidNotHit(startBrush);
     }
     
     private void TryAddTile(Hextile currentTile)

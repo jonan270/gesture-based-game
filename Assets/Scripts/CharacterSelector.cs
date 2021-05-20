@@ -73,7 +73,7 @@ public class CharacterSelector : MonoBehaviour
             switch (state)
             {
                 case PlayerState.drawPath:                     
-                    brush.SetActive(true);//JAG HÖR DIG 
+                    brush.SetActive(true);
                     brush.transform.position = followTransform.position + followTransform.forward * followOffset.z + followTransform.right * followOffset.x;
                     magicWand.SetActive(false);
                     break;
@@ -83,8 +83,8 @@ public class CharacterSelector : MonoBehaviour
                     brush.SetActive(false);
                     break;
                 default:
-                    magicWand.SetActive(false);
-                    brush.SetActive(false);
+                    //magicWand.SetActive(false);
+                    //brush.SetActive(false);
                     break;
             }
         }
@@ -198,7 +198,7 @@ public class CharacterSelector : MonoBehaviour
     /// </summary>
     private void FollowHand()
     {
-        selectedCharacter.transform.position = followTransform.position + followTransform.forward * followOffset.z;//followOffset;
+        selectedCharacter.transform.position = followTransform.position + followTransform.forward * followOffset.z + followTransform.right * followOffset.x / 2;//followOffset;
         selectedCharacter.transform.rotation = followTransform.rotation;
         selectedCharacter.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
@@ -249,6 +249,7 @@ public class CharacterSelector : MonoBehaviour
 
     public void OnReleasedCharacter()
     {
+        Debug.LogError("Removed Tools");
         brush.SetActive(false);
         magicWand.SetActive(false);
     }

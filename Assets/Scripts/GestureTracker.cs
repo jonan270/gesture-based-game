@@ -113,7 +113,7 @@ public class GestureTracker : MonoBehaviour
             }
 
             //Right hand
-            handPositionRight = RightHand.transform.position;
+            handPositionRight = rightSpawnPoint.position;
             distance = (oldSpawnPositionRight - handPositionRight).sqrMagnitude;
 
             if (stateRight && distance >= closeDistance * closeDistance)
