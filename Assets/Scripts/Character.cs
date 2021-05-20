@@ -106,7 +106,10 @@ public abstract class Character : MonoBehaviour, IPunObservable
         PickedUp, //playr is holding character
         Dead, //character has died
         Walking, //character is walking
-        ActionCompleted //idle
+        ActionCompleted, //idle
+
+        TakeDamage // Character is damaged
+
     }
 
 
@@ -235,9 +238,11 @@ public abstract class Character : MonoBehaviour, IPunObservable
     /// <summary>
     /// Modifies health and updates the healthbar
     /// </summary>
-    /// <param name="amount">Positive value heals and negative value deals damage</param>
+    /// <param name="amount">Positive value heals and negative value deals damage</param> //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void ModifyHealth(float amount)
-    {   
+    {
+  
+     
         // Takes damage
         if (amount < 0)
         {
@@ -259,6 +264,13 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             Die();
         }
+        else
+        {
+            // Try to trigger oof animation here....?
+            anim.SetBool("Oof", true);
+            anim.SetBool("Idle", false);
+            StartCoroutine(animationWaiter());
+        }
     }
 
     /// <summary>
@@ -268,6 +280,14 @@ public abstract class Character : MonoBehaviour, IPunObservable
     {
         StartCoroutine(waiter());
         // S�tta en key? Allm�n animations Key??
+
+    }
+
+    IEnumerator animationWaiter()
+    {
+        yield return new WaitForSeconds(4);
+        anim.SetBool("Oof", false);
+        anim.SetBool("Idle", true);
 
     }
 
