@@ -15,12 +15,12 @@ MonoBehaviour:
   abilityName: Fireball
   abilityDescription: Casts a firey fireball of doom on an enemy target
   gemsCost: 15
-  powerValue: 50
+  powerValue: 25
   targetType: 0
   abilityElement: 1
   numberOfTurns: 0
   gestureType: 2
-  bonusPowerMultiplier: 5
+  bonusPowerMultiplier: 1.5
   effectPrefab: {fileID: 8559270565892705469, guid: b548c90be6968fe42b0a48cce6549ad4,
     type: 3}
   isTurnbased: 0

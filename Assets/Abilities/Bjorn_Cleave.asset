@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eece58000c347ee4d9a58887a6837333, type: 3}
   m_Name: Bjorn_Cleave
   m_EditorClassIdentifier: 
-  abilityName: Cleave
+  abilityName: Fish slap
   abilityDescription: Throws multiple fishes at the enemies
   gemsCost: 5
   powerValue: 50
