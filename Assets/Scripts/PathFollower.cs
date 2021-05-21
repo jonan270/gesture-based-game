@@ -114,7 +114,9 @@ public class PathFollower : MonoBehaviour
         {
             Character target = PlayerManager.Instance.GetCharacterAt(path[index].tileIndex.x, path[index].tileIndex.y);
             AbilityManager.ManagerInstance.DamageCharacter(target, character.CalculateAutoAttack(target));
-            ReachedEnd();
+            character.Attack();
+            StartCoroutine(WaitForAttack());
+            moving = false;
         }
         // Else move
         else
@@ -133,6 +135,13 @@ public class PathFollower : MonoBehaviour
             map.SetOccupation(character.CurrentTile.tileIndex.x, character.CurrentTile.tileIndex.y, true, character); // New tile is occupied
             index++;
         }
+    }
+
+    IEnumerator WaitForAttack()
+    {
+        yield return new WaitForSeconds(4);
+        ReachedEnd();
+
     }
 
     private void CheckTileDefense(ElementState charElement, Hextile current, Hextile next)

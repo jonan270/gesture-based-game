@@ -291,6 +291,20 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
     }
 
+    public void Attack()
+    {
+        anim.SetBool("Attack", true);
+        anim.SetBool("Walking", false);
+        StartCoroutine(AttackAnimationWaiter());
+    }
+
+    IEnumerator AttackAnimationWaiter()
+    {
+        yield return new WaitForSeconds(4);
+        anim.SetBool("Attack", false);
+        anim.SetBool("Idle", true);
+    }
+
     IEnumerator waiter()
     {
 
