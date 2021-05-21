@@ -602,6 +602,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Freyr_NLA_nu
       objectReference: {fileID: 0}
+    - target: {fileID: 3355967116559691914, guid: 040ebf00cf4822e4ebdde44ea2b33fb0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692861757112009014, guid: 040ebf00cf4822e4ebdde44ea2b33fb0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 040ebf00cf4822e4ebdde44ea2b33fb0,
         type: 3}
       propertyPath: m_Controller
