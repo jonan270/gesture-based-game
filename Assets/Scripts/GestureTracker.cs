@@ -265,8 +265,6 @@ public class GestureTracker : MonoBehaviour
     /// </summary>
     void GuessGesture()
     {
-        PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
-        
         TransformToPoints();
 
         if (points.Count > 1) //Single point can not be a gesture.
@@ -280,7 +278,6 @@ public class GestureTracker : MonoBehaviour
             
             if (gestureResult.Score >= recognizeLimit)
             {
-                PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
                 gest = (GestureType)System.Enum.Parse(typeof(GestureType), gestureResult.GestureClass);
                 UIText.Instance.DisplayText("Gesture recognized as \n " + gest.ToString());
 
@@ -307,7 +304,7 @@ public class GestureTracker : MonoBehaviour
                 Debug.LogError("No gesture was recognized try again");
                 UIText.Instance.DisplayText("No gesture recognized try again");
                 //PlayerManager.Instance.OnPlayerStateChanged(PlayerState.makeGesture);
-                PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
+                //PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
 
 
             }

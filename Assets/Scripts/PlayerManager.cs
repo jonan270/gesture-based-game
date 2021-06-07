@@ -36,6 +36,7 @@ public class PlayerManager : MonoBehaviour
 
     public PlayerStateEvent toolChangedEvent;
 
+    public int gemstoneAmount;
 
     public delegate void SelectTargetCharacterHandler(Character character);
     public SelectTargetCharacterHandler characterTargetHandler;
@@ -54,6 +55,7 @@ public class PlayerManager : MonoBehaviour
         }
         friendlyCharacters = new List<Character>();
         enemyCharacters = new List<Character>();
+        gemstoneAmount = 0;
     }
 
     private void Update()
@@ -138,13 +140,7 @@ public class PlayerManager : MonoBehaviour
     /// <param name="state"></param>
     public void OnPlayerStateChanged(PlayerState state)
     {
-        //Todo kolla om man var i state att välja enemy, friendly eller en tile och avbryt en ability isåfall
-
-
-        //Removes tool if player changes state to something else
-        if (PlayerState == PlayerState.drawPath || PlayerState == PlayerState.makeGesture)
-            toolChangedEvent.Invoke(state);
-
+        toolChangedEvent.Invoke(state);
         PlayerState = state;
         Debug.Log("Player state changed to " + PlayerState);
         //do other things
@@ -274,5 +270,18 @@ public class PlayerManager : MonoBehaviour
     public int CountCharacters()
     {
         return friendlyCharacters.Count;
+    }
+
+    /// <summary>
+    /// Adds or removes gemstones from the local player, if able. 
+    /// </summary>
+    /// <param name="amount">Gemstones to add/remove. Negative numbers subtract from the total, positive numbers add.</param>
+    public bool ModifyGemstones(int amount) {
+        if (amount * -1 <= gemstoneAmount) {
+            gemstoneAmount += amount;
+            Debug.Log("Gemstones added/removed: " + amount + ". New amount: " + gemstoneAmount);
+            return true;
+        }
+        else return false;
     }
 }

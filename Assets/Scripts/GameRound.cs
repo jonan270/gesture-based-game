@@ -22,7 +22,7 @@ public class GameRound : MonoBehaviourPun
     private void Start()
     {
         //button = Instantiate(button, new Vector3(-0.08f, 0f, 0.35f), Quaternion.identity);
-       // button.onClick.AddListener(EndTurn());
+        //button.onClick.AddListener(EndTurn());
 
 
         EndTurn();
@@ -56,6 +56,7 @@ public class GameRound : MonoBehaviourPun
                // character.characterAvailable(true);
             }
             AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
+            PlayerManager.Instance.ModifyGemstones((turnCounter / 2) + 1);
         }
         else
         {

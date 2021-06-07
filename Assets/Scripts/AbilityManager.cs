@@ -348,17 +348,23 @@ public class AbilityManager : MonoBehaviour
     /// </summary>
     /// <param name="type"></param>
     /// <param name="character"></param>
-    public void ActivateAbilityFromGesture(GestureType type, Character character)
+    public bool ActivateAbilityFromGesture(GestureType type, Character character)
     {
         foreach (var ability in character.ListAbilityData)
         {
             if (ability.gestureType == type)
             {
-                ability.ActivateAbility();
-                Debug.Log("Ability activated is: " + ability.abilityName);
-                break; // If ability was found, stop searching
+                if (GameObject.Find("XR Rig").GetComponent<PlayerManager>().ModifyGemstones(ability.gemsCost * -1))
+                {
+                    ability.ActivateAbility();
+                    Debug.Log("Ability activated is: " + ability.abilityName);
+                    return true;
+                }
+                else Debug.LogError("Not enough gems for "+ ability.abilityName + "!");
+                return false; // If ability was found, stop searching
             }
         }
+        return false;
     }
 }
 

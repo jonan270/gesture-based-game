@@ -85,12 +85,12 @@ public class HandCards : MonoBehaviour
     /// </summary>
     public void UpdateCardsOnHand()
     {
-        int maxcardstohandout = PlayerManager.Instance.CountCharacters();
+        int cardsToHandOut = PlayerManager.Instance.CountCharacters();
 
-        while (cardsOnHand.Count < maxCardsOnHand && maxcardstohandout > 0)
+        while (cardsOnHand.Count < maxCardsOnHand && cardsToHandOut > 0)
         {
             cardsOnHand.Add(GenerateNewCard(startingPosition));
-            --maxcardstohandout;
+            --cardsToHandOut;
         }
 
     }
@@ -141,14 +141,14 @@ public class HandCards : MonoBehaviour
         {
             if (card.gestureType == gesture)
             {
-
-                RemoveCardOnHand(card.gameObject);
-
                // PlayerManager.Instance.PlayerState = PlayerState.makeGesture;
                 
-                AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gesture, PlayerManager.Instance.selectedCharacter.GetComponent<Character>());
-
-                return true;
+                if (AbilityManager.ManagerInstance.ActivateAbilityFromGesture(gesture, PlayerManager.Instance.selectedCharacter.GetComponent<Character>())){
+                    RemoveCardOnHand(card.gameObject);
+                    return true;
+                }
+                UIText.Instance.DisplayText("You don't have enough gems for that ability!");
+                return false;
             }
         }
 

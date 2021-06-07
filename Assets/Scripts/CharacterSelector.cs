@@ -83,8 +83,8 @@ public class CharacterSelector : MonoBehaviour
                     brush.SetActive(false);
                     break;
                 default:
-                    //magicWand.SetActive(false);
-                    //brush.SetActive(false);
+                    magicWand.SetActive(false);
+                    brush.SetActive(false);
                     break;
             }
         }
@@ -156,7 +156,9 @@ public class CharacterSelector : MonoBehaviour
     private bool CanPickUp()
     {
         //return PlayerManager.Instance.PlayerState != PlayerState.waitingForMyTurn && PlayerManager.Instance.PlayerState != PlayerState.characterWalking;
-        return PlayerManager.Instance.PlayerState == PlayerState.idle && otherHand.IsHandFree;
+        return (PlayerManager.Instance.PlayerState == PlayerState.idle ||
+            PlayerManager.Instance.PlayerState == PlayerState.drawPath ||
+            PlayerManager.Instance.PlayerState == PlayerState.makeGesture) && otherHand.IsHandFree;
     }
     /// <summary>
     /// Pickup the character and set text on cards
