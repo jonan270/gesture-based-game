@@ -135,7 +135,7 @@ public class Hextile : MonoBehaviour
     /// <param name="trapElement">new state</param>
     /// <param name="trapModifier">new state</param>
     /// <param name="isCharActive">new state</param>
-    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive)
+    public void Synchronize(ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive, int gemsOnTile)
     {
         if (tileType != tileElement)
         {
@@ -152,6 +152,17 @@ public class Hextile : MonoBehaviour
             isOccupied = true;
         else
             RemoveOccupant();
+
+        GemstonePile pile = GetComponentInChildren<GemstonePile>();
+
+        if (gemsOnTile != 0 && !pile)
+        {
+            Instantiate(Hexmap.Instance.gemstonePilePrefab, transform, false);
+        }
+        else if (gemsOnTile == 0 && pile)
+        {
+            pile.RemoveGemstonePile(pile.gameObject);
+        }
     }
 
     /// Spin until 1 rotation has been completed TODO: Make rotateHex timebased instead of framebased.

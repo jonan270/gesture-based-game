@@ -32,7 +32,7 @@ public class Hexmap : MonoBehaviour
     /// </summary>
     [SerializeField] private Hextile hexPrefab;
 
-    [SerializeField] private GemstonePile gemstonePilePrefab;
+    [SerializeField] public GemstonePile gemstonePilePrefab;
 
     // Offset values betwen tiles
     float scaleoffset = 0;
@@ -59,10 +59,8 @@ public class Hexmap : MonoBehaviour
             Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
-        //generateGemstones();
+        if (!PhotonNetwork.IsMasterClient) generateGemstones(5);
         Instance = this;
-
-
     }
 
     /// <summary>
@@ -138,14 +136,18 @@ public class Hexmap : MonoBehaviour
     public void UpdateTile(int x, int y)
     {
         AreaEffect areaEffect = map[x, y].areaEffect;
+        GemstonePile pile = map[x, y].GetComponentInChildren<GemstonePile>();
+        int gemsOnTile;
+        if (pile) gemsOnTile = pile.amountGems;
+        else gemsOnTile = 0;
         photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, areaEffect.isActivated,
-            areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied);
+            areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied, gemsOnTile);
     }
 
     [PunRPC]
-    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive)
+    void RPC_UpdateTile(int x, int y, ElementState tileElement, bool isTrapActive, ElementState trapElement, float trapModifier, bool isCharActive, int gemsOnTile)
     {
-        map[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive);
+        map[x, y].Synchronize(tileElement, isTrapActive, trapElement, trapModifier, isCharActive, gemsOnTile);
     }
 
     /// <summary>
@@ -342,31 +344,27 @@ public class Hexmap : MonoBehaviour
             ChangeTileElement(xCord, yCord, element, sync);
     }
 
-    
+    /// <summary>
+    /// Create a number of gemstone piles on the field.
+    /// </summary>
+    /// <param name="numberOfTiles">Amount of piles to create.</param>
+    public void generateGemstones(int numberOfTiles) {
 
-   /* public void generateGemstones()
-    {
-
-        int randomXPos = 0;
-        int randomYPos = 0;
-        int amGems = 0;
-
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < numberOfTiles; i++)
         {
-            randomXPos = Random.Range(0, width);
-            randomYPos = Random.Range(2, height - 2);
+            int randomXPos = Random.Range(0, width);
+            int randomYPos = Random.Range(2, height - 2); //TODO: Make sure two piles can't spawn in the same tile.
 
-            amGems = Random.Range(1, 10);
+            int amGems = Random.Range(1, 10);
 
-            gemstonePilePrefab = Instantiate(gemstonePilePrefab, map[randomXPos, randomYPos].Position, Quaternion.identity);
+            //gemstonePilePrefab = Instantiate(gemstonePilePrefab, map[randomXPos, randomYPos].Position, Quaternion.identity, map[randomXPos, randomYPos].transform);
+            GemstonePile newPile = Instantiate(gemstonePilePrefab, map[randomXPos, randomYPos].transform, false);
 
-            gemstonePilePrefab.setSize(amGems);
-
+            newPile.InitializePile(amGems);
+            UpdateTile(randomXPos, randomYPos);
             // Set Hextile egenskap: Hextile har en GemPile på sig.
             
         }
 
-    }*/
-
-    
+    }
 }

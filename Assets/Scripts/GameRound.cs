@@ -50,13 +50,13 @@ public class GameRound : MonoBehaviourPun
         {
             PlayerManager.Instance.OnPlayerStateChanged(PlayerState.idle);
             UIText.Instance.DisplayText("[Your turn]");
+            AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
+            PlayerManager.Instance.ModifyGemstones((turnCounter / 2) + 1);
             foreach (Character character in PlayerManager.Instance.friendlyCharacters)
             {
                 character.SetState(Character.CharacterState.CanDoAction);
                // character.characterAvailable(true);
             }
-            AbilityManager.ManagerInstance.ApplyTurnBasedEffects(); // TODO: Fix to only run at MY turn. pls help :(
-            PlayerManager.Instance.ModifyGemstones((turnCounter / 2) + 1);
         }
         else
         {

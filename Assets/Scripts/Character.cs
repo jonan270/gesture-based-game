@@ -358,4 +358,17 @@ public abstract class Character : MonoBehaviour, IPunObservable
 
         }
     }
+
+    public void AttemptGatheringGemstones()
+    {
+        Debug.Log("Attempting to gather gemstones...");
+        GemstonePile pile = CurrentTile.GetComponentInChildren<GemstonePile>();
+        if (pile)
+        {
+            PlayerManager.Instance.ModifyGemstones(pile.amountGems);
+            pile.RemoveGemstonePile(pile.gameObject);
+            Debug.Log("Gemstones gathered and removed!");
+        }
+        else Debug.LogError("No gemstones on this tile!");
+    }
 }

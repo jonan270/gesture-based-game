@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexPrefab: {fileID: 1156072231798157232, guid: 794548858c0a1fa41bcbb708eedd5177,
     type: 3}
+  gemstonePilePrefab: {fileID: -8399256256940793096, guid: 6cbd5ac4f65707841832a1223ab29a22,
+    type: 3}
   photonView: {fileID: 5880822470485243624}
 --- !u!114 &5880822470485243624
 MonoBehaviour:
