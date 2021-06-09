@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Berserk
   abilityDescription: "Bj\xF6rn goes berserk and becomes more powerful"
-  gemsCost: 0
+  gemsCost: 3
   powerValue: 0
   targetType: 0
   abilityElement: 0

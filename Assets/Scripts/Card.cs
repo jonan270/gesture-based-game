@@ -47,7 +47,7 @@ public class Card : MonoBehaviour // Shows a card specifik for the character
 
     public void SetCardData(AbilityData data, Material newMaterial)
     {
-        SetText(data.abilityDescription, data.abilityName);
+        SetText("Cost: " + data.gemsCost + "\n" + data.abilityDescription, data.abilityName);
         SetElementSymbol(data.abilityElement);
         meshRenderer.material = newMaterial;
     }

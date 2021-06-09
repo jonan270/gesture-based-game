@@ -59,7 +59,8 @@ public class Hexmap : MonoBehaviour
             Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
-        if (!PhotonNetwork.IsMasterClient) generateGemstones(5);
+        //if (!PhotonNetwork.IsMasterClient) //THIS SHOULD ONLY BE COMMENTED WHEN TESTING
+            generateGemstones(5);
         Instance = this;
     }
 
@@ -350,10 +351,17 @@ public class Hexmap : MonoBehaviour
     /// <param name="numberOfTiles">Amount of piles to create.</param>
     public void generateGemstones(int numberOfTiles) {
 
+        int randomXPos;
+        int randomYPos;
+
         for (int i = 0; i < numberOfTiles; i++)
         {
-            int randomXPos = Random.Range(0, width);
-            int randomYPos = Random.Range(2, height - 2); //TODO: Make sure two piles can't spawn in the same tile.
+            do {
+                randomXPos = Random.Range(0, width);
+                randomYPos = Random.Range(2, height - 2); //TODO: Make sure two piles can't spawn in the same tile.
+            } while (map[randomXPos, randomYPos].GetComponent<GemstonePile>() != null);
+
+            if (map[randomXPos, randomYPos].gameObject.GetComponent<GemstonePile>() != null) Debug.LogError("Warning: pile spawning on already occupied tile!");
 
             int amGems = Random.Range(1, 10);
 
@@ -361,7 +369,7 @@ public class Hexmap : MonoBehaviour
             GemstonePile newPile = Instantiate(gemstonePilePrefab, map[randomXPos, randomYPos].transform, false);
 
             newPile.InitializePile(amGems);
-            UpdateTile(randomXPos, randomYPos);
+            UpdateTile(randomXPos, randomYPos); //Updates the tile over the network, ensuring the opponent has the same information as you.
             // Set Hextile egenskap: Hextile har en GemPile på sig.
             
         }

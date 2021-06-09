@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bjorn_Cleave
   m_EditorClassIdentifier: 
   abilityName: Fish slap
-  abilityDescription: Throws multiple fishes at the enemies
+  abilityDescription: Throws multiple fishes at the enemies. Radius 2.
   gemsCost: 5
   powerValue: 50
   targetType: 1

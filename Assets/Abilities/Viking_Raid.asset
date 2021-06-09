@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Viking Raid
   abilityDescription: Turn an area into water
-  gemsCost: 0
+  gemsCost: 2
   powerValue: 0
   targetType: 1
   abilityElement: 3

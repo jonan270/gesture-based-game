@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Trap
   abilityDescription: Places a useless trap that everyone can see
-  gemsCost: 0
+  gemsCost: 1
   powerValue: 60
   targetType: 0
   abilityElement: 2
