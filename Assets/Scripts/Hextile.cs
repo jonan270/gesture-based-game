@@ -157,7 +157,8 @@ public class Hextile : MonoBehaviour
 
         if (gemsOnTile != 0 && !pile)
         {
-            Instantiate(Hexmap.Instance.gemstonePilePrefab, transform, false);
+            pile = Instantiate(Hexmap.Instance.gemstonePilePrefab, transform, false);
+            pile.InitializePile(gemsOnTile);
         }
         else if (gemsOnTile == 0 && pile)
         {

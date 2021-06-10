@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GemstonePile : MonoBehaviour
 {
     public Hextile gemTile;
+    [SerializeField]
+    private GameObject gem;
+    [SerializeField]
+    private GameObject textObject;
 
     public int amountGems;
+
+    [SerializeField]
+    private float rotationSpeed;
     //[SerializeField]
     //public GameObject prefabLargePile;
     //[SerializeField]
@@ -17,10 +25,20 @@ public class GemstonePile : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        gem.transform.rotation = Quaternion.Slerp(gem.transform.rotation, gem.transform.rotation * Quaternion.Euler(0, 0, 90), Time.deltaTime * rotationSpeed);
+        textObject.transform.LookAt(Camera.main.transform);
+        textObject.transform.Rotate(0, 180, 0);
+    }
+
     public void RemoveGemstonePile(GameObject ob)
     {
-        if(ob != null)
+        if (ob != null)
+        {
+            amountGems = 0; //Purely for the synchronisation function.
             Destroy(ob);
+        }
     }
 
     /// <summary>
@@ -31,6 +49,8 @@ public class GemstonePile : MonoBehaviour
     {
         amountGems = amGems;
         gemTile = transform.parent.gameObject.GetComponent<Hextile>();
+        textObject.GetComponent<TextMeshProUGUI>().text = "x" + amGems;
+        gem.transform.rotation *= Quaternion.Euler(0, 0, Random.Range(0, 44.9f));
 
         //if (amountGems <= 5)
         //{

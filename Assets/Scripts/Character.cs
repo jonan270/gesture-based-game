@@ -367,6 +367,7 @@ public abstract class Character : MonoBehaviour, IPunObservable
         {
             PlayerManager.Instance.ModifyGemstones(pile.amountGems);
             pile.RemoveGemstonePile(pile.gameObject);
+            Hexmap.Instance.UpdateTile(CurrentTile.tileIndex.x, CurrentTile.tileIndex.y);
             Debug.Log("Gemstones gathered and removed!");
         }
         else Debug.LogError("No gemstones on this tile!");

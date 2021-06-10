@@ -141,6 +141,7 @@ public class Hexmap : MonoBehaviour
         int gemsOnTile;
         if (pile) gemsOnTile = pile.amountGems;
         else gemsOnTile = 0;
+        Debug.Log("Updating tile [" + x + ", " + y + "]. Gems on tile: " + gemsOnTile);
         photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, areaEffect.isActivated,
             areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied, gemsOnTile);
     }
@@ -363,7 +364,7 @@ public class Hexmap : MonoBehaviour
 
             if (map[randomXPos, randomYPos].gameObject.GetComponent<GemstonePile>() != null) Debug.LogError("Warning: pile spawning on already occupied tile!");
 
-            int amGems = Random.Range(1, 10);
+            int amGems = Random.Range(1, 5);
 
             //gemstonePilePrefab = Instantiate(gemstonePilePrefab, map[randomXPos, randomYPos].Position, Quaternion.identity, map[randomXPos, randomYPos].transform);
             GemstonePile newPile = Instantiate(gemstonePilePrefab, map[randomXPos, randomYPos].transform, false);
