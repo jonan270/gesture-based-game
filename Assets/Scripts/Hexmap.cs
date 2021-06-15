@@ -59,7 +59,7 @@ public class Hexmap : MonoBehaviour
             Debug.LogError("Missing photonView component");
         generateTiles();
         randomizeHexmap(500, 3);
-        //if (!PhotonNetwork.IsMasterClient) //THIS SHOULD ONLY BE COMMENTED WHEN TESTING
+        if (!PhotonNetwork.IsMasterClient) //THIS SHOULD ONLY BE COMMENTED WHEN TESTING
             generateGemstones(5);
         Instance = this;
     }
@@ -108,7 +108,7 @@ public class Hexmap : MonoBehaviour
     /// </summary>
     public void SynchronizeNetworkMap()
     {
-        Debug.LogError("Synchronizing map over network");
+        Debug.Log("Synchronizing map over network");
         //synka nya mapen med andra 
         for (int x = 0; x < width; x++)
         {
@@ -120,7 +120,7 @@ public class Hexmap : MonoBehaviour
                 //    areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied);
             }
         }
-        Debug.LogError("Synchronization complete");
+        Debug.Log("Synchronization complete");
 
     }
 
