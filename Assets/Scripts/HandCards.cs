@@ -42,10 +42,13 @@ public class HandCards : MonoBehaviour
     {
 
         cardEndPositions = new Vector3[maxCardsOnHand];
+        Debug.Log(deckPrefab);
 
         setDeck(PhotonNetwork.IsMasterClient);
 
-        startingPosition = deck.transform.position;
+        startingPosition = deck.transform.position; 
+
+        Debug.Log(startingPosition);
 
         for(int i = 0; i < maxCardsOnHand; i++)
         {

@@ -141,7 +141,6 @@ public class Hexmap : MonoBehaviour
         int gemsOnTile;
         if (pile) gemsOnTile = pile.amountGems;
         else gemsOnTile = 0;
-        Debug.Log("Updating tile [" + x + ", " + y + "]. Gems on tile: " + gemsOnTile);
         photonView.RPC("RPC_UpdateTile", RpcTarget.Others, x, y, map[x, y].tileType, areaEffect.isActivated,
             areaEffect.TrapElement, areaEffect.healthModifier, map[x, y].isOccupied, gemsOnTile);
     }

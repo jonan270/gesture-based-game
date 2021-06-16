@@ -60,9 +60,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) || SteamVR_Actions.default_SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.Any))
+        if (Input.GetKeyDown(KeyCode.Alpha1) || (SteamVR.active && SteamVR_Actions.default_SnapTurnLeft.GetStateDown(SteamVR_Input_Sources.Any)))
             ChangeTool(PlayerState.drawPath);
-        if (Input.GetKeyDown(KeyCode.Alpha2) || SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any))
+        if (Input.GetKeyDown(KeyCode.Alpha2) || (SteamVR.active && SteamVR_Actions.default_SnapTurnRight.GetStateDown(SteamVR_Input_Sources.Any)))
             ChangeTool(PlayerState.makeGesture);
 
     }
@@ -227,7 +227,7 @@ public class PlayerManager : MonoBehaviour
                 Hexmap.Instance.map[x, y].SetOccupant(character);
             }
         }
-        Debug.LogError("Updating friendly list, there are now " + friendlyCharacters.Count + " friendly characters in the scene");
+        Debug.Log("Updating friendly list, there are now " + friendlyCharacters.Count + " friendly characters in the scene");
     }
 
     /// <summary>
@@ -246,7 +246,7 @@ public class PlayerManager : MonoBehaviour
                 StartCoroutine(SyncEnemyCharacterOnMap(character));
             }
         }
-        Debug.LogError("Updating enemy list, there are now  " + enemyCharacters.Count + " enemies in the scene");
+        Debug.Log("Updating enemy list, there are now  " + enemyCharacters.Count + " enemies in the scene");
     }
 
     private IEnumerator SyncEnemyCharacterOnMap(Character character)

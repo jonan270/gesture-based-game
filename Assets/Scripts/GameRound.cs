@@ -70,8 +70,8 @@ public class GameRound : MonoBehaviourPun
         //    UIText.Instance.DisplayText("Game over: You lose!");
         //    photonView.RPC("RPC_GameOver", RpcTarget.Others, "Game over: You win!");
         //}
-        Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
-        Debug.LogError("Player state is " + PlayerManager.Instance.PlayerState);
+        Debug.Log("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter);
+        Debug.Log("Player state is " + PlayerManager.Instance.PlayerState);
 
     }
 
@@ -166,7 +166,7 @@ public class GameRound : MonoBehaviourPun
                 myTurn = true;
             }
         }
-        Debug.LogError("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter  + " starting new turn");
+        Debug.Log("Player: " + PhotonNetwork.LocalPlayer + " turn is " + myTurn + " at turn : " + turnCounter  + " starting new turn");
         BeginTurn();
     }
 }
